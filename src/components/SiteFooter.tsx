@@ -22,12 +22,12 @@ export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Diction
           <ul className="space-y-2">
             {school.phone && (
               <li>
-                <a href={telHref(school.phone)} className="hover:text-white">{school.phone}</a>
+                <a href={telHref(school.phone)} className="inline-block transition duration-200 hover:translate-x-0.5 hover:text-white">{school.phone}</a>
               </li>
             )}
             {school.email && (
               <li>
-                <a href={`mailto:${school.email}`} className="hover:text-white">{school.email}</a>
+                <a href={`mailto:${school.email}`} className="inline-block transition duration-200 hover:translate-x-0.5 hover:text-white">{school.email}</a>
               </li>
             )}
             {school.hours && <li>{school.hours[lang]}</li>}
@@ -38,7 +38,7 @@ export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Diction
           <ul className="space-y-2">
             {links.map((item) => (
               <li key={item}>
-                <Link href={`/${lang}/${item}`} className="hover:text-white">{dict.nav[item]}</Link>
+                <Link href={`/${lang}/${item}`} className="inline-block transition duration-200 hover:translate-x-0.5 hover:text-white">{dict.nav[item]}</Link>
               </li>
             ))}
           </ul>

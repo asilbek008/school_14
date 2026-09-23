@@ -29,7 +29,7 @@ export default async function NewsArticlePage({ params }: PageProps<"/[lang]/new
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
-      <Link href={`/${lang}/news`} className="text-sm font-medium text-brand hover:underline">
+      <Link href={`/${lang}/news`} className="text-sm font-medium text-brand link-grow">
         ← {dict.common.back}
       </Link>
       {item.published_at && (

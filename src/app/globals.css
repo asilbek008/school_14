@@ -55,3 +55,109 @@ body {
     background: linear-gradient(90deg, var(--color-brand) 0 38%, var(--color-teal) 38% 70%, var(--color-gold) 70% 100%);
   }
 }
+
+/* ---------- Motion ----------
+   One easing for the whole site. Hover effects only on devices that can hover, mirrored on
+   keyboard focus. Everything is switched off for visitors who ask for reduced motion. */
+@theme {
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-fade-up: fade-up 0.7s var(--ease-spring) both;
+  --animate-fade-in: fade-in 0.9s var(--ease-spring) both;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Cards: lift with a soft shadow. Pair with `group` to animate children (image zoom, arrow).
+   Uses `translate`, not `transform`, so it still works while a `reveal` animation holds transform. */
+@utility lift {
+  transition:
+    translate 0.3s var(--ease-spring),
+    box-shadow 0.3s var(--ease-spring),
+    border-color 0.2s ease;
+  @media (hover: hover) {
+    &:hover {
+      translate: 0 -4px;
+      border-color: #cbd4e8;
+      box-shadow:
+        0 2px 4px rgb(19 26 46 / 0.05),
+        0 18px 36px -16px rgb(19 26 46 / 0.24);
+    }
+  }
+  &:focus-visible {
+    translate: 0 -4px;
+    outline: 2.5px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+}
+
+/* Buttons: small rise on hover, press-in on click. */
+@utility press {
+  transition:
+    translate 0.18s ease,
+    scale 0.18s ease,
+    background-color 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    color 0.18s ease;
+  @media (hover: hover) {
+    &:hover {
+      translate: 0 -2px;
+    }
+  }
+  &:active {
+    scale: 0.96;
+  }
+}
+
+/* Text links: an underline that grows from the left instead of snapping on. */
+@utility link-grow {
+  background: linear-gradient(currentColor, currentColor) left bottom / 0 1.5px no-repeat;
+  transition: background-size 0.3s var(--ease-spring);
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1.5px;
+  }
+}
+
+/* Fades items in as they scroll into view. Pure CSS (scroll-driven animations), so cached pages
+   need no JavaScript; browsers without support simply show the content. */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    animation: none !important;
+  }
+}

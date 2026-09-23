@@ -40,7 +40,7 @@ export default async function StaffProfilePage({ params }: PageProps<"/[lang]/st
       t.homeroom,
       <span key="classes" className="flex flex-wrap gap-2">
         {person.school_classes.map((c) => (
-          <Link key={c.id} href={`/${lang}/timetable/${c.id}`} className="text-brand hover:underline">
+          <Link key={c.id} href={`/${lang}/timetable/${c.id}`} className="text-brand link-grow">
             {classLabel(c)}
           </Link>
         ))}
@@ -57,11 +57,11 @@ export default async function StaffProfilePage({ params }: PageProps<"/[lang]/st
     <>
       <PageHeader title={person.full_name} kicker={position} intro={subject || undefined} />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <Link href={`/${lang}/staff`} className="text-sm font-bold text-brand hover:underline">
+        <Link href={`/${lang}/staff`} className="text-sm font-bold text-brand link-grow">
           ← {t.back}
         </Link>
         <div className="mt-6 grid items-start gap-8 md:grid-cols-[300px_minmax(0,1fr)]">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 text-center">
+          <div className="animate-fade-up rounded-2xl border border-slate-200 bg-white p-6 text-center">
             <div className="relative mx-auto size-40 overflow-hidden rounded-full border-4 border-paper bg-brand-soft">
               {photo ? (
                 <Image src={photo} alt={person.full_name} fill priority sizes="160px" className="object-cover" />
@@ -95,7 +95,7 @@ export default async function StaffProfilePage({ params }: PageProps<"/[lang]/st
             {facts.length > 0 && (
               <dl className="grid gap-4 sm:grid-cols-2">
                 {facts.map(([label, value]) => (
-                  <div key={label} className="rounded-2xl border border-slate-200 bg-white px-5 py-4">
+                  <div key={label} className="reveal lift rounded-2xl border border-slate-200 bg-white px-5 py-4">
                     <dt className="text-xs font-bold text-slate-500">{label}</dt>
                     <dd className="mt-1 font-bold text-slate-900">{value}</dd>
                   </div>
@@ -103,7 +103,7 @@ export default async function StaffProfilePage({ params }: PageProps<"/[lang]/st
               </dl>
             )}
             {bio && (
-              <section className="rounded-2xl border border-slate-200 bg-white p-6">
+              <section className="reveal rounded-2xl border border-slate-200 bg-white p-6">
                 <h2 className="mb-3 text-lg font-bold">{t.about}</h2>
                 <RichText text={bio} />
               </section>

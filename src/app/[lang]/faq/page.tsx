@@ -30,7 +30,7 @@ export default async function FaqPage({ params }: PageProps<"/[lang]/faq">) {
           </details>
         ))}
         <p className="pt-4 text-sm text-slate-500">
-          <Link href={`/${lang}/contact`} className="font-bold text-brand hover:underline">
+          <Link href={`/${lang}/contact`} className="font-bold text-brand link-grow">
             {dict.nav.contact} →
           </Link>
         </p>

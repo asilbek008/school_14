@@ -93,6 +93,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 ### Dizayn
 - Rang tokenlari `src/app/globals.css` `@theme` da: `navy`, `brand` (ko‘k), `teal`, `gold` (+ `-deep`,
   `-soft`), `paper`. Qorong‘i bloklar (hero, `PageHeader`, footer) — `chrome` va `tricolor-rule` utility'lari.
+- Animatsiya (`globals.css`): `lift` (kartalar hover'da ko‘tariladi, `translate` bilan — `reveal`
+  animatsiyasining `transform`i bilan to‘qnashmasligi uchun), `press` (tugmalar), `link-grow`
+  (havola tagchizig‘i), `reveal` (scroll bilan paydo bo‘lish, faqat CSS `animation-timeline: view()`),
+  `animate-fade-up` / `animate-fade-in` (hero va sarlavhalar). Karta ichidagi rasm/strelka uchun
+  `group` + `group-hover:`. `prefers-reduced-motion` da hammasi o‘chadi — yangi animatsiya ham
+  shu qoidaga bo‘ysunsin.
 - Header: ochiq menyu + "Maktab ▾" dropdown (hover va `:focus-visible` bilan, JS'siz); mobil — `<details>`.
 
 ### Supabase

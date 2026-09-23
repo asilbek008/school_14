@@ -65,7 +65,7 @@ export default function LiveCard({ t, scheduleHref }: { t: Labels; scheduleHref:
           </div>
         );
       })}
-      <Link href={scheduleHref} className="mt-1 inline-block text-sm font-bold text-brand hover:underline">
+      <Link href={scheduleHref} className="mt-1 inline-block text-sm font-bold text-brand link-grow">
         {t.link} →
       </Link>
     </div>

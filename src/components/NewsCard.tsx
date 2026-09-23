@@ -13,17 +13,24 @@ export default function NewsCard({ item, lang, dict }: { item: News; lang: Local
   const colors = newsColors[item.category];
 
   return (
-    <article
+    <Link
+      href={`/${lang}/news/${item.slug}`}
       data-cat={item.category}
-      className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white transition hover:-translate-y-1 hover:shadow-lg"
+      className="reveal lift group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white"
     >
-      <div className={`relative aspect-video bg-gradient-to-br ${colors.cover}`}>
+      <div className={`relative aspect-video overflow-hidden bg-gradient-to-br ${colors.cover}`}>
         {cover ? (
-          <Image src={cover} alt="" fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+          <Image
+            src={cover}
+            alt=""
+            fill
+            sizes="(min-width: 768px) 33vw, 100vw"
+            className="object-cover transition duration-500 ease-(--ease-spring) group-hover:scale-105"
+          />
         ) : (
           // No photo: a category-colored cover with the date, like a printed notice.
           item.published_at && (
-            <div className="absolute left-5 top-4 leading-none text-white">
+            <div className="absolute left-5 top-4 leading-none text-white transition duration-500 ease-(--ease-spring) group-hover:translate-x-1">
               <b className="block text-5xl font-extrabold tracking-tighter">
                 {new Intl.DateTimeFormat("en", { day: "numeric", timeZone: "Asia/Tashkent" }).format(new Date(item.published_at))}
               </b>
@@ -39,12 +46,13 @@ export default function NewsCard({ item, lang, dict }: { item: News; lang: Local
           <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${colors.badge}`}>{dict.newsCats[item.category]}</span>
           {item.published_at && <time dateTime={item.published_at}>{formatDate(item.published_at, lang)}</time>}
         </div>
-        <h3 className="text-lg font-bold leading-snug text-slate-900">{title}</h3>
+        <h3 className="text-lg font-bold leading-snug text-slate-900 transition-colors group-hover:text-brand">{title}</h3>
         <p className="mt-2 line-clamp-3 flex-1 text-sm text-slate-600">{excerpt}</p>
-        <Link href={`/${lang}/news/${item.slug}`} className="mt-4 text-sm font-bold text-brand hover:underline">
-          {dict.common.readMore} →
-        </Link>
+        <span className="mt-4 text-sm font-bold text-brand">
+          {dict.common.readMore}{" "}
+          <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+        </span>
       </div>
-    </article>
+    </Link>
   );
 }

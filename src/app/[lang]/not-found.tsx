@@ -9,7 +9,7 @@ export default function NotFound() {
       <h1 className="mt-4 text-xl font-semibold text-slate-900">
         Sahifa topilmadi · Страница не найдена · Page not found
       </h1>
-      <Link href="/" className="mt-6 inline-block font-medium text-brand hover:underline">
+      <Link href="/" className="mt-6 inline-block font-medium text-brand link-grow">
         ← 14-maktab
       </Link>
     </div>

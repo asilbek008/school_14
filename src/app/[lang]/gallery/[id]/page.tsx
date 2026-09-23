@@ -29,7 +29,7 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
     <>
       <PageHeader title={title} kicker={album.event_date ? formatDate(album.event_date, lang) : dict.nav.gallery} />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <Link href={`/${lang}/gallery`} className="text-sm font-bold text-brand hover:underline">
+        <Link href={`/${lang}/gallery`} className="text-sm font-bold text-brand link-grow">
           ← {dict.gallery.back}
         </Link>
         {description && (

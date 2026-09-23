@@ -34,7 +34,7 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
     <>
       <PageHeader title={classLabel(cls)} kicker={t.weekly} />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <Link href={`/${lang}/timetable`} className="text-sm font-bold text-brand hover:underline">
+        <Link href={`/${lang}/timetable`} className="text-sm font-bold text-brand link-grow">
           ← {t.back}
         </Link>
 
@@ -43,7 +43,7 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
           {cls.staff && (
             <span className="text-slate-600">
               {t.homeroom}:{" "}
-              <Link href={`/${lang}/staff/${cls.staff.id}`} className="font-bold text-brand hover:underline">
+              <Link href={`/${lang}/staff/${cls.staff.id}`} className="font-bold text-brand link-grow">
                 {cls.staff.full_name}
               </Link>
             </span>
@@ -58,7 +58,7 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
                 key={c.id}
                 href={`/${lang}/timetable/${c.id}`}
                 aria-current={c.id === cls.id ? "page" : undefined}
-                className={`rounded-full px-3 py-1 font-bold ${
+                className={`press rounded-full px-3 py-1 font-bold ${
                   c.id === cls.id ? "bg-navy text-white" : "bg-brand-soft text-brand-deep hover:bg-brand hover:text-white"
                 }`}
               >
@@ -74,14 +74,14 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
               // Show periods up to the day's last lesson; gaps before it stay visible as "—".
               const last = Math.max(0, ...cls.lessons.filter((l) => l.weekday === day).map((l) => l.period));
               return (
-                <section key={day} className="rounded-2xl border border-slate-200 bg-white p-5">
+                <section key={day} className="reveal lift rounded-2xl border border-slate-200 bg-white p-5">
                   <h2 className="mb-3 text-lg font-bold">{t.days[day - 1]}</h2>
                   {last ? (
                     <ol className="divide-y divide-slate-100 text-sm">
                       {times.slice(0, last).map((time) => {
                         const subject = cell(day, time.n);
                         return (
-                          <li key={time.n} className="flex items-baseline gap-3 py-2">
+                          <li key={time.n} className="-mx-2 flex items-baseline gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-paper">
                             <span className="w-4 shrink-0 text-right font-bold text-slate-400">{time.n}</span>
                             <span className="w-24 shrink-0 tabular-nums text-slate-500">
                               {fmtMinutes(time.start)}–{fmtMinutes(time.end)}

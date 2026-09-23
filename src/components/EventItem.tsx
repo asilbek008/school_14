@@ -14,8 +14,8 @@ export default function EventItem({ event, lang, dict }: { event: SchoolEvent; l
   const description = localized(event, "description", lang);
 
   return (
-    <article data-cat={event.category} className="flex gap-4 rounded-2xl border border-slate-200 bg-white p-5 transition hover:shadow-md">
-      <div className={`flex size-16 shrink-0 flex-col items-center justify-center rounded-xl leading-none ${colors.tile}`}>
+    <article data-cat={event.category} className="reveal lift group flex gap-4 rounded-2xl border border-slate-200 bg-white p-5">
+      <div className={`flex size-16 shrink-0 flex-col items-center justify-center rounded-xl leading-none transition-transform duration-300 ease-(--ease-spring) group-hover:-rotate-3 group-hover:scale-105 ${colors.tile}`}>
         <b className="text-2xl">{part({ day: "numeric" })}</b>
         <small className="mt-1 text-xs font-bold uppercase">{part({ month: "short" }).replace(".", "")}</small>
       </div>

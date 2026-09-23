@@ -30,11 +30,11 @@ export default async function StaffPage({ params }: PageProps<"/[lang]/staff">) 
                 <li key={person.id}>
                   <Link
                     href={`/${lang}/staff/${person.id}`}
-                    className="group block h-full overflow-hidden rounded-xl border border-slate-200 bg-white text-center transition hover:-translate-y-1 hover:shadow-lg"
+                    className="reveal lift group block h-full overflow-hidden rounded-xl border border-slate-200 bg-white text-center"
                   >
-                    <div className="relative aspect-square bg-brand-soft">
+                    <div className="relative aspect-square overflow-hidden bg-brand-soft">
                       {photo ? (
-                        <Image src={photo} alt={person.full_name} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+                        <Image src={photo} alt={person.full_name} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover transition duration-700 ease-(--ease-spring) group-hover:scale-105" />
                       ) : (
                         <span className="grid h-full place-items-center text-4xl font-bold text-brand/40">
                           {person.full_name.charAt(0)}
@@ -45,7 +45,10 @@ export default async function StaffPage({ params }: PageProps<"/[lang]/staff">) 
                       <p className="font-semibold text-slate-900">{person.full_name}</p>
                       <p className="text-sm text-brand">{localized(person, "position", lang)}</p>
                       {subject && <p className="text-sm text-slate-500">{subject}</p>}
-                      <p className="mt-2 text-xs font-bold text-brand group-hover:underline">{dict.staff.open} →</p>
+                      <p className="mt-2 text-xs font-bold text-brand">
+                        {dict.staff.open}{" "}
+                        <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+                      </p>
                     </div>
                   </Link>
                 </li>

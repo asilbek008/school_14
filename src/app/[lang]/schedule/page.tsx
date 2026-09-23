@@ -19,7 +19,7 @@ export default async function SchedulePage({ params }: PageProps<"/[lang]/schedu
       <PageHeader title={dict.nav.schedule} intro={t.intro} kicker={dict.nav.school} />
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 lg:grid-cols-[1fr_1fr_0.9fr]">
         {shifts.map((shift) => (
-          <section key={shift.id} className="rounded-2xl border border-slate-200 bg-white p-6">
+          <section key={shift.id} className="reveal lift rounded-2xl border border-slate-200 bg-white p-6">
             <h2 className="flex flex-wrap items-center gap-2 text-xl font-bold">
               {fill(t.shift, { n: shift.id })}
               <span

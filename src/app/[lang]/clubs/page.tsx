@@ -31,10 +31,10 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
               const schedule = localized(club, "schedule", lang);
               const place = localized(club, "place", lang);
               return (
-                <article key={club.id} className="flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white">
+                <article key={club.id} className="reveal lift group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white">
                   {photo ? (
-                    <div className="relative aspect-[16/9]">
-                      <Image src={photo} alt="" fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
+                    <div className="relative aspect-[16/9] overflow-hidden">
+                      <Image src={photo} alt="" fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover transition duration-700 ease-(--ease-spring) group-hover:scale-105" />
                     </div>
                   ) : (
                     <span className={`h-1.5 ${accents[i % accents.length]}`} />

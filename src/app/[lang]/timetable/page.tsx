@@ -28,7 +28,7 @@ export default async function TimetablePage({ params }: PageProps<"/[lang]/timet
         {grades.length ? (
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {grades.map(([grade, classes]) => (
-              <li key={grade} className="rounded-2xl border border-slate-200 bg-white p-5">
+              <li key={grade} className="reveal lift rounded-2xl border border-slate-200 bg-white p-5">
                 <div className="flex items-start justify-between gap-3">
                   <h2 className="text-2xl font-extrabold tracking-tight">{fill(t.grade, { n: grade })}</h2>
                   <ShiftBadge shift={shiftForGrade(grade)} label={t.shift} />
@@ -38,7 +38,7 @@ export default async function TimetablePage({ params }: PageProps<"/[lang]/timet
                     <Link
                       key={c.id}
                       href={`/${lang}/timetable/${c.id}`}
-                      className="rounded-full bg-brand-soft px-3.5 py-1.5 text-sm font-bold text-brand-deep hover:bg-brand hover:text-white"
+                      className="press rounded-full bg-brand-soft px-3.5 py-1.5 text-sm font-bold text-brand-deep hover:bg-brand hover:text-white hover:shadow-md hover:shadow-brand/30"
                     >
                       {c.grade}-{c.letter}
                     </Link>
@@ -51,8 +51,9 @@ export default async function TimetablePage({ params }: PageProps<"/[lang]/timet
           <EmptyState>{t.empty}</EmptyState>
         )}
         <p className="mt-8 text-sm">
-          <Link href={`/${lang}/schedule`} className="font-bold text-brand hover:underline">
-            {t.bells} →
+          <Link href={`/${lang}/schedule`} className="group font-bold text-brand">
+            {t.bells}{" "}
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </p>
       </div>

@@ -22,7 +22,7 @@ export default function LanguageSwitcher({ current }: { current: Locale }) {
           onClick={() => {
             document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`;
           }}
-          className={`rounded-full px-2.5 py-1 uppercase ${
+          className={`rounded-full px-2.5 py-1 uppercase transition-colors duration-200 ${
             locale === current ? "bg-white text-navy" : "text-slate-300 hover:text-white"
           }`}
         >
