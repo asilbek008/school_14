@@ -31,6 +31,16 @@ export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Diction
               </li>
             )}
             {school.hours && <li>{school.hours[lang]}</li>}
+            <li>
+              <a
+                href={school.eMaktabUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block font-semibold text-gold transition duration-200 hover:translate-x-0.5 hover:text-[#eba53c]"
+              >
+                {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
+              </a>
+            </li>
           </ul>
         </div>
         <div>

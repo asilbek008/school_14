@@ -19,6 +19,8 @@ export const school = {
   } as Localized | null,
   mapEmbedUrl: null as string | null, // Google/Yandex Maps embed URL
   stats: { students: 1001, staff: 72, classes: 45 },
+  // Official electronic journal: grades, attendance and homework, behind each family's own login.
+  eMaktabUrl: "https://emaktab.uz",
 };
 
 /** "tel:" link for a phone number written with spaces. */

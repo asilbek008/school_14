@@ -8,6 +8,7 @@ import entrance from "../../../public/images/school-entrance.webp";
 import NewsCard from "@/components/NewsCard";
 import EventItem from "@/components/EventItem";
 import EmptyState from "@/components/EmptyState";
+import EMaktabCard from "@/components/EMaktabCard";
 import LiveCard from "@/components/LiveCard";
 
 export const revalidate = 300;
@@ -86,6 +87,10 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4">
+        <EMaktabCard t={dict.emaktab} />
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-14">

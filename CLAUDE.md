@@ -86,6 +86,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
 - `supabase/seed/2026-2027.sql`, `supabase/seed/clubs.sql` va `supabase/seed/subjects.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
   tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).
+- eMaktab (`school.eMaktabUrl`, https://emaktab.uz): baholar va davomat faqat u yerda — ochiq saytda
+  o‘quvchilarning shaxsiy ma’lumoti (baho, davomat, ism) ko‘rsatilmaydi. Saytda faqat havola:
+  `EMaktabCard` (bosh sahifa), header (xl), mobil menyu va footer.
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
 - Sana/vaqt `src/lib/format.ts` orqali, `Asia/Tashkent` vaqt zonasida.

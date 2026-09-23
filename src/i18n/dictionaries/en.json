@@ -204,5 +204,12 @@
     "back": "All classes",
     "bells": "Bell schedule",
     "weekly": "Weekly timetable"
+  },
+  "emaktab": {
+    "title": "eMaktab — grades and attendance",
+    "text": "See your child’s grades, attendance and homework in the eMaktab electronic diary. Ask the homeroom teacher for your login and password.",
+    "button": "Open eMaktab",
+    "short": "eMaktab (grades)",
+    "newTab": "opens in a new tab"
   }
 }

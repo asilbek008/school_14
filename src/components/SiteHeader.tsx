@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
+import { school } from "@/lib/school";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 const schoolItems = ["about", "staff", "timetable", "schedule", "clubs", "faq"] as const;
@@ -57,6 +58,14 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
         </nav>
 
         <div className="flex items-center gap-2">
+          <a
+            href={school.eMaktabUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="press hidden rounded-full bg-gold px-3.5 py-1.5 text-xs font-bold text-[#241703] hover:bg-[#eba53c] xl:inline-block"
+          >
+            eMaktab ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
+          </a>
           <LanguageSwitcher current={lang} />
           {/* Mobile menu: native <details> so it works without client JS. */}
           <details className="group relative lg:hidden">
@@ -75,6 +84,14 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
                   {dict.nav[item]}
                 </Link>
               ))}
+              <a
+                href={school.eMaktabUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 rounded-xl bg-gold-soft px-3 py-2.5 font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
+              >
+                {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
+              </a>
             </nav>
           </details>
         </div>

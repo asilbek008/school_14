@@ -204,5 +204,12 @@
     "back": "Barcha sinflar",
     "bells": "Qo‘ng‘iroqlar jadvali",
     "weekly": "Haftalik dars jadvali"
+  },
+  "emaktab": {
+    "title": "eMaktab — baholar va davomat",
+    "text": "Farzandingizning baholari, davomati va uy vazifalarini eMaktab elektron kundaligida ko‘ring. Login va parolni sinf rahbaridan oling.",
+    "button": "eMaktab’ga kirish",
+    "short": "eMaktab (baholar)",
+    "newTab": "yangi oynada ochiladi"
   }
 }
