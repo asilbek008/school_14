@@ -1,0 +1,22 @@
+{
+  "site": {
+    "name": "14-maktab",
+    "description": "14-sonli umumta’lim maktabining rasmiy veb-sayti"
+  },
+  "nav": {
+    "home": "Bosh sahifa",
+    "news": "Yangiliklar",
+    "events": "Tadbirlar",
+    "about": "Maktab haqida",
+    "staff": "O‘qituvchilar",
+    "admissions": "Qabul",
+    "contact": "Aloqa"
+  },
+  "home": {
+    "welcome": "14-maktabga xush kelibsiz",
+    "intro": "Bilim, tarbiya va kelajak shu yerda boshlanadi."
+  },
+  "footer": {
+    "rights": "Barcha huquqlar himoyalangan."
+  }
+}

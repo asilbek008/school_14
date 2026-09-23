@@ -1,0 +1,22 @@
+{
+  "site": {
+    "name": "School No. 14",
+    "description": "Official website of General Secondary School No. 14"
+  },
+  "nav": {
+    "home": "Home",
+    "news": "News",
+    "events": "Events",
+    "about": "About",
+    "staff": "Teachers",
+    "admissions": "Admissions",
+    "contact": "Contact"
+  },
+  "home": {
+    "welcome": "Welcome to School No. 14",
+    "intro": "Knowledge, character and the future start here."
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}
