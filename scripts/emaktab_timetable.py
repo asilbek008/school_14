@@ -42,8 +42,8 @@ NEW_SUBJECTS = {
     "Tarixdan hikoyalar": ("Tarixdan hikoyalar", "Рассказы из истории", "Stories from history", 85),
 }
 
-# Group suffixes: "(1-guruh)", boys/girls "(o'g'il)", "(qiz)", "(Bolalar)", "(Qizlar)".
-GROUP = re.compile(r"\s*\((\d+)-guruh\)|\s*\((?:o\W?g\W?il(?:lar)?|qiz(?:lar)?|bolalar)\)", re.IGNORECASE)
+# Group suffixes: "(1-guruh)", boys/girls "(o'g'il)", "(qiz)", "(Bolalar)", "(Qizlar)", "(1-o'g'il)", "(2-qizlar)".
+GROUP = re.compile(r"\s*\((?:(\d+)-guruh|(?:(\d+)-)?(?:o\W?g\W?il(?:lar)?|qiz(?:lar)?|bolalar))\)", re.IGNORECASE)
 
 
 def uz_apostrophes(s: str) -> str:
@@ -95,7 +95,8 @@ def finish_week(w):
         groups = set()
         for subject, teacher, _ in lessons:
             m = GROUP.search(subject)
-            groups.add((GROUP.sub("", subject), int(m.group(1)) if m and m.group(1) else 0, teacher))
+            number = m and (m.group(1) or m.group(2))
+            groups.add((GROUP.sub("", subject), int(number) if number else 0, teacher))
         groups = sorted(groups, key=lambda g: (g[1], g[2]))  # 1st group first, else by name
         subjects = sorted({g[0] for g in groups})
         teachers = ", ".join(dict.fromkeys(g[2] for g in groups))
