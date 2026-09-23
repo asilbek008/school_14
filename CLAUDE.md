@@ -77,7 +77,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmni to‘liq ekranda ochadi (Esc, ←/→).
 - Dars jadvali (`/timetable`, `/timetable/[id]`): `school_classes` (grade + letter, sinf rahbari
   `homeroom_teacher_id` → `staff`), `subjects` (fanlar ro‘yxati, tarjimali) va `lessons` (bitta katak:
-  class_id, weekday 1–6, period 1–6, subject_id, teacher — eMaktab'dagidek "Familiya I.O." matn). Smena va dars vaqtlari sinfdan `shiftForGrade()`
+  class_id, weekday 1–6, period 1–6, subject_id, teacher — eMaktab'dagidek "Familiya I.O." matn); haftama-hafta almashadigan dars uchun
+  `alt_subject_id` + `alt_teacher`). `lessons` da `subjects` ga ikkita FK bor, shuning uchun embed'da
+  aniq ko‘rsating: `subjects!lessons_subject_id_fkey(...)`. Smena va dars vaqtlari sinfdan `shiftForGrade()`
   orqali olinadi (`bells.ts`), bazada saqlanmaydi. Darslar RLS'da sinfga bog‘liq (galereya kabi).
   Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
   saqlashda to‘ldirilganlar upsert, bo‘shatilganlar o‘chiriladi (`classes/actions.ts`).
@@ -154,7 +156,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `staff` (full_name, position_*, subject_*, photo, category_*, education_*, experience_years,
   phone, email, bio_*, sort_order, is_published)
 - `subjects` (name_*, sort_order), `school_classes` (grade, letter, homeroom_teacher_id,
-  is_published), `lessons` (class_id, weekday, period, subject_id, teacher)
+  is_published), `lessons` (class_id, weekday, period, subject_id, teacher, alt_subject_id, alt_teacher)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, message, is_read, created_at)
 

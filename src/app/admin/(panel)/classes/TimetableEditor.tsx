@@ -15,7 +15,14 @@ export default function TimetableEditor({
   classId: number;
   grade: number;
   subjects: { id: number; name_uz: string }[];
-  current: { weekday: number; period: number; subject_id: number; teacher: string | null }[];
+  current: {
+    weekday: number;
+    period: number;
+    subject_id: number;
+    teacher: string | null;
+    alt_subject_id: number | null;
+    alt_teacher: string | null;
+  }[];
 }) {
   const shift = shiftForGrade(grade);
   const find = (weekday: number, period: number) => current.find((l) => l.weekday === weekday && l.period === period);
@@ -68,6 +75,11 @@ export default function TimetableEditor({
                       aria-label={`${dayNames[d - 1]}, ${l.n}-dars o‘qituvchisi`}
                       className="mt-1 w-full rounded-md border border-slate-200 px-2 py-1 text-xs text-slate-600 focus:border-blue-600 focus:outline-none"
                     />
+                    {find(d, l.n)?.alt_subject_id && (
+                      <p className="mt-1 text-[11px] leading-tight text-amber-700">
+                        ↔ {subjects.find((s) => s.id === find(d, l.n)?.alt_subject_id)?.name_uz} (haftada almashib)
+                      </p>
+                    )}
                   </td>
                 ))}
               </tr>

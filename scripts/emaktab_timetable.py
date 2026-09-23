@@ -35,6 +35,7 @@ SUBJECT_ALIASES = {
     "Tarixdan Hikoyalar": "Tarixdan hikoyalar",
     "O'zbekiston tarix": "O‘zbekiston tarixi",
     "O‘zbekiston tarix": "O‘zbekiston tarixi",
+    "Davlat va huquq asos": "Davlat va huquq asoslari",
 }
 # Subjects eMaktab uses that the starter list lacked: (uz, ru, en), created on import.
 NEW_SUBJECTS = {
@@ -44,6 +45,7 @@ NEW_SUBJECTS = {
     "Tarixdan hikoyalar": ("Tarixdan hikoyalar", "Рассказы из истории", "Stories from history", 85),
     "O‘zbekiston tarixi": ("O‘zbekiston tarixi", "История Узбекистана", "History of Uzbekistan", 86),
     "Jahon tarixi": ("Jahon tarixi", "Всемирная история", "World history", 87),
+    "Davlat va huquq asoslari": ("Davlat va huquq asoslari", "Основы государства и права", "Foundations of state and law", 228),
 }
 
 # Group suffixes: "(1-guruh)", boys/girls "(o'g'il)", "(qiz)", "(Bolalar)", "(Qizlar)", "(1-o'g'il)", "(2-qizlar)".
@@ -82,7 +84,7 @@ def parse_journal(sh):
         n = re.match(r"(\d+)", cell(6, c))
         subject = cell(7, c)
         if day and n and subject:
-            week[(day, int(n.group(1)))] = (subject, None)
+            week[(day, int(n.group(1)))] = (subject, None, None, None)
     return grade, letter, 1, 1, week, []
 
 
@@ -106,6 +108,22 @@ def finish_week(w):
         teachers = ", ".join(dict.fromkeys(g[2] for g in groups))
         week[key] = (" / ".join(subjects), teachers)
     return week
+
+
+def alternates(numbered):
+    """Two lessons taking turns by week parity (odd weeks A, even weeks B), e.g. Geography /
+    Economics. `numbered` is [(week number, lesson)] over the full weeks, so skipped holiday
+    weeks don't break the pattern."""
+    by_parity = collections.defaultdict(set)
+    for n, lesson in numbered:
+        by_parity[n % 2].add(lesson)
+    sides = [by_parity[0], by_parity[1]]
+    return (
+        len(numbered) >= 4
+        and all(len(side) == 1 for side in sides)
+        and sides[0] != sides[1]
+        and None not in sides[0] | sides[1]
+    )
 
 
 def parse(path):
@@ -149,15 +167,21 @@ def parse(path):
     weeks = [finish_week(w) for w in weeks]
 
     school_days = set(cols.values())
-    full = [w for w in weeks if not w.get("holiday") and {k[0] for k, v in w.items() if k != "holiday" and v} == school_days]
+    full_n = [(n, w) for n, w in enumerate(weeks) if not w.get("holiday") and {k[0] for k, v in w.items() if k != "holiday" and v} == school_days]
+    full = [w for _, w in full_n]
     week, conflicts = {}, []
     for key in sorted({k for w in full for k in w if k != "holiday"}):
-        counts = collections.Counter(w.get(key) for w in full)
+        seq = [w.get(key) for w in full]
+        counts = collections.Counter(seq)
         best, _ = counts.most_common(1)[0]
+        if alternates([(n, w.get(key)) for n, w in full_n]):
+            (a, _), (b, _) = counts.most_common(2)
+            week[key] = a + b  # (subject, teacher, alt_subject, alt_teacher)
+            continue
         if len(counts) > 1:
             conflicts.append((key, dict(counts)))
         if best:
-            week[key] = best
+            week[key] = best + (None, None)
     return grade, letter, len(weeks), len(full), week, conflicts
 
 
@@ -179,17 +203,24 @@ def main(paths):
         for key, counts in conflicts:
             print(f"   day {key[0]} lesson {key[1]}: {counts}", file=sys.stderr)
         total += len(week)
+        subj = lambda s: q(SUBJECT_ALIASES.get(s, s)) if s else "null"
+        teach = lambda t: q(t if t is None or ", " in t else teacher_name(t))
         values = ",\n  ".join(
-            f"({d}, {p}, {q(SUBJECT_ALIASES.get(s, s))}, {q(t if t is None or ', ' in t else teacher_name(t))})" for (d, p), (s, t) in sorted(week.items())
+            f"({d}, {p}, {subj(s)}, {teach(t)}, {subj(s2)}, {teach(t2)})" for (d, p), (s, t, s2, t2) in sorted(week.items())
         )
         cls = f"(select id from public.school_classes where grade = {grade} and letter = {q(letter)})"
         out += [
             f"-- {grade}-{letter}",
             f"insert into public.school_classes (grade, letter) values ({grade}, {q(letter)}) on conflict (grade, letter) do nothing;",
             f"delete from public.lessons where class_id = {cls};",
-            "insert into public.lessons (class_id, weekday, period, subject_id, teacher)",
-            f"select {cls}, v.weekday, v.period, s.id, v.teacher from (values\n  {values}\n) v(weekday, period, subject, teacher)",
-            "left join public.subjects s on s.name_uz = v.subject;",  # left join: an unknown subject fails the not-null check loudly
+            "insert into public.lessons (class_id, weekday, period, subject_id, teacher, alt_subject_id, alt_teacher)",
+            f"select {cls}, v.weekday, v.period, s.id, v.teacher,"
+            " case when v.alt_subject is not null and a.id is null then ('unknown subject: ' || v.alt_subject)::bigint else a.id end,"
+            f" v.alt_teacher from (values\n  {values}\n)"
+            " v(weekday, period, subject, teacher, alt_subject, alt_teacher)",
+            # left joins: an unknown subject fails the not-null check, an unknown alternate the cast above
+            "left join public.subjects s on s.name_uz = v.subject",
+            "left join public.subjects a on a.name_uz = v.alt_subject;",
         ]
     out.append("commit;")
     print(f"total: {total} lessons", file=sys.stderr)

@@ -92,6 +92,18 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
                                 {subject ? localized(subject, "name", lang) : "—"}
                               </span>
                               {lesson?.teacher && <span className="block text-xs text-slate-500">{lesson.teacher}</span>}
+                              {lesson?.alt && (
+                                <>
+                                  <span className="mt-1 block font-semibold text-slate-900">
+                                    <span className="font-normal text-slate-400">/ </span>
+                                    {localized(lesson.alt, "name", lang)}
+                                  </span>
+                                  {lesson.alt_teacher && <span className="block text-xs text-slate-500">{lesson.alt_teacher}</span>}
+                                  <span className="mt-1 inline-block rounded-full bg-gold-soft px-2 py-0.5 text-[11px] font-bold text-gold-deep">
+                                    {t.alternating}
+                                  </span>
+                                </>
+                              )}
                             </span>
                           </li>
                         );

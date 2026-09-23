@@ -203,7 +203,8 @@
     "parallel": "Parallel sinflar",
     "back": "Barcha sinflar",
     "bells": "Qo‘ng‘iroqlar jadvali",
-    "weekly": "Haftalik dars jadvali"
+    "weekly": "Haftalik dars jadvali",
+    "alternating": "haftada almashib"
   },
   "emaktab": {
     "title": "eMaktab — baholar va davomat",

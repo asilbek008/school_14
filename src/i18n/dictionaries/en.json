@@ -203,7 +203,8 @@
     "parallel": "Other classes",
     "back": "All classes",
     "bells": "Bell schedule",
-    "weekly": "Weekly timetable"
+    "weekly": "Weekly timetable",
+    "alternating": "alternating weeks"
   },
   "emaktab": {
     "title": "eMaktab — grades and attendance",

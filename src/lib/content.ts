@@ -67,7 +67,15 @@ export type Subject = { name_uz: string; name_ru: string | null; name_en: string
 
 export type ClassTimetable = SchoolClass & {
   staff: { id: number; full_name: string } | null;
-  lessons: { weekday: number; period: number; teacher: string | null; subjects: Subject | null }[];
+  lessons: {
+    weekday: number;
+    period: number;
+    teacher: string | null;
+    subjects: Subject | null;
+    /** Set when the lesson alternates week by week with another subject. */
+    alt: Subject | null;
+    alt_teacher: string | null;
+  }[];
 };
 
 export type Page = {
@@ -239,7 +247,7 @@ export async function getClassTimetable(id: number): Promise<ClassTimetable | nu
   if (!supabase || !Number.isSafeInteger(id)) return null;
   const { data, error } = await supabase
     .from("school_classes")
-    .select("id, grade, letter, staff(id, full_name), lessons(weekday, period, teacher, subjects(name_uz, name_ru, name_en))")
+    .select("id, grade, letter, staff(id, full_name), lessons(weekday, period, teacher, alt_teacher, subjects!lessons_subject_id_fkey(name_uz, name_ru, name_en), alt:subjects!lessons_alt_subject_id_fkey(name_uz, name_ru, name_en))")
     .eq("is_published", true)
     .eq("id", id)
     .maybeSingle();
