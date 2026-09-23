@@ -2,7 +2,7 @@
 -- add or delete them in admin → Fanlar). Applied once.
 insert into public.subjects (name_uz, name_ru, name_en, sort_order) values
   ('Ona tili', 'Родной язык', 'Native language', 10),
-  ('O‘qish savodxonligi', 'Литературное чтение', 'Reading', 20),
+  ('O‘qish', 'Чтение', 'Reading', 20),
   ('Adabiyot', 'Литература', 'Literature', 30),
   ('Matematika', 'Математика', 'Mathematics', 40),
   ('Algebra', 'Алгебра', 'Algebra', 50),

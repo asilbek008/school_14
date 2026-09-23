@@ -1,9 +1,14 @@
 """Turn eMaktab timetable exports into SQL for the `lessons` table.
 
-eMaktab exports one .xls per class: the whole quarter as a calendar, week by week, each cell
-"Subject\\nTeacher\\nHH:MM - HH:MM\\nRoom". The school's week repeats, so the standard week is
-taken as the most common lesson per (weekday, period) over the full weeks (weeks with a holiday
-or a missing school day are skipped).
+Two eMaktab export types (one .xls per class) are understood:
+
+* Calendar (sheet "Calendar"): the whole quarter week by week, each cell
+  "Subject\\nTeacher\\nHH:MM - HH:MM\\nRoom". The school's week repeats, so the standard week is
+  the most common lesson per (weekday, period) over the full weeks (weeks with a holiday or a
+  missing school day are skipped). Gives teachers too.
+* Week journal (sheet "WeekJournal"): one week of the class register — a row of subjects under
+  "dushanba / 05.10" … and "1 dars" … headers. No teacher names. Below the header it lists the
+  pupils; this script reads only the header rows and never touches pupil data.
 
     pip install xlrd
     python3 scripts/emaktab_timetable.py path/to/*.xls > import.sql
@@ -24,6 +29,7 @@ SUBJECT_ALIASES = {
     "Tabiiy fan (Science)": "Tabiiy fan",
     "Texnalogiya": "Texnologiya",
     "Tasviriy san'at": "Tasviriy san’at",
+    "O'qish": "O‘qish",
 }
 # Subjects eMaktab uses that the starter list lacked: (uz, ru, en), created on import.
 NEW_SUBJECTS = {
@@ -39,16 +45,40 @@ def uz_apostrophes(s: str) -> str:
     return re.sub(r"['`ʼ]", "’", s)
 
 
-def teacher_name(raw: str) -> str:
+def teacher_name(raw):
     """'QUVONDIQOVA X.A.' → 'Quvondiqova X.A.'; keeps initials as they are."""
+    if not raw:
+        return None
     surname, _, initials = raw.strip().partition(" ")
     if surname.isupper():
         surname = surname.capitalize()
     return uz_apostrophes(f"{surname} {initials}".strip())
 
 
+JOURNAL_DAYS = {"dushanba": 1, "seshanba": 2, "chorshanba": 3, "payshanba": 4, "juma": 5, "shanba": 6}
+
+
+def parse_journal(sh):
+    """Week journal: rows 0-9 only (title, week, days, lesson numbers, subjects)."""
+    cell = lambda r, c: str(sh.cell_value(r, c)).strip()
+    m = re.search(r"Sinf:\s*(\d+)-(\S+)", cell(0, 0))
+    grade, letter = int(m.group(1)), m.group(2).upper()
+    week, day = {}, None
+    for c in range(2, sh.ncols):
+        head = cell(5, c).split("/")[0].strip().lower()
+        if head:
+            day = JOURNAL_DAYS[head]
+        n = re.match(r"(\d+)", cell(6, c))
+        subject = cell(7, c)
+        if day and n and subject:
+            week[(day, int(n.group(1)))] = (subject, None)
+    return grade, letter, 1, 1, week, []
+
+
 def parse(path):
     sh = xlrd.open_workbook(path).sheet_by_index(0)
+    if sh.name == "WeekJournal":
+        return parse_journal(sh)
     cell = lambda r, c: str(sh.cell_value(r, c)).strip()
     m = re.search(r"Sinf:\s*(\d+)-(\S+)", cell(0, 0))
     if not m:
