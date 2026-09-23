@@ -66,6 +66,14 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   komponent, Toshkent vaqtini brauzerda hisoblaydi — sahifa keshlangani uchun serverda emas) shundan foydalanadi.
 - Lug‘at satrlaridagi `{n}` kabi joylar `fill()` (`src/i18n/fill.ts`) bilan to‘ldiriladi.
 - Savol-javob (`/faq`) matnlari lug‘atda (`faq.items`).
+- Turkumlar (`src/lib/categories.ts`): yangilik — `yangilik|elon|tadbir|yutuq`, tadbir —
+  `bayram|maktab|olimpiada|sport` (DB `check` bilan bir xil; nomlari lug‘atda `newsCats`/`eventCats`).
+  Ro‘yxatlarda `CategoryFilter` — server render qilingan elementlarni `data-cat` bo‘yicha CSS bilan
+  yashiradi, shuning uchun sahifa keshlanishi buzilmaydi.
+- `events.all_day` — bayramlar kabi vaqtsiz tadbirlar Toshkent vaqti 00:00–23:59 sifatida saqlanadi
+  (yaqinlashayotgan/o‘tgan ajratish kun davomida to‘g‘ri ishlashi uchun), saytda faqat sana chiqadi.
+- `supabase/seed/2026-2027.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
+  tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
 - Sana/vaqt `src/lib/format.ts` orqali, `Asia/Tashkent` vaqt zonasida.

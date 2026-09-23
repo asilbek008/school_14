@@ -96,7 +96,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         {news.length ? (
           <div className="grid gap-6 md:grid-cols-3">
             {news.map((item) => (
-              <NewsCard key={item.id} item={item} lang={lang} readMore={dict.common.readMore} />
+              <NewsCard key={item.id} item={item} lang={lang} dict={dict} />
             ))}
           </div>
         ) : (
@@ -114,7 +114,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         {upcoming.length ? (
           <div className="grid gap-4 md:grid-cols-2">
             {upcoming.slice(0, 4).map((event) => (
-              <EventItem key={event.id} event={event} lang={lang} locationLabel={dict.events.location} />
+              <EventItem key={event.id} event={event} lang={lang} dict={dict} />
             ))}
           </div>
         ) : (

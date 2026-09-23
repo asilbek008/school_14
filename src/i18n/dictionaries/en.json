@@ -41,17 +41,21 @@
   "common": {
     "readMore": "Read more",
     "back": "Back",
-    "comingSoon": "This section will be filled in soon."
+    "comingSoon": "This section will be filled in soon.",
+    "all": "All",
+    "allDay": "All day"
   },
   "news": {
-    "empty": "No news yet."
+    "empty": "No news yet.",
+    "intro": "The latest school news, announcements and our students’ achievements."
   },
   "events": {
     "upcoming": "Upcoming events",
     "past": "Past events",
     "emptyUpcoming": "No events scheduled yet.",
     "emptyPast": "No past events.",
-    "location": "Location"
+    "location": "Location",
+    "intro": "Holidays, school events, olympiads and sports competitions."
   },
   "staff": {
     "intro": "Our school's leadership and teachers.",
@@ -133,5 +137,17 @@
         "a": "Fill in the form on the Contact page and it will reach the school administration. For urgent matters, please call."
       }
     ]
+  },
+  "newsCats": {
+    "yangilik": "News",
+    "elon": "Announcement",
+    "tadbir": "Event",
+    "yutuq": "Achievement"
+  },
+  "eventCats": {
+    "bayram": "Holiday",
+    "maktab": "School event",
+    "olimpiada": "Olympiad",
+    "sport": "Sport"
   }
 }

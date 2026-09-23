@@ -2,6 +2,7 @@ import "server-only";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
 import { mediaBaseUrl } from "@/lib/media";
+import type { EventCategory, NewsCategory } from "@/lib/categories";
 
 export type News = {
   id: number;
@@ -14,6 +15,7 @@ export type News = {
   body_en: string | null;
   cover_image: string | null;
   published_at: string | null;
+  category: NewsCategory;
 };
 
 export type SchoolEvent = {
@@ -27,6 +29,8 @@ export type SchoolEvent = {
   location: string | null;
   starts_at: string;
   ends_at: string | null;
+  category: EventCategory;
+  all_day: boolean;
 };
 
 export type Staff = {
@@ -75,7 +79,7 @@ export async function getNews(limit?: number): Promise<News[]> {
   if (!supabase) return [];
   let query = supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category")
     .eq("is_published", true)
     .order("published_at", { ascending: false, nullsFirst: false });
   if (limit) query = query.limit(limit);
@@ -89,7 +93,7 @@ export async function getNewsBySlug(slug: string): Promise<News | null> {
   if (!supabase) return null;
   const { data, error } = await supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category")
     .eq("is_published", true)
     .eq("slug", slug)
     .maybeSingle();
@@ -98,7 +102,7 @@ export async function getNewsBySlug(slug: string): Promise<News | null> {
 }
 
 const eventColumns =
-  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, location, starts_at, ends_at";
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, location, starts_at, ends_at, category, all_day";
 
 /** Upcoming events (soonest first) and past events (most recent first). */
 export async function getEvents(): Promise<{ upcoming: SchoolEvent[]; past: SchoolEvent[] }> {

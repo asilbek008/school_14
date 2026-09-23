@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { optional, requireAdmin, revalidatePublic, slugify, text, type FormState } from "@/lib/admin";
 import { fromTashkentInput } from "@/lib/format";
+import { newsCategories, type NewsCategory } from "@/lib/categories";
 
 export async function saveNews(id: number | null, _prev: FormState, form: FormData): Promise<FormState> {
   const { supabase } = await requireAdmin();
@@ -15,8 +16,12 @@ export async function saveNews(id: number | null, _prev: FormState, form: FormDa
   // Publishing without a date means "now"; the date stays editable for backdating.
   const published_at = fromTashkentInput(text(form, "published_at")) ?? (is_published ? new Date().toISOString() : null);
 
+  const category = text(form, "category") as NewsCategory;
+  if (!newsCategories.includes(category)) return { error: "Turkumni tanlang." };
+
   const row = {
     slug,
+    category,
     title_uz,
     title_ru: optional(form, "title_ru"),
     title_en: optional(form, "title_en"),

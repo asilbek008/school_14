@@ -41,17 +41,21 @@
   "common": {
     "readMore": "Batafsil",
     "back": "Orqaga",
-    "comingSoon": "Bu bo‘lim tez orada to‘ldiriladi."
+    "comingSoon": "Bu bo‘lim tez orada to‘ldiriladi.",
+    "all": "Barchasi",
+    "allDay": "Butun kun"
   },
   "news": {
-    "empty": "Hozircha yangiliklar yo‘q."
+    "empty": "Hozircha yangiliklar yo‘q.",
+    "intro": "Maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari."
   },
   "events": {
     "upcoming": "Yaqinlashayotgan tadbirlar",
     "past": "O‘tgan tadbirlar",
     "emptyUpcoming": "Hozircha rejalashtirilgan tadbirlar yo‘q.",
     "emptyPast": "O‘tgan tadbirlar yo‘q.",
-    "location": "Joy"
+    "location": "Joy",
+    "intro": "Bayramlar, maktab tadbirlari, olimpiada va sport musobaqalari."
   },
   "staff": {
     "intro": "Maktabimiz rahbariyati va o‘qituvchilari.",
@@ -133,5 +137,17 @@
         "a": "“Aloqa” sahifasidagi formani to‘ldiring — xabaringiz maktab ma’muriyatiga yetib boradi. Shoshilinch masalalarda telefon qiling."
       }
     ]
+  },
+  "newsCats": {
+    "yangilik": "Yangilik",
+    "elon": "E’lon",
+    "tadbir": "Tadbir",
+    "yutuq": "Yutuq"
+  },
+  "eventCats": {
+    "bayram": "Bayram",
+    "maktab": "Maktab tadbiri",
+    "olimpiada": "Olimpiada",
+    "sport": "Sport"
   }
 }

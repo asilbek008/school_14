@@ -4,6 +4,9 @@ import { Field, PublishedCheckbox, TranslatedField, inputClass } from "@/compone
 import { mediaBaseUrl } from "@/lib/media";
 import { toTashkentInput } from "@/lib/format";
 import { saveNews } from "./actions";
+import { newsCategories, type NewsCategory } from "@/lib/categories";
+
+const categoryLabels: Record<NewsCategory, string> = { yangilik: "Yangilik", elon: "E’lon", tadbir: "Tadbir", yutuq: "Yutuq" };
 
 export type NewsRow = {
   id: number;
@@ -17,12 +20,20 @@ export type NewsRow = {
   cover_image: string | null;
   is_published: boolean;
   published_at: string | null;
+  category: NewsCategory;
 };
 
 export default function NewsForm({ row }: { row?: NewsRow }) {
   return (
     <AdminForm action={saveNews.bind(null, row?.id ?? null)}>
       <TranslatedField name="title" label="Sarlavha" row={row} />
+      <Field label="Turkum">
+        <select name="category" defaultValue={row?.category ?? "yangilik"} className={`${inputClass} max-w-60`}>
+          {newsCategories.map((c) => (
+            <option key={c} value={c}>{categoryLabels[c]}</option>
+          ))}
+        </select>
+      </Field>
       <TranslatedField name="body" label="Matn" row={row} multiline uzRequired={false} />
       <Field label="Muqova rasmi">
         <div className="mt-2">
