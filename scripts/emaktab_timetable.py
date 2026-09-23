@@ -32,13 +32,18 @@ SUBJECT_ALIASES = {
     "Texnalogiya": "Texnologiya",
     "Tasviriy san'at": "Tasviriy san’at",
     "O'qish": "O‘qish",
+    "Tarixdan Hikoyalar": "Tarixdan hikoyalar",
 }
 # Subjects eMaktab uses that the starter list lacked: (uz, ru, en), created on import.
 NEW_SUBJECTS = {
     "Alifbe": ("Alifbe", "Букварь", "ABC book", 15),
     "Yozuv": ("Yozuv", "Письмо", "Writing", 16),
     "Kelajak soati": ("Kelajak soati", "Час будущего", "Future hour", 255),
+    "Tarixdan hikoyalar": ("Tarixdan hikoyalar", "Рассказы из истории", "Stories from history", 85),
 }
+
+# Group suffixes: "(1-guruh)", boys/girls "(o'g'il)", "(qiz)", "(Bolalar)", "(Qizlar)".
+GROUP = re.compile(r"\s*\((\d+)-guruh\)|\s*\((?:o\W?g\W?il(?:lar)?|qiz(?:lar)?|bolalar)\)", re.IGNORECASE)
 
 
 def uz_apostrophes(s: str) -> str:
@@ -87,8 +92,11 @@ def finish_week(w):
         merged[(day, period)] += lessons
     week = {"holiday": True} if w.get("holiday") else {}
     for key, lessons in merged.items():
-        groups = sorted({(re.sub(r"\s*\(\d+-guruh\)", "", s), re.search(r"\((\d+)-guruh\)", s), t) for s, t, _ in lessons},
-                        key=lambda g: int(g[1].group(1)) if g[1] else 0)
+        groups = set()
+        for subject, teacher, _ in lessons:
+            m = GROUP.search(subject)
+            groups.add((GROUP.sub("", subject), int(m.group(1)) if m and m.group(1) else 0, teacher))
+        groups = sorted(groups, key=lambda g: (g[1], g[2]))  # 1st group first, else by name
         subjects = sorted({g[0] for g in groups})
         teachers = ", ".join(dict.fromkeys(g[2] for g in groups))
         week[key] = (" / ".join(subjects), teachers)
