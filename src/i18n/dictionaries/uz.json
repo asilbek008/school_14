@@ -185,7 +185,7 @@
     "next": "Keyingi"
   },
   "timetable": {
-    "intro": "Har bir sinfning haftalik dars jadvali. Sinfni tanlang.",
+    "intro": "Smenani, keyin parallel va sinfni tanlang — kunlik va haftalik jadval ochiladi.",
     "empty": "Dars jadvali tez orada qo‘shiladi.",
     "grade": "{n}-sinf",
     "shift": "{n}-smena · {time} dan",
@@ -204,7 +204,39 @@
     "back": "Barcha sinflar",
     "bells": "Qo‘ng‘iroqlar jadvali",
     "weekly": "Haftalik dars jadvali",
-    "alternating": "haftada almashib"
+    "alternating": "haftada almashib",
+    "stepShift": "Smena",
+    "stepGrade": "Parallel",
+    "stepClass": "Sinf",
+    "chooseShift": "Smenani tanlang",
+    "chooseGrade": "Sinflar kesimini tanlang",
+    "chooseClass": "Sinfni tanlang",
+    "shiftName": "{n}-smena",
+    "morning": "Ertalabki",
+    "afternoon": "Tushdan keyingi",
+    "gradesLine": "{list}-sinflar",
+    "classes": {
+      "one": "{n} ta sinf",
+      "other": "{n} ta sinf"
+    },
+    "lessonsCount": {
+      "one": "{n} ta dars",
+      "other": "{n} ta dars"
+    },
+    "daily": "Kunlik",
+    "weeklyTab": "Haftalik",
+    "daysShort": [
+      "Du",
+      "Se",
+      "Ch",
+      "Pa",
+      "Ju",
+      "Sh"
+    ],
+    "today": "Bugun",
+    "now": "Hozir",
+    "period": "{n}-dars",
+    "time": "Vaqt"
   },
   "emaktab": {
     "title": "eMaktab — baholar va davomat",

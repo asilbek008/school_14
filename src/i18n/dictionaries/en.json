@@ -185,7 +185,7 @@
     "next": "Next"
   },
   "timetable": {
-    "intro": "Weekly lesson timetable for every class. Choose a class.",
+    "intro": "Choose a shift, then a grade and a class to see the daily and weekly timetable.",
     "empty": "The timetable will be added soon.",
     "grade": "Grade {n}",
     "shift": "Shift {n} · from {time}",
@@ -204,7 +204,39 @@
     "back": "All classes",
     "bells": "Bell schedule",
     "weekly": "Weekly timetable",
-    "alternating": "alternating weeks"
+    "alternating": "alternating weeks",
+    "stepShift": "Shift",
+    "stepGrade": "Grade",
+    "stepClass": "Class",
+    "chooseShift": "Choose a shift",
+    "chooseGrade": "Choose a grade",
+    "chooseClass": "Choose a class",
+    "shiftName": "Shift {n}",
+    "morning": "Morning",
+    "afternoon": "Afternoon",
+    "gradesLine": "Grades {list}",
+    "classes": {
+      "one": "{n} class",
+      "other": "{n} classes"
+    },
+    "lessonsCount": {
+      "one": "{n} lesson",
+      "other": "{n} lessons"
+    },
+    "daily": "Daily",
+    "weeklyTab": "Weekly",
+    "daysShort": [
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat"
+    ],
+    "today": "Today",
+    "now": "Now",
+    "period": "Lesson {n}",
+    "time": "Time"
   },
   "emaktab": {
     "title": "eMaktab — grades and attendance",
