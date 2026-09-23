@@ -15,8 +15,8 @@ qo‘shadi, o‘qituvchilar va sahifalarni tahrirlaydi. Maktab haqidagi batafsil
 ## Texnologiyalar
 
 - Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS v4
-- Supabase: Postgres, Auth (admin kirishi), Storage (rasmlar). Sxema tayyor, lekin Supabase
-  loyihasi hali yaratilmagan (egasi alohida tashkilot ochmoqda; mintaqa: Frankfurt `eu-central-1`)
+- Supabase: Postgres, Auth (admin kirishi), Storage (rasmlar). Loyiha: `school-14`
+  (ref `cieusvxrfpshlpjelvkt`, "School 14" tashkiloti, Frankfurt `eu-central-1`)
 - Vercel'ga joylanadi
 
 Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/proxy.ts`
@@ -66,7 +66,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
   Components), `public.ts` (ochiq o‘qish va aloqa formasi).
 - `supabase/migrations/` — sxema uchun yagona manba; dashboard'da tahrirlamang, yangi
-  migratsiya fayl qo‘shing.
+  migratsiya fayl qo‘shing. Qo‘llagandan keyin Supabase advisors (security + performance) ni tekshiring.
 - Env (`.env.local`, commit qilinmaydi; `.env.example` ga qarang):
   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 
@@ -76,8 +76,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sahifa kirishni talab qiladi; `login/` — ochiq.
 - Himoya ikki qavatli: `src/proxy.ts` `/admin/*` uchun Supabase sessiyasini yangilaydi va
   sessiyasizlarni `/admin/login` ga yuboradi; **har bir** admin sahifa va Server Action
-  `requireAdmin()` (`src/lib/admin.ts`) ni chaqiradi — u `is_admin()` RPC orqali `admins`
-  jadvalini tekshiradi. Yangi admin action yozsangiz, birinchi qatorda `requireAdmin()` bo‘lsin.
+  `requireAdmin()` (`src/lib/admin.ts`) ni chaqiradi — u foydalanuvchining `admins`
+  jadvalidagi o‘z qatorini o‘qiydi (RLS faqat o‘z qatorini ko‘rsatadi). Yangi admin action yozsangiz, birinchi qatorda `requireAdmin()` bo‘lsin.
 - Har bo‘lim: `actions.ts` (`save*(id | null, prev, form)`, `delete*(id)`), `*Form.tsx`,
   `page.tsx` (ro‘yxat), `new/`, `[id]/`. Saqlashdan keyin `revalidatePublic()` butun ochiq
   saytni yangilaydi, keyin `redirect`.
@@ -104,8 +104,11 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `contact_messages` (name, email, phone, message, is_read, created_at)
 
 ### Xavfsizlik modeli
-Har bir jadvalda Row Level Security yoqilgan. Admin tekshiruvi `public.is_admin()` funksiyasi
+Har bir jadvalda Row Level Security yoqilgan. Admin tekshiruvi `private.is_admin()` funksiyasi
 orqali (`admins` jadvalida `auth.uid()` bormi). Anonim foydalanuvchilar faqat `is_published`
 yozuvlarni o‘qiydi va faqat `contact_messages` ga yozadi; qolganiga faqat adminlar yozadi.
-`is_admin()` `anon` roliga ham ochiq bo‘lishi shart — o‘qish siyosatlari uni chaqiradi.
+`private.is_admin()` `anon` roliga ham ochiq bo‘lishi shart — o‘qish siyosatlari uni chaqiradi.
+U `SECURITY DEFINER`, shuning uchun API'ga chiqmaydigan `private` sxemasida turadi (Supabase
+advisors talabi). Har bir jadval va amal uchun bitta siyosat: `for all` ishlatmang, aks holda
+SELECT'da ikkita permissive siyosat bo‘ladi.
 Rasmlar `media` Storage bucket'ida (JPEG/PNG/WebP, 5 MB gacha): hamma o‘qiydi, faqat admin yuklaydi.

@@ -13,8 +13,13 @@ export async function requireAdmin() {
   const { data } = await supabase.auth.getClaims();
   if (!data?.claims) redirect("/admin/login");
 
-  const { data: isAdmin } = await supabase.rpc("is_admin");
-  if (!isAdmin) redirect("/admin/login?error=forbidden");
+  // RLS lets a user read only their own admins row, so a hit means "is an admin".
+  const { data: admin } = await supabase
+    .from("admins")
+    .select("user_id")
+    .eq("user_id", data.claims.sub)
+    .maybeSingle();
+  if (!admin) redirect("/admin/login?error=forbidden");
 
   return { supabase, email: (data.claims.email as string | undefined) ?? "" };
 }
