@@ -76,6 +76,8 @@ export type ClassTimetable = SchoolClass & {
     alt: Subject | null;
     alt_teacher: string | null;
   }[];
+  /** eMaktab teacher name (lowercase) → published staff id, to link lesson teachers to profiles. */
+  teacherIds: Record<string, number>;
 };
 
 export type Page = {
@@ -245,15 +247,20 @@ export async function getClasses(): Promise<SchoolClass[]> {
 export async function getClassTimetable(id: number): Promise<ClassTimetable | null> {
   const supabase = createPublicClient();
   if (!supabase || !Number.isSafeInteger(id)) return null;
-  const { data, error } = await supabase
-    .from("school_classes")
-    .select("id, grade, letter, staff(id, full_name), lessons(weekday, period, teacher, alt_teacher, subjects!lessons_subject_id_fkey(name_uz, name_ru, name_en), alt:subjects!lessons_alt_subject_id_fkey(name_uz, name_ru, name_en))")
-    .eq("is_published", true)
-    .eq("id", id)
-    .maybeSingle();
-  logError("getClassTimetable", error);
+  const [{ data, error }, { data: teachers, error: teacherError }] = await Promise.all([
+    supabase
+      .from("school_classes")
+      .select("id, grade, letter, staff(id, full_name), lessons(weekday, period, teacher, alt_teacher, subjects!lessons_subject_id_fkey(name_uz, name_ru, name_en), alt:subjects!lessons_alt_subject_id_fkey(name_uz, name_ru, name_en))")
+      .eq("is_published", true)
+      .eq("id", id)
+      .maybeSingle(),
+    supabase.from("staff").select("id, short_name").eq("is_published", true).not("short_name", "is", null),
+  ]);
+  logError("getClassTimetable", error ?? teacherError);
+  if (!data) return null;
+  const teacherIds = Object.fromEntries((teachers ?? []).map((t) => [t.short_name!.toLowerCase(), t.id]));
   // Without generated DB types supabase-js types to-one embeds (staff, subjects) as arrays.
-  return data as unknown as ClassTimetable | null;
+  return { ...(data as unknown as Omit<ClassTimetable, "teacherIds">), teacherIds };
 }
 
 export async function getPage(slug: string): Promise<Page | null> {

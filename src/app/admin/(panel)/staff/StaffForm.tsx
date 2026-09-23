@@ -7,6 +7,7 @@ import { saveStaff } from "./actions";
 export type StaffRow = {
   id: number;
   full_name: string;
+  short_name: string | null;
   position_uz: string;
   position_ru: string | null;
   position_en: string | null;
@@ -35,6 +36,9 @@ export default function StaffForm({ row }: { row?: StaffRow }) {
     <AdminForm action={saveStaff.bind(null, row?.id ?? null)}>
       <Field label="Ism-familiya *">
         <input name="full_name" required defaultValue={row?.full_name} className={inputClass} />
+      </Field>
+      <Field label="eMaktab'dagi nomi" hint="Dars jadvalidagidek, masalan «Karimova D.A.». Shu orqali jadvaldagi ism profilga bog‘lanadi.">
+        <input name="short_name" maxLength={80} defaultValue={row?.short_name ?? ""} className={`${inputClass} max-w-xs`} />
       </Field>
       <TranslatedField name="position" label="Lavozim" row={row} />
       <TranslatedField name="subject" label="Fan" row={row} uzRequired={false} />

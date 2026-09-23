@@ -89,6 +89,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   repoga qo‘shmang va ishlatib bo‘lgach o‘chiring). Kalendardan standart haftani oladi (bayramsiz to‘liq haftalarda eng ko‘p uchragan dars),
   SQL chiqaradi (sinfni yaratadi, darslarini almashtiradi). eMaktab fan nomlari `SUBJECT_ALIASES`
   va `NEW_SUBJECTS` orqali `subjects` ga moslanadi; noma’lum fan `not null` xatosi bilan to‘xtaydi.
+- Xodimlarni Excel'dan yuklash (`/admin/staff/import`): `src/lib/staff-import.ts` faylni brauzerda
+  (ko‘rib chiqish uchun) va Server Action'da qayta o‘qiydi (`read-excel-file/universal`; npm `xlsx`
+  zaif — ishlatmang). Ustunlar sarlavha nomi bo‘yicha topiladi; xodim `short_name` (eMaktab'dagi
+  "Familiya I.O.") yoki to‘liq ism bo‘yicha moslanadi; bo‘sh katak eski qiymatni o‘chirmaydi;
+  "Sinf rahbari" (5-A) `school_classes.homeroom_teacher_id` ga yoziladi. Faylda xato bo‘lsa hech narsa saqlanmaydi.
+  Dars jadvalidagi o‘qituvchi ismi `staff.short_name` bilan mos kelsa, profilga havola bo‘ladi.
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
@@ -153,7 +159,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `admins` (user_id) — kontent yozishi mumkin bo‘lgan Auth foydalanuvchilari; qo‘lda qo‘shiladi
 - `news` (slug, title_*, body_*, cover_image, published_at, is_published)
 - `events` (title_*, description_*, location, starts_at, ends_at, is_published)
-- `staff` (full_name, position_*, subject_*, photo, category_*, education_*, experience_years,
+- `staff` (full_name, short_name, position_*, subject_*, photo, category_*, education_*, experience_years,
   phone, email, bio_*, sort_order, is_published)
 - `subjects` (name_*, sort_order), `school_classes` (grade, letter, homeroom_teacher_id,
   is_published), `lessons` (class_id, weekday, period, subject_id, teacher, alt_subject_id, alt_teacher)

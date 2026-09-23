@@ -91,14 +91,14 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
                               <span className={`block ${subject ? "font-semibold text-slate-900" : "text-slate-400"}`}>
                                 {subject ? localized(subject, "name", lang) : "—"}
                               </span>
-                              {lesson?.teacher && <span className="block text-xs text-slate-500">{lesson.teacher}</span>}
+                              {lesson?.teacher && <Teachers names={lesson.teacher} ids={cls.teacherIds} lang={lang} />}
                               {lesson?.alt && (
                                 <>
                                   <span className="mt-1 block font-semibold text-slate-900">
                                     <span className="font-normal text-slate-400">/ </span>
                                     {localized(lesson.alt, "name", lang)}
                                   </span>
-                                  {lesson.alt_teacher && <span className="block text-xs text-slate-500">{lesson.alt_teacher}</span>}
+                                  {lesson.alt_teacher && <Teachers names={lesson.alt_teacher} ids={cls.teacherIds} lang={lang} />}
                                   <span className="mt-1 inline-block rounded-full bg-gold-soft px-2 py-0.5 text-[11px] font-bold text-gold-deep">
                                     {t.alternating}
                                   </span>
@@ -123,5 +123,28 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
         )}
       </div>
     </>
+  );
+}
+
+/** "A, B" — each name links to the teacher's profile when one is published. */
+function Teachers({ names, ids, lang }: { names: string; ids: Record<string, number>; lang: string }) {
+  return (
+    <span className="block text-xs text-slate-500">
+      {names.split(", ").map((name, i) => {
+        const id = ids[name.toLowerCase()];
+        return (
+          <span key={name}>
+            {i > 0 && ", "}
+            {id ? (
+              <Link href={`/${lang}/staff/${id}`} className="hover:text-brand hover:underline">
+                {name}
+              </Link>
+            ) : (
+              name
+            )}
+          </span>
+        );
+      })}
+    </span>
   );
 }
