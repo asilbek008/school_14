@@ -1,0 +1,215 @@
+{
+  "site": {
+    "name": "School No. 14",
+    "description": "Official website of General Secondary School No. 14",
+    "tagline": "Official website"
+  },
+  "nav": {
+    "home": "Home",
+    "news": "News",
+    "events": "Events",
+    "about": "About",
+    "staff": "Teachers",
+    "admissions": "Admissions",
+    "contact": "Contact",
+    "menu": "Menu",
+    "school": "School",
+    "schedule": "Bell schedule",
+    "faq": "FAQ",
+    "clubs": "Clubs",
+    "gallery": "Gallery",
+    "timetable": "Timetable"
+  },
+  "home": {
+    "welcome": "Welcome to School No. 14",
+    "intro": "Knowledge, character and the future start here.",
+    "latestNews": "Latest news",
+    "upcomingEvents": "Upcoming events",
+    "allNews": "All news",
+    "allEvents": "All events",
+    "ctaAdmissions": "Admissions",
+    "ctaContact": "Contact us",
+    "imageAlt": "Entrance to School No. 14 decorated for a celebration",
+    "statStudents": "Students",
+    "statStaff": "Staff",
+    "statClasses": "Classes",
+    "quickTitle": "What do you need?",
+    "quick": {
+      "news": "Latest school news and announcements",
+      "events": "Upcoming holidays and events",
+      "timetable": "Weekly lessons for every class",
+      "faq": "Answers for parents"
+    },
+    "galleryTitle": "School life",
+    "allPhotos": "All photos"
+  },
+  "common": {
+    "readMore": "Read more",
+    "back": "Back",
+    "comingSoon": "This section will be filled in soon.",
+    "all": "All",
+    "allDay": "All day"
+  },
+  "news": {
+    "empty": "No news yet.",
+    "intro": "The latest school news, announcements and our students’ achievements."
+  },
+  "events": {
+    "upcoming": "Upcoming events",
+    "past": "Past events",
+    "emptyUpcoming": "No events scheduled yet.",
+    "emptyPast": "No past events.",
+    "location": "Location",
+    "intro": "Holidays, school events, olympiads and sports competitions."
+  },
+  "staff": {
+    "intro": "Our school's leadership and teachers.",
+    "empty": "The list of teachers will be added soon.",
+    "back": "All staff",
+    "open": "View profile",
+    "subject": "Subject",
+    "category": "Category",
+    "experience": "Experience",
+    "years": {
+      "one": "{n} year",
+      "other": "{n} years"
+    },
+    "education": "Education",
+    "homeroom": "Homeroom teacher of",
+    "about": "About"
+  },
+  "contact": {
+    "intro": "Have a question or suggestion? Write to us and we'll get back to you.",
+    "info": "Contact details",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Office hours",
+    "tbd": "Coming soon",
+    "form": {
+      "title": "Send a message",
+      "name": "Your name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "optional": "optional",
+      "submit": "Send",
+      "sending": "Sending…",
+      "success": "Thank you! Your message has been received.",
+      "error": "Could not send your message. Please try again later.",
+      "invalid": "Please fill in your name and message.",
+      "needContact": "Please enter a phone number or email."
+    }
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "contacts": "Contact",
+    "links": "Sections"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home page"
+  },
+  "live": {
+    "title": "At school now",
+    "tz": "Tashkent time",
+    "shift": "Shift {n}",
+    "before": "Starts at {time}",
+    "lesson": "Lesson {n} · {m} min left",
+    "break": "Break · lesson {n} in {m} min",
+    "after": "Lessons are over",
+    "dayoff": "Day off today",
+    "link": "Bell schedule"
+  },
+  "schedule": {
+    "intro": "Classes run in two shifts. Each lesson is 45 minutes with a 5-minute break between lessons.",
+    "shift": "Shift {n}",
+    "from": "from {time}",
+    "grades": "Grades {list}",
+    "lesson": "Lesson",
+    "time": "Time",
+    "nth": "Lesson {n}"
+  },
+  "faq": {
+    "intro": "Answers to questions parents often ask. Tap a question to see the answer.",
+    "items": [
+      {
+        "q": "What time do lessons start?",
+        "a": "Shift 1 starts at 08:00 and shift 2 at 13:00. Each lesson lasts 45 minutes with a 5-minute break between lessons."
+      },
+      {
+        "q": "Which grades study in which shift?",
+        "a": "Shift 1: grades 1, 2, 5, 9, 10 and 11.\nShift 2: grades 3, 4, 6, 7 and 8."
+      },
+      {
+        "q": "Where can I see grades and homework?",
+        "a": "Grades, attendance and homework are in the eMaktab.uz electronic diary. Ask your child's homeroom teacher for login details."
+      },
+      {
+        "q": "How can I contact the school?",
+        "a": "Phone: +998 90 970 90 91 (Monday – Saturday, 09:00 – 17:30). Address: Qiziriq district, Surkhandarya region."
+      },
+      {
+        "q": "How do I send a question or suggestion?",
+        "a": "Fill in the form on the Contact page and it will reach the school administration. For urgent matters, please call."
+      }
+    ]
+  },
+  "newsCats": {
+    "yangilik": "News",
+    "elon": "Announcement",
+    "tadbir": "Event",
+    "yutuq": "Achievement"
+  },
+  "eventCats": {
+    "bayram": "Holiday",
+    "maktab": "School event",
+    "olimpiada": "Olympiad",
+    "sport": "Sport"
+  },
+  "clubs": {
+    "intro": "After-school activities. To join, talk to the club leader or your homeroom teacher.",
+    "empty": "The list of clubs will be added soon.",
+    "grades": "Grades {from}–{to}",
+    "when": "When",
+    "where": "Where",
+    "leader": "Leader"
+  },
+  "gallery": {
+    "intro": "Moments from school life: events, lessons and celebrations.",
+    "empty": "No albums yet.",
+    "photos": "{n} photos",
+    "back": "All albums",
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next"
+  },
+  "timetable": {
+    "intro": "Weekly lesson timetable for every class. Choose a class.",
+    "empty": "The timetable will be added soon.",
+    "grade": "Grade {n}",
+    "shift": "Shift {n} · from {time}",
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "noLessons": "No lessons",
+    "notFilled": "The timetable for this class hasn’t been entered yet.",
+    "homeroom": "Homeroom teacher",
+    "parallel": "Other classes",
+    "back": "All classes",
+    "bells": "Bell schedule",
+    "weekly": "Weekly timetable"
+  },
+  "emaktab": {
+    "title": "eMaktab — grades and attendance",
+    "text": "See your child’s grades, attendance and homework in the eMaktab electronic diary. Ask the homeroom teacher for your login and password.",
+    "button": "Open eMaktab",
+    "short": "eMaktab (grades)",
+    "newTab": "opens in a new tab"
+  }
+}

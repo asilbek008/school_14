@@ -1,0 +1,215 @@
+{
+  "site": {
+    "name": "14-maktab",
+    "description": "14-sonli umumta’lim maktabining rasmiy veb-sayti",
+    "tagline": "Rasmiy sayt"
+  },
+  "nav": {
+    "home": "Bosh sahifa",
+    "news": "Yangiliklar",
+    "events": "Tadbirlar",
+    "about": "Maktab haqida",
+    "staff": "O‘qituvchilar",
+    "admissions": "Qabul",
+    "contact": "Aloqa",
+    "menu": "Menyu",
+    "school": "Maktab",
+    "schedule": "Qo‘ng‘iroqlar jadvali",
+    "faq": "Savol-javob",
+    "clubs": "To‘garaklar",
+    "gallery": "Galereya",
+    "timetable": "Dars jadvali"
+  },
+  "home": {
+    "welcome": "14-maktabga xush kelibsiz",
+    "intro": "Bilim, tarbiya va kelajak shu yerda boshlanadi.",
+    "latestNews": "So‘nggi yangiliklar",
+    "upcomingEvents": "Yaqinlashayotgan tadbirlar",
+    "allNews": "Barcha yangiliklar",
+    "allEvents": "Barcha tadbirlar",
+    "ctaAdmissions": "Qabul haqida",
+    "ctaContact": "Biz bilan bog‘laning",
+    "imageAlt": "14-maktab darvozasi: bayram bezaklari va qizil gilam",
+    "statStudents": "O‘quvchilar",
+    "statStaff": "Xodimlar",
+    "statClasses": "Sinflar",
+    "quickTitle": "Sizga nima kerak?",
+    "quick": {
+      "news": "Maktabdagi so‘nggi yangilik va e’lonlar",
+      "events": "Yaqinlashayotgan bayram va tadbirlar",
+      "timetable": "Har bir sinfning haftalik dars jadvali",
+      "faq": "Ota-onalar uchun javoblar"
+    },
+    "galleryTitle": "Maktab hayotidan",
+    "allPhotos": "Barcha rasmlar"
+  },
+  "common": {
+    "readMore": "Batafsil",
+    "back": "Orqaga",
+    "comingSoon": "Bu bo‘lim tez orada to‘ldiriladi.",
+    "all": "Barchasi",
+    "allDay": "Butun kun"
+  },
+  "news": {
+    "empty": "Hozircha yangiliklar yo‘q.",
+    "intro": "Maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari."
+  },
+  "events": {
+    "upcoming": "Yaqinlashayotgan tadbirlar",
+    "past": "O‘tgan tadbirlar",
+    "emptyUpcoming": "Hozircha rejalashtirilgan tadbirlar yo‘q.",
+    "emptyPast": "O‘tgan tadbirlar yo‘q.",
+    "location": "Joy",
+    "intro": "Bayramlar, maktab tadbirlari, olimpiada va sport musobaqalari."
+  },
+  "staff": {
+    "intro": "Maktabimiz rahbariyati va o‘qituvchilari.",
+    "empty": "O‘qituvchilar ro‘yxati tez orada qo‘shiladi.",
+    "back": "Barcha xodimlar",
+    "open": "Profilni ko‘rish",
+    "subject": "Fan",
+    "category": "Toifa",
+    "experience": "Ish staji",
+    "years": {
+      "one": "{n} yil",
+      "other": "{n} yil"
+    },
+    "education": "Ma’lumoti",
+    "homeroom": "Sinf rahbari",
+    "about": "Qo‘shimcha ma’lumot"
+  },
+  "contact": {
+    "intro": "Savol yoki taklifingiz bo‘lsa, bizga yozing — albatta javob beramiz.",
+    "info": "Aloqa ma’lumotlari",
+    "address": "Manzil",
+    "phone": "Telefon",
+    "email": "Elektron pochta",
+    "hours": "Ish vaqti",
+    "tbd": "Tez orada qo‘shiladi",
+    "form": {
+      "title": "Xabar yuborish",
+      "name": "Ismingiz",
+      "email": "Elektron pochta",
+      "phone": "Telefon",
+      "message": "Xabar",
+      "optional": "ixtiyoriy",
+      "submit": "Yuborish",
+      "sending": "Yuborilmoqda…",
+      "success": "Rahmat! Xabaringiz qabul qilindi.",
+      "error": "Xabarni yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring.",
+      "invalid": "Iltimos, ism va xabarni to‘ldiring.",
+      "needContact": "Telefon yoki elektron pochtani kiriting."
+    }
+  },
+  "footer": {
+    "rights": "Barcha huquqlar himoyalangan.",
+    "contacts": "Aloqa",
+    "links": "Bo‘limlar"
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "back": "Bosh sahifaga qaytish"
+  },
+  "live": {
+    "title": "Hozir maktabda",
+    "tz": "Toshkent vaqti",
+    "shift": "{n}-smena",
+    "before": "{time} da boshlanadi",
+    "lesson": "{n}-dars · {m} daq qoldi",
+    "break": "Tanaffus · {n}-dars {m} daqdan keyin",
+    "after": "Darslar tugadi",
+    "dayoff": "Bugun dam olish kuni",
+    "link": "Qo‘ng‘iroqlar jadvali"
+  },
+  "schedule": {
+    "intro": "Darslar ikki smenada. Har bir dars 45 daqiqa, darslar orasida 5 daqiqa tanaffus.",
+    "shift": "{n}-smena",
+    "from": "{time} dan",
+    "grades": "{list}-sinflar",
+    "lesson": "Dars",
+    "time": "Vaqt",
+    "nth": "{n}-dars"
+  },
+  "faq": {
+    "intro": "Ota-onalar ko‘p beradigan savollarga javoblar. Javobni ko‘rish uchun savolni bosing.",
+    "items": [
+      {
+        "q": "Darslar soat nechida boshlanadi?",
+        "a": "1-smena soat 08:00 da, 2-smena soat 13:00 da boshlanadi. Har bir dars 45 daqiqa davom etadi, darslar orasida 5 daqiqalik tanaffus bor."
+      },
+      {
+        "q": "Qaysi sinflar qaysi smenada o‘qiydi?",
+        "a": "1-smena: 1, 2, 5, 9, 10 va 11-sinflar.\n2-smena: 3, 4, 6, 7 va 8-sinflar."
+      },
+      {
+        "q": "Baholar va uy vazifalarini qayerda ko‘rish mumkin?",
+        "a": "Baholar, davomat va uy vazifalari eMaktab.uz elektron kundaligida ko‘rinadi. Kirish ma’lumotlari bo‘yicha sinf rahbariga murojaat qiling."
+      },
+      {
+        "q": "Maktab bilan qanday bog‘lanish mumkin?",
+        "a": "Telefon: +998 90 970 90 91 (dushanba – shanba, 09:00 – 17:30). Manzil: Surxondaryo viloyati, Qiziriq tumani."
+      },
+      {
+        "q": "Savol yoki taklifni qanday yuborsam bo‘ladi?",
+        "a": "“Aloqa” sahifasidagi formani to‘ldiring — xabaringiz maktab ma’muriyatiga yetib boradi. Shoshilinch masalalarda telefon qiling."
+      }
+    ]
+  },
+  "newsCats": {
+    "yangilik": "Yangilik",
+    "elon": "E’lon",
+    "tadbir": "Tadbir",
+    "yutuq": "Yutuq"
+  },
+  "eventCats": {
+    "bayram": "Bayram",
+    "maktab": "Maktab tadbiri",
+    "olimpiada": "Olimpiada",
+    "sport": "Sport"
+  },
+  "clubs": {
+    "intro": "Darsdan tashqari mashg‘ulotlar. Yozilish uchun to‘garak rahbari yoki sinf rahbariga murojaat qiling.",
+    "empty": "To‘garaklar ro‘yxati tez orada qo‘shiladi.",
+    "grades": "{from}–{to}-sinflar",
+    "when": "Vaqti",
+    "where": "Joyi",
+    "leader": "Rahbar"
+  },
+  "gallery": {
+    "intro": "Maktab hayotidan lavhalar: tadbirlar, darslar va bayramlar.",
+    "empty": "Hozircha albomlar yo‘q.",
+    "photos": "{n} ta rasm",
+    "back": "Barcha albomlar",
+    "close": "Yopish",
+    "prev": "Oldingi",
+    "next": "Keyingi"
+  },
+  "timetable": {
+    "intro": "Har bir sinfning haftalik dars jadvali. Sinfni tanlang.",
+    "empty": "Dars jadvali tez orada qo‘shiladi.",
+    "grade": "{n}-sinf",
+    "shift": "{n}-smena · {time} dan",
+    "days": [
+      "Dushanba",
+      "Seshanba",
+      "Chorshanba",
+      "Payshanba",
+      "Juma",
+      "Shanba"
+    ],
+    "noLessons": "Dars yo‘q",
+    "notFilled": "Bu sinf uchun dars jadvali hali kiritilmagan.",
+    "homeroom": "Sinf rahbari",
+    "parallel": "Parallel sinflar",
+    "back": "Barcha sinflar",
+    "bells": "Qo‘ng‘iroqlar jadvali",
+    "weekly": "Haftalik dars jadvali"
+  },
+  "emaktab": {
+    "title": "eMaktab — baholar va davomat",
+    "text": "Farzandingizning baholari, davomati va uy vazifalarini eMaktab elektron kundaligida ko‘ring. Login va parolni sinf rahbaridan oling.",
+    "button": "eMaktab’ga kirish",
+    "short": "eMaktab (baholar)",
+    "newTab": "yangi oynada ochiladi"
+  }
+}
