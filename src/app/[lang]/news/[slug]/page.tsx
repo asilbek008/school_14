@@ -29,7 +29,7 @@ export default async function NewsArticlePage({ params }: PageProps<"/[lang]/new
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
-      <Link href={`/${lang}/news`} className="text-sm font-medium text-blue-700 hover:underline">
+      <Link href={`/${lang}/news`} className="text-sm font-medium text-brand hover:underline">
         ← {dict.common.back}
       </Link>
       {item.published_at && (
@@ -39,7 +39,7 @@ export default async function NewsArticlePage({ params }: PageProps<"/[lang]/new
       )}
       <h1 className="mt-1 text-3xl font-bold text-slate-900 sm:text-4xl">{localized(item, "title", lang)}</h1>
       {cover && (
-        <div className="relative mt-6 aspect-video overflow-hidden rounded-xl bg-blue-100">
+        <div className="relative mt-6 aspect-video overflow-hidden rounded-xl bg-brand-soft">
           <Image src={cover} alt="" fill priority sizes="(min-width: 768px) 768px, 100vw" className="object-cover" />
         </div>
       )}

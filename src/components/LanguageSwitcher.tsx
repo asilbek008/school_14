@@ -10,7 +10,7 @@ export default function LanguageSwitcher({ current }: { current: Locale }) {
   const rest = pathname.split("/").slice(2).join("/");
 
   return (
-    <nav aria-label="Language" className="flex gap-1 text-sm">
+    <nav aria-label="Language" className="flex gap-1 rounded-full bg-white/10 p-1 text-xs font-semibold">
       {locales.map((locale) => (
         <Link
           key={locale}
@@ -22,10 +22,8 @@ export default function LanguageSwitcher({ current }: { current: Locale }) {
           onClick={() => {
             document.cookie = `NEXT_LOCALE=${locale}; path=/; max-age=31536000; samesite=lax`;
           }}
-          className={`rounded px-2 py-1 uppercase ${
-            locale === current
-              ? "bg-blue-700 text-white"
-              : "text-slate-600 hover:bg-slate-100"
+          className={`rounded-full px-2.5 py-1 uppercase ${
+            locale === current ? "bg-white text-navy" : "text-slate-300 hover:text-white"
           }`}
         >
           {locale}

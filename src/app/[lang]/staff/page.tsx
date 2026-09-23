@@ -27,18 +27,18 @@ export default async function StaffPage({ params }: PageProps<"/[lang]/staff">) 
               const subject = localized(person, "subject", lang);
               return (
                 <li key={person.id} className="overflow-hidden rounded-xl border border-slate-200 bg-white text-center">
-                  <div className="relative aspect-square bg-blue-100">
+                  <div className="relative aspect-square bg-brand-soft">
                     {photo ? (
                       <Image src={photo} alt={person.full_name} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
                     ) : (
-                      <span className="grid h-full place-items-center text-4xl font-bold text-blue-300">
+                      <span className="grid h-full place-items-center text-4xl font-bold text-brand/40">
                         {person.full_name.charAt(0)}
                       </span>
                     )}
                   </div>
                   <div className="p-4">
                     <p className="font-semibold text-slate-900">{person.full_name}</p>
-                    <p className="text-sm text-blue-700">{localized(person, "position", lang)}</p>
+                    <p className="text-sm text-brand">{localized(person, "position", lang)}</p>
                     {subject && <p className="text-sm text-slate-500">{subject}</p>}
                   </div>
                 </li>

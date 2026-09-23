@@ -9,7 +9,7 @@ export default function EventItem({ event, lang, locationLabel }: { event: Schoo
 
   return (
     <article className="flex gap-4 rounded-xl border border-slate-200 bg-white p-5">
-      <div className="grid size-14 shrink-0 place-items-center rounded-lg bg-blue-700 text-xl font-bold text-white">
+      <div className="grid size-14 shrink-0 place-items-center rounded-lg bg-brand text-xl font-bold text-white">
         {day}
       </div>
       <div className="min-w-0">

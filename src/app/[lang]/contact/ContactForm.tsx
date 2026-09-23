@@ -7,7 +7,7 @@ import { sendContactMessage, type ContactState } from "./actions";
 type Labels = Dictionary["contact"]["form"];
 
 const input =
-  "mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200";
+  "mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand-soft";
 
 export default function ContactForm({ t }: { t: Labels }) {
   const [state, action, pending] = useActionState<ContactState, FormData>(sendContactMessage, {
@@ -52,7 +52,7 @@ export default function ContactForm({ t }: { t: Labels }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-blue-700 px-6 py-3 font-semibold text-white hover:bg-blue-800 disabled:opacity-60"
+        className="rounded-lg bg-brand px-6 py-3 font-semibold text-white hover:bg-brand-deep disabled:opacity-60"
       >
         {pending ? t.sending : t.submit}
       </button>

@@ -13,7 +13,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
   const { lang, dict } = await resolveLang(params);
   const t = dict.contact;
   const rows = [
-    { label: t.address, value: school.address },
+    { label: t.address, value: school.address?.[lang] ?? null },
     { label: t.phone, value: school.phone, href: school.phone && telHref(school.phone) },
     { label: t.email, value: school.email, href: school.email && `mailto:${school.email}` },
     { label: t.hours, value: school.hours?.[lang] ?? null },
@@ -31,7 +31,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
                 <dt className="text-sm text-slate-500">{label}</dt>
                 <dd className="font-medium text-slate-900">
                   {value ? (
-                    href ? <a href={href} className="text-blue-700 hover:underline">{value}</a> : value
+                    href ? <a href={href} className="text-brand hover:underline">{value}</a> : value
                   ) : (
                     <span className="text-slate-400">{t.tbd}</span>
                   )}

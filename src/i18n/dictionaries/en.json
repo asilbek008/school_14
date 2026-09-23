@@ -1,7 +1,8 @@
 {
   "site": {
     "name": "School No. 14",
-    "description": "Official website of General Secondary School No. 14"
+    "description": "Official website of General Secondary School No. 14",
+    "tagline": "Official website"
   },
   "nav": {
     "home": "Home",
@@ -11,7 +12,10 @@
     "staff": "Teachers",
     "admissions": "Admissions",
     "contact": "Contact",
-    "menu": "Menu"
+    "menu": "Menu",
+    "school": "School",
+    "schedule": "Bell schedule",
+    "faq": "FAQ"
   },
   "home": {
     "welcome": "Welcome to School No. 14",
@@ -22,7 +26,17 @@
     "allEvents": "All events",
     "ctaAdmissions": "Admissions",
     "ctaContact": "Contact us",
-    "imageAlt": "Entrance to School No. 14 decorated for a celebration"
+    "imageAlt": "Entrance to School No. 14 decorated for a celebration",
+    "statStudents": "Students",
+    "statStaff": "Staff",
+    "statClasses": "Classes",
+    "quickTitle": "What do you need?",
+    "quick": {
+      "news": "Latest school news and announcements",
+      "events": "Upcoming holidays and events",
+      "schedule": "Lesson times for both shifts",
+      "faq": "Answers for parents"
+    }
   },
   "common": {
     "readMore": "Read more",
@@ -67,10 +81,57 @@
     }
   },
   "footer": {
-    "rights": "All rights reserved."
+    "rights": "All rights reserved.",
+    "contacts": "Contact",
+    "links": "Sections"
   },
   "notFound": {
     "title": "Page not found",
     "back": "Back to home page"
+  },
+  "live": {
+    "title": "At school now",
+    "tz": "Tashkent time",
+    "shift": "Shift {n}",
+    "before": "Starts at {time}",
+    "lesson": "Lesson {n} · {m} min left",
+    "break": "Break · lesson {n} in {m} min",
+    "after": "Lessons are over",
+    "dayoff": "Day off today",
+    "link": "Bell schedule"
+  },
+  "schedule": {
+    "intro": "Classes run in two shifts. Each lesson is 45 minutes with a 5-minute break between lessons.",
+    "shift": "Shift {n}",
+    "from": "from {time}",
+    "grades": "Grades {list}",
+    "lesson": "Lesson",
+    "time": "Time",
+    "nth": "Lesson {n}"
+  },
+  "faq": {
+    "intro": "Answers to questions parents often ask. Tap a question to see the answer.",
+    "items": [
+      {
+        "q": "What time do lessons start?",
+        "a": "Shift 1 starts at 08:00 and shift 2 at 13:00. Each lesson lasts 45 minutes with a 5-minute break between lessons."
+      },
+      {
+        "q": "Which grades study in which shift?",
+        "a": "Shift 1: grades 1, 2, 5, 9, 10 and 11.\nShift 2: grades 3, 4, 6, 7 and 8."
+      },
+      {
+        "q": "Where can I see grades and homework?",
+        "a": "Grades, attendance and homework are in the eMaktab.uz electronic diary. Ask your child's homeroom teacher for login details."
+      },
+      {
+        "q": "How can I contact the school?",
+        "a": "Phone: +998 90 970 90 91 (Monday – Saturday, 09:00 – 17:30). Address: Qiziriq district, Surkhandarya region."
+      },
+      {
+        "q": "How do I send a question or suggestion?",
+        "a": "Fill in the form on the Contact page and it will reach the school administration. For urgent matters, please call."
+      }
+    ]
   }
 }

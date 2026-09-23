@@ -1,7 +1,8 @@
 {
   "site": {
     "name": "14-maktab",
-    "description": "14-sonli umumta’lim maktabining rasmiy veb-sayti"
+    "description": "14-sonli umumta’lim maktabining rasmiy veb-sayti",
+    "tagline": "Rasmiy sayt"
   },
   "nav": {
     "home": "Bosh sahifa",
@@ -11,7 +12,10 @@
     "staff": "O‘qituvchilar",
     "admissions": "Qabul",
     "contact": "Aloqa",
-    "menu": "Menyu"
+    "menu": "Menyu",
+    "school": "Maktab",
+    "schedule": "Qo‘ng‘iroqlar jadvali",
+    "faq": "Savol-javob"
   },
   "home": {
     "welcome": "14-maktabga xush kelibsiz",
@@ -22,7 +26,17 @@
     "allEvents": "Barcha tadbirlar",
     "ctaAdmissions": "Qabul haqida",
     "ctaContact": "Biz bilan bog‘laning",
-    "imageAlt": "14-maktab darvozasi: bayram bezaklari va qizil gilam"
+    "imageAlt": "14-maktab darvozasi: bayram bezaklari va qizil gilam",
+    "statStudents": "O‘quvchilar",
+    "statStaff": "Xodimlar",
+    "statClasses": "Sinflar",
+    "quickTitle": "Sizga nima kerak?",
+    "quick": {
+      "news": "Maktabdagi so‘nggi yangilik va e’lonlar",
+      "events": "Yaqinlashayotgan bayram va tadbirlar",
+      "schedule": "1- va 2-smena dars vaqtlari",
+      "faq": "Ota-onalar uchun javoblar"
+    }
   },
   "common": {
     "readMore": "Batafsil",
@@ -67,10 +81,57 @@
     }
   },
   "footer": {
-    "rights": "Barcha huquqlar himoyalangan."
+    "rights": "Barcha huquqlar himoyalangan.",
+    "contacts": "Aloqa",
+    "links": "Bo‘limlar"
   },
   "notFound": {
     "title": "Sahifa topilmadi",
     "back": "Bosh sahifaga qaytish"
+  },
+  "live": {
+    "title": "Hozir maktabda",
+    "tz": "Toshkent vaqti",
+    "shift": "{n}-smena",
+    "before": "{time} da boshlanadi",
+    "lesson": "{n}-dars · {m} daq qoldi",
+    "break": "Tanaffus · {n}-dars {m} daqdan keyin",
+    "after": "Darslar tugadi",
+    "dayoff": "Bugun dam olish kuni",
+    "link": "Qo‘ng‘iroqlar jadvali"
+  },
+  "schedule": {
+    "intro": "Darslar ikki smenada. Har bir dars 45 daqiqa, darslar orasida 5 daqiqa tanaffus.",
+    "shift": "{n}-smena",
+    "from": "{time} dan",
+    "grades": "{list}-sinflar",
+    "lesson": "Dars",
+    "time": "Vaqt",
+    "nth": "{n}-dars"
+  },
+  "faq": {
+    "intro": "Ota-onalar ko‘p beradigan savollarga javoblar. Javobni ko‘rish uchun savolni bosing.",
+    "items": [
+      {
+        "q": "Darslar soat nechida boshlanadi?",
+        "a": "1-smena soat 08:00 da, 2-smena soat 13:00 da boshlanadi. Har bir dars 45 daqiqa davom etadi, darslar orasida 5 daqiqalik tanaffus bor."
+      },
+      {
+        "q": "Qaysi sinflar qaysi smenada o‘qiydi?",
+        "a": "1-smena: 1, 2, 5, 9, 10 va 11-sinflar.\n2-smena: 3, 4, 6, 7 va 8-sinflar."
+      },
+      {
+        "q": "Baholar va uy vazifalarini qayerda ko‘rish mumkin?",
+        "a": "Baholar, davomat va uy vazifalari eMaktab.uz elektron kundaligida ko‘rinadi. Kirish ma’lumotlari bo‘yicha sinf rahbariga murojaat qiling."
+      },
+      {
+        "q": "Maktab bilan qanday bog‘lanish mumkin?",
+        "a": "Telefon: +998 90 970 90 91 (dushanba – shanba, 09:00 – 17:30). Manzil: Surxondaryo viloyati, Qiziriq tumani."
+      },
+      {
+        "q": "Savol yoki taklifni qanday yuborsam bo‘ladi?",
+        "a": "“Aloqa” sahifasidagi formani to‘ldiring — xabaringiz maktab ma’muriyatiga yetib boradi. Shoshilinch masalalarda telefon qiling."
+      }
+    ]
   }
 }

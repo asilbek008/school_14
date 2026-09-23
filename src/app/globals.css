@@ -4,7 +4,54 @@
   --font-sans: var(--font-inter);
 }
 
+/* Brand palette (from the school's design mockup). */
+@theme {
+  --color-navy: #111c3a;
+  --color-navy-2: #182747;
+  --color-brand: #2c5ce0;
+  --color-brand-deep: #1c3faf;
+  --color-brand-soft: #e7edfd;
+  --color-teal: #128c7e;
+  --color-teal-soft: #dff4f0;
+  --color-gold: #d9942a;
+  --color-gold-deep: #b4741a;
+  --color-gold-soft: #fbf0dc;
+  --color-paper: #f5f6fa;
+}
+
 body {
-  background: #ffffff;
-  color: #0f172a;
+  background: var(--color-paper);
+  color: #131a2e;
+}
+
+/* Dark "chrome" sections (hero, page banners, footer): soft glow + faint grid + tricolor rule. */
+@utility chrome {
+  position: relative;
+  overflow: hidden;
+  color: #fff;
+  background:
+    radial-gradient(760px 420px at 78% -10%, rgb(44 92 224 / 0.42), transparent 62%),
+    radial-gradient(520px 340px at 4% 108%, rgb(18 140 126 / 0.3), transparent 60%),
+    var(--color-navy);
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.055) 1px, transparent 1px);
+    background-size: 68px 68px;
+  }
+}
+@utility tricolor-rule {
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-brand) 0 38%, var(--color-teal) 38% 70%, var(--color-gold) 70% 100%);
+  }
 }
