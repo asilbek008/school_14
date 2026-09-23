@@ -15,7 +15,8 @@ qo‘shadi, o‘qituvchilar va sahifalarni tahrirlaydi. Maktab haqidagi batafsil
 ## Texnologiyalar
 
 - Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS v4
-- Supabase (rejada, hali ulanmagan): Postgres, Auth (admin kirishi), Storage (rasmlar)
+- Supabase: Postgres, Auth (admin kirishi), Storage (rasmlar). Sxema tayyor, lekin Supabase
+  loyihasi hali yaratilmagan (egasi alohida tashkilot ochmoqda; mintaqa: Frankfurt `eu-central-1`)
 - Vercel'ga joylanadi
 
 Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/proxy.ts`
@@ -46,26 +47,33 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   orqali bering.
 - O‘zbekcha matnlarda lotin yozuvi va `‘` / `’` belgilari ishlatiladi (masalan `O‘qituvchilar`).
 
+### Supabase
+- `src/lib/supabase/server.ts` (Server Components/Actions, cookie asosida, `server-only`) va
+  `client.ts` (faqat Client Components). Imkon qadar server client'dan foydalaning.
+- `supabase/migrations/` — sxema uchun yagona manba; dashboard'da tahrirlamang, yangi
+  migratsiya fayl qo‘shing.
+- Env (`.env.local`, commit qilinmaydi; `.env.example` ga qarang):
+  `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+
 ### Rejadagi qismlar (hali yaratilmagan)
-- `src/app/[lang]/admin/` — admin panel; `src/proxy.ts` Supabase sessiyasini ham tekshirib,
+- `src/app/[lang]/admin/` — admin panel; `src/proxy.ts` Supabase sessiyasini ham yangilab,
   sessiya bo‘lmasa `/[lang]/admin/login` ga yo‘naltiradi.
 - O‘zgartirishlar client'dagi Supabase chaqiruvlari orqali emas, `admin/**/actions.ts` dagi
   Server Actions orqali bajariladi.
-- `src/lib/supabase/` — `server.ts` (cookie asosidagi client) va `client.ts` (brauzer).
-- `supabase/migrations/` — sxema uchun yagona manba; dashboard'da tahrirlamang.
-- Env (`.env.local`, commit qilinmaydi; `.env.example` ga qarang):
-  `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
 
-### Ma’lumotlar modeli (rejada)
+### Ma’lumotlar modeli
 Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `title_ru`,
 `title_en` (va `body_*`). Tanlangan tilda bo‘sh bo‘lsa, `_uz` ko‘rsatiladi.
+- `admins` (user_id) — kontent yozishi mumkin bo‘lgan Auth foydalanuvchilari; qo‘lda qo‘shiladi
 - `news` (slug, title_*, body_*, cover_image, published_at, is_published)
-- `events` (title_*, description_*, starts_at, ends_at, location)
-- `staff` (full_name, position_*, subject_*, photo, sort_order)
+- `events` (title_*, description_*, location, starts_at, ends_at, is_published)
+- `staff` (full_name, position_*, subject_*, photo, sort_order, is_published)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
-- `contact_messages` (name, email, message, created_at)
+- `contact_messages` (name, email, phone, message, is_read, created_at)
 
-### Xavfsizlik modeli (rejada)
-Har bir jadvalda Row Level Security yoqilgan. Anonim foydalanuvchilar faqat e’lon qilingan
-yozuvlarni o‘qiydi va faqat `contact_messages` ga yozadi. Qolganiga faqat adminlar yozadi.
-Rasmlar `media` Storage bucket'ida: hamma o‘qiydi, faqat admin yuklaydi.
+### Xavfsizlik modeli
+Har bir jadvalda Row Level Security yoqilgan. Admin tekshiruvi `public.is_admin()` funksiyasi
+orqali (`admins` jadvalida `auth.uid()` bormi). Anonim foydalanuvchilar faqat `is_published`
+yozuvlarni o‘qiydi va faqat `contact_messages` ga yozadi; qolganiga faqat adminlar yozadi.
+`is_admin()` `anon` roliga ham ochiq bo‘lishi shart — o‘qish siyosatlari uni chaqiradi.
+Rasmlar `media` Storage bucket'ida (JPEG/PNG/WebP, 5 MB gacha): hamma o‘qiydi, faqat admin yuklaydi.
