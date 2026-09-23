@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-const schoolItems = ["about", "staff", "schedule", "faq"] as const;
+const schoolItems = ["about", "staff", "schedule", "clubs", "faq"] as const;
 const afterItems = ["admissions", "contact"] as const;
 
 const Chevron = () => (
@@ -15,7 +15,7 @@ const Chevron = () => (
 export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const href = (item: string) => `/${lang}/${item}`;
   const pill = "rounded-full px-3.5 py-2 text-slate-300 hover:bg-white/10 hover:text-white";
-  const allItems = ["news", "events", ...schoolItems, ...afterItems] as const;
+  const allItems = ["news", "events", "gallery", ...schoolItems, ...afterItems] as const;
 
   return (
     <header className="sticky top-0 z-30 bg-navy text-white shadow-[0_1px_0_rgb(255_255_255/0.08)]">
@@ -35,6 +35,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
         <nav className="hidden items-center text-sm font-semibold lg:flex">
           <Link href={href("news")} className={pill}>{dict.nav.news}</Link>
           <Link href={href("events")} className={pill}>{dict.nav.events}</Link>
+          <Link href={href("gallery")} className={pill}>{dict.nav.gallery}</Link>
           {/* Desktop dropdown: opens on hover, and on keyboard focus (:focus-visible, so a mouse click on a link doesn't leave it stuck open). */}
           <div className="group relative">
             <button type="button" aria-haspopup="true" className={`${pill} flex items-center gap-1`}>

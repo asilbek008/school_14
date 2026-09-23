@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
-import { getEvents, getNews } from "@/lib/content";
+import { getAlbums, getEvents, getNews } from "@/lib/content";
+import AlbumCard from "@/components/AlbumCard";
 import { school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
 import NewsCard from "@/components/NewsCard";
@@ -13,7 +14,8 @@ export const revalidate = 300;
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
-  const [news, { upcoming }] = await Promise.all([getNews(3), getEvents()]);
+  const [news, { upcoming }, albums] = await Promise.all([getNews(3), getEvents(), getAlbums()]);
+  const recentAlbums = albums.filter((a) => a.gallery_photos.length > 0).slice(0, 3);
   const stats = [
     { value: school.stats.students, label: dict.home.statStudents, dot: "bg-[#6e9bff]" },
     { value: school.stats.staff, label: dict.home.statStaff, dot: "bg-[#3ecfb2]" },
@@ -103,6 +105,22 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
           <EmptyState>{dict.news.empty}</EmptyState>
         )}
       </section>
+
+      {recentAlbums.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 pb-14">
+          <div className="mb-6 flex items-end justify-between gap-4">
+            <h2 className="text-2xl font-bold text-slate-900">{dict.home.galleryTitle}</h2>
+            <Link href={`/${lang}/gallery`} className="text-sm font-medium text-brand hover:underline">
+              {dict.home.allPhotos} →
+            </Link>
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {recentAlbums.map((album) => (
+              <AlbumCard key={album.id} album={album} lang={lang} dict={dict} />
+            ))}
+          </div>
+        </section>
+      )}
 
       <section className="mx-auto max-w-6xl px-4 pb-16">
         <div className="mb-6 flex items-end justify-between gap-4">

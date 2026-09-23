@@ -15,7 +15,9 @@
     "menu": "Menu",
     "school": "School",
     "schedule": "Bell schedule",
-    "faq": "FAQ"
+    "faq": "FAQ",
+    "clubs": "Clubs",
+    "gallery": "Gallery"
   },
   "home": {
     "welcome": "Welcome to School No. 14",
@@ -36,7 +38,9 @@
       "events": "Upcoming holidays and events",
       "schedule": "Lesson times for both shifts",
       "faq": "Answers for parents"
-    }
+    },
+    "galleryTitle": "School life",
+    "allPhotos": "All photos"
   },
   "common": {
     "readMore": "Read more",
@@ -149,5 +153,22 @@
     "maktab": "School event",
     "olimpiada": "Olympiad",
     "sport": "Sport"
+  },
+  "clubs": {
+    "intro": "After-school activities. To join, talk to the club leader or your homeroom teacher.",
+    "empty": "The list of clubs will be added soon.",
+    "grades": "Grades {from}–{to}",
+    "when": "When",
+    "where": "Where",
+    "leader": "Leader"
+  },
+  "gallery": {
+    "intro": "Moments from school life: events, lessons and celebrations.",
+    "empty": "No albums yet.",
+    "photos": "{n} photos",
+    "back": "All albums",
+    "close": "Close",
+    "prev": "Previous",
+    "next": "Next"
   }
 }

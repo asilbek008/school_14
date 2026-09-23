@@ -7,6 +7,8 @@ const nav = [
   { href: "/admin/news", label: "Yangiliklar" },
   { href: "/admin/events", label: "Tadbirlar" },
   { href: "/admin/staff", label: "O‘qituvchilar" },
+  { href: "/admin/clubs", label: "To‘garaklar" },
+  { href: "/admin/gallery", label: "Galereya" },
   { href: "/admin/pages", label: "Sahifalar" },
   { href: "/admin/messages", label: "Xabarlar" },
 ];

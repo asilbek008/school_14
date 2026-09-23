@@ -55,6 +55,39 @@ export type Page = {
   body_en: string | null;
 };
 
+export type Club = {
+  id: number;
+  name_uz: string;
+  name_ru: string | null;
+  name_en: string | null;
+  description_uz: string;
+  description_ru: string | null;
+  description_en: string | null;
+  schedule_uz: string | null;
+  schedule_ru: string | null;
+  schedule_en: string | null;
+  place_uz: string | null;
+  place_ru: string | null;
+  place_en: string | null;
+  grade_from: number | null;
+  grade_to: number | null;
+  leader: string | null;
+  photo: string | null;
+};
+
+export type Album = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  description_uz: string;
+  description_ru: string | null;
+  description_en: string | null;
+  event_date: string | null;
+  cover_photo: string | null;
+  gallery_photos: { id: number; path: string }[];
+};
+
 type Localizable<F extends string> = { [K in `${F}_${Locale}`]: string | null };
 
 /** Returns `row[field_<lang>]`, falling back to the Uzbek value when the translation is empty. */
@@ -154,3 +187,54 @@ export async function getPage(slug: string): Promise<Page | null> {
   logError("getPage", error);
   return data;
 }
+
+export async function getClubs(): Promise<Club[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("clubs")
+    .select(
+      "id, name_uz, name_ru, name_en, description_uz, description_ru, description_en, schedule_uz, schedule_ru, schedule_en, place_uz, place_ru, place_en, grade_from, grade_to, leader, photo",
+    )
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("id");
+  logError("getClubs", error);
+  return data ?? [];
+}
+
+const albumColumns =
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, event_date, cover_photo, gallery_photos(id, path)";
+
+export async function getAlbums(): Promise<Album[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("gallery_albums")
+    .select(albumColumns)
+    .eq("is_published", true)
+    .order("event_date", { ascending: false, nullsFirst: false })
+    .order("id", { ascending: false })
+    .order("sort_order", { referencedTable: "gallery_photos" })
+    .order("id", { referencedTable: "gallery_photos" });
+  logError("getAlbums", error);
+  return data ?? [];
+}
+
+export async function getAlbum(id: number): Promise<Album | null> {
+  const supabase = createPublicClient();
+  if (!supabase || !Number.isSafeInteger(id)) return null;
+  const { data, error } = await supabase
+    .from("gallery_albums")
+    .select(albumColumns)
+    .eq("is_published", true)
+    .eq("id", id)
+    .order("sort_order", { referencedTable: "gallery_photos" })
+    .order("id", { referencedTable: "gallery_photos" })
+    .maybeSingle();
+  logError("getAlbum", error);
+  return data;
+}
+
+/** Cover for an album card: the chosen cover, else its first photo. */
+export const albumCover = (album: Album) => album.cover_photo ?? album.gallery_photos[0]?.path ?? null;

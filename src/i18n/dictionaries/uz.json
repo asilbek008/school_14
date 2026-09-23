@@ -15,7 +15,9 @@
     "menu": "Menyu",
     "school": "Maktab",
     "schedule": "Qo‘ng‘iroqlar jadvali",
-    "faq": "Savol-javob"
+    "faq": "Savol-javob",
+    "clubs": "To‘garaklar",
+    "gallery": "Galereya"
   },
   "home": {
     "welcome": "14-maktabga xush kelibsiz",
@@ -36,7 +38,9 @@
       "events": "Yaqinlashayotgan bayram va tadbirlar",
       "schedule": "1- va 2-smena dars vaqtlari",
       "faq": "Ota-onalar uchun javoblar"
-    }
+    },
+    "galleryTitle": "Maktab hayotidan",
+    "allPhotos": "Barcha rasmlar"
   },
   "common": {
     "readMore": "Batafsil",
@@ -149,5 +153,22 @@
     "maktab": "Maktab tadbiri",
     "olimpiada": "Olimpiada",
     "sport": "Sport"
+  },
+  "clubs": {
+    "intro": "Darsdan tashqari mashg‘ulotlar. Yozilish uchun to‘garak rahbari yoki sinf rahbariga murojaat qiling.",
+    "empty": "To‘garaklar ro‘yxati tez orada qo‘shiladi.",
+    "grades": "{from}–{to}-sinflar",
+    "when": "Vaqti",
+    "where": "Joyi",
+    "leader": "Rahbar"
+  },
+  "gallery": {
+    "intro": "Maktab hayotidan lavhalar: tadbirlar, darslar va bayramlar.",
+    "empty": "Hozircha albomlar yo‘q.",
+    "photos": "{n} ta rasm",
+    "back": "Barcha albomlar",
+    "close": "Yopish",
+    "prev": "Oldingi",
+    "next": "Keyingi"
   }
 }

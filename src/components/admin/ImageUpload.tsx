@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
-
-const MAX_BYTES = 5 * 1024 * 1024; // matches the "media" bucket limit
+import { uploadImage } from "@/lib/resize-image";
 
 /**
  * Uploads straight from the browser to the Supabase "media" bucket (RLS: admins only), then
  * stores the object path in a hidden input. This avoids the Server Action body-size limit.
+ * Photos are shrunk in the browser first (see resize-image.ts).
  */
 export default function ImageUpload({
   name,
@@ -25,20 +25,14 @@ export default function ImageUpload({
   const preview = path ? (/^https?:\/\//.test(path) ? path : `${publicBaseUrl}/${path}`) : null;
 
   async function upload(file: File) {
-    if (file.size > MAX_BYTES) return setStatus("Rasm 5 MB dan katta bo‘lmasin.");
-    if (!["image/jpeg", "image/png", "image/webp"].includes(file.type)) {
-      return setStatus("Faqat JPG, PNG yoki WebP rasm yuklash mumkin.");
-    }
+    if (!file.type.startsWith("image/")) return setStatus("Faqat rasm fayl yuklash mumkin.");
     setStatus("Yuklanmoqda…");
-    const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
-    const objectPath = `${folder}/${crypto.randomUUID()}.${ext}`;
-    const { error } = await createClient().storage.from("media").upload(objectPath, file, {
-      contentType: file.type,
-      cacheControl: "31536000",
-    });
-    if (error) return setStatus(`Yuklab bo‘lmadi: ${error.message}`);
-    setPath(objectPath);
-    setStatus(null);
+    try {
+      setPath(await uploadImage(createClient(), folder, file));
+      setStatus(null);
+    } catch (e) {
+      setStatus(`Yuklab bo‘lmadi: ${e instanceof Error ? e.message : "noma’lum xato"}`);
+    }
   }
 
   return (
@@ -51,7 +45,7 @@ export default function ImageUpload({
       <div className="space-y-2">
         <input
           type="file"
-          accept="image/jpeg,image/png,image/webp"
+          accept="image/*"
           onChange={(e) => e.target.files?.[0] && upload(e.target.files[0])}
           className="block text-sm"
         />

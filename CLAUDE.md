@@ -72,7 +72,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   yashiradi, shuning uchun sahifa keshlanishi buzilmaydi.
 - `events.all_day` — bayramlar kabi vaqtsiz tadbirlar Toshkent vaqti 00:00–23:59 sifatida saqlanadi
   (yaqinlashayotgan/o‘tgan ajratish kun davomida to‘g‘ri ishlashi uchun), saytda faqat sana chiqadi.
-- `supabase/seed/2026-2027.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
+- To‘garaklar (`/clubs`, `clubs` jadvali) va galereya (`/gallery`, `gallery_albums` +
+  `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
+  ham mehmonga ko‘rinmaydi. `Lightbox` — rasmni to‘liq ekranda ochadi (Esc, ←/→).
+- `supabase/seed/2026-2027.sql` va `supabase/seed/clubs.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
   tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
@@ -104,8 +107,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   saytni yangilaydi, keyin `redirect`.
 - `components/admin/AdminForm.tsx` action'ni `onSubmit` orqali chaqiradi (`action` prop emas),
   shuning uchun xatoda forma tozalanmaydi. Tarjima maydonlari — `TranslatedField`.
-- Rasmlar brauzerdan to‘g‘ridan-to‘g‘ri `media` bucket'ga yuklanadi (`ImageUpload`, RLS: faqat
-  admin), bazaga bucket ichidagi yo‘l (`news/<uuid>.png`) yoziladi.
+- Rasmlar brauzerdan to‘g‘ridan-to‘g‘ri `media` bucket'ga yuklanadi (`ImageUpload`, `PhotoUploader`;
+  RLS: faqat admin), bazaga bucket ichidagi yo‘l (`news/<uuid>.jpg`) yoziladi. Yuklashdan oldin
+  `src/lib/resize-image.ts` rasmni 1920px gacha kichraytirib JPEG qiladi (telefon rasmlari 5 MB
+  limitdan katta bo‘ladi; HEIC ham shu yo‘l bilan o‘tadi, agar brauzer o‘qiy olsa).
+- Galereya: albom yaratilgach rasm qo‘shish sahifasiga o‘tiladi; rasm/albom o‘chirilganda
+  Storage'dagi fayllar ham o‘chiriladi (`gallery/actions.ts`).
 - `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
   (`toTashkentInput` / `fromTashkentInput`).
 - Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:
