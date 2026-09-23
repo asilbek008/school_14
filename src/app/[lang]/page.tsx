@@ -24,7 +24,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const quick = [
     { key: "news", color: "bg-brand" },
     { key: "events", color: "bg-teal" },
-    { key: "schedule", color: "bg-gold" },
+    { key: "timetable", color: "bg-gold" },
     { key: "faq", color: "bg-[#c9553f]" },
   ] as const;
 

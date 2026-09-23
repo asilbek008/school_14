@@ -17,7 +17,8 @@
     "schedule": "Bell schedule",
     "faq": "FAQ",
     "clubs": "Clubs",
-    "gallery": "Gallery"
+    "gallery": "Gallery",
+    "timetable": "Timetable"
   },
   "home": {
     "welcome": "Welcome to School No. 14",
@@ -36,7 +37,7 @@
     "quick": {
       "news": "Latest school news and announcements",
       "events": "Upcoming holidays and events",
-      "schedule": "Lesson times for both shifts",
+      "timetable": "Weekly lessons for every class",
       "faq": "Answers for parents"
     },
     "galleryTitle": "School life",
@@ -63,7 +64,19 @@
   },
   "staff": {
     "intro": "Our school's leadership and teachers.",
-    "empty": "The list of teachers will be added soon."
+    "empty": "The list of teachers will be added soon.",
+    "back": "All staff",
+    "open": "View profile",
+    "subject": "Subject",
+    "category": "Category",
+    "experience": "Experience",
+    "years": {
+      "one": "{n} year",
+      "other": "{n} years"
+    },
+    "education": "Education",
+    "homeroom": "Homeroom teacher of",
+    "about": "About"
   },
   "contact": {
     "intro": "Have a question or suggestion? Write to us and we'll get back to you.",
@@ -170,5 +183,26 @@
     "close": "Close",
     "prev": "Previous",
     "next": "Next"
+  },
+  "timetable": {
+    "intro": "Weekly lesson timetable for every class. Choose a class.",
+    "empty": "The timetable will be added soon.",
+    "grade": "Grade {n}",
+    "shift": "Shift {n} · from {time}",
+    "days": [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ],
+    "noLessons": "No lessons",
+    "notFilled": "The timetable for this class hasn’t been entered yet.",
+    "homeroom": "Homeroom teacher",
+    "parallel": "Other classes",
+    "back": "All classes",
+    "bells": "Bell schedule",
+    "weekly": "Weekly timetable"
   }
 }

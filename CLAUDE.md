@@ -75,7 +75,16 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - To‘garaklar (`/clubs`, `clubs` jadvali) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmni to‘liq ekranda ochadi (Esc, ←/→).
-- `supabase/seed/2026-2027.sql` va `supabase/seed/clubs.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
+- Dars jadvali (`/timetable`, `/timetable/[id]`): `school_classes` (grade + letter, sinf rahbari
+  `homeroom_teacher_id` → `staff`), `subjects` (fanlar ro‘yxati, tarjimali) va `lessons` (bitta katak:
+  class_id, weekday 1–6, period 1–6, subject_id). Smena va dars vaqtlari sinfdan `shiftForGrade()`
+  orqali olinadi (`bells.ts`), bazada saqlanmaydi. Darslar RLS'da sinfga bog‘liq (galereya kabi).
+  Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
+  saqlashda to‘ldirilganlar upsert, bo‘shatilganlar o‘chiriladi (`classes/actions.ts`).
+- Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
+  bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
+  sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
+- `supabase/seed/2026-2027.sql`, `supabase/seed/clubs.sql` va `supabase/seed/subjects.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
   tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
@@ -127,7 +136,10 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `admins` (user_id) — kontent yozishi mumkin bo‘lgan Auth foydalanuvchilari; qo‘lda qo‘shiladi
 - `news` (slug, title_*, body_*, cover_image, published_at, is_published)
 - `events` (title_*, description_*, location, starts_at, ends_at, is_published)
-- `staff` (full_name, position_*, subject_*, photo, sort_order, is_published)
+- `staff` (full_name, position_*, subject_*, photo, category_*, education_*, experience_years,
+  phone, email, bio_*, sort_order, is_published)
+- `subjects` (name_*, sort_order), `school_classes` (grade, letter, homeroom_teacher_id,
+  is_published), `lessons` (class_id, weekday, period, subject_id)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, message, is_read, created_at)
 

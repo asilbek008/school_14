@@ -45,6 +45,31 @@ export type Staff = {
   photo: string | null;
 };
 
+export type StaffProfile = Staff & {
+  category_uz: string | null;
+  category_ru: string | null;
+  category_en: string | null;
+  education_uz: string | null;
+  education_ru: string | null;
+  education_en: string | null;
+  experience_years: number | null;
+  phone: string | null;
+  email: string | null;
+  bio_uz: string | null;
+  bio_ru: string | null;
+  bio_en: string | null;
+  school_classes: { id: number; grade: number; letter: string }[];
+};
+
+export type SchoolClass = { id: number; grade: number; letter: string };
+
+export type Subject = { name_uz: string; name_ru: string | null; name_en: string | null };
+
+export type ClassTimetable = SchoolClass & {
+  staff: { id: number; full_name: string } | null;
+  lessons: { weekday: number; period: number; subjects: Subject | null }[];
+};
+
 export type Page = {
   slug: string;
   title_uz: string;
@@ -163,17 +188,64 @@ export async function getEvents(): Promise<{ upcoming: SchoolEvent[]; past: Scho
   return { upcoming: upcoming.data ?? [], past: past.data ?? [] };
 }
 
+const staffColumns = "id, full_name, position_uz, position_ru, position_en, subject_uz, subject_ru, subject_en, photo";
+
 export async function getStaff(): Promise<Staff[]> {
   const supabase = createPublicClient();
   if (!supabase) return [];
   const { data, error } = await supabase
     .from("staff")
-    .select("id, full_name, position_uz, position_ru, position_en, subject_uz, subject_ru, subject_en, photo")
+    .select(staffColumns)
     .eq("is_published", true)
     .order("sort_order")
     .order("full_name");
   logError("getStaff", error);
   return data ?? [];
+}
+
+export async function getStaffMember(id: number): Promise<StaffProfile | null> {
+  const supabase = createPublicClient();
+  if (!supabase || !Number.isSafeInteger(id)) return null;
+  const { data, error } = await supabase
+    .from("staff")
+    .select(
+      `${staffColumns}, category_uz, category_ru, category_en, education_uz, education_ru, education_en, experience_years, phone, email, bio_uz, bio_ru, bio_en, school_classes(id, grade, letter)`,
+    )
+    .eq("is_published", true)
+    .eq("id", id)
+    .order("grade", { referencedTable: "school_classes" })
+    .order("letter", { referencedTable: "school_classes" })
+    .maybeSingle();
+  logError("getStaffMember", error);
+  return data;
+}
+
+/** All published classes, ordered 1-A, 1-B, … 11-D. */
+export async function getClasses(): Promise<SchoolClass[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("school_classes")
+    .select("id, grade, letter")
+    .eq("is_published", true)
+    .order("grade")
+    .order("letter");
+  logError("getClasses", error);
+  return data ?? [];
+}
+
+export async function getClassTimetable(id: number): Promise<ClassTimetable | null> {
+  const supabase = createPublicClient();
+  if (!supabase || !Number.isSafeInteger(id)) return null;
+  const { data, error } = await supabase
+    .from("school_classes")
+    .select("id, grade, letter, staff(id, full_name), lessons(weekday, period, subjects(name_uz, name_ru, name_en))")
+    .eq("is_published", true)
+    .eq("id", id)
+    .maybeSingle();
+  logError("getClassTimetable", error);
+  // Without generated DB types supabase-js types to-one embeds (staff, subjects) as arrays.
+  return data as unknown as ClassTimetable | null;
 }
 
 export async function getPage(slug: string): Promise<Page | null> {

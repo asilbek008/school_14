@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import LanguageSwitcher from "./LanguageSwitcher";
 
-const schoolItems = ["about", "staff", "schedule", "clubs", "faq"] as const;
+const schoolItems = ["about", "staff", "timetable", "schedule", "clubs", "faq"] as const;
 const afterItems = ["admissions", "contact"] as const;
 
 const Chevron = () => (

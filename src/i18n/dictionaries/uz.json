@@ -17,7 +17,8 @@
     "schedule": "Qo‘ng‘iroqlar jadvali",
     "faq": "Savol-javob",
     "clubs": "To‘garaklar",
-    "gallery": "Galereya"
+    "gallery": "Galereya",
+    "timetable": "Dars jadvali"
   },
   "home": {
     "welcome": "14-maktabga xush kelibsiz",
@@ -36,7 +37,7 @@
     "quick": {
       "news": "Maktabdagi so‘nggi yangilik va e’lonlar",
       "events": "Yaqinlashayotgan bayram va tadbirlar",
-      "schedule": "1- va 2-smena dars vaqtlari",
+      "timetable": "Har bir sinfning haftalik dars jadvali",
       "faq": "Ota-onalar uchun javoblar"
     },
     "galleryTitle": "Maktab hayotidan",
@@ -63,7 +64,19 @@
   },
   "staff": {
     "intro": "Maktabimiz rahbariyati va o‘qituvchilari.",
-    "empty": "O‘qituvchilar ro‘yxati tez orada qo‘shiladi."
+    "empty": "O‘qituvchilar ro‘yxati tez orada qo‘shiladi.",
+    "back": "Barcha xodimlar",
+    "open": "Profilni ko‘rish",
+    "subject": "Fan",
+    "category": "Toifa",
+    "experience": "Ish staji",
+    "years": {
+      "one": "{n} yil",
+      "other": "{n} yil"
+    },
+    "education": "Ma’lumoti",
+    "homeroom": "Sinf rahbari",
+    "about": "Qo‘shimcha ma’lumot"
   },
   "contact": {
     "intro": "Savol yoki taklifingiz bo‘lsa, bizga yozing — albatta javob beramiz.",
@@ -170,5 +183,26 @@
     "close": "Yopish",
     "prev": "Oldingi",
     "next": "Keyingi"
+  },
+  "timetable": {
+    "intro": "Har bir sinfning haftalik dars jadvali. Sinfni tanlang.",
+    "empty": "Dars jadvali tez orada qo‘shiladi.",
+    "grade": "{n}-sinf",
+    "shift": "{n}-smena · {time} dan",
+    "days": [
+      "Dushanba",
+      "Seshanba",
+      "Chorshanba",
+      "Payshanba",
+      "Juma",
+      "Shanba"
+    ],
+    "noLessons": "Dars yo‘q",
+    "notFilled": "Bu sinf uchun dars jadvali hali kiritilmagan.",
+    "homeroom": "Sinf rahbari",
+    "parallel": "Parallel sinflar",
+    "back": "Barcha sinflar",
+    "bells": "Qo‘ng‘iroqlar jadvali",
+    "weekly": "Haftalik dars jadvali"
   }
 }

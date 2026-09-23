@@ -3,7 +3,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { school, telHref } from "@/lib/school";
 
-const links = ["news", "events", "gallery", "about", "schedule", "clubs", "faq", "contact"] as const;
+const links = ["news", "events", "gallery", "about", "timetable", "schedule", "clubs", "faq", "contact"] as const;
 
 export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   return (

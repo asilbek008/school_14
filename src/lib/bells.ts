@@ -62,3 +62,8 @@ export function tashkentNow(date = new Date()) {
     clock: fmtMinutes(shifted.getUTCHours() * 60 + shifted.getUTCMinutes()),
   };
 }
+
+/** The shift a grade studies in (every grade 1–11 is in exactly one shift). */
+export function shiftForGrade(grade: number): Shift {
+  return shifts.find((s) => (s.grades as readonly number[]).includes(grade)) ?? shifts[0];
+}
