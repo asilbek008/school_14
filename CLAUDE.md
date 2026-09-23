@@ -98,6 +98,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   "Familiya I.O.") yoki to‘liq ism bo‘yicha moslanadi; bo‘sh katak eski qiymatni o‘chirmaydi;
   "Sinf rahbari" (5-A) `school_classes.homeroom_teacher_id` ga yoziladi. Faylda xato bo‘lsa hech narsa saqlanmaydi.
   Dars jadvalidagi o‘qituvchi ismi `staff.short_name` bilan mos kelsa, profilga havola bo‘ladi.
+- Telegram kanal → yangilik/tadbir (`/admin/telegram`): Supabase Edge Function `supabase/functions/telegram-sync`
+  (Deno; service role'ni Supabase o‘zi beradi — kalit hech kimga kerak emas) kanalning ochiq sahifasini
+  (`t.me/s/<kanal>`) o‘qiydi. pg_cron har 15 daqiqada `pg_net` bilan chaqiradi; admin "Hozir tekshirish" ham shu.
+  Funksiya JWT tekshirmaydi — `x-sync-secret` sarlavhasi `telegram_settings.sync_secret` bilan solishtiriladi
+  (anon o‘qiy olmaydi). Tahlil va turkumlash `parse.ts` da (importsiz, Node testi: `node --experimental-strip-types
+  scripts/test-telegram-parse.mts`): birinchi qator — sarlavha; `#tadbir/#bayram/#sport/#olimpiada` + sana
+  («15-oktabr soat 10:00», «15.10.2026») → tadbir, sanasiz → yangilik (`tadbir` turkumi); `#elon`, `#yutuq`;
+  `#saytga_emas` va matnsiz post — o‘tkaziladi. Birinchi rasm `media/telegram/` ga ko‘chiriladi (Telegram havolalari
+  doimiy emas). Olingan har post `telegram_posts` (channel, post_id) da qoladi — saytdan o‘chirilgan post qayta
+  kelmaydi. `import_since` dan oldingi postlar olinmaydi. `?dry=1` — hech narsa yozmasdan natijani qaytaradi.
+  Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
