@@ -1,6 +1,7 @@
 import "server-only";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
+import { mediaBaseUrl } from "@/lib/media";
 
 export type News = {
   id: number;
@@ -62,7 +63,7 @@ export function localized<F extends string>(row: Localizable<F>, field: F, lang:
 export function mediaUrl(path: string | null): string | null {
   if (!path) return null;
   if (/^https?:\/\//.test(path)) return path;
-  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/media/${path}`;
+  return `${mediaBaseUrl}/${path}`;
 }
 
 function logError(scope: string, error: { message: string } | null) {

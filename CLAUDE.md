@@ -70,11 +70,28 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Env (`.env.local`, commit qilinmaydi; `.env.example` ga qarang):
   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 
-### Rejadagi qismlar (hali yaratilmagan)
-- `src/app/[lang]/admin/` — admin panel; `src/proxy.ts` Supabase sessiyasini ham yangilab,
-  sessiya bo‘lmasa `/[lang]/admin/login` ga yo‘naltiradi.
-- O‘zgartirishlar `admin/**/actions.ts` dagi Server Actions orqali bajariladi va keyin tegishli
-  ochiq sahifalar uchun `revalidatePath` chaqiriladi.
+### Admin panel (`/admin`)
+- `src/app/admin/` — alohida root layout, faqat o‘zbek tilida, `[lang]` dan tashqarida
+  (UI matnlari lug‘atda emas, to‘g‘ridan-to‘g‘ri kodda). `(panel)/` route group'idagi hamma
+  sahifa kirishni talab qiladi; `login/` — ochiq.
+- Himoya ikki qavatli: `src/proxy.ts` `/admin/*` uchun Supabase sessiyasini yangilaydi va
+  sessiyasizlarni `/admin/login` ga yuboradi; **har bir** admin sahifa va Server Action
+  `requireAdmin()` (`src/lib/admin.ts`) ni chaqiradi — u `is_admin()` RPC orqali `admins`
+  jadvalini tekshiradi. Yangi admin action yozsangiz, birinchi qatorda `requireAdmin()` bo‘lsin.
+- Har bo‘lim: `actions.ts` (`save*(id | null, prev, form)`, `delete*(id)`), `*Form.tsx`,
+  `page.tsx` (ro‘yxat), `new/`, `[id]/`. Saqlashdan keyin `revalidatePublic()` butun ochiq
+  saytni yangilaydi, keyin `redirect`.
+- `components/admin/AdminForm.tsx` action'ni `onSubmit` orqali chaqiradi (`action` prop emas),
+  shuning uchun xatoda forma tozalanmaydi. Tarjima maydonlari — `TranslatedField`.
+- Rasmlar brauzerdan to‘g‘ridan-to‘g‘ri `media` bucket'ga yuklanadi (`ImageUpload`, RLS: faqat
+  admin), bazaga bucket ichidagi yo‘l (`news/<uuid>.png`) yoziladi.
+- `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
+  (`toTashkentInput` / `fromTashkentInput`).
+- Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:
+  `insert into public.admins (user_id) values ('<uuid>');`. Dashboard'da ochiq ro‘yxatdan
+  o‘tishni (signups) o‘chirib qo‘ying — RLS baribir himoya qiladi, lekin keraksiz hisoblar ochilmaydi.
+- `next.config.ts` rasm domenini `NEXT_PUBLIC_SUPABASE_URL` dan oladi; `localhost` bo‘lsa
+  mahalliy Supabase uchun `dangerouslyAllowLocalIP` yoqiladi.
 
 ### Ma’lumotlar modeli
 Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `title_ru`,
