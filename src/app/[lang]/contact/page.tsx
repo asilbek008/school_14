@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveLang } from "@/i18n/server";
-import { school } from "@/lib/school";
+import { school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
 import ContactForm from "./ContactForm";
 
@@ -10,13 +10,13 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/contact">)
 }
 
 export default async function ContactPage({ params }: PageProps<"/[lang]/contact">) {
-  const { dict } = await resolveLang(params);
+  const { lang, dict } = await resolveLang(params);
   const t = dict.contact;
   const rows = [
     { label: t.address, value: school.address },
-    { label: t.phone, value: school.phone, href: school.phone && `tel:${school.phone.replace(/\s/g, "")}` },
+    { label: t.phone, value: school.phone, href: school.phone && telHref(school.phone) },
     { label: t.email, value: school.email, href: school.email && `mailto:${school.email}` },
-    { label: t.hours, value: school.hours },
+    { label: t.hours, value: school.hours?.[lang] ?? null },
   ];
 
   return (

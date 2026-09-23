@@ -1,6 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { getEvents, getNews } from "@/lib/content";
+import { school } from "@/lib/school";
+import entrance from "../../../public/images/school-entrance.webp";
 import NewsCard from "@/components/NewsCard";
 import EventItem from "@/components/EventItem";
 import EmptyState from "@/components/EmptyState";
@@ -14,17 +17,30 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   return (
     <>
       <section className="bg-gradient-to-br from-blue-800 to-blue-600 text-white">
-        <div className="mx-auto max-w-6xl px-4 py-20 sm:py-28">
-          <h1 className="max-w-3xl text-4xl font-bold sm:text-5xl">{dict.home.welcome}</h1>
-          <p className="mt-4 max-w-2xl text-lg text-blue-100">{dict.home.intro}</p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href={`/${lang}/admissions`} className="rounded-lg bg-white px-5 py-3 font-semibold text-blue-800 hover:bg-blue-50">
-              {dict.home.ctaAdmissions}
-            </Link>
-            <Link href={`/${lang}/contact`} className="rounded-lg border border-white/60 px-5 py-3 font-semibold hover:bg-white/10">
-              {dict.home.ctaContact}
-            </Link>
+        <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-2">
+          <div>
+            <p className="inline-block rounded-full bg-white/15 px-3 py-1 text-sm font-medium text-blue-50">
+              {school.foundedLabel[lang]}
+            </p>
+            <h1 className="mt-4 text-4xl font-bold sm:text-5xl">{dict.home.welcome}</h1>
+            <p className="mt-4 max-w-xl text-lg text-blue-100">{dict.home.intro}</p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link href={`/${lang}/admissions`} className="rounded-lg bg-white px-5 py-3 font-semibold text-blue-800 hover:bg-blue-50">
+                {dict.home.ctaAdmissions}
+              </Link>
+              <Link href={`/${lang}/contact`} className="rounded-lg border border-white/60 px-5 py-3 font-semibold hover:bg-white/10">
+                {dict.home.ctaContact}
+              </Link>
+            </div>
           </div>
+          <Image
+            src={entrance}
+            alt={dict.home.imageAlt}
+            priority
+            placeholder="blur"
+            sizes="(min-width: 1024px) 560px, 100vw"
+            className="aspect-square w-full rounded-2xl object-cover shadow-2xl ring-4 ring-white/20 lg:max-w-[560px] lg:justify-self-end"
+          />
         </div>
       </section>
 
