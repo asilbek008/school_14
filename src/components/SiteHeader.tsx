@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { school } from "@/lib/school";
 import LanguageSwitcher from "./LanguageSwitcher";
+import MobileMenu from "./MobileMenu";
 
 const schoolItems = ["about", "staff", "timetable", "schedule", "clubs", "faq"] as const;
 const afterItems = ["admissions", "contact"] as const;
@@ -67,8 +68,8 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
             eMaktab ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
           </a>
           <LanguageSwitcher current={lang} />
-          {/* Mobile menu: native <details> so it works without client JS. */}
-          <details className="group relative lg:hidden">
+          {/* Mobile menu: native <details> so it opens without client JS; MobileMenu closes it. */}
+          <MobileMenu className="group relative lg:hidden">
             <summary
               aria-label={dict.nav.menu}
               className="grid size-10 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-white/10 [&::-webkit-details-marker]:hidden"
@@ -93,7 +94,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
                 {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
               </a>
             </nav>
-          </details>
+          </MobileMenu>
         </div>
       </div>
     </header>

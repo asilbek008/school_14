@@ -119,7 +119,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `animate-fade-up` / `animate-fade-in` (hero va sarlavhalar). Karta ichidagi rasm/strelka uchun
   `group` + `group-hover:`. `prefers-reduced-motion` da hammasi o‘chadi — yangi animatsiya ham
   shu qoidaga bo‘ysunsin.
-- Header: ochiq menyu + "Maktab ▾" dropdown (hover va `:focus-visible` bilan, JS'siz); mobil — `<details>`.
+- Header: ochiq menyu + "Maktab ▾" dropdown (hover va `:focus-visible` bilan, JS'siz); mobil — `<details>`
+  (`MobileMenu`: havola tanlanganda, sahifa o‘zgarganda, tashqariga bosilganda va Esc bilan yopiladi).
 
 ### Supabase
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
