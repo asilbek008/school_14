@@ -29,6 +29,12 @@ export function parseChannelPage(html: string): TelegramPost[] {
   return posts;
 }
 
+/** Number of the oldest post on the page, for fetching the page before it (?before=). */
+export function oldestPostId(html: string): number | null {
+  const before = /tme_messages_more[^"]*" data-before="(\d+)"/.exec(html)?.[1];
+  return before ? Number(before) : null;
+}
+
 const ENTITIES: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
 
 export function htmlToText(html: string): string {
@@ -84,6 +90,8 @@ const NEWS_TAGS: Record<string, NewsCategory> = {
   yangiliklar: "yangilik",
 };
 const SKIP_TAGS = new Set(["saytgaemas", "saytga_emas", "sayt_emas"]);
+/** Posts shorter than this (quotes, greetings) are skipped unless tagged #sayt. */
+const MIN_TEXT = 80;
 
 const APOSTROPHES = /[‘’'`ʻʼ]/g;
 const HASHTAG = /#([\p{L}\p{N}_‘’'`ʻʼ]+)/gu;
@@ -93,8 +101,9 @@ export function hashtags(text: string): string[] {
 }
 
 /**
- * News by default. A post with an event hashtag (#tadbir, #bayram, #olimpiada, #sport…) and a
- * recognizable date becomes an event; without a date it stays news in the "tadbir" category.
+ * News by default (short ones are skipped unless tagged #sayt). A post with an event hashtag
+ * (#tadbir, #bayram, #olimpiada, #sport…) and a recognizable date becomes an event; without a date
+ * it stays news in the "tadbir" category.
  */
 export function classify(post: TelegramPost): Classified {
   const tags = hashtags(post.text);
@@ -124,14 +133,40 @@ export function classify(post: TelegramPost): Classified {
       };
     }
   }
+  // Short event announcements are fine; a short news post is usually a quote or a greeting.
+  if (clean.length < MIN_TEXT && !tags.includes("sayt")) return { kind: "skip", reason: "juda qisqa" };
   const newsTag = tags.find((t) => t in NEWS_TAGS);
-  return { kind: "news", title, body, category: newsTag ? NEWS_TAGS[newsTag] : eventTag ? "tadbir" : "yangilik" };
+  const category = newsTag ? NEWS_TAGS[newsTag] : eventTag ? "tadbir" : guessCategory(title, clean);
+  return { kind: "news", title, body, category };
+}
+
+/** Without hashtags: the title's words decide "yutuq" / "elon", a report of an event is "tadbir". */
+function guessCategory(title: string, text: string): NewsCategory {
+  const t = title.toLowerCase().replace(APOSTROPHES, "");
+  if (/yutuq|golib|sovrin|sertifikat|tabrikla|natija|medal|diplom|orin/.test(t)) return "yutuq";
+  if (/elon|diqqat/.test(t)) return "elon";
+  if (/tadbir|bayram/.test(text.toLowerCase())) return "tadbir";
+  return "yangilik";
+}
+
+const EDGE_SYMBOLS = /^[\p{Extended_Pictographic}\p{Regional_Indicator}\uFE0F\u200D\s*_—–-]+|[\p{Extended_Pictographic}\p{Regional_Indicator}\uFE0F\u200D\s*_—–-]+$/gu;
+
+/** Drops decorative emoji around a title and turns an ALL-CAPS title into sentence case. */
+export function tidyTitle(title: string): string {
+  let t = title.replace(EDGE_SYMBOLS, "").trim() || title.trim();
+  const letters = t.match(/\p{L}/gu) ?? [];
+  const upper = letters.filter((c) => c !== c.toLowerCase()).length;
+  if (letters.length >= 8 && upper / letters.length > 0.8) {
+    // Capitalize the first letter, also after an opening quote: “besh tashabbus” → “Besh tashabbus”.
+    t = t.toLowerCase().replace(/\p{L}/u, (c) => c.toUpperCase());
+  }
+  return t;
 }
 
 /** First line is the title (cut to ~120 chars at a word); the rest is the body. */
 export function splitTitle(text: string): { title: string; body: string } {
   const [first, ...rest] = text.split("\n");
-  let title = first.replace(/^[*_\s]+|[*_\s:]+$/g, "");
+  let title = tidyTitle(first.replace(/^[*_\s]+|[*_\s:]+$/g, ""));
   let body = rest.join("\n").trim();
   if (title.length > 120) {
     const cut = title.slice(0, 120);

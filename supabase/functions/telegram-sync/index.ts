@@ -1,13 +1,16 @@
 // Imports new posts of the school's public Telegram channel into news and events.
 // Called by pg_cron every 15 minutes and by the admin panel ("Hozir yangilash"); both send the
-// x-sync-secret header from telegram_settings. `?dry=1` only parses and returns what it would do.
+// x-sync-secret header from telegram_settings. `?dry=1` only parses and returns what it would do
+// (with `&channel=` and `&since=` to preview another channel or period).
 // Runs with the service role key that Supabase injects, so it bypasses RLS.
 
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { classify, parseChannelPage, slugFor, type TelegramPost } from "./parse.ts";
+import { classify, oldestPostId, parseChannelPage, slugFor, type TelegramPost } from "./parse.ts";
 
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+/** A preview page holds only a few posts when they have photo albums; go back at most this many pages. */
+const MAX_PAGES = 8;
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -36,18 +39,30 @@ Deno.serve(async (req) => {
     return json({ status, ...extra });
   };
 
-  let posts: TelegramPost[];
+  // A dry run may look further back (?since=2026-09-01) to preview a new channel.
+  const since = Date.parse((dry && url.searchParams.get("since")) || settings.import_since);
+  const byId = new Map<number, TelegramPost>();
   try {
-    const res = await fetch(`https://t.me/s/${channel}`, { headers: { "User-Agent": "Mozilla/5.0 (school-14 site sync)" } });
-    if (!res.ok) return await finish(`Xato: Telegram ${res.status} javob berdi`);
-    const html = await res.text();
-    if (!html.includes("tgme_channel_info")) {
-      return await finish("Xato: kanal topilmadi yoki u yopiq (ochiq kanal bo‘lishi kerak)");
+    let before: number | null = null;
+    for (let page = 0; page < MAX_PAGES; page++) {
+      const res = await fetch(`https://t.me/s/${channel}${before ? `?before=${before}` : ""}`, {
+        headers: { "User-Agent": "Mozilla/5.0 (school-14 site sync)" },
+      });
+      if (!res.ok) return await finish(`Xato: Telegram ${res.status} javob berdi`);
+      const html = await res.text();
+      if (page === 0 && !html.includes("tgme_channel_info")) {
+        return await finish("Xato: kanal topilmadi yoki u yopiq (ochiq kanal bo‘lishi kerak)");
+      }
+      const pagePosts = parseChannelPage(html);
+      for (const post of pagePosts) byId.set(post.id, post);
+      before = oldestPostId(html);
+      // Stop once the page reaches posts older than import_since.
+      if (!before || !pagePosts.length || Date.parse(pagePosts[0].date) < since) break;
     }
-    posts = parseChannelPage(html);
   } catch (e) {
     return await finish(`Xato: Telegram'ga ulanib bo‘lmadi (${e instanceof Error ? e.message : e})`);
   }
+  const posts = [...byId.values()].sort((a, b) => a.id - b.id);
 
   if (dry) {
     return json({ channel, posts: posts.map((p) => ({ id: p.id, date: p.date, images: p.images.length, result: classify(p) })) });
@@ -59,7 +74,6 @@ Deno.serve(async (req) => {
     .eq("channel", channel)
     .in("post_id", posts.map((p) => p.id));
   const done = new Set((seen ?? []).map((r) => r.post_id));
-  const since = Date.parse(settings.import_since);
 
   let news = 0;
   let events = 0;
