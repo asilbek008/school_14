@@ -5,7 +5,9 @@ Two eMaktab export types (one .xls per class) are understood:
 * Calendar (sheet "Calendar"): the whole quarter week by week, each cell
   "Subject\\nTeacher\\nHH:MM - HH:MM\\nRoom". The school's week repeats, so the standard week is
   the most common lesson per (weekday, period) over the full weeks (weeks with a holiday or a
-  missing school day are skipped). Gives teachers too.
+  missing school day are skipped); a timetable changed mid-quarter resolves to the version that
+  ran longer, and every disagreement is reported. Gives teachers too. Group lessons ("Rus tili
+  (1-guruh)" on extra "#" rows) become one lesson with both teachers.
 * Week journal (sheet "WeekJournal"): one week of the class register — a row of subjects under
   "dushanba / 05.10" … and "1 dars" … headers. No teacher names. Below the header it lists the
   pupils; this script reads only the header rows and never touches pupil data.
@@ -75,6 +77,24 @@ def parse_journal(sh):
     return grade, letter, 1, 1, week, []
 
 
+def finish_week(w):
+    """{(day, period): (subject, teachers)} with group rows merged into their lesson."""
+    merged = collections.defaultdict(list)
+    for (day, slot), lessons in w["slots"].items():
+        period = slot if isinstance(slot, int) else w["times"].get(slot)
+        if period is None:
+            continue  # a group row whose time matches no numbered lesson that week
+        merged[(day, period)] += lessons
+    week = {"holiday": True} if w.get("holiday") else {}
+    for key, lessons in merged.items():
+        groups = sorted({(re.sub(r"\s*\(\d+-guruh\)", "", s), re.search(r"\((\d+)-guruh\)", s), t) for s, t, _ in lessons},
+                        key=lambda g: int(g[1].group(1)) if g[1] else 0)
+        subjects = sorted({g[0] for g in groups})
+        teachers = ", ".join(dict.fromkeys(g[2] for g in groups))
+        week[key] = (" / ".join(subjects), teachers)
+    return week
+
+
 def parse(path):
     sh = xlrd.open_workbook(path).sheet_by_index(0)
     if sh.name == "WeekJournal":
@@ -92,20 +112,28 @@ def parse(path):
             cols = {c: DAYS[n] for c, n in enumerate(names) if n in DAYS}
             break
 
+    # A lesson split into groups ("Rus tili (1-guruh)" / "(2-guruh)") takes one numbered row plus
+    # extra rows marked "#" holding the other groups; those are matched to a lesson by their time.
     weeks, cur = [], None
     for r in range(sh.nrows):
         a, b = cell(r, 0), cell(r, 1)
         if "hafta" in a.replace("\n", "") and not b:  # week header: "N hafta" + dates
-            cur = {}
+            cur = {"slots": collections.defaultdict(list), "times": {}}
             weeks.append(cur)
             continue
-        if cur is not None and re.fullmatch(r"\d+(\.0)?", b):
-            period = int(float(b))
-            for c, day in cols.items():
-                parts = cell(r, c).split("\n")
-                cur[(day, period)] = (parts[0].strip(), parts[1].strip()) if len(parts) >= 2 else None
-                if len(parts) == 1 and parts[0]:
-                    cur["holiday"] = True  # e.g. "Bayram kuni"
+        numbered = re.fullmatch(r"\d+(\.0)?", b)
+        if cur is None or not (numbered or b == "#"):
+            continue
+        for c, day in cols.items():
+            parts = [p.strip() for p in cell(r, c).split("\n")]
+            if len(parts) >= 3:
+                lesson = (parts[0], teacher_name(parts[1]), parts[2])
+                if numbered:
+                    cur["times"][parts[2]] = int(float(b))
+                cur["slots"][(day, int(float(b)) if numbered else parts[2])].append(lesson)
+            elif parts[0] and numbered:
+                cur["holiday"] = True  # e.g. "Bayram kuni"
+    weeks = [finish_week(w) for w in weeks]
 
     school_days = set(cols.values())
     full = [w for w in weeks if not w.get("holiday") and {k[0] for k, v in w.items() if k != "holiday" and v} == school_days]
@@ -139,7 +167,7 @@ def main(paths):
             print(f"   day {key[0]} lesson {key[1]}: {counts}", file=sys.stderr)
         total += len(week)
         values = ",\n  ".join(
-            f"({d}, {p}, {q(SUBJECT_ALIASES.get(s, s))}, {q(teacher_name(t))})" for (d, p), (s, t) in sorted(week.items())
+            f"({d}, {p}, {q(SUBJECT_ALIASES.get(s, s))}, {q(t if t is None or ', ' in t else teacher_name(t))})" for (d, p), (s, t) in sorted(week.items())
         )
         cls = f"(select id from public.school_classes where grade = {grade} and letter = {q(letter)})"
         out += [
