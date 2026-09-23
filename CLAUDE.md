@@ -47,9 +47,24 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   orqali bering.
 - O‘zbekcha matnlarda lotin yozuvi va `‘` / `’` belgilari ishlatiladi (masalan `O‘qituvchilar`).
 
+### Ma’lumot o‘qish (ochiq sahifalar)
+- Barcha ochiq so‘rovlar `src/lib/content.ts` da (`getNews`, `getEvents`, `getStaff`, `getPage`...).
+  Ular `src/lib/supabase/public.ts` dagi cookie'siz `anon` client'dan foydalanadi, shuning uchun
+  sahifalar statik yaratilib, `export const revalidate = 300` bilan yangilanadi. Env o‘rnatilmagan
+  bo‘lsa client `null` qaytaradi va sahifalar bo‘sh holatni ko‘rsatadi (xato bermaydi).
+- `localized(row, "title", lang)` — `title_<lang>` bo‘sh bo‘lsa `title_uz` ni qaytaradi.
+  `mediaUrl(path)` — `media` bucket'dagi yo‘lni ochiq URL'ga aylantiradi.
+- Admin kiritgan matn HTML emas, oddiy matn: `RichText` bo‘sh qator bo‘yicha paragraflarga ajratadi.
+- "Maktab haqida" va "Qabul" — `pages` jadvalidan (`CmsPage` komponenti).
+- Aloqa formasi: `[lang]/contact/actions.ts` Server Action `contact_messages` ga yozadi
+  (honeypot `website` maydoni bor; telefon yoki email majburiy). Action kiritilgan qiymatlarni
+  qaytaradi — React 19 action'dan keyin formani tozalaydi, shuning uchun `defaultValue` kerak.
+- Maktab manzili/telefoni/email'i `src/lib/school.ts` da (`null` = "tez orada").
+- Sana/vaqt `src/lib/format.ts` orqali, `Asia/Tashkent` vaqt zonasida.
+
 ### Supabase
-- `src/lib/supabase/server.ts` (Server Components/Actions, cookie asosida, `server-only`) va
-  `client.ts` (faqat Client Components). Imkon qadar server client'dan foydalaning.
+- `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
+  Components), `public.ts` (ochiq o‘qish va aloqa formasi).
 - `supabase/migrations/` — sxema uchun yagona manba; dashboard'da tahrirlamang, yangi
   migratsiya fayl qo‘shing.
 - Env (`.env.local`, commit qilinmaydi; `.env.example` ga qarang):
@@ -58,8 +73,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 ### Rejadagi qismlar (hali yaratilmagan)
 - `src/app/[lang]/admin/` — admin panel; `src/proxy.ts` Supabase sessiyasini ham yangilab,
   sessiya bo‘lmasa `/[lang]/admin/login` ga yo‘naltiradi.
-- O‘zgartirishlar client'dagi Supabase chaqiruvlari orqali emas, `admin/**/actions.ts` dagi
-  Server Actions orqali bajariladi.
+- O‘zgartirishlar `admin/**/actions.ts` dagi Server Actions orqali bajariladi va keyin tegishli
+  ochiq sahifalar uchun `revalidatePath` chaqiriladi.
 
 ### Ma’lumotlar modeli
 Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `title_ru`,

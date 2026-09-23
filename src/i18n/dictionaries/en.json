@@ -10,13 +10,66 @@
     "about": "About",
     "staff": "Teachers",
     "admissions": "Admissions",
-    "contact": "Contact"
+    "contact": "Contact",
+    "menu": "Menu"
   },
   "home": {
     "welcome": "Welcome to School No. 14",
-    "intro": "Knowledge, character and the future start here."
+    "intro": "Knowledge, character and the future start here.",
+    "latestNews": "Latest news",
+    "upcomingEvents": "Upcoming events",
+    "allNews": "All news",
+    "allEvents": "All events",
+    "ctaAdmissions": "Admissions",
+    "ctaContact": "Contact us"
+  },
+  "common": {
+    "readMore": "Read more",
+    "back": "Back",
+    "comingSoon": "This section will be filled in soon."
+  },
+  "news": {
+    "empty": "No news yet."
+  },
+  "events": {
+    "upcoming": "Upcoming events",
+    "past": "Past events",
+    "emptyUpcoming": "No events scheduled yet.",
+    "emptyPast": "No past events.",
+    "location": "Location"
+  },
+  "staff": {
+    "intro": "Our school's leadership and teachers.",
+    "empty": "The list of teachers will be added soon."
+  },
+  "contact": {
+    "intro": "Have a question or suggestion? Write to us and we'll get back to you.",
+    "info": "Contact details",
+    "address": "Address",
+    "phone": "Phone",
+    "email": "Email",
+    "hours": "Office hours",
+    "tbd": "Coming soon",
+    "form": {
+      "title": "Send a message",
+      "name": "Your name",
+      "email": "Email",
+      "phone": "Phone",
+      "message": "Message",
+      "optional": "optional",
+      "submit": "Send",
+      "sending": "Sending…",
+      "success": "Thank you! Your message has been received.",
+      "error": "Could not send your message. Please try again later.",
+      "invalid": "Please fill in your name and message.",
+      "needContact": "Please enter a phone number or email."
+    }
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home page"
   }
 }

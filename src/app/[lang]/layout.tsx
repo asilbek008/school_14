@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { notFound } from "next/navigation";
-import { hasLocale, locales } from "@/i18n/config";
-import { getDictionary } from "@/i18n/dictionaries";
+import { locales } from "@/i18n/config";
+import { resolveLang } from "@/i18n/server";
 import SiteHeader from "@/components/SiteHeader";
 import "../globals.css";
 
@@ -16,9 +15,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
-  const { lang } = await params;
-  if (!hasLocale(lang)) return {};
-  const dict = await getDictionary(lang);
+  const { dict } = await resolveLang(params);
   return {
     title: { default: dict.site.name, template: `%s | ${dict.site.name}` },
     description: dict.site.description,
@@ -29,16 +26,14 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
 }
 
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
-  const { lang } = await params;
-  if (!hasLocale(lang)) notFound();
-  const dict = await getDictionary(lang);
+  const { lang, dict } = await resolveLang(params);
 
   return (
     <html lang={lang} className={`${inter.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col bg-slate-50">
         <SiteHeader lang={lang} dict={dict} />
         <main className="flex-1">{children}</main>
-        <footer className="border-t border-slate-200 py-6 text-center text-sm text-slate-500">
+        <footer className="border-t border-slate-200 bg-white py-6 text-center text-sm text-slate-500">
           © {new Date().getFullYear()} {dict.site.name}. {dict.footer.rights}
         </footer>
       </body>

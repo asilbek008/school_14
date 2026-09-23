@@ -10,13 +10,66 @@
     "about": "Maktab haqida",
     "staff": "O‘qituvchilar",
     "admissions": "Qabul",
-    "contact": "Aloqa"
+    "contact": "Aloqa",
+    "menu": "Menyu"
   },
   "home": {
     "welcome": "14-maktabga xush kelibsiz",
-    "intro": "Bilim, tarbiya va kelajak shu yerda boshlanadi."
+    "intro": "Bilim, tarbiya va kelajak shu yerda boshlanadi.",
+    "latestNews": "So‘nggi yangiliklar",
+    "upcomingEvents": "Yaqinlashayotgan tadbirlar",
+    "allNews": "Barcha yangiliklar",
+    "allEvents": "Barcha tadbirlar",
+    "ctaAdmissions": "Qabul haqida",
+    "ctaContact": "Biz bilan bog‘laning"
+  },
+  "common": {
+    "readMore": "Batafsil",
+    "back": "Orqaga",
+    "comingSoon": "Bu bo‘lim tez orada to‘ldiriladi."
+  },
+  "news": {
+    "empty": "Hozircha yangiliklar yo‘q."
+  },
+  "events": {
+    "upcoming": "Yaqinlashayotgan tadbirlar",
+    "past": "O‘tgan tadbirlar",
+    "emptyUpcoming": "Hozircha rejalashtirilgan tadbirlar yo‘q.",
+    "emptyPast": "O‘tgan tadbirlar yo‘q.",
+    "location": "Joy"
+  },
+  "staff": {
+    "intro": "Maktabimiz rahbariyati va o‘qituvchilari.",
+    "empty": "O‘qituvchilar ro‘yxati tez orada qo‘shiladi."
+  },
+  "contact": {
+    "intro": "Savol yoki taklifingiz bo‘lsa, bizga yozing — albatta javob beramiz.",
+    "info": "Aloqa ma’lumotlari",
+    "address": "Manzil",
+    "phone": "Telefon",
+    "email": "Elektron pochta",
+    "hours": "Ish vaqti",
+    "tbd": "Tez orada qo‘shiladi",
+    "form": {
+      "title": "Xabar yuborish",
+      "name": "Ismingiz",
+      "email": "Elektron pochta",
+      "phone": "Telefon",
+      "message": "Xabar",
+      "optional": "ixtiyoriy",
+      "submit": "Yuborish",
+      "sending": "Yuborilmoqda…",
+      "success": "Rahmat! Xabaringiz qabul qilindi.",
+      "error": "Xabarni yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring.",
+      "invalid": "Iltimos, ism va xabarni to‘ldiring.",
+      "needContact": "Telefon yoki elektron pochtani kiriting."
+    }
   },
   "footer": {
     "rights": "Barcha huquqlar himoyalangan."
+  },
+  "notFound": {
+    "title": "Sahifa topilmadi",
+    "back": "Bosh sahifaga qaytish"
   }
 }
