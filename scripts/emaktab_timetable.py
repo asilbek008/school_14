@@ -36,6 +36,12 @@ SUBJECT_ALIASES = {
     "O'zbekiston tarix": "O‘zbekiston tarixi",
     "O‘zbekiston tarix": "O‘zbekiston tarixi",
     "Davlat va huquq asos": "Davlat va huquq asoslari",
+    "Chaqiruvga qadar bos": "Chaqiruvga qadar boshlang‘ich tayyorgarlik",
+    "Tadbirkorlik asoslar": "Tadbirkorlik asoslari",
+    "Algebra Tanlov": "Algebra (tanlov)",
+    "Algebra tanlov": "Algebra (tanlov)",
+    "Geometriya tanlov": "Geometriya (tanlov)",
+    "Ingliz tili tanlov": "Ingliz tili (tanlov)",
 }
 # Subjects eMaktab uses that the starter list lacked: (uz, ru, en), created on import.
 NEW_SUBJECTS = {
@@ -46,6 +52,11 @@ NEW_SUBJECTS = {
     "O‘zbekiston tarixi": ("O‘zbekiston tarixi", "История Узбекистана", "History of Uzbekistan", 86),
     "Jahon tarixi": ("Jahon tarixi", "Всемирная история", "World history", 87),
     "Davlat va huquq asoslari": ("Davlat va huquq asoslari", "Основы государства и права", "Foundations of state and law", 228),
+    "Astronomiya": ("Astronomiya", "Астрономия", "Astronomy", 125),
+    "Tadbirkorlik asoslari": ("Tadbirkorlik asoslari", "Основы предпринимательства", "Foundations of entrepreneurship", 245),
+    "Algebra (tanlov)": ("Algebra (tanlov)", "Алгебра (факультатив)", "Algebra (elective)", 51),
+    "Geometriya (tanlov)": ("Geometriya (tanlov)", "Геометрия (факультатив)", "Geometry (elective)", 61),
+    "Ingliz tili (tanlov)": ("Ingliz tili (tanlov)", "Английский язык (факультатив)", "English (elective)", 71),
 }
 
 # Group suffixes: "(1-guruh)", boys/girls "(o'g'il)", "(qiz)", "(Bolalar)", "(Qizlar)", "(1-o'g'il)", "(2-qizlar)".
