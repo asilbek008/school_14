@@ -33,6 +33,8 @@ SUBJECT_ALIASES = {
     "Tasviriy san'at": "Tasviriy san’at",
     "O'qish": "O‘qish",
     "Tarixdan Hikoyalar": "Tarixdan hikoyalar",
+    "O'zbekiston tarix": "O‘zbekiston tarixi",
+    "O‘zbekiston tarix": "O‘zbekiston tarixi",
 }
 # Subjects eMaktab uses that the starter list lacked: (uz, ru, en), created on import.
 NEW_SUBJECTS = {
@@ -40,6 +42,8 @@ NEW_SUBJECTS = {
     "Yozuv": ("Yozuv", "Письмо", "Writing", 16),
     "Kelajak soati": ("Kelajak soati", "Час будущего", "Future hour", 255),
     "Tarixdan hikoyalar": ("Tarixdan hikoyalar", "Рассказы из истории", "Stories from history", 85),
+    "O‘zbekiston tarixi": ("O‘zbekiston tarixi", "История Узбекистана", "History of Uzbekistan", 86),
+    "Jahon tarixi": ("Jahon tarixi", "Всемирная история", "World history", 87),
 }
 
 # Group suffixes: "(1-guruh)", boys/girls "(o'g'il)", "(qiz)", "(Bolalar)", "(Qizlar)", "(1-o'g'il)", "(2-qizlar)".
