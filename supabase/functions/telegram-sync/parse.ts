@@ -158,7 +158,8 @@ export function tidyTitle(title: string): string {
   const upper = letters.filter((c) => c !== c.toLowerCase()).length;
   if (letters.length >= 8 && upper / letters.length > 0.8) {
     // Capitalize the first letter, also after an opening quote: “besh tashabbus” → “Besh tashabbus”.
-    t = t.toLowerCase().replace(/\p{L}/u, (c) => c.toUpperCase());
+    // A title that starts with a number stays lower case: "1-sinf o‘quvchilari…".
+    t = t.toLowerCase().replace(/^([^\p{L}\p{N}]*)(\p{L})/u, (_, lead: string, c: string) => lead + c.toUpperCase());
   }
   return t;
 }

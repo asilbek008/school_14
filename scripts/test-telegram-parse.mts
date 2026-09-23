@@ -55,6 +55,7 @@ assert.ok(c15.kind === "event" && c15.startsAt === "2027-01-12T12:30:00.000Z", J
 // The school channel's style: emoji-framed ALL-CAPS titles, no hashtags.
 assert.equal(tidyTitle("🌷 USTOZ — QALBLARGA ZIYO BERUVCHI BUYUK ZOT! 🌷"), "Ustoz — qalblarga ziyo beruvchi buyuk zot!");
 assert.equal(tidyTitle("🌟 YUTUQ — E’TIROF ETILDI! 🇬🇧🏆"), "Yutuq — e’tirof etildi!");
+assert.equal(tidyTitle("👨‍👩‍👧 1-SINF O‘QUVCHILARI OTA-ONALARI BILAN YIG‘ILISH"), "1-sinf o‘quvchilari ota-onalari bilan yig‘ilish");
 assert.equal(tidyTitle("Ota-onalar yig‘ilishi"), "Ota-onalar yig‘ilishi");
 assert.equal(tidyTitle("🏃 “BESH TASHABBUS” — SPORT BILAN SOG‘LOM AVLOD!"), "“Besh tashabbus” — sport bilan sog‘lom avlod!");
 const long = "\n\nQiziriq tumani 14-sonli maktabida bayram tadbiri tashkil etildi. O‘quvchilar she’rlar va qo‘shiqlar bilan chiqdi.";
