@@ -19,7 +19,7 @@ export default async function EditClassPage({ params, searchParams }: PageProps<
     supabase.from("school_classes").select("id, grade, letter, homeroom_teacher_id, is_published").eq("id", id).maybeSingle(),
     supabase.from("staff").select("id, full_name").order("full_name"),
     supabase.from("subjects").select("id, name_uz").order("sort_order").order("name_uz"),
-    supabase.from("lessons").select("weekday, period, subject_id").eq("class_id", id),
+    supabase.from("lessons").select("weekday, period, subject_id, teacher").eq("class_id", id),
   ]);
   if (!row) notFound();
 

@@ -61,7 +61,8 @@ export async function saveTimetable(classId: number, _prev: FormState, form: For
   for (const weekday of WEEKDAYS) {
     for (let period = 1; period <= LESSONS_PER_SHIFT; period++) {
       const subject_id = Number.parseInt(text(form, `l-${weekday}-${period}`), 10);
-      if (subject_id) rows.push({ class_id: classId, weekday, period, subject_id });
+      const teacher = text(form, `t-${weekday}-${period}`).slice(0, 80) || null;
+      if (subject_id) rows.push({ class_id: classId, weekday, period, subject_id, teacher });
     }
   }
 

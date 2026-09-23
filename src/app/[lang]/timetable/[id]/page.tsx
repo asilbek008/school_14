@@ -28,7 +28,7 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
   const times = lessons(shift);
   const parallel = allClasses.filter((c) => c.grade === cls.grade);
   const cell = (weekday: number, period: number) =>
-    cls.lessons.find((l) => l.weekday === weekday && l.period === period)?.subjects ?? null;
+    cls.lessons.find((l) => l.weekday === weekday && l.period === period) ?? null;
 
   return (
     <>
@@ -79,15 +79,19 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
                   {last ? (
                     <ol className="divide-y divide-slate-100 text-sm">
                       {times.slice(0, last).map((time) => {
-                        const subject = cell(day, time.n);
+                        const lesson = cell(day, time.n);
+                        const subject = lesson?.subjects;
                         return (
                           <li key={time.n} className="-mx-2 flex items-baseline gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-paper">
                             <span className="w-4 shrink-0 text-right font-bold text-slate-400">{time.n}</span>
                             <span className="w-24 shrink-0 tabular-nums text-slate-500">
                               {fmtMinutes(time.start)}–{fmtMinutes(time.end)}
                             </span>
-                            <span className={subject ? "font-semibold text-slate-900" : "text-slate-400"}>
-                              {subject ? localized(subject, "name", lang) : "—"}
+                            <span className="min-w-0">
+                              <span className={`block ${subject ? "font-semibold text-slate-900" : "text-slate-400"}`}>
+                                {subject ? localized(subject, "name", lang) : "—"}
+                              </span>
+                              {lesson?.teacher && <span className="block text-xs text-slate-500">{lesson.teacher}</span>}
                             </span>
                           </li>
                         );

@@ -77,10 +77,14 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmni to‘liq ekranda ochadi (Esc, ←/→).
 - Dars jadvali (`/timetable`, `/timetable/[id]`): `school_classes` (grade + letter, sinf rahbari
   `homeroom_teacher_id` → `staff`), `subjects` (fanlar ro‘yxati, tarjimali) va `lessons` (bitta katak:
-  class_id, weekday 1–6, period 1–6, subject_id). Smena va dars vaqtlari sinfdan `shiftForGrade()`
+  class_id, weekday 1–6, period 1–6, subject_id, teacher — eMaktab'dagidek "Familiya I.O." matn). Smena va dars vaqtlari sinfdan `shiftForGrade()`
   orqali olinadi (`bells.ts`), bazada saqlanmaydi. Darslar RLS'da sinfga bog‘liq (galereya kabi).
   Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
   saqlashda to‘ldirilganlar upsert, bo‘shatilganlar o‘chiriladi (`classes/actions.ts`).
+- eMaktab'dan jadval importi: `scripts/emaktab_timetable.py` (xlrd) — har sinfning chorak
+  kalendari (.xls) dan standart haftani oladi (bayramsiz to‘liq haftalarda eng ko‘p uchragan dars),
+  SQL chiqaradi (sinfni yaratadi, darslarini almashtiradi). eMaktab fan nomlari `SUBJECT_ALIASES`
+  va `NEW_SUBJECTS` orqali `subjects` ga moslanadi; noma’lum fan `not null` xatosi bilan to‘xtaydi.
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
@@ -148,7 +152,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `staff` (full_name, position_*, subject_*, photo, category_*, education_*, experience_years,
   phone, email, bio_*, sort_order, is_published)
 - `subjects` (name_*, sort_order), `school_classes` (grade, letter, homeroom_teacher_id,
-  is_published), `lessons` (class_id, weekday, period, subject_id)
+  is_published), `lessons` (class_id, weekday, period, subject_id, teacher)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, message, is_read, created_at)
 
