@@ -4,6 +4,7 @@ import { fill, plural } from "@/i18n/fill";
 import { getAlbums, localized } from "@/lib/content";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
+import StatTiles from "@/components/StatTiles";
 import AlbumCard from "@/components/AlbumCard";
 import CategoryFilter from "@/components/CategoryFilter";
 
@@ -40,9 +41,9 @@ export default async function GalleryPage({ params }: PageProps<"/[lang]/gallery
       : [];
 
   const stats = [
-    { value: albums.length, label: plural(t.statAlbums, albums.length, lang), bg: "from-[#3e72e8] to-brand-deep" },
-    { value: photos, label: plural(t.statPhotos, photos, lang), bg: "from-[#17a090] to-[#0c6d62]" },
-    { value: videos, label: plural(t.statVideos, videos, lang), bg: "from-[#e0a33e] to-gold-deep" },
+    { value: albums.length, label: plural(t.statAlbums, albums.length, lang) },
+    { value: photos, label: plural(t.statPhotos, photos, lang) },
+    { value: videos, label: plural(t.statVideos, videos, lang) },
   ];
 
   return (
@@ -56,19 +57,7 @@ export default async function GalleryPage({ params }: PageProps<"/[lang]/gallery
       <div className="mx-auto max-w-6xl px-4 py-10">
         {albums.length ? (
           <>
-            {/* Totals, as colored tiles (as on "About"). */}
-            <div className="mb-8 grid grid-cols-3 gap-2.5 sm:gap-3.5">
-              {stats.map(({ value, label, bg }, i) => (
-                <div
-                  key={label}
-                  style={{ animationDelay: `${i * 60}ms` }}
-                  className={`reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-3.5 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${bg}`}
-                >
-                  <b className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]">{value}</b>
-                  <span className="mt-1.5 block text-[12.5px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
-                </div>
-              ))}
-            </div>
+            <StatTiles stats={stats} />
             <CategoryFilter allLabel={`${dict.common.all} · ${albums.length}`} searchLabel={t.search} emptyLabel={t.notFound} options={options}>
               <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
                 {albums.map((album) => (

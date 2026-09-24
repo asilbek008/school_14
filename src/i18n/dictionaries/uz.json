@@ -168,7 +168,20 @@
       "others": "Boshqa xodimlar"
     },
     "wholeGroup": "hammasi",
-    "filterLabel": "Lavozim yoki fan"
+    "filterLabel": "Lavozim yoki fan",
+    "statTotal": {
+      "one": "xodim",
+      "other": "xodim"
+    },
+    "statLeaders": "rahbariyatda",
+    "statTeachers": {
+      "one": "o‘qituvchi",
+      "other": "o‘qituvchi"
+    },
+    "statHomeroom": {
+      "one": "sinf rahbari",
+      "other": "sinf rahbari"
+    }
   },
   "contact": {
     "intro": "Savol yoki taklifingiz bo‘lsa, bizga yozing — albatta javob beramiz.",

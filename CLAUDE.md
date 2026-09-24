@@ -179,6 +179,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin sahifasi: tepada 4 karta (holat, oxirgi tekshiruv va natijasi, yangilik + tadbirlar soni / o‘tkazilganlar, asl sifatli
   rasmlar); sozlamalar formasi bo‘limlarda; "Kanaldan olingan postlar" — client `PostList` (oxirgi 200 ta; turi bo‘yicha filtr,
   "Tekshirish kutilmoqda" — `auto_publish` o‘chiq bo‘lganda yashirin qo‘shilganlar, qidiruv, muqova, Telegram havolasi).
+- Ro‘yxat sahifalari tepasidagi rangli raqam kartalari — umumiy `StatTiles` (`{ value, label }[]`, ranglar navbat bilan; 3 ta bo‘lsa bir qatorda):
+  galereya, yangiliklar, tadbirlar, to‘garaklar, doimiy tadbirlar, xodimlar (jami, rahbariyat, o‘qituvchilar, sinf rahbarlari).
 - Xodimlar ro‘yxati (`/staff`, maketdagidek): "Jamoa" kicker, "O‘qituvchilar va xodimlar", ro‘yxatdagi soni; client
   `StaffDirectory` — ism/fan bo‘yicha qidiruv va lavozim `select`i, kompyuterda jadval (avatar-initsiallar, lavozim
   belgisi: rahbariyat ko‘k, o‘qituvchi yashil, boshqalar sariq; fan; biriktirilgan sinf — `getHomerooms()`),

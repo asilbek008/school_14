@@ -7,6 +7,7 @@ import { getClubs, localized, mediaUrl, type Club } from "@/lib/content";
 import { clubSchedule } from "@/lib/clubs";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
+import StatTiles from "@/components/StatTiles";
 import CategoryFilter from "@/components/CategoryFilter";
 
 export const revalidate = 300;
@@ -39,10 +40,10 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
   const sessions = clubs.reduce((n, c) => n + (c.days?.length ?? 0), 0);
   const media = clubs.reduce((n, c) => n + c.club_media.length, 0);
   const stats = [
-    { value: clubs.length, label: plural(t.statClubs, clubs.length, lang), bg: "from-[#3e72e8] to-brand-deep" },
-    { value: leaders, label: plural(t.statLeaders, leaders, lang), bg: "from-[#17a090] to-[#0c6d62]" },
-    { value: sessions, label: t.statSessions, bg: "from-[#e0a33e] to-gold-deep" },
-    { value: media, label: t.statMedia, bg: "from-[#d2664e] to-[#a63b28]" },
+    { value: clubs.length, label: plural(t.statClubs, clubs.length, lang) },
+    { value: leaders, label: plural(t.statLeaders, leaders, lang) },
+    { value: sessions, label: t.statSessions },
+    { value: media, label: t.statMedia },
   ];
   const options = bands
     .map((b) => ({ value: b.key, label: `${fill(t.grades, { from: b.from, to: b.to })} · ${clubs.filter((c) => bandsOf(c).includes(b.key)).length}` }))
@@ -54,19 +55,7 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
         {clubs.length ? (
           <>
-          {/* Totals, as colored tiles (as on "About", news and events). */}
-          <div className="mb-8 grid grid-cols-2 gap-2.5 sm:gap-3.5 lg:grid-cols-4">
-            {stats.map(({ value, label, bg }, i) => (
-              <div
-                key={bg}
-                style={{ animationDelay: `${i * 60}ms` }}
-                className={`reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-4 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${bg}`}
-              >
-                <b className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]">{value}</b>
-                <span className="mt-1.5 block text-[12.5px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
-              </div>
-            ))}
-          </div>
+          <StatTiles stats={stats} />
           {/* Grade chips: a club shows under every band its grades overlap. */}
           <CategoryFilter allLabel={`${dict.common.all} · ${clubs.length}`} searchLabel={t.search} emptyLabel={t.notFound} options={options}>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

@@ -7,6 +7,7 @@ import { getLeagueTables, getNewsMentioning, getPrograms, localized, mediaUrl } 
 import { isOurSchool } from "@/lib/league";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
+import StatTiles from "@/components/StatTiles";
 import CategoryFilter from "@/components/CategoryFilter";
 
 export const revalidate = 300;
@@ -36,10 +37,10 @@ export default async function ProgramsPage({ params }: PageProps<"/[lang]/progra
   const newsTotal = new Set(related.flat().map((n) => n.id)).size;
   const media = programs.reduce((n, p) => n + (p.media[0]?.count ?? 0), 0);
   const stats = [
-    { value: programs.length, label: plural(t.statPrograms, programs.length, lang), bg: "from-[#3e72e8] to-brand-deep" },
-    { value: newsTotal, label: plural(t.statNews, newsTotal, lang), bg: "from-[#17a090] to-[#0c6d62]" },
-    { value: media, label: t.statMedia, bg: "from-[#e0a33e] to-gold-deep" },
-    { value: teams, label: t.statTeams, bg: "from-[#d2664e] to-[#a63b28]" },
+    { value: programs.length, label: plural(t.statPrograms, programs.length, lang) },
+    { value: newsTotal, label: plural(t.statNews, newsTotal, lang) },
+    { value: media, label: t.statMedia },
+    { value: teams, label: t.statTeams },
   ];
 
   const cards = (
@@ -113,19 +114,7 @@ export default async function ProgramsPage({ params }: PageProps<"/[lang]/progra
       <div className="mx-auto max-w-6xl px-4 py-10">
         {programs.length ? (
           <>
-            {/* Totals, as colored tiles (as on "About", news, events and clubs). */}
-            <div className="mb-8 grid grid-cols-2 gap-2.5 sm:gap-3.5 lg:grid-cols-4">
-              {stats.map(({ value, label, bg }, i) => (
-                <div
-                  key={bg}
-                  style={{ animationDelay: `${i * 60}ms` }}
-                  className={`reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-4 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${bg}`}
-                >
-                  <b className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]">{value}</b>
-                  <span className="mt-1.5 block text-[12.5px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
-                </div>
-              ))}
-            </div>
+            <StatTiles stats={stats} />
             {/* Search only pays off once there are a few projects. */}
             {programs.length > 3 ? (
               <CategoryFilter allLabel={`${dict.common.all} · ${programs.length}`} searchLabel={t.search} emptyLabel={t.notFound} options={[]}>
