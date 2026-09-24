@@ -10,17 +10,24 @@ export default function NewsCard({
   item,
   lang,
   dict,
-  featured = false,
+  layout = "card",
 }: {
   item: News;
   lang: Locale;
   dict: Dictionary;
-  /** The latest article on the news page: twice as wide, side by side on large screens. */
-  featured?: boolean;
+  /**
+   * card: the regular grid card. featured: the latest article on the news page (twice as wide,
+   * side by side on large screens). tall: the big card on the home page. row: a compact card with
+   * the picture on the left (beside the tall one on the home page).
+   */
+  layout?: "card" | "featured" | "tall" | "row";
 }) {
+  const featured = layout === "featured";
+  const row = layout === "row";
+  const big = featured || layout === "tall";
   const title = localized(item, "title", lang);
   const cover = mediaUrl(item.cover_image);
-  const excerpt = localized(item, "body", lang).slice(0, featured ? 260 : 160);
+  const excerpt = localized(item, "body", lang).slice(0, big ? 260 : 160);
   const colors = newsColors[item.category];
   const photoCount = (item.news_photos?.[0]?.count ?? 0) + (cover ? 1 : 0);
 
@@ -28,52 +35,63 @@ export default function NewsCard({
     <Link
       href={`/${lang}/news/${item.slug}`}
       data-cat={item.category}
-      className={`reveal lift group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white hover:shadow-xl hover:shadow-navy/10 ${
-        featured ? "sm:col-span-2 lg:grid lg:grid-cols-[1.4fr_1fr]" : ""
-      }`}
+      data-q={title.toLowerCase()}
+      className={`reveal lift group flex overflow-hidden rounded-2xl border border-slate-200 bg-white hover:shadow-xl hover:shadow-navy/10 ${
+        row ? "flex-row" : "flex-col"
+      } ${featured ? "sm:col-span-2 lg:grid lg:grid-cols-[1.4fr_1fr]" : ""} ${layout === "tall" ? "lg:row-span-2" : ""}`}
     >
-      <div className={`relative overflow-hidden bg-gradient-to-br ${colors.cover} ${featured ? "aspect-video lg:aspect-auto lg:min-h-80" : "aspect-video"}`}>
+      <div
+        className={`relative shrink-0 overflow-hidden bg-gradient-to-br ${colors.cover} ${
+          featured
+            ? "aspect-video lg:aspect-auto lg:min-h-80"
+            : layout === "tall"
+              ? "aspect-video lg:aspect-auto lg:min-h-64 lg:flex-1"
+              : row
+                ? "min-h-28 w-28 sm:w-40"
+                : "aspect-video"
+        }`}
+      >
         {cover ? (
           <Image
             src={cover}
             alt=""
             fill
-            sizes={featured ? "(min-width: 1024px) 50vw, (min-width: 640px) 100vw, 100vw" : "(min-width: 768px) 33vw, 100vw"}
+            sizes={big ? "(min-width: 1024px) 50vw, 100vw" : row ? "160px" : "(min-width: 768px) 33vw, 100vw"}
             className="object-cover transition duration-500 ease-(--ease-spring) group-hover:scale-105"
           />
         ) : (
           // No photo: a category-colored cover with the date, like a printed notice.
           item.published_at && (
-            <div className="absolute left-5 top-4 leading-none text-white transition duration-500 ease-(--ease-spring) group-hover:translate-x-1">
-              <b className="block text-5xl font-extrabold tracking-tighter">
+            <div className={`absolute leading-none text-white transition duration-500 ease-(--ease-spring) group-hover:translate-x-1 ${row ? "left-3 top-3" : "left-5 top-4"}`}>
+              <b className={`block font-extrabold tracking-tighter ${row ? "text-3xl" : "text-5xl"}`}>
                 {new Intl.DateTimeFormat("en", { day: "numeric", timeZone: "Asia/Tashkent" }).format(new Date(item.published_at))}
               </b>
-              <span className="mt-1 block text-sm font-bold opacity-90">
+              <span className={`mt-1 block font-bold opacity-90 ${row ? "text-xs" : "text-sm"}`}>
                 {new Intl.DateTimeFormat(lang === "uz" ? "uz-UZ" : lang === "ru" ? "ru-RU" : "en-GB", { month: "long", timeZone: "Asia/Tashkent" }).format(new Date(item.published_at))}
               </span>
             </div>
           )
         )}
-        {photoCount > 1 && (
+        {photoCount > 1 && !row && (
           <span className="absolute right-3 top-3 rounded-full bg-black/55 px-2.5 py-1 text-xs font-bold text-white backdrop-blur">
             📷 {photoCount}
           </span>
         )}
       </div>
-      <div className={`flex flex-1 flex-col ${featured ? "p-6 lg:p-8" : "p-5"}`}>
-        <div className="mb-2 flex flex-wrap items-center gap-2 text-sm text-slate-500">
+      <div className={`flex min-w-0 flex-1 flex-col ${big ? "p-6 lg:p-8" : row ? "p-4" : "p-5"}`}>
+        <div className={`mb-2 flex flex-wrap items-center gap-2 text-slate-500 ${row ? "text-xs" : "text-sm"}`}>
           <span className={`rounded-full px-2.5 py-0.5 text-xs font-bold ${colors.badge}`}>{dict.newsCats[item.category]}</span>
           {item.published_at && <time dateTime={item.published_at}>{formatDate(item.published_at, lang)}</time>}
         </div>
         <h3
           className={`font-bold leading-snug text-slate-900 transition-colors group-hover:text-brand ${
-            featured ? "text-2xl tracking-tight lg:text-3xl" : "text-lg"
+            big ? "text-2xl tracking-tight lg:text-3xl" : row ? "line-clamp-2 text-base" : "text-lg"
           }`}
         >
           {title}
         </h3>
-        <p className={`mt-2 flex-1 text-slate-600 ${featured ? "line-clamp-4" : "line-clamp-3 text-sm"}`}>{excerpt}</p>
-        <span className="mt-4 text-sm font-bold text-brand">
+        <p className={`mt-2 flex-1 text-slate-600 ${big ? "line-clamp-4" : row ? "line-clamp-2 text-sm max-sm:hidden" : "line-clamp-3 text-sm"}`}>{excerpt}</p>
+        <span className={`text-sm font-bold text-brand ${row ? "mt-2" : "mt-4"}`}>
           {dict.common.readMore}{" "}
           <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
         </span>

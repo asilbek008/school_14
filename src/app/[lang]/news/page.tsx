@@ -26,11 +26,12 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
         {news.length ? (
           <CategoryFilter
             allLabel={dict.common.all}
+            searchLabel={dict.news.search}
             options={present.map((c) => ({ value: c, label: dict.newsCats[c] }))}
           >
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {news.map((item, i) => (
-                <NewsCard key={item.id} item={item} lang={lang} dict={dict} featured={i === 0} />
+                <NewsCard key={item.id} item={item} lang={lang} dict={dict} layout={i === 0 ? "featured" : "card"} />
               ))}
             </div>
           </CategoryFilter>

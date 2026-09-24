@@ -18,7 +18,8 @@
     "faq": "Savol-javob",
     "clubs": "To‘garaklar",
     "gallery": "Galereya",
-    "timetable": "Dars jadvali"
+    "timetable": "Dars jadvali",
+    "programs": "Doimiy tadbirlar"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -30,7 +31,8 @@
     "emaktab": "Baholar va davomat",
     "upcoming": "Kelgusi bayram va tadbirlar",
     "past": "Bo‘lib o‘tgan tadbirlar",
-    "gallery": "Maktab hayotidan lavhalar"
+    "gallery": "Maktab hayotidan lavhalar",
+    "programs": "Zakovat va boshqa muntazam loyihalar"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -78,7 +80,8 @@
     "empty": "Hozircha yangiliklar yo‘q.",
     "intro": "Maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari.",
     "photos": "Fotosuratlar",
-    "more": "Boshqa yangiliklar"
+    "more": "Boshqa yangiliklar",
+    "search": "Yangilik qidirish…"
   },
   "events": {
     "upcoming": "Yaqinlashayotgan tadbirlar",
@@ -213,6 +216,19 @@
     "where": "Joyi",
     "leader": "Rahbar"
   },
+  "programs": {
+    "intro": "Butun o‘quv yili davomida muntazam o‘tkaziladigan loyiha va musobaqalar.",
+    "when": "Vaqti",
+    "where": "Joyi",
+    "related": "Shu loyiha haqidagi yangiliklar",
+    "noNews": "Hozircha bu loyiha haqida yangilik yo‘q.",
+    "empty": "Doimiy tadbirlar tez orada qo‘shiladi.",
+    "open": "Batafsil",
+    "newsCount": {
+      "one": "{n} ta yangilik",
+      "other": "{n} ta yangilik"
+    }
+  },
   "gallery": {
     "intro": "Maktab hayotidan lavhalar: tadbirlar, darslar va bayramlar.",
     "empty": "Hozircha albomlar yo‘q.",
@@ -272,9 +288,7 @@
       "Sh"
     ],
     "today": "Bugun",
-    "now": "Hozir",
-    "period": "{n}-dars",
-    "time": "Vaqt"
+    "now": "Hozir"
   },
   "emaktab": {
     "title": "eMaktab — baholar va davomat",

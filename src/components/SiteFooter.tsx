@@ -5,7 +5,7 @@ import { fill } from "@/i18n/fill";
 import { currentSchoolYear, school, telHref } from "@/lib/school";
 import ToTop from "./ToTop";
 
-const links = ["about", "timetable", "staff", "news", "events", "gallery", "schedule", "clubs", "faq", "contact"] as const;
+const links = ["about", "timetable", "staff", "news", "events", "programs", "gallery", "schedule", "clubs", "faq", "contact"] as const;
 
 export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const year = currentSchoolYear();

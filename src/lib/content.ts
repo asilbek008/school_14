@@ -296,6 +296,64 @@ export async function getClubs(): Promise<Club[]> {
   return data ?? [];
 }
 
+export type Program = {
+  id: number;
+  slug: string;
+  name_uz: string;
+  name_ru: string | null;
+  name_en: string | null;
+  summary_uz: string;
+  summary_ru: string | null;
+  summary_en: string | null;
+  description_uz: string;
+  description_ru: string | null;
+  description_en: string | null;
+  schedule_uz: string | null;
+  schedule_ru: string | null;
+  schedule_en: string | null;
+  place_uz: string | null;
+  place_ru: string | null;
+  place_en: string | null;
+  keyword: string | null;
+  cover: string | null;
+};
+
+const programColumns =
+  "id, slug, name_uz, name_ru, name_en, summary_uz, summary_ru, summary_en, description_uz, description_ru, description_en, schedule_uz, schedule_ru, schedule_en, place_uz, place_ru, place_en, keyword, cover";
+
+export async function getPrograms(): Promise<Program[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("programs").select(programColumns).eq("is_published", true).order("sort_order").order("id");
+  logError("getPrograms", error);
+  return data ?? [];
+}
+
+export async function getProgram(slug: string): Promise<Program | null> {
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase.from("programs").select(programColumns).eq("slug", slug).eq("is_published", true).maybeSingle();
+  logError("getProgram", error);
+  return data;
+}
+
+/** Published news whose Uzbek title or text mentions the keyword (a program's related news), newest first. */
+export async function getNewsMentioning(keyword: string, limit = 12): Promise<News[]> {
+  const supabase = createPublicClient();
+  // The keyword goes into a PostgREST filter: keep only characters that cannot break its syntax.
+  const kw = keyword.replace(/[^\p{L}\p{N} ‘’'-]/gu, "").trim();
+  if (!supabase || kw.length < 3) return [];
+  const { data, error } = await supabase
+    .from("news")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(count)")
+    .eq("is_published", true)
+    .or(`title_uz.ilike."*${kw}*",body_uz.ilike."*${kw}*"`)
+    .order("published_at", { ascending: false, nullsFirst: false })
+    .limit(limit);
+  logError("getNewsMentioning", error);
+  return data ?? [];
+}
+
 const albumColumns =
   "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, event_date, cover_photo, gallery_photos(id, path)";
 

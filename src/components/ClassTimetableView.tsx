@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { fill, plural } from "@/i18n/fill";
+import { plural } from "@/i18n/fill";
 import { fmtMinutes, lessons, shifts, tashkentNow } from "@/lib/bells";
 import { WEEKDAYS } from "@/lib/timetable";
 
@@ -178,67 +178,73 @@ export default function ClassTimetableView({
           </div>
         </div>
       ) : (
-        <div key="weekly" className="mt-5 animate-fade-in overflow-x-auto rounded-2xl sm:mt-6 sm:rounded-3xl border border-slate-200 bg-white">
-          <table className="w-full min-w-[640px] table-fixed border-collapse text-left text-xs sm:min-w-[820px] sm:text-sm">
-            <thead>
-              <tr>
-                <th scope="col" className="sticky left-0 z-10 w-20 bg-white px-2 py-2 text-[10px] sm:w-28 sm:px-4 sm:py-3 sm:text-xs font-bold uppercase tracking-wider text-slate-400">
-                  {t.time}
-                </th>
-                {WEEKDAYS.map((d) => (
-                  <th key={d} scope="col" className={`px-3 py-3 font-extrabold ${today === d ? "bg-brand-soft text-brand-deep" : "text-slate-900"}`}>
-                    <span className="hidden lg:inline">{t.days[d - 1]}</span>
-                    <span className="lg:hidden">{t.daysShort[d - 1]}</span>
-                    {today === d && (
-                      <span className="ml-2 rounded-full bg-teal px-1.5 py-px text-[10px] font-bold text-white">{t.today}</span>
-                    )}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {times.slice(0, Math.max(...WEEKDAYS.map(lastPeriod))).map((time) => (
-                <tr key={time.n} className="border-t border-slate-100">
-                  <th scope="row" className="sticky left-0 z-10 whitespace-nowrap bg-white px-2 py-2 align-top sm:px-4 sm:py-3 font-normal shadow-[1px_0_0_var(--color-slate-100)]">
-                    <span className="block font-extrabold text-slate-900">{fill(t.period, { n: time.n })}</span>
-                    <span className="block text-xs tabular-nums text-slate-500">
-                      {fmtMinutes(time.start)}–{fmtMinutes(time.end)}
-                    </span>
-                  </th>
-                  {WEEKDAYS.map((d) => {
-                    const lesson = cell(d, time.n);
-                    const current = isNow(d, time.n);
-                    return (
-                      <td key={d} className={`px-2 py-2 align-top ${today === d ? "bg-brand-soft/40" : ""}`}>
-                        {lesson ? (
-                          <div
-                            className={`h-full rounded-lg px-2 py-1.5 transition-colors sm:rounded-xl sm:px-3 sm:py-2 ${
-                              current ? "bg-teal-soft ring-2 ring-teal" : "hover:bg-paper"
+        // Weekly: one card per day (no wide table to scroll sideways); today is outlined.
+        <div key="weekly" className="mt-5 grid animate-fade-in gap-3 sm:mt-6 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
+          {WEEKDAYS.map((d) => {
+            const count = cells.filter((c) => c.weekday === d).length;
+            return (
+              <section
+                key={d}
+                aria-label={t.days[d - 1]}
+                className={`rounded-2xl border bg-white p-4 ${today === d ? "border-brand ring-2 ring-brand/20" : "border-slate-200"}`}
+              >
+                <header className="mb-2 flex items-center justify-between gap-2">
+                  <h3 className="flex items-center gap-2 font-extrabold text-slate-900">
+                    {t.days[d - 1]}
+                    {today === d && <span className="rounded-full bg-teal px-1.5 py-px text-[10px] font-bold text-white">{t.today}</span>}
+                  </h3>
+                  <span className="text-xs font-semibold text-slate-500">{plural(t.lessonsCount, count, lang)}</span>
+                </header>
+                {count ? (
+                  <ol className="divide-y divide-slate-100">
+                    {times.slice(0, lastPeriod(d)).map((time) => {
+                      const lesson = cell(d, time.n);
+                      const current = isNow(d, time.n);
+                      return (
+                        <li
+                          key={time.n}
+                          className={`-mx-2 flex items-start gap-2.5 rounded-lg px-2 py-2 ${current ? "bg-teal-soft" : ""} ${isPast(d, time.n) ? "opacity-55" : ""}`}
+                        >
+                          <span
+                            className={`mt-0.5 grid size-6 shrink-0 place-items-center rounded-full text-[11px] font-extrabold ${
+                              current ? "bg-teal text-white" : lesson ? "bg-brand-soft text-brand-deep" : "bg-slate-100 text-slate-400"
                             }`}
                           >
-                            <p className="font-bold leading-snug text-slate-900">{lesson.subject}</p>
-                            {lesson.teacher && <Teachers names={lesson.teacher} ids={teacherIds} lang={lang} />}
-                            {lesson.alt && (
+                            {time.n}
+                          </span>
+                          <div className="min-w-0 flex-1 text-sm">
+                            {lesson ? (
                               <>
-                                <p className="mt-1 font-bold leading-snug text-slate-900">
-                                  <span className="font-normal text-slate-400">/ </span>
-                                  {lesson.alt}
+                                <p className="font-bold leading-snug text-slate-900">
+                                  {lesson.subject}
+                                  {lesson.alt && (
+                                    <>
+                                      <span className="font-normal text-slate-400"> / </span>
+                                      {lesson.alt}
+                                    </>
+                                  )}
                                 </p>
-                                {lesson.altTeacher && <Teachers names={lesson.altTeacher} ids={teacherIds} lang={lang} />}
-                                <AltBadge label={t.alternating} />
+                                {lesson.teacher && <Teachers names={lesson.teacher} ids={teacherIds} lang={lang} />}
+                                {lesson.alt && lesson.altTeacher && <Teachers names={lesson.altTeacher} ids={teacherIds} lang={lang} />}
+                                {lesson.alt && <AltBadge label={t.alternating} />}
                               </>
+                            ) : (
+                              <p className="text-slate-400">—</p>
                             )}
                           </div>
-                        ) : (
-                          <p className="px-3 py-2 text-slate-300">—</p>
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                          <span className="shrink-0 pt-0.5 text-xs font-semibold tabular-nums text-slate-500">
+                            {fmtMinutes(time.start)}–{fmtMinutes(time.end)}
+                          </span>
+                        </li>
+                      );
+                    })}
+                  </ol>
+                ) : (
+                  <p className="rounded-xl bg-paper px-3 py-4 text-center text-sm text-slate-500">{t.noLessons}</p>
+                )}
+              </section>
+            );
+          })}
         </div>
       )}
     </div>

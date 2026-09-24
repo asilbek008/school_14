@@ -117,17 +117,25 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-14">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 className="text-2xl font-bold text-slate-900">{dict.home.latestNews}</h2>
-          <Link href={`/${lang}/news`} className="group text-sm font-bold text-brand">
-            {dict.home.allNews}{" "}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
+              {dict.nav.news}
+            </p>
+            <h2 className="font-display text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.latestNews}</h2>
+          </div>
+          <Link
+            href={`/${lang}/news`}
+            className="press rounded-full border-[1.5px] border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 hover:border-brand hover:text-brand"
+          >
+            {dict.home.allNews}
           </Link>
         </div>
         {news.length ? (
-          <div className="grid gap-6 md:grid-cols-3">
-            {news.map((item) => (
-              <NewsCard key={item.id} item={item} lang={lang} dict={dict} />
+          // The newest article large on the left, the next two as compact rows beside it.
+          <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-5">
+            {news.map((item, i) => (
+              <NewsCard key={item.id} item={item} lang={lang} dict={dict} layout={i === 0 ? "tall" : "row"} />
             ))}
           </div>
         ) : (
