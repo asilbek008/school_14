@@ -104,11 +104,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `alt_subject_id` + `alt_teacher`). `lessons` da `subjects` ga ikkita FK bor, shuning uchun embed'da
   aniq ko‘rsating: `subjects!lessons_subject_id_fkey(...)`. Smena va dars vaqtlari sinfdan `shiftForGrade()`
   orqali olinadi (`bells.ts`), bazada saqlanmaydi. Darslar RLS'da sinfga bog‘liq (galereya kabi).
-  Ochiq sahifa: `/timetable` — maketdagidek hamma parallellar bir to‘rda (server render): har parallel kartasi (ustida
-  daraja rangi: 1–4 ko‘k, 5–9 yashil, 10–11 sariq; raqam, sinflar soni, smena belgisi) va sinf harflari — to‘g‘ridan-to‘g‘ri
-  `/timetable/[id]` ga havola; karta `id="g5"`, sinf sahifasidagi "← Barcha sinflar" shunga qaytaradi. `/timetable/[id]` — `ClassTimetableView`
+  Ochiq sahifa: `/timetable` — `TimetablePicker` (smena → parallel → sinf; tanlov URL hash'da `#s2-g8`,
+  `useSyncExternalStore` bilan o‘qiladi, sahifa keshi buzilmaydi; egasining talabi — maketdagi parallellar to‘ri qaytarildi), `/timetable/[id]` — `ClassTimetableView`
   ("Kunlik": kun tanlash + vaqt chizig‘i, "Haftalik": jadval; "bugun"/"hozir" brauzerda Toshkent vaqti bo‘yicha).
-  "Haftalik" — jadval
+  Telefonda ixcham: smena kartalari yonma-yon (2 ustun, ikonkasiz), parallel/sinf tugmalari kichik. "Haftalik" — jadval
   emas, har kun alohida karta (1/2/3 ustun; dars raqami, fan, o‘qituvchi, vaqt; bugungi karta ajratilgan) — keng
   jadvalni yonga aylantirish chalkash edi.
   Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
