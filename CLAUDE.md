@@ -17,7 +17,8 @@ qo‘shadi, o‘qituvchilar va sahifalarni tahrirlaydi. Maktab haqidagi batafsil
 - Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS v4
 - Supabase: Postgres, Auth (admin kirishi), Storage (rasmlar). Loyiha: `school-14`
   (ref `cieusvxrfpshlpjelvkt`, "School 14" tashkiloti, Frankfurt `eu-central-1`)
-- Vercel'ga joylanadi
+- Vercel'ga joylanadi (faqat `main`; `vercel.json` `claude/*` branchlarini deploy qilmaydi — bepul tarifning kunlik
+  deploy limiti tejaladi)
 
 Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/proxy.ts`
 (funksiya nomi `proxy`), `params` — Promise (`await params`), `PageProps<"/[lang]">` /
