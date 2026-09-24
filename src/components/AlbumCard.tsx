@@ -12,7 +12,7 @@ export default function AlbumCard({ album, lang, dict }: { album: Album; lang: L
   return (
     <Link
       href={`/${lang}/gallery/${album.id}`}
-      className="reveal lift group block overflow-hidden rounded-2xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-[0_12px_24px_-12px_rgb(19_26_46/0.18)]"
+      className="reveal lift group block h-full overflow-hidden rounded-2xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-[0_12px_24px_-12px_rgb(19_26_46/0.18)]"
     >
       <div className="relative h-[190px] overflow-hidden bg-gradient-to-br from-[#24345e] to-navy">
         {/* Shown when there is no cover (or under it while it loads). */}

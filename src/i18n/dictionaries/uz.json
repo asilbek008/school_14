@@ -310,7 +310,24 @@
     "album": "Albom",
     "noPhotos": "Bu albomda hali rasm yo‘q.",
     "videos": "{n} ta video",
-    "videosTitle": "Videolar"
+    "videosTitle": "Videolar",
+    "search": "Albom nomi bo‘yicha qidirish",
+    "notFound": "Bunday albom topilmadi.",
+    "statAlbums": {
+      "one": "albom",
+      "other": "albom"
+    },
+    "statPhotos": {
+      "one": "rasm",
+      "other": "rasm"
+    },
+    "statVideos": {
+      "one": "video",
+      "other": "video"
+    },
+    "schoolYear": "{from}–{to} o‘quv yili",
+    "undated": "Sanasiz",
+    "countIntro": "{n} ta albom — maktabimizdagi tadbirlar, darslar va bayramlardan lavhalar."
   },
   "timetable": {
     "intro": "Smenani, keyin parallel va sinfni tanlang — kunlik va haftalik jadval ochiladi.",
