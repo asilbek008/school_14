@@ -8,12 +8,11 @@ import ThemeToggle from "./ThemeToggle";
 import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
 
 /**
- * Edges of the header rows (owner's request): the left side lines up with the page column (72rem,
- * like the logo always did), the right side goes out to a wider 100rem column, so the menu and the
- * buttons sit nearer the right edge. Percent padding is of the full-width row.
+ * Edges of the header rows (owner's requests): the logo sits 40px from the left edge from xl
+ * screens, and the menu and buttons go out to a wide 100rem column on the right. Percent padding
+ * is of the full-width row.
  */
-const edges =
-  "pl-[max(1rem,calc((100%_-_72rem)/2_+_1rem))] pr-4 xl:pr-[max(2rem,calc((100%_-_100rem)/2_+_2rem))]";
+const edges = "pl-4 pr-4 xl:pl-10 xl:pr-[max(2rem,calc((100%_-_100rem)/2_+_2rem))]";
 
 /** Top info bar (scrolls away) and the sticky navigation bar below it. */
 export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
