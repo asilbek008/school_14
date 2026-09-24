@@ -216,7 +216,13 @@
       },
       {
         "q": "Which grades study in which shift?",
-        "a": "Shift 1: grades 1, 2, 5, 9, 10 and 11.\nShift 2: grades 3, 4, 6, 7 and 8."
+        "a": "Shift 1: grades 1, 2, 5, 9, 10 and 11.\nShift 2: grades 3, 4, 6, 7 and 8.",
+        "link": "/schedule"
+      },
+      {
+        "q": "Where can I see my child’s timetable?",
+        "a": "On the Timetable page, pick the shift, grade and class — the daily and weekly timetable opens.",
+        "link": "/timetable"
       },
       {
         "q": "Where can I see grades and homework?",
@@ -228,9 +234,14 @@
       },
       {
         "q": "How do I send a question or suggestion?",
-        "a": "Fill in the form on the Contact page and it will reach the school administration. For urgent matters, please call."
+        "a": "Fill in the form on the Contact page and it will reach the school administration. For urgent matters, please call.",
+        "link": "/contact"
       }
-    ]
+    ],
+    "title": "Frequently asked questions",
+    "moreTitle": "Didn’t find an answer?",
+    "moreText": "Send us your question or call the school.",
+    "open": "Open"
   },
   "newsCats": {
     "yangilik": "News",
