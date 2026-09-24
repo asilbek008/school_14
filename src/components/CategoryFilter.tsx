@@ -4,9 +4,9 @@ import { useEffect, useRef, useState } from "react";
 
 /**
  * Filter chips (and an optional search box) for a server-rendered list. Items stay server-rendered
- * (and cacheable); the controls only inject CSS rules hiding children whose data-cat doesn't match
- * the chosen chip, or whose data-q (lower-case title) doesn't contain the search text. Elements
- * marked data-cat-only (and `hidden`) appear only while their chip is chosen.
+ * (and cacheable); the controls only inject CSS rules hiding children whose data-cat (a space-separated
+ * list, for an item in several groups) doesn't contain the chosen chip, or whose data-q (lower-case
+ * title) doesn't contain the search text. Elements marked data-cat-only (and `hidden`) appear only while their chip is chosen.
  */
 export default function CategoryFilter({
   allLabel,
@@ -46,7 +46,7 @@ export default function CategoryFilter({
     <div className="category-filter group/filter" data-filtered={active || q ? "" : undefined}>
       {/* data-cat-only: hidden by default, shown only for its chip (per-category counts, "none of this type" notes). */}
       {active && (
-        <style>{`.category-filter [data-cat]:not([data-cat="${active}"]){display:none}.category-filter [data-cat-only="${active}"]{display:revert!important}`}</style>
+        <style>{`.category-filter [data-cat]:not([data-cat~="${active}"]){display:none}.category-filter [data-cat-only="${active}"]{display:revert!important}`}</style>
       )}
       {q && <style>{`.category-filter [data-q]:not([data-q*="${q}" i]){display:none}`}</style>}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">

@@ -303,7 +303,20 @@
     "videos": "Videolar",
     "back": "Barcha to‘garaklar",
     "open": "Batafsil",
-    "gradesLabel": "Sinflar"
+    "gradesLabel": "Sinflar",
+    "countIntro": "{n} ta to‘garak — darsdan tashqari mashg‘ulotlar. Yozilish uchun to‘garak rahbari yoki sinf rahbariga murojaat qiling.",
+    "statClubs": {
+      "one": "to‘garak",
+      "other": "to‘garak"
+    },
+    "statLeaders": {
+      "one": "rahbar",
+      "other": "rahbar"
+    },
+    "statSessions": "haftalik mashg‘ulot",
+    "statMedia": "rasm va video",
+    "search": "To‘garak, rahbar yoki joy…",
+    "notFound": "Qidiruv bo‘yicha to‘garak topilmadi."
   },
   "programs": {
     "intro": "Butun o‘quv yili davomida muntazam o‘tkaziladigan loyiha va musobaqalar.",
