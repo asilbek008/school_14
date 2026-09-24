@@ -303,7 +303,7 @@
     "noPhotos": "Bu albomda hali rasm yo‘q."
   },
   "timetable": {
-    "intro": "Smenani, keyin parallel va sinfni tanlang — kunlik va haftalik jadval ochiladi.",
+    "intro": "Parallelni toping va sinf harfini bosing — kunlik va haftalik dars jadvali ochiladi.",
     "empty": "Dars jadvali tez orada qo‘shiladi.",
     "grade": "{n}-sinf",
     "shift": "{n}-smena · {time} dan",
@@ -323,15 +323,6 @@
     "bells": "Qo‘ng‘iroqlar jadvali",
     "weekly": "Haftalik dars jadvali",
     "alternating": "haftada almashib",
-    "stepShift": "Smena",
-    "stepGrade": "Parallel",
-    "stepClass": "Sinf",
-    "chooseShift": "Smenani tanlang",
-    "chooseGrade": "Sinflar kesimini tanlang",
-    "chooseClass": "Sinfni tanlang",
-    "shiftName": "{n}-smena",
-    "morning": "Ertalabki",
-    "afternoon": "Tushdan keyingi",
     "gradesLine": "{list}-sinflar",
     "classes": {
       "one": "{n} ta sinf",

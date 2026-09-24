@@ -303,7 +303,7 @@
     "noPhotos": "There are no photos in this album yet."
   },
   "timetable": {
-    "intro": "Choose a shift, then a grade and a class to see the daily and weekly timetable.",
+    "intro": "Find the grade and tap the class letter — the daily and weekly timetable opens.",
     "empty": "The timetable will be added soon.",
     "grade": "Grade {n}",
     "shift": "Shift {n} · from {time}",
@@ -323,15 +323,6 @@
     "bells": "Bell schedule",
     "weekly": "Weekly timetable",
     "alternating": "alternating weeks",
-    "stepShift": "Shift",
-    "stepGrade": "Grade",
-    "stepClass": "Class",
-    "chooseShift": "Choose a shift",
-    "chooseGrade": "Choose a grade",
-    "chooseClass": "Choose a class",
-    "shiftName": "Shift {n}",
-    "morning": "Morning",
-    "afternoon": "Afternoon",
     "gradesLine": "Grades {list}",
     "classes": {
       "one": "{n} class",
