@@ -26,6 +26,7 @@ export default function AlbumCard({ album, lang, dict }: { album: Album; lang: L
         )}
         <span className="absolute bottom-3 right-3 rounded-full bg-[#111c3a]/80 px-3 py-1 text-xs font-bold text-white backdrop-blur">
           {fill(dict.gallery.photos, { n: album.gallery_photos.length })}
+          {album.gallery_videos.length > 0 && ` · ${fill(dict.gallery.videos, { n: album.gallery_videos.length })}`}
         </span>
       </div>
       <div className="px-[18px] pb-[18px] pt-4">

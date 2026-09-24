@@ -9,6 +9,7 @@ import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
 import PhotoFrame from "@/components/PhotoFrame";
 import Lightbox from "@/components/Lightbox";
+import VideoGrid from "@/components/VideoGrid";
 
 export const revalidate = 300;
 
@@ -87,23 +88,7 @@ export default async function ClubPage({ params }: PageProps<"/[lang]/clubs/[id]
               <h2 className="font-display mb-4 text-xl font-bold tracking-tight text-slate-900">
                 {t.videos} <span className="font-semibold text-slate-400">· {videos.length}</span>
               </h2>
-              <div className="grid gap-4 md:grid-cols-2">
-                {videos.map((v) =>
-                  v.kind === "youtube" ? (
-                    <iframe
-                      key={v.id}
-                      src={`https://www.youtube-nocookie.com/embed/${v.path}`}
-                      title={name}
-                      loading="lazy"
-                      allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      className="aspect-video w-full rounded-[14px] border border-slate-200 bg-black"
-                    />
-                  ) : (
-                    <video key={v.id} src={mediaUrl(v.path)!} controls preload="metadata" playsInline className="aspect-video w-full rounded-[14px] border border-slate-200 bg-black" />
-                  ),
-                )}
-              </div>
+              <VideoGrid videos={videos} title={name} />
             </section>
           )}
         </div>

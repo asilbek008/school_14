@@ -9,6 +9,7 @@ import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
 import Lightbox from "@/components/Lightbox";
 import EmptyState from "@/components/EmptyState";
+import VideoGrid from "@/components/VideoGrid";
 
 export const revalidate = 300;
 
@@ -26,6 +27,7 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
   if (!album) notFound();
   const title = localized(album, "title", lang);
   const description = localized(album, "description", lang);
+  const videos = album.gallery_videos;
 
   return (
     <>
@@ -33,7 +35,12 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
         crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/gallery`, label: dict.gallery.title }]}
         title={title}
         kicker={album.event_date ? formatDate(album.event_date, lang) : dict.gallery.album}
-        intro={fill(dict.gallery.photos, { n: album.gallery_photos.length })}
+        intro={[
+          fill(dict.gallery.photos, { n: album.gallery_photos.length }),
+          videos.length > 0 && fill(dict.gallery.videos, { n: videos.length }),
+        ]
+          .filter(Boolean)
+          .join(" · ")}
       />
       <div className="mx-auto max-w-6xl px-4 py-10">
         <Link href={`/${lang}/gallery`} className="group inline-flex items-center gap-1.5 text-sm font-bold text-brand">
@@ -46,13 +53,21 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
           </div>
         )}
         <div className="mt-6">
-          {album.gallery_photos.length === 0 && <EmptyState>{dict.gallery.noPhotos}</EmptyState>}
+          {album.gallery_photos.length === 0 && videos.length === 0 && <EmptyState>{dict.gallery.noPhotos}</EmptyState>}
           <Lightbox
             photos={album.gallery_photos.map((p) => mediaUrl(p.path)!)}
             alt={title}
             t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }}
           />
         </div>
+        {videos.length > 0 && (
+          <section className="mt-10">
+            <h2 className="font-display mb-4 text-xl font-bold tracking-tight text-slate-900">
+              {dict.gallery.videosTitle} <span className="font-semibold text-slate-400">· {videos.length}</span>
+            </h2>
+            <VideoGrid videos={videos} title={title} />
+          </section>
+        )}
       </div>
     </>
   );

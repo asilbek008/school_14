@@ -6,6 +6,7 @@ import DeleteButton from "@/components/admin/DeleteButton";
 import PhotoUploader from "@/components/admin/PhotoUploader";
 import VideoUploader from "@/components/admin/VideoUploader";
 import YoutubeForm from "@/components/admin/YoutubeForm";
+import VideoList from "@/components/admin/VideoList";
 import { mediaBaseUrl } from "@/lib/media";
 import ClubForm from "../ClubForm";
 import { addClubMedia, addClubYoutube, deleteClub, deleteClubMedia } from "../actions";
@@ -55,24 +56,7 @@ export default async function EditClubPage({ params }: PageProps<"/admin/clubs/[
           <VideoUploader folder={`clubs/${id}`} onUploaded={addClubMedia.bind(null, id, "video")} />
           <YoutubeForm action={addClubYoutube.bind(null, id)} />
         </div>
-        {videos.length > 0 && (
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {videos.map((v) => (
-              <li key={v.id} className="overflow-hidden rounded-xl bg-white shadow-sm">
-                {v.kind === "youtube" ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- YouTube preview frame
-                  <img src={`https://i.ytimg.com/vi/${v.path}/hqdefault.jpg`} alt="" loading="lazy" className="aspect-video w-full bg-slate-900 object-cover" />
-                ) : (
-                  <video src={`${mediaBaseUrl}/${v.path}`} controls preload="metadata" className="aspect-video w-full bg-slate-900" />
-                )}
-                <div className="flex items-center justify-between px-3 py-2 text-sm">
-                  <span className="text-slate-500">{v.kind === "youtube" ? "YouTube" : "Video fayl"}</span>
-                  <DeleteButton action={deleteClubMedia.bind(null, id, v.id)} confirmText="Bu videoni o‘chirasizmi?" />
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+        <VideoList videos={videos} remove={(videoId) => deleteClubMedia.bind(null, id, videoId)} />
       </section>
 
       <div className="mt-8 border-t border-slate-200 pt-4 text-right">

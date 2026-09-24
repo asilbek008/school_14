@@ -17,9 +17,3 @@ export function clubSchedule(club: { days: number[] | null; start_time: string |
   const time = start ? (end ? `${start}–${end}` : start) : "";
   return [days.join(", "), time].filter(Boolean).join(" • ");
 }
-
-/** The id of a YouTube video from a watch / share / shorts / embed link, or null. */
-export function youtubeId(url: string): string | null {
-  const m = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/.exec(url.trim());
-  return m ? m[1] : null;
-}

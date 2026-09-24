@@ -305,7 +305,9 @@
     "noDate": "Sana ko‘rsatilmagan",
     "title": "Foto-galereya",
     "album": "Albom",
-    "noPhotos": "Bu albomda hali rasm yo‘q."
+    "noPhotos": "Bu albomda hali rasm yo‘q.",
+    "videos": "{n} ta video",
+    "videosTitle": "Videolar"
   },
   "timetable": {
     "intro": "Smenani, keyin parallel va sinfni tanlang — kunlik va haftalik jadval ochiladi.",

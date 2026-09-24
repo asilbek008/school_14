@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { optional, requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
-import { youtubeId } from "@/lib/clubs";
+import { youtubeId } from "@/lib/media";
 
 const grade = (form: FormData, name: string) => {
   const n = Number.parseInt(text(form, name), 10);

@@ -91,3 +91,16 @@ export function PublishedCheckbox({ checked, label = "Saytda ko‘rsatish" }: { 
     </label>
   );
 }
+
+/** A titled block of the form, divided from the one above. */
+export function FormSection({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
+  return (
+    <section className="space-y-4 border-t border-slate-100 pt-6 first:border-0 first:pt-0">
+      <div>
+        <h2 className="text-base font-bold text-slate-900">{title}</h2>
+        {hint && <p className="mt-0.5 text-sm text-slate-500">{hint}</p>}
+      </div>
+      {children}
+    </section>
+  );
+}

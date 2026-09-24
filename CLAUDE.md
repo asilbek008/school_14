@@ -258,7 +258,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   yangilik saqlangach tahrirlash sahifasiga o‘tiladi. Ochiq sahifada matndan keyin `Lightbox`. Telegram'dan
   kelgan postning 1-rasmi muqova, qolganlari (12 tagacha) galereya.
 - Galereya: albom yaratilgach rasm qo‘shish sahifasiga o‘tiladi; rasm/albom o‘chirilganda
-  Storage'dagi fayllar ham o‘chiriladi (`gallery/actions.ts`).
+  Storage'dagi fayllar ham o‘chiriladi (`gallery/actions.ts`). Admin ro‘yxati — muqovali kartalar (sana bo‘yicha, saytdagidek;
+  albomlarni qo‘lda tartiblash yo‘q). Albom sahifasida `PhotoManager`: rasmlar tartibi sudrab yoki ←→ bilan (`reorderPhotos`,
+  darhol saqlanadi), muqova tanlash, o‘chirish. Videolar — `gallery_videos` (`video` fayl `media/gallery/<id>/` da yoki `youtube` id;
+  `gallery_photos` dan alohida, chunki rasmlar Lightbox/sanoq/bosh sahifada ishlatiladi). Umumiy: `VideoUploader`, `YoutubeForm`,
+  admin `VideoList`, ochiq `VideoGrid` (to‘garaklar bilan bir xil), forma bo‘limlari — `FormSection` (`fields.tsx`), `youtubeId` — `media.ts`.
 - `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
   (`toTashkentInput` / `fromTashkentInput`).
 - Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:
@@ -280,6 +284,8 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
   is_published), `lessons` (class_id, weekday, period, subject_id, teacher, alt_subject_id, alt_teacher)
 - `clubs` (name_*, description_*, schedule_*, place_*, grade_from/to, leader, leader_id, days, start_time, end_time, photo,
   sort_order, is_published); `club_media` (club_id, kind, path, sort_order)
+- `gallery_albums` (title_*, description_*, event_date, cover_photo, is_published); `gallery_photos` (album_id, path,
+  sort_order); `gallery_videos` (album_id, kind `video`|`youtube`, path, sort_order)
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at)
