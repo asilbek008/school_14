@@ -7,6 +7,8 @@ import PhotoFrame from "@/components/PhotoFrame";
 import RichText from "@/components/RichText";
 import NewsCard from "@/components/NewsCard";
 import EmptyState from "@/components/EmptyState";
+import Lightbox from "@/components/Lightbox";
+import VideoGrid from "@/components/VideoGrid";
 
 export const revalidate = 300;
 
@@ -27,6 +29,8 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
   const cover = mediaUrl(program.cover ?? news.find((n) => n.cover_image)?.cover_image ?? null);
   const schedule = localized(program, "schedule", lang);
   const place = localized(program, "place", lang);
+  const photos = program.program_media.filter((m) => m.kind === "photo").map((m) => mediaUrl(m.path)!);
+  const videos = program.program_media.filter((m) => m.kind !== "photo");
 
   return (
     <>
@@ -66,6 +70,24 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
             </aside>
           )}
         </div>
+
+        {photos.length > 0 && (
+          <section className="mt-14">
+            <h2 className="font-display mb-6 text-2xl font-bold tracking-tight text-slate-900">
+              {t.photos} <span className="font-semibold text-slate-400">· {photos.length}</span>
+            </h2>
+            <Lightbox photos={photos} alt={name} t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }} />
+          </section>
+        )}
+
+        {videos.length > 0 && (
+          <section className="mt-14">
+            <h2 className="font-display mb-6 text-2xl font-bold tracking-tight text-slate-900">
+              {t.videos} <span className="font-semibold text-slate-400">· {videos.length}</span>
+            </h2>
+            <VideoGrid videos={videos} title={name} />
+          </section>
+        )}
 
         <section className="mt-14">
           <h2 className="font-display mb-6 text-2xl font-bold tracking-tight text-slate-900">{t.related}</h2>

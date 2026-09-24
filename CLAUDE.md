@@ -88,7 +88,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Doimiy tadbirlar (`/programs`, `/programs/[slug]`, `programs` jadvali; admin `/admin/programs`): yil bo‘yi muntazam
   loyihalar (birinchisi — Zakovat, `supabase/seed/programs.sql`). `keyword` kiritilsa, `getNewsMentioning()` shu so‘z
   sarlavha yoki matnda uchragan yangiliklarni (Telegram'dan kelganlarini ham) loyiha sahifasida ko‘rsatadi; o‘z rasmi
-  (`cover`) bo‘lmasa, oxirgi tegishli yangilik muqovasi olinadi. Menyuda "Tadbirlar ▾" ichida.
+  (`cover`) bo‘lmasa, oxirgi tegishli yangilik muqovasi olinadi. Menyuda "Tadbirlar ▾" ichida. Rasm/video — `program_media`
+  (`club_media` kabi, `media/programs/<id>/`); sahifada tavsifdan keyin rasmlar (`Lightbox`), videolar (`VideoGrid`), keyin yangiliklar.
+  Admin: ro‘yxat `SortableList` (to‘garaklar bilan umumiy; sudrab yoki ↑↓, `reorderPrograms`), qatorda kalit so‘z va u topgan
+  yangiliklar soni; yangi tadbir saqlangach rasm/video sahifasiga o‘tiladi; rasmlar tartibi `PhotoManager` bilan.
   Bir ma’lumot bir bo‘limda (egasining talabi): `getNews()` (yangiliklar sahifasi, bosh sahifa, "Boshqa yangiliklar")
   dasturlar kalit so‘zi uchragan yangiliklarni chiqarmaydi — ular faqat dastur sahifasida; bunday yangilikdagi
   "orqaga" havolasi dastur sahifasiga olib boradi.
@@ -295,7 +298,8 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
   sort_order, is_published); `club_media` (club_id, kind, path, sort_order)
 - `gallery_albums` (title_*, description_*, event_date, cover_photo, is_published); `gallery_photos` (album_id, path,
   sort_order); `gallery_videos` (album_id, kind `video`|`youtube`, path, sort_order)
-- `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published)
+- `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
+  `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at)
 
