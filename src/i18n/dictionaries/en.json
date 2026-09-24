@@ -21,7 +21,9 @@
     "timetable": "Timetable",
     "programs": "Regular programs",
     "timetableShort": "Timetable",
-    "search": "Search"
+    "search": "Search",
+    "trust": "Trust box",
+    "documents": "Documents"
   },
   "navDesc": {
     "about": "History and general information",
@@ -34,7 +36,8 @@
     "upcoming": "Coming holidays and events",
     "past": "Events that took place",
     "gallery": "Moments of school life",
-    "programs": "Zakovat and other year-round projects"
+    "programs": "Zakovat and other year-round projects",
+    "documents": "Licence, orders, reports and forms"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -230,7 +233,8 @@
       },
       "hint": "Do not write personal or confidential data (passwords, document numbers) here.",
       "successTitle": "Your message was sent",
-      "again": "Write another message"
+      "again": "Write another message",
+      "tooMany": "Too many messages were sent. Please try again in 10 minutes or call the school."
     },
     "title": "Get in touch",
     "quickTitle": "Need a quick answer?",
@@ -602,5 +606,93 @@
     "bannerHint": "news, events and gallery for that year",
     "back": "Back to the current year",
     "page": "Year page"
+  },
+  "trust": {
+    "title": "Trust box",
+    "kicker": "Confidential message",
+    "intro": "Write to us without giving your name. Only the school's leadership sees the message.",
+    "topicLabel": "What it is about",
+    "topics": {
+      "xavfsizlik": "A child's safety, violence",
+      "pul": "Money collected unlawfully",
+      "munosabat": "How a teacher or member of staff behaved",
+      "taklif": "A suggestion",
+      "boshqa": "Other"
+    },
+    "message": "Your message",
+    "messagePlaceholder": "Please be as precise as you can: when, where, who was involved…",
+    "contact": "Phone or email for a reply",
+    "contactHint": "Optional. Fill it in only if you want an answer — left empty, the message is fully anonymous.",
+    "submit": "Send",
+    "sending": "Sending…",
+    "successTitle": "Your message has been received",
+    "success": "Thank you. It has been passed to the school's leadership.",
+    "again": "Send another message",
+    "invalid": "Please write your message (at least 10 characters).",
+    "error": "It could not be sent. Please try again later.",
+    "tooMany": "Too many messages are arriving right now. Please try again in 10 minutes.",
+    "privacyTitle": "How this message is stored",
+    "privacy": "Your name, phone number and IP address are not stored. Only the text you write and the topic you choose are. We can reach you only if you fill in the contact field.",
+    "urgentTitle": "In an emergency",
+    "urgent": "If a child's life or health is at risk, do not wait — call 102 (police) or 103 (ambulance), and tell the school at once:"
+  },
+  "apply": {
+    "title": "Apply online",
+    "lead": "Fill in the form and a member of staff will call you back and explain the next steps.",
+    "childName": "Child's surname and name",
+    "childBirth": "Date of birth",
+    "grade": "Which grade",
+    "gradeOption": "Grade {n}",
+    "parentName": "Parent's (or guardian's) full name",
+    "phone": "Your phone number",
+    "address": "Home address",
+    "addressHint": "Mahalla, street and house number.",
+    "previousSchool": "Previous school",
+    "previousSchoolHint": "If moving from another school: its name and the grade.",
+    "note": "Anything else",
+    "notePlaceholder": "Anything else we should know (for example a health matter needing attention)…",
+    "optional": "optional",
+    "submit": "Send the application",
+    "sending": "Sending…",
+    "successTitle": "Your application has been received",
+    "success": "Thank you. A member of staff will call the number you gave in the next few days.",
+    "again": "Send another application",
+    "invalid": "Please fill in the fields marked with a star.",
+    "badDate": "Please give a valid date of birth.",
+    "error": "The application could not be sent. Please try again later or call the school.",
+    "tooMany": "Too many applications were sent from this number. Please try again in 10 minutes.",
+    "privacy": "Your child's details are not shown on the site — only the school's leadership sees them. Do not write passport or certificate numbers here; you will show those at the school.",
+    "openForm": "Apply online"
+  },
+  "docCats": {
+    "meyoriy": "Regulations",
+    "buyruq": "Orders",
+    "hisobot": "Reports",
+    "shakl": "Application forms",
+    "boshqa": "Other"
+  },
+  "documents": {
+    "kicker": "Openness",
+    "title": "Documents",
+    "intro": "The school's open documents: regulations, orders, reports and the forms parents fill in.",
+    "statAll": {
+      "one": "document",
+      "other": "documents"
+    },
+    "statCats": {
+      "one": "section",
+      "other": "sections"
+    },
+    "statForms": {
+      "one": "application form",
+      "other": "application forms"
+    },
+    "search": "Search by document title…",
+    "empty": "No documents have been added yet.",
+    "notFound": "No documents found in this section.",
+    "open": "Open",
+    "download": "Download",
+    "external": "On another site",
+    "hint": "If a document will not open or is out of date, please tell the school."
   }
 }

@@ -1,0 +1,28 @@
+# Checks every push and pull request the way a contributor would before pushing: lint, types, build.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npx next typegen && npx tsc --noEmit
+      # No Supabase keys here: pages build with their empty states (the public client returns null without env).
+      - run: npm run build
+      - run: node --experimental-strip-types scripts/test-telegram-parse.mts

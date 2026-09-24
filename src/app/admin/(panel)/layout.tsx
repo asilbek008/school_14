@@ -14,14 +14,28 @@ const nav = [
   { href: "/admin/clubs", label: "To‘garaklar" },
   { href: "/admin/gallery", label: "Galereya" },
   { href: "/admin/pages", label: "Sahifalar" },
+  { href: "/admin/documents", label: "Hujjatlar" },
   { href: "/admin/years", label: "O‘quv yillari" },
   { href: "/admin/messages", label: "Xabarlar" },
+  { href: "/admin/trust", label: "Ishonch qutisi" },
+  { href: "/admin/applications", label: "Qabul arizalari" },
 ];
 
 export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
   const { email, supabase } = await requireAdmin();
-  // New contact messages, shown next to "Xabarlar" in the menu.
-  const { count: unread } = await supabase.from("contact_messages").select("id", { count: "exact", head: true }).eq("is_read", false);
+  // Unread counts shown next to their menu entries.
+  const unreadIn = (table: string) => supabase.from(table).select("id", { count: "exact", head: true }).eq("is_read", false);
+  const [{ count: unread }, { count: unreadTrust }, { count: newApplications }] = await Promise.all([
+    unreadIn("contact_messages"),
+    unreadIn("trust_messages"),
+    // Applications have no "read" flag: the ones still waiting are those left at their initial status.
+    supabase.from("admission_applications").select("id", { count: "exact", head: true }).eq("status", "new"),
+  ]);
+  const badges: Record<string, number | null> = {
+    "/admin/messages": unread,
+    "/admin/trust": unreadTrust,
+    "/admin/applications": newApplications,
+  };
 
   return (
     <div className="min-h-screen md:flex">
@@ -39,9 +53,9 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
           {nav.map(({ href, label }) => (
             <Link key={href} href={href} className="flex items-center justify-between gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-100">
               {label}
-              {href === "/admin/messages" && !!unread && (
-                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white" aria-label={`${unread} ta yangi`}>
-                  {unread}
+              {!!badges[href] && (
+                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white" aria-label={`${badges[href]} ta yangi`}>
+                  {badges[href]}
                 </span>
               )}
             </Link>

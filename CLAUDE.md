@@ -33,6 +33,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - `npx tsc --noEmit` — faqat tiplarni tekshirish. Route'lar o‘zgargandan keyin `.next/types`
   eskirib, soxta xatolar chiqsa: `rm -rf .next && npm run build`
 
+- CI: `.github/workflows/ci.yml` — har push/PR'da `npm ci`, lint, `next typegen` + `tsc`, build (Supabase kalitisiz — bo‘sh holatlar),
+  Telegram tahlil testi.
+
 ## Arxitektura
 
 ### Tillar (i18n)
@@ -63,11 +66,32 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   matni + "Qisqacha" (faoliyati, manzil, telefon, ish vaqti), rahbariyat (`positionGroup` = `leaders`, profilga havola)
   va dars vaqtlari qisqacha — to‘liq qo‘ng‘iroqlar jadvali va savol-javob o‘z sahifalarida (takrorlanmaydi).
 - Aloqa formasi: `[lang]/contact/actions.ts` Server Action `contact_messages` ga yozadi
-  (honeypot `website` maydoni bor; telefon yoki email majburiy). Action kiritilgan qiymatlarni
+  (honeypot `website` maydoni bor; telefon yoki email majburiy; spam cheklovi — `private.contact_rate_limit` trigger'i: bir telefon/email'dan
+  10 daqiqada 3 tadan, jami 30 tadan ortiq bo‘lsa `rate_limited` → formada `tooMany`). Action kiritilgan qiymatlarni
   qaytaradi — React 19 action'dan keyin formani tozalaydi, shuning uchun `defaultValue` kerak (`select` yangi
   `defaultValue` ni olmaydi — u `attempt` bo‘yicha qayta yaratiladi). Mavzu (`topic`: savol/taklif/murojaat/boshqa,
   `contactTopics`) admin xabarlarida belgi bo‘lib chiqadi. Sahifa maketdagidek: 4 aloqa kartasi (boshqa sahifalardagi raqam kartalari kabi rangli — `tileColors` `StatTiles` dan; telefonda ixcham),
   "Murojaat yuborish" formasi, "Tezkor javob kerakmi?" izohi va xarita.
+- Ishonch qutisi (`/[lang]/trust`, `trust_messages`; admin `/admin/trust`): ismsiz maxfiy murojaat — mavzu (`trustTopics`:
+  xavfsizlik/pul/munosabat/taklif/boshqa), matn (10–5000 belgi) va ixtiyoriy aloqa. Yuboruvchi haqida hech narsa saqlanmaydi
+  (ism, IP yo‘q); `actions.ts` xato matnini ham loglamaydi. RLS: hamma yozadi, faqat admin o‘qiydi. `private.trust_rate_limit`
+  (10 daqiqada 20 ta), `private.notify_trust_message` — Telegram'ga 🔒 belgisi bilan (`notify_messages` yoqilgan bo‘lsa).
+  Sahifa `robots: index:false`. Havolalar: footer, aloqa sahifasidagi karta. Admin menyusida o‘qilmaganlar soni, bosh sahifadagi
+  "E’tibor talab qiladi" ro‘yxatida ham.
+- Onlayn qabul arizasi (`/[lang]/admissions/apply`, `admission_applications`; admin `/admin/applications`): bola F.I.Sh.,
+  tug‘ilgan sanasi, sinf (1–11), ota-ona F.I.Sh. va telefoni majburiy; manzil, oldingi maktab va izoh ixtiyoriy. Bu bolaning
+  shaxsiy ma’lumoti — saytda hech qachon ko‘rinmaydi: RLS'da hamma yozadi, faqat admin o‘qiydi; `actions.ts` faqat xato kodini
+  loglaydi. Yosh 5–20 oralig‘ida tekshiriladi (`badDate`), `private.admission_rate_limit` — 10 daqiqada bir raqamdan 2 ta,
+  jami 20 ta; `private.notify_admission` — Telegram'ga 🎒 belgisi bilan. Holat: `new` → `contacted` → `accepted`/`declined`,
+  admin izohi alohida maydonda. Sahifa `robots: index:false`, havola — "Qabul" sahifasidagi tugma va sayt qidiruvi.
+  Admin menyusida yangi arizalar soni, bosh sahifadagi "E’tibor talab qiladi" ro‘yxatida ham.
+- Hujjatlar (`/[lang]/documents`, `documents`; admin `/admin/documents`): litsenziya, nizom, buyruq, hisobot va ariza
+  shakllari. Har hujjat — yo `media` bucket'dagi fayl (`kind='file'`, `path`, `file_type`/`file_size` avtomatik), yo boshqa
+  saytdagi havola (`kind='link'`, `url` — masalan lex.uz). Bo‘limlar `documentCategories` (`meyoriy|buyruq|hisobot|shakl|boshqa`,
+  nomlari lug‘atda `docCats`), sahifada 3 rangli raqam kartasi, `CategoryFilter` (bo‘lim tugmalari + nom bo‘yicha qidiruv).
+  Bucket PDF/Word/Excel'ni ham oladi (50 MB gacha; `FileUpload` brauzerdan to‘g‘ridan-to‘g‘ri yuklaydi, Server Action faylni
+  ko‘tarmaydi). Admin ro‘yxati `SortableList` (sudrab/↑↓ — `reorderDocuments`), fayl almashtirilsa eskisi Storage'dan o‘chadi;
+  hujjat o‘chirilganda fayli ham. Menyuda "Maktab ▾" ichida, footer va sayt qidiruvida ham.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -241,6 +265,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sana va yaqinlashayotganlarda `DaysLeft` ("Bugun"/"Ertaga"/"N kundan so‘ng"; brauzerda Toshkent kuni bo‘yicha,
   serverda hech narsa chiqarmaydi). Ochilganda turkum, vaqt, joy va tavsif. `details.acc` ochilish animatsiyasi
   `globals.css` da (`::details-content`).
+- Xatolar: `[lang]/error.tsx` (header/footer qoladi, uch tilda matn — client komponent, lug‘at o‘rniga ichida; "Qayta urinish" va bosh sahifa),
+  `app/global-error.tsx` (layout ham buzilsa, o‘z `<html>` i bilan), `admin/(panel)/error.tsx`; 404 — `[lang]/not-found.tsx`.
 - Sahifa banneri (`PageHeader`): `crumbs` — yuqoridagi sahifalar (Bosh sahifa › …), kicker, sarlavha, intro.
   Footer: brend, manzil + o‘quv yili (`currentSchoolYear()`, `school.ts`), bo‘limlar (2 ustun), aloqa; `ToTop` tugmasi.
 - Tungi rejim: `html.dark` (`[lang]/layout.tsx` dagi inline skript birinchi chizishdan oldin qo‘yadi: saqlangan
@@ -279,6 +305,22 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `row` (bosh sahifada: katta karta chapda, ikkita ixcham qator o‘ngda). `/news` da turkum tugmalari yonida qidiruv —
   `CategoryFilter` `searchLabel`; kartadagi `data-q` (kichik harfli sarlavha) CSS `[data-q*="…" i]` bilan filtrlanadi,
   sahifa keshi buzilmaydi.
+
+### SEO
+- `src/app/sitemap.ts` — barcha ochiq sahifalar uch tilda, har birida hreflang muqobillari (yangiliklar, xodimlar, to‘garaklar, dasturlar,
+  albomlar, sinflar, yillar); `robots.ts` — `/admin` yopiq. Manzil `siteUrl` (`school.ts`, `NEXT_PUBLIC_SITE_URL` — domen olinganda).
+  Layout: `metadataBase`, Open Graph (sayt nomi, tavsif, locale); ulashish rasmi — `[lang]/opengraph-image.tsx` (1200×630, faqat lotin
+  matni — standart shriftda kirill yo‘q). Layout'da `alternates.languages` yo‘q (har sahifani bosh sahifaga bog‘lab qo‘yardi) — hreflang sitemap'da.
+
+### Statistika va ilova
+- Vercel Web Analytics (`@vercel/analytics`, `[lang]/layout.tsx` da `<Analytics />`; cookie'siz) — Vercel loyihasining Analytics
+  bo‘limida yoqilganda ishlaydi.
+- PWA: `app/manifest.ts` (start `/uz`, standalone, navy tema), ikonlar — `app/app-icon/[size]` (192/512, `ImageResponse`, statik) va
+  `app/apple-icon.tsx`; `src/proxy.ts` matcher'i bu yo‘llarni til yo‘naltirishidan chiqaradi. `viewport.themeColor` — navy.
+
+### Xavfsizlik sarlavhalari
+- `next.config.ts` `headers()`: nosniff, `X-Frame-Options`/`frame-ancestors 'self'`, `base-uri`/`object-src`/`form-action`, Referrer-Policy,
+  Permissions-Policy, HSTS; `poweredByHeader: false`. To‘liq CSP yo‘q (tema skripti inline, xarita va YouTube iframe'lari).
 
 ### Supabase
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
@@ -362,7 +404,11 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
   `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order); `league_tables` (program_id, stage, title, as_of, rows)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
-- `contact_messages` (name, email, phone, topic, message, is_read, created_at)
+- `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
+  sort_order, is_published)
+- `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,
+  is_read); `admission_applications` (child_name, child_birth_date, grade, parent_name, phone, address, previous_school, note,
+  status, admin_note)
 
 ### Xavfsizlik modeli
 Har bir jadvalda Row Level Security yoqilgan. Admin tekshiruvi `private.is_admin()` funksiyasi

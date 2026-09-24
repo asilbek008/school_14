@@ -16,6 +16,8 @@ async function load(supabase: Supabase) {
   const head = (table: string) => supabase.from(table).select("*", { count: "exact", head: true });
   const [
     { count: unreadCount },
+    { count: unreadTrustCount },
+    { count: newApplicationCount },
     { count: newsCount },
     { count: hiddenCount },
     { count: upcomingCount },
@@ -26,6 +28,7 @@ async function load(supabase: Supabase) {
     lessons,
     { data: subjects },
     { data: pages },
+    { data: documents },
     { data: telegram },
     { data: nextEvents },
     { data: messages },
@@ -34,6 +37,8 @@ async function load(supabase: Supabase) {
     { data: albumRows },
   ] = await Promise.all([
     head("contact_messages").eq("is_read", false),
+    head("trust_messages").eq("is_read", false),
+    head("admission_applications").eq("status", "new"),
     head("news"),
     head("news").eq("is_published", false),
     head("events").eq("is_published", true).gte("starts_at", now),
@@ -44,6 +49,7 @@ async function load(supabase: Supabase) {
     allLessons<{ teacher: string | null; alt_teacher: string | null }>(supabase, "teacher, alt_teacher"),
     supabase.from("subjects").select("name_ru, name_en"),
     supabase.from("pages").select("slug, title_uz, body_uz, body_ru, body_en"),
+    supabase.from("documents").select("title_ru, title_en"),
     supabase.from("telegram_settings").select("enabled, channel, last_synced_at, last_status").eq("id", 1).maybeSingle(),
     supabase.from("events").select("id, title_uz, starts_at, all_day, is_published").gte("starts_at", now).order("starts_at").limit(5),
     supabase.from("contact_messages").select("id, name, message, is_read, created_at").order("created_at", { ascending: false }).limit(4),
@@ -52,9 +58,16 @@ async function load(supabase: Supabase) {
     supabase.from("gallery_albums").select("id, gallery_photos(count), gallery_videos(count)"),
   ]);
 
-  const [unread, news, hiddenNews, upcoming, clubs, albums] = [unreadCount, newsCount, hiddenCount, upcomingCount, clubsCount, albumsCount].map(
-    (n) => n ?? 0,
-  );
+  const [unread, unreadTrust, newApplications, news, hiddenNews, upcoming, clubs, albums] = [
+    unreadCount,
+    unreadTrustCount,
+    newApplicationCount,
+    newsCount,
+    hiddenCount,
+    upcomingCount,
+    clubsCount,
+    albumsCount,
+  ].map((n) => n ?? 0);
 
   // Missing data across the sections (the same checks as their "Kamchiliklar" filters).
   const known = new Set((staff ?? []).flatMap((s) => (s.short_name ? [normalizeName(s.short_name)] : [])));
@@ -64,6 +77,8 @@ async function load(supabase: Supabase) {
   const teachers = (staff ?? []).filter((s) => positionGroup(s.position_uz) === "teachers");
   const attention = [
     { n: unread, text: "ta o‘qilmagan xabar", href: "/admin/messages" },
+    { n: unreadTrust, text: "ta o‘qilmagan maxfiy murojaat (ishonch qutisi)", href: "/admin/trust" },
+    { n: newApplications, text: "ta yangi qabul arizasi — ota-ona bilan bog‘laning", href: "/admin/applications" },
     { n: hiddenNews, text: "ta yashirin yangilik (Telegram’dan kelgan bo‘lsa — tekshirib yoqing)", href: "/admin/news" },
     { n: unlinked.size, text: "ta o‘qituvchi ismi dars jadvalida profilga bog‘lanmagan", href: "/admin/classes" },
     { n: (classes ?? []).filter((c) => !c.homeroom_teacher_id).length, text: "ta sinfda sinf rahbari tanlanmagan", href: "/admin/classes" },
@@ -75,6 +90,7 @@ async function load(supabase: Supabase) {
       text: "ta sahifada ba’zi tillarda matn yo‘q",
       href: "/admin/pages",
     },
+    { n: (documents ?? []).filter((d) => !d.title_ru || !d.title_en).length, text: "ta hujjatning tarjimasi to‘liq emas", href: "/admin/documents" },
     { n: (clubRows ?? []).filter((c) => !c.start_time && !c.leader && !c.leader_id).length, text: "ta to‘garakning vaqti va rahbari kiritilmagan", href: "/admin/clubs" },
     {
       n: (albumRows ?? []).filter((a) => !a.gallery_photos[0]?.count && !a.gallery_videos[0]?.count).length,

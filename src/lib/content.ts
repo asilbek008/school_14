@@ -507,3 +507,45 @@ export const getSchoolYears = cache(async (): Promise<SchoolYearRow[]> => {
   logError("getSchoolYears", error);
   return (data ?? []) as SchoolYearRow[];
 });
+
+export type SchoolDocument = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  description_uz: string | null;
+  description_ru: string | null;
+  description_en: string | null;
+  category: string;
+  kind: "file" | "link";
+  path: string | null;
+  url: string | null;
+  file_type: string | null;
+  file_size: number | null;
+  doc_date: string | null;
+};
+
+/** Published documents (licence, orders, reports, forms) in the order the admin set. */
+export async function getDocuments(): Promise<SchoolDocument[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("documents")
+    .select("id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, category, kind, path, url, file_type, file_size, doc_date")
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("id");
+  logError("getDocuments", error);
+  return (data ?? []) as SchoolDocument[];
+}
+
+/** Where a document opens: the uploaded file's public URL, or the link the admin gave. */
+export const documentHref = (doc: SchoolDocument) => (doc.kind === "link" ? doc.url : mediaUrl(doc.path));
+
+/** "1,4 MB" — a size a parent can judge before tapping on mobile data. */
+export function fileSize(bytes: number | null, lang: Locale): string | null {
+  if (!bytes) return null;
+  const mb = bytes / (1024 * 1024);
+  if (mb >= 1) return `${new Intl.NumberFormat(lang === "en" ? "en-GB" : lang === "ru" ? "ru-RU" : "uz-UZ", { maximumFractionDigits: 1 }).format(mb)} MB`;
+  return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+}

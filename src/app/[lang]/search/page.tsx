@@ -42,7 +42,9 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
     ["/clubs", dict.nav.clubs, d.clubs],
     ["/gallery", dict.gallery.title, d.gallery],
     ["/faq", dict.nav.faq, d.faq],
+    ["/documents", dict.documents.title, dict.documents.intro],
     ["/contact", dict.nav.contact, d.contact],
+    ["/admissions/apply", dict.apply.title, dict.apply.lead],
   ];
 
   const items: SearchItem[] = [

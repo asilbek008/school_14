@@ -1,11 +1,12 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { locales } from "@/i18n/config";
 import { resolveLang } from "@/i18n/server";
 import YearBanner from "@/components/YearBanner";
-import { currentSchoolYear } from "@/lib/school";
+import { currentSchoolYear, siteUrl } from "@/lib/school";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
 const inter = Inter({
@@ -19,18 +20,34 @@ const bricolage = Bricolage_Grotesque({
   weight: ["600", "700", "800"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#131a2e",
+};
+
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
 
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
-  const { dict } = await resolveLang(params);
+  const { lang, dict } = await resolveLang(params);
+  const ogLocale = { uz: "uz_UZ", ru: "ru_RU", en: "en_US" }[lang];
   return {
-    title: { default: dict.site.name, template: `%s | ${dict.site.name}` },
+    metadataBase: new URL(siteUrl),
+    title: { default: `${dict.site.name} — ${dict.site.description}`, template: `%s | ${dict.site.name}` },
     description: dict.site.description,
-    alternates: {
-      languages: Object.fromEntries(locales.map((l) => [l, `/${l}`])),
+    applicationName: dict.site.name,
+    // Language versions (hreflang) of every page are listed in sitemap.xml; a layout-wide alternate
+    // would point every page at the home pages.
+    // Links shared in Telegram or Facebook show the school's card (opengraph-image.tsx), name and description.
+    openGraph: {
+      type: "website",
+      siteName: dict.site.name,
+      locale: ogLocale,
+      title: dict.site.name,
+      description: dict.site.description,
     },
+    twitter: { card: "summary_large_image" },
+    formatDetection: { telephone: false },
   };
 }
 
@@ -52,6 +69,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <YearBanner lang={lang} current={currentSchoolYear().from} t={dict.year} />
         <main className="flex-1">{children}</main>
         <SiteFooter lang={lang} dict={dict} />
+        {/* Vercel Web Analytics: page views without cookies (switched on in the Vercel project's Analytics tab). */}
+        <Analytics />
       </body>
     </html>
   );

@@ -44,3 +44,6 @@ export const mapEmbedUrl = (lang: Locale) =>
 
 /** "tel:" link for a phone number written with spaces. */
 export const telHref = (phone: string) => `tel:${phone.replace(/\s/g, "")}`;
+
+/** The site's public address (canonical links, sitemap, social previews). Set NEXT_PUBLIC_SITE_URL once a domain is bought. */
+export const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? "https://qiziriq14maktab.vercel.app").replace(/\/$/, "");

@@ -24,3 +24,19 @@ export const eventColors: Record<EventCategory, { badge: string; tile: string }>
 // What a contact-form message is about (matches the contact_messages.topic check).
 export const contactTopics = ["savol", "taklif", "murojaat", "boshqa"] as const;
 export type ContactTopic = (typeof contactTopics)[number];
+
+// What a trust-box message is about (matches the trust_messages.topic check).
+export const trustTopics = ["xavfsizlik", "pul", "munosabat", "taklif", "boshqa"] as const;
+export type TrustTopic = (typeof trustTopics)[number];
+
+// What an open document is (matches the documents.category check). Labels live in the dictionaries (docCats).
+export const documentCategories = ["meyoriy", "buyruq", "hisobot", "shakl", "boshqa"] as const;
+export type DocumentCategory = (typeof documentCategories)[number];
+
+export const documentColors: Record<DocumentCategory, string> = {
+  meyoriy: "bg-brand-soft text-brand-deep",
+  buyruq: "bg-gold-soft text-gold-deep",
+  hisobot: "bg-teal-soft text-[#0c6d62]",
+  shakl: "bg-[#fae7e2] text-[#c9553f]",
+  boshqa: "bg-slate-100 text-slate-600",
+};

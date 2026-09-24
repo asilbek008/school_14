@@ -21,7 +21,9 @@
     "timetable": "Dars jadvali",
     "programs": "Doimiy tadbirlar",
     "timetableShort": "Dars jadvali",
-    "search": "Qidirish"
+    "search": "Qidirish",
+    "trust": "Ishonch qutisi",
+    "documents": "Hujjatlar"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -34,7 +36,8 @@
     "upcoming": "Kelgusi bayram va tadbirlar",
     "past": "Bo‘lib o‘tgan tadbirlar",
     "gallery": "Maktab hayotidan lavhalar",
-    "programs": "Zakovat va boshqa muntazam loyihalar"
+    "programs": "Zakovat va boshqa muntazam loyihalar",
+    "documents": "Litsenziya, buyruq, hisobot va shakllar"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -230,7 +233,8 @@
       },
       "hint": "Shaxsiy va maxfiy ma’lumotlarni (parol, hujjat raqami) bu yerga yozmang.",
       "successTitle": "Murojaatingiz yuborildi",
-      "again": "Yana murojaat yozish"
+      "again": "Yana murojaat yozish",
+      "tooMany": "Juda ko‘p xabar yuborildi. 10 daqiqadan so‘ng qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling."
     },
     "title": "Biz bilan bog‘laning",
     "quickTitle": "Tezkor javob kerakmi?",
@@ -602,5 +606,93 @@
     "bannerHint": "yangiliklar, tadbirlar va galereya shu yil bo‘yicha",
     "back": "Joriy yilga qaytish",
     "page": "Yil sahifasi"
+  },
+  "trust": {
+    "title": "Ishonch qutisi",
+    "kicker": "Maxfiy murojaat",
+    "intro": "Ismingizni yozmasdan murojaat qoldiring. Xabarni faqat maktab rahbariyati ko‘radi.",
+    "topicLabel": "Murojaat mavzusi",
+    "topics": {
+      "xavfsizlik": "Bola xavfsizligi, zo‘ravonlik",
+      "pul": "Noqonuniy pul yig‘ish",
+      "munosabat": "O‘qituvchi yoki xodim munosabati",
+      "taklif": "Taklif",
+      "boshqa": "Boshqa"
+    },
+    "message": "Murojaat matni",
+    "messagePlaceholder": "Nima bo‘lganini iloji boricha aniq yozing: qachon, qayerda, kim ishtirok etgan…",
+    "contact": "Aloqa uchun telefon yoki pochta",
+    "contactHint": "Ixtiyoriy. Javob kerak bo‘lsagina yozing — bo‘sh qoldirsangiz, murojaat butunlay anonim bo‘ladi.",
+    "submit": "Yuborish",
+    "sending": "Yuborilmoqda…",
+    "successTitle": "Murojaatingiz qabul qilindi",
+    "success": "Rahmat. Xabaringiz maktab rahbariyatiga yetkazildi.",
+    "again": "Yana murojaat yuborish",
+    "invalid": "Murojaat matnini yozing (kamida 10 ta belgi).",
+    "error": "Yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring.",
+    "tooMany": "Hozir juda ko‘p murojaat kelmoqda. 10 daqiqadan so‘ng qayta urinib ko‘ring.",
+    "privacyTitle": "Bu murojaat qanday saqlanadi",
+    "privacy": "Ismingiz, telefon raqamingiz va IP manzilingiz saqlanmaydi. Faqat siz yozgan matn va tanlagan mavzu saqlanadi. Aloqa maydonini to‘ldirsangizgina biz siz bilan bog‘lana olamiz.",
+    "urgentTitle": "Shoshilinch holatda",
+    "urgent": "Bolaning hayoti yoki sog‘lig‘iga xavf tug‘ilsa, kutmang — 102 (politsiya) yoki 103 (tez yordam) ga qo‘ng‘iroq qiling, maktabga ham darhol xabar bering:"
+  },
+  "apply": {
+    "title": "Onlayn ariza qoldirish",
+    "lead": "Arizani to‘ldiring — maktab xodimi siz bilan bog‘lanadi va keyingi qadamlarni tushuntiradi.",
+    "childName": "Bolaning familiyasi va ismi",
+    "childBirth": "Tug‘ilgan sanasi",
+    "grade": "Qaysi sinfga",
+    "gradeOption": "{n}-sinf",
+    "parentName": "Ota-ona (yoki vasiy) F.I.Sh.",
+    "phone": "Telefon raqamingiz",
+    "address": "Yashash manzili",
+    "addressHint": "Mahalla, ko‘cha va uy raqami.",
+    "previousSchool": "Oldingi maktab",
+    "previousSchoolHint": "Boshqa maktabdan o‘tayotgan bo‘lsangiz: maktab nomi va sinfi.",
+    "note": "Qo‘shimcha ma’lumot",
+    "notePlaceholder": "Bilishimiz kerak bo‘lgan boshqa narsa (masalan, sog‘liq bo‘yicha e’tibor talab qiladigan holat)…",
+    "optional": "ixtiyoriy",
+    "submit": "Arizani yuborish",
+    "sending": "Yuborilmoqda…",
+    "successTitle": "Arizangiz qabul qilindi",
+    "success": "Rahmat. Maktab xodimi yaqin kunlarda ko‘rsatilgan raqamga qo‘ng‘iroq qiladi.",
+    "again": "Yana ariza yuborish",
+    "invalid": "Yulduzcha bilan belgilangan maydonlarni to‘ldiring.",
+    "badDate": "Tug‘ilgan sanani to‘g‘ri kiriting.",
+    "error": "Arizani yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling.",
+    "tooMany": "Bu raqamdan juda ko‘p ariza yuborildi. 10 daqiqadan so‘ng urinib ko‘ring.",
+    "privacy": "Bolangizning ma’lumotlari saytda ko‘rinmaydi — ularni faqat maktab rahbariyati ko‘radi. Pasport yoki guvohnoma raqamini bu yerga yozmang, ularni maktabga kelganingizda topshirasiz.",
+    "openForm": "Onlayn ariza qoldirish"
+  },
+  "docCats": {
+    "meyoriy": "Me’yoriy hujjatlar",
+    "buyruq": "Buyruqlar",
+    "hisobot": "Hisobotlar",
+    "shakl": "Ariza shakllari",
+    "boshqa": "Boshqa"
+  },
+  "documents": {
+    "kicker": "Ochiqlik",
+    "title": "Hujjatlar",
+    "intro": "Maktabning ochiq hujjatlari: me’yoriy hujjatlar, buyruqlar, hisobotlar va ota-onalar to‘ldiradigan shakllar.",
+    "statAll": {
+      "one": "hujjat",
+      "other": "hujjat"
+    },
+    "statCats": {
+      "one": "bo‘lim",
+      "other": "bo‘lim"
+    },
+    "statForms": {
+      "one": "ariza shakli",
+      "other": "ariza shakli"
+    },
+    "search": "Hujjat nomi bo‘yicha qidirish…",
+    "empty": "Hujjatlar hali qo‘shilmagan.",
+    "notFound": "Bu bo‘limda hujjat topilmadi.",
+    "open": "Ochish",
+    "download": "Yuklab olish",
+    "external": "Boshqa saytda",
+    "hint": "Hujjat ochilmasa yoki eskirgan bo‘lsa, maktabga xabar bering."
   }
 }
