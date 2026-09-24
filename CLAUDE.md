@@ -292,6 +292,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Layout: `metadataBase`, Open Graph (sayt nomi, tavsif, locale); ulashish rasmi — `[lang]/opengraph-image.tsx` (1200×630, faqat lotin
   matni — standart shriftda kirill yo‘q). Layout'da `alternates.languages` yo‘q (har sahifani bosh sahifaga bog‘lab qo‘yardi) — hreflang sitemap'da.
 
+### Statistika va ilova
+- Vercel Web Analytics (`@vercel/analytics`, `[lang]/layout.tsx` da `<Analytics />`; cookie'siz) — Vercel loyihasining Analytics
+  bo‘limida yoqilganda ishlaydi.
+- PWA: `app/manifest.ts` (start `/uz`, standalone, navy tema), ikonlar — `app/app-icon/[size]` (192/512, `ImageResponse`, statik) va
+  `app/apple-icon.tsx`; `src/proxy.ts` matcher'i bu yo‘llarni til yo‘naltirishidan chiqaradi. `viewport.themeColor` — navy.
+
 ### Xavfsizlik sarlavhalari
 - `next.config.ts` `headers()`: nosniff, `X-Frame-Options`/`frame-ancestors 'self'`, `base-uri`/`object-src`/`form-action`, Referrer-Policy,
   Permissions-Policy, HSTS; `poweredByHeader: false`. To‘liq CSP yo‘q (tema skripti inline, xarita va YouTube iframe'lari).

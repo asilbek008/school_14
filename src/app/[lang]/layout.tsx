@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { locales } from "@/i18n/config";
 import { resolveLang } from "@/i18n/server";
@@ -6,6 +6,7 @@ import YearBanner from "@/components/YearBanner";
 import { currentSchoolYear, siteUrl } from "@/lib/school";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 
 const inter = Inter({
@@ -18,6 +19,10 @@ const bricolage = Bricolage_Grotesque({
   subsets: ["latin", "latin-ext"],
   weight: ["600", "700", "800"],
 });
+
+export const viewport: Viewport = {
+  themeColor: "#131a2e",
+};
 
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
@@ -64,6 +69,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <YearBanner lang={lang} current={currentSchoolYear().from} t={dict.year} />
         <main className="flex-1">{children}</main>
         <SiteFooter lang={lang} dict={dict} />
+        {/* Vercel Web Analytics: page views without cookies (switched on in the Vercel project's Analytics tab). */}
+        <Analytics />
       </body>
     </html>
   );
