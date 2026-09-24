@@ -168,7 +168,20 @@
       "others": "Other staff"
     },
     "wholeGroup": "all",
-    "filterLabel": "Position or subject"
+    "filterLabel": "Position or subject",
+    "statTotal": {
+      "one": "staff member",
+      "other": "staff members"
+    },
+    "statLeaders": "in leadership",
+    "statTeachers": {
+      "one": "teacher",
+      "other": "teachers"
+    },
+    "statHomeroom": {
+      "one": "homeroom teacher",
+      "other": "homeroom teachers"
+    }
   },
   "contact": {
     "intro": "Have a question or suggestion? Write to us and we'll get back to you.",

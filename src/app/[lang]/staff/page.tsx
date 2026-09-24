@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { resolveLang } from "@/i18n/server";
-import { fill } from "@/i18n/fill";
+import { fill, plural } from "@/i18n/fill";
 import { getHomerooms, getStaff, localized, mediaUrl } from "@/lib/content";
 import { findPosition, positionGroup, positionKey, positionLabel, staffGroups, staffPositions, subjectFilters } from "@/lib/positions";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
+import StatTiles from "@/components/StatTiles";
 import StaffDirectory from "@/components/StaffDirectory";
 
 export const revalidate = 300;
@@ -43,6 +44,15 @@ export default async function StaffPage({ params }: PageProps<"/[lang]/staff">) 
     ],
   }));
 
+  const count = (group: string) => rows.filter((r) => r.group === group).length;
+  const homeroomCount = rows.filter((r) => r.homeroom).length;
+  const stats = [
+    { value: rows.length, label: plural(t.statTotal, rows.length, lang) },
+    { value: count("leaders"), label: t.statLeaders },
+    { value: count("teachers"), label: plural(t.statTeachers, count("teachers"), lang) },
+    { value: homeroomCount, label: plural(t.statHomeroom, homeroomCount, lang) },
+  ];
+
   return (
     <>
       <PageHeader
@@ -52,7 +62,14 @@ export default async function StaffPage({ params }: PageProps<"/[lang]/staff">) 
         intro={staff.length ? fill(t.countIntro, { n: staff.length }) : t.intro}
       />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        {rows.length ? <StaffDirectory rows={rows} filters={filters} lang={lang} t={t} /> : <EmptyState>{t.empty}</EmptyState>}
+        {rows.length ? (
+          <>
+            <StatTiles stats={stats} />
+            <StaffDirectory rows={rows} filters={filters} lang={lang} t={t} />
+          </>
+        ) : (
+          <EmptyState>{t.empty}</EmptyState>
+        )}
       </div>
     </>
   );

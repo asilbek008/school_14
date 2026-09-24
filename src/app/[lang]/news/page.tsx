@@ -6,6 +6,7 @@ import { newsCategories } from "@/lib/categories";
 import PageHeader from "@/components/PageHeader";
 import NewsCard from "@/components/NewsCard";
 import EmptyState from "@/components/EmptyState";
+import StatTiles from "@/components/StatTiles";
 import CategoryFilter from "@/components/CategoryFilter";
 
 export const revalidate = 300;
@@ -37,10 +38,10 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
   const present = newsCategories.filter((c) => news.some((n) => n.category === c));
   const n = totals(news);
   const stats = [
-    { value: n.total, label: plural(t.statTotal, n.total, lang), bg: "from-[#3e72e8] to-brand-deep" },
-    { value: n.month, label: t.statMonth, bg: "from-[#17a090] to-[#0c6d62]" },
-    { value: n.photos, label: plural(t.statPhotos, n.photos, lang), bg: "from-[#e0a33e] to-gold-deep" },
-    { value: n.wins, label: plural(t.statWins, n.wins, lang), bg: "from-[#d2664e] to-[#a63b28]" },
+    { value: n.total, label: plural(t.statTotal, n.total, lang) },
+    { value: n.month, label: t.statMonth },
+    { value: n.photos, label: plural(t.statPhotos, n.photos, lang) },
+    { value: n.wins, label: plural(t.statWins, n.wins, lang) },
   ];
 
   return (
@@ -54,19 +55,7 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
       <div className="mx-auto max-w-6xl px-4 py-10">
         {news.length ? (
           <>
-            {/* Totals, as colored tiles (as on "About" and the gallery). */}
-            <div className="mb-8 grid grid-cols-2 gap-2.5 sm:gap-3.5 lg:grid-cols-4">
-              {stats.map(({ value, label, bg }, i) => (
-                <div
-                  key={bg}
-                  style={{ animationDelay: `${i * 60}ms` }}
-                  className={`reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-4 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${bg}`}
-                >
-                  <b className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]">{value}</b>
-                  <span className="mt-1.5 block text-[12.5px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
-                </div>
-              ))}
-            </div>
+            <StatTiles stats={stats} />
             <CategoryFilter
               allLabel={`${dict.common.all} · ${news.length}`}
               searchLabel={t.search}
