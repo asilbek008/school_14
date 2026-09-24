@@ -14,3 +14,9 @@ export async function deleteMessage(id: number) {
   await supabase.from("contact_messages").delete().eq("id", id);
   revalidatePath("/admin", "layout");
 }
+
+export async function markAllRead() {
+  const { supabase } = await requireAdmin();
+  await supabase.from("contact_messages").update({ is_read: true }).eq("is_read", false);
+  revalidatePath("/admin", "layout");
+}
