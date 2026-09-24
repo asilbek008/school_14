@@ -74,7 +74,7 @@ export default function SiteNav({
 }: {
   home: string;
   entries: NavEntry[];
-  labels: { menu: string; newTab: string; extra: NavItem };
+  labels: { menu: string; newTab: string; extra: NavItem; search: { action: string; label: string } };
   /** Shown at the right end, before the mobile menu button (the language switcher). */
   children: React.ReactNode;
 }) {
@@ -194,6 +194,20 @@ export default function SiteNav({
           </summary>
           <nav className="surface fixed inset-x-0 bottom-0 top-16 z-40 animate-fade-in overflow-y-auto overscroll-contain bg-paper px-4 pb-10 pt-4 text-slate-900 [animation-duration:0.25s]">
             <div className="mx-auto max-w-xl space-y-2">
+              {/* Site search (on phones it is not in the bar). */}
+              <form action={labels.search.action} role="search" className="relative mb-3">
+                <svg viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+                  <circle cx="11" cy="11" r="7" />
+                  <path d="m20 20-3.5-3.5" />
+                </svg>
+                <input
+                  type="search"
+                  name="q"
+                  placeholder={labels.search.label}
+                  aria-label={labels.search.label}
+                  className="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-base outline-none focus:border-brand"
+                />
+              </form>
               {entries.map((entry) => {
                 if ("href" in entry) {
                   const active = isActive(entry.href);

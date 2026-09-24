@@ -207,6 +207,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
 - Sana/vaqt `src/lib/format.ts` orqali, `Asia/Tashkent` vaqt zonasida.
+- Sayt bo‘yicha qidiruv (`/[lang]/search`): sahifa statik — server hamma qidiriladigan narsani (sahifalar, yangiliklar, tadbirlar,
+  xodimlar, to‘garaklar, doimiy tadbirlar, savol-javob, albomlar) yig‘adi, client `SiteSearch` brauzerda filtrlaydi (hamma so‘z uchrashi
+  kerak, sarlavhadagisi oldinda; apostrof va ё farqsiz), turlar bo‘yicha tugmalar, `?q=` manzilda (`useSearchParams`, `Suspense` ichida).
+  Kirish: header'da lupa (sm–lg va 1100px dan; 1024–1100px da ruscha sig‘maydi), telefonda menyu panelining tepasida forma, footer'da havola.
 
 ### Dizayn
 - Shriftlar: Inter (`font-sans`) va sarlavhalar uchun Bricolage Grotesque (`font-display`; bosh sahifa hero va

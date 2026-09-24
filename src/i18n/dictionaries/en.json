@@ -20,7 +20,8 @@
     "gallery": "Gallery",
     "timetable": "Timetable",
     "programs": "Regular programs",
-    "timetableShort": "Timetable"
+    "timetableShort": "Timetable",
+    "search": "Search"
   },
   "navDesc": {
     "about": "History and general information",
@@ -540,5 +541,29 @@
     "shown": "{n} of {total}",
     "noMatch": "Nothing found.",
     "placeOf": "{place} of {total}"
+  },
+  "search": {
+    "title": "Search the site",
+    "kicker": "Search",
+    "intro": "Find a news story, event, teacher, club or answer.",
+    "placeholder": "For example: admissions, chess, Zakovat, a teacher’s name…",
+    "hint": "Type at least 2 letters.",
+    "noResults": "Nothing found for “{q}”. Try other words.",
+    "found": {
+      "one": "{n} result",
+      "other": "{n} results"
+    },
+    "more": "{n} more",
+    "all": "All",
+    "types": {
+      "page": "Pages",
+      "news": "News",
+      "event": "Events",
+      "staff": "Staff",
+      "club": "Clubs",
+      "program": "Regular events",
+      "faq": "FAQ",
+      "album": "Albums"
+    }
   }
 }
