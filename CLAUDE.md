@@ -358,6 +358,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   RLS: faqat admin), bazaga bucket ichidagi yo‘l (`news/<uuid>.jpg`) yoziladi. Yuklashdan oldin
   `src/lib/resize-image.ts` rasmni 1920px gacha kichraytirib JPEG qiladi (telefon rasmlari 5 MB
   limitdan katta bo‘ladi; HEIC ham shu yo‘l bilan o‘tadi, agar brauzer o‘qiy olsa).
+- Rejalashtirilgan yangilik: e’lon qilingan, lekin `published_at` kelajakda bo‘lsa, RLS (`read published news`) uni vaqti kelguncha
+  yashiradi (rasm/videolari ham — ularning siyosati yangilik ko‘rinishiga bog‘liq); sahifalar 5 daqiqada yangilanadi, cron kerak emas.
+  Admin ro‘yxatida "🕒 Rejalashtirilgan" va chiqish vaqti, holat filtrida alohida.
 - Yangilik galereyasi: yangilikni tahrirlash sahifasida `PhotoUploader` (`news/<id>/` ga yuklaydi) va `PhotoManager`
   (tartib sudrab/←→, `reorderNewsPhotos`; muqova alohida — formadagi `cover_image`, shuning uchun `setCover` berilmaydi); yangi
   yangilik saqlangach tahrirlash sahifasiga o‘tiladi. Ochiq sahifada matndan keyin `Lightbox`, keyin videolar (`news_videos`,
