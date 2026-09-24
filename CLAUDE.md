@@ -254,12 +254,16 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   RLS: faqat admin), bazaga bucket ichidagi yo‘l (`news/<uuid>.jpg`) yoziladi. Yuklashdan oldin
   `src/lib/resize-image.ts` rasmni 1920px gacha kichraytirib JPEG qiladi (telefon rasmlari 5 MB
   limitdan katta bo‘ladi; HEIC ham shu yo‘l bilan o‘tadi, agar brauzer o‘qiy olsa).
-- Yangilik galereyasi: yangilikni tahrirlash sahifasida `PhotoUploader` (`news/<id>/` ga yuklaydi); yangi
-  yangilik saqlangach tahrirlash sahifasiga o‘tiladi. Ochiq sahifada matndan keyin `Lightbox`. Telegram'dan
-  kelgan postning 1-rasmi muqova, qolganlari (12 tagacha) galereya.
+- Yangilik galereyasi: yangilikni tahrirlash sahifasida `PhotoUploader` (`news/<id>/` ga yuklaydi) va `PhotoManager`
+  (tartib sudrab/←→, `reorderNewsPhotos`; muqova alohida — formadagi `cover_image`, shuning uchun `setCover` berilmaydi); yangi
+  yangilik saqlangach tahrirlash sahifasiga o‘tiladi. Ochiq sahifada matndan keyin `Lightbox`, keyin videolar (`news_videos`,
+  galereya videolari kabi). Telegram'dan kelgan postning 1-rasmi muqova, qolganlari (12 tagacha) galereya. Admin ro‘yxati —
+  client `NewsList`: qidiruv, turkum tugmalari (soni bilan), holat filtri; qatorda muqova, turkum, sana, 📷/🎬, Telegram belgisi.
+- Admin menyusi (`(panel)/layout.tsx`) sahifa scroll bo‘lganda joyida turadi: kompyuterda `sticky` to‘liq balandlikdagi ustun,
+  telefonda yuqoridagi `sticky` qator.
 - Galereya: albom yaratilgach rasm qo‘shish sahifasiga o‘tiladi; rasm/albom o‘chirilganda
   Storage'dagi fayllar ham o‘chiriladi (`gallery/actions.ts`). Admin ro‘yxati — muqovali kartalar (sana bo‘yicha, saytdagidek;
-  albomlarni qo‘lda tartiblash yo‘q). Albom sahifasida `PhotoManager`: rasmlar tartibi sudrab yoki ←→ bilan (`reorderPhotos`,
+  albomlarni qo‘lda tartiblash yo‘q). Albom sahifasida `PhotoManager` (`components/admin`): rasmlar tartibi sudrab yoki ←→ bilan (`reorderPhotos`,
   darhol saqlanadi), muqova tanlash, o‘chirish. Videolar — `gallery_videos` (`video` fayl `media/gallery/<id>/` da yoki `youtube` id;
   `gallery_photos` dan alohida, chunki rasmlar Lightbox/sanoq/bosh sahifada ishlatiladi). Umumiy: `VideoUploader`, `YoutubeForm`,
   admin `VideoList`, ochiq `VideoGrid` (to‘garaklar bilan bir xil), forma bo‘limlari — `FormSection` (`fields.tsx`), `youtubeId` — `media.ts`.
@@ -276,7 +280,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 `title_en` (va `body_*`). Tanlangan tilda bo‘sh bo‘lsa, `_uz` ko‘rsatiladi.
 - `admins` (user_id) — kontent yozishi mumkin bo‘lgan Auth foydalanuvchilari; qo‘lda qo‘shiladi
 - `news` (slug, title_*, body_*, cover_image, published_at, is_published); `news_photos` (news_id, path,
-  sort_order) — yangilik galereyasi (RLS'da yangilikka bog‘liq, albom rasmlari kabi)
+  sort_order) — yangilik galereyasi (RLS'da yangilikka bog‘liq, albom rasmlari kabi); `news_videos` (news_id, kind `video`|`youtube`, path, sort_order)
 - `events` (title_*, description_*, location, starts_at, ends_at, is_published)
 - `staff` (full_name, short_name, position_*, subject_*, photo, category_*, education_*, experience_years,
   phone, email, bio_*, sort_order, is_published)
