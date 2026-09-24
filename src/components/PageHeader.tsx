@@ -29,7 +29,7 @@ export default function PageHeader({ title, intro, kicker, crumbs }: { title: st
             {kicker}
           </span>
         )}
-        <h1 className="max-w-[22ch] animate-fade-up text-3xl font-bold tracking-tight [animation-delay:60ms] sm:text-[44px] sm:leading-[1.1]">{title}</h1>
+        <h1 className="font-display max-w-[22ch] animate-fade-up text-3xl font-bold tracking-tight [animation-delay:60ms] sm:text-[44px] sm:leading-[1.1]">{title}</h1>
         {intro && <p className="mt-3 max-w-[60ch] animate-fade-up text-[#bdc6e0] sm:text-base [animation-delay:120ms]">{intro}</p>}
       </div>
     </div>

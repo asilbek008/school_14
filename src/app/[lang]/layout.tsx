@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { locales } from "@/i18n/config";
 import { resolveLang } from "@/i18n/server";
 import SiteHeader from "@/components/SiteHeader";
@@ -9,6 +9,12 @@ import "../globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin", "latin-ext", "cyrillic"],
+});
+// Display face for big headlines (no Cyrillic: Russian text falls back to Inter).
+const bricolage = Bricolage_Grotesque({
+  variable: "--font-bricolage",
+  subsets: ["latin", "latin-ext"],
+  weight: ["600", "700", "800"],
 });
 
 export function generateStaticParams() {
@@ -35,7 +41,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
 
   return (
     // suppressHydrationWarning: the theme script adds the "dark" class before React hydrates.
-    <html lang={lang} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+    <html lang={lang} className={`${inter.variable} ${bricolage.variable} h-full antialiased`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
