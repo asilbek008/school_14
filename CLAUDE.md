@@ -33,6 +33,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - `npx tsc --noEmit` — faqat tiplarni tekshirish. Route'lar o‘zgargandan keyin `.next/types`
   eskirib, soxta xatolar chiqsa: `rm -rf .next && npm run build`
 
+- CI: `.github/workflows/ci.yml` — har push/PR'da `npm ci`, lint, `next typegen` + `tsc`, build (Supabase kalitisiz — bo‘sh holatlar),
+  Telegram tahlil testi.
+
 ## Arxitektura
 
 ### Tillar (i18n)
@@ -242,6 +245,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sana va yaqinlashayotganlarda `DaysLeft` ("Bugun"/"Ertaga"/"N kundan so‘ng"; brauzerda Toshkent kuni bo‘yicha,
   serverda hech narsa chiqarmaydi). Ochilganda turkum, vaqt, joy va tavsif. `details.acc` ochilish animatsiyasi
   `globals.css` da (`::details-content`).
+- Xatolar: `[lang]/error.tsx` (header/footer qoladi, uch tilda matn — client komponent, lug‘at o‘rniga ichida; "Qayta urinish" va bosh sahifa),
+  `app/global-error.tsx` (layout ham buzilsa, o‘z `<html>` i bilan), `admin/(panel)/error.tsx`; 404 — `[lang]/not-found.tsx`.
 - Sahifa banneri (`PageHeader`): `crumbs` — yuqoridagi sahifalar (Bosh sahifa › …), kicker, sarlavha, intro.
   Footer: brend, manzil + o‘quv yili (`currentSchoolYear()`, `school.ts`), bo‘limlar (2 ustun), aloqa; `ToTop` tugmasi.
 - Tungi rejim: `html.dark` (`[lang]/layout.tsx` dagi inline skript birinchi chizishdan oldin qo‘yadi: saqlangan
