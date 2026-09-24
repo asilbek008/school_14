@@ -92,6 +92,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Bucket PDF/Word/Excel'ni ham oladi (50 MB gacha; `FileUpload` brauzerdan to‘g‘ridan-to‘g‘ri yuklaydi, Server Action faylni
   ko‘tarmaydi). Admin ro‘yxati `SortableList` (sudrab/↑↓ — `reorderDocuments`), fayl almashtirilsa eskisi Storage'dan o‘chadi;
   hujjat o‘chirilganda fayli ham. Menyuda "Maktab ▾" ichida, footer va sayt qidiruvida ham.
+- O‘quv yili taqvimi (`/[lang]/calendar`, `calendar_periods`; admin `/admin/calendar`): choraklar, ta’tillar, imtihonlar (`kind`
+  `chorak|tatil|imtihon|boshqa`, `starts_on`/`ends_on` — oddiy sana, `formatDayRange` UTC'da). Davlat bayramlari takrorlanmaydi —
+  `getCalendar(start)` ularni `events` (`bayram`) dan oladi. Faqat joriy o‘quv yili. Sahifa: 4 raqam kartasi, `CalendarNow` (client,
+  Toshkent kuni: hozirgi davr — chorak ichidagi ta’til/imtihon ustun — va keyingisi, necha kun qolgani), md+ da yil chizig‘i
+  (sentabr–avgust, sanaga qarab joylashadi; qisqa bo‘lakda nom yo‘q, `title`da), oylar bo‘yicha kartalar. Sanalar faqat vazirlik
+  buyrug‘idan (egasi kiritadi). Menyuda "Maktab ▾" ichida.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -404,6 +410,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
   `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order); `league_tables` (program_id, stage, title, as_of, rows)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
+- `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,

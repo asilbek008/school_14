@@ -39,3 +39,16 @@ export function fromTashkentInput(value: string): string | null {
   const date = new Date(`${value}:00${TASHKENT_OFFSET}`);
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
 }
+
+// Plain dates ("2026-09-02", no time) are calendar days: read and shown in UTC so no zone shifts them.
+const dayFormat = (lang: Locale, options: Intl.DateTimeFormatOptions) =>
+  new Intl.DateTimeFormat(intlLocale[lang], { ...options, timeZone: "UTC" });
+
+/** "2-sentabr – 31-oktabr" / "2 – 8-noyabr"; one day alone when both are the same. */
+export function formatDayRange(from: string, to: string, lang: Locale): string {
+  const f = dayFormat(lang, { day: "numeric", month: "long" });
+  return from === to ? f.format(new Date(from)) : f.formatRange(new Date(from), new Date(to));
+}
+
+/** Month name of a plain date: "Sentabr". */
+export const formatMonth = (day: string, lang: Locale) => dayFormat(lang, { month: "long" }).format(new Date(day));

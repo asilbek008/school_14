@@ -35,6 +35,7 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
     ["/admissions", dict.nav.admissions, d.admissions],
     ["/timetable", dict.nav.timetable, dict.timetable.intro],
     ["/schedule", dict.nav.schedule, d.schedule],
+    ["/calendar", dict.calendar.title, d.calendar],
     ["/staff", dict.nav.staff, dict.staff.intro],
     ["/news", dict.nav.news, dict.news.intro],
     ["/events", dict.nav.events, dict.events.intro],
