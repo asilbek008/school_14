@@ -120,6 +120,7 @@
     "phone": "Phone",
     "email": "Email",
     "hours": "Office hours",
+    "openMap": "Open in Google Maps",
     "tbd": "Coming soon",
     "form": {
       "title": "Send a message",

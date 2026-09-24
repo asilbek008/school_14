@@ -59,7 +59,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Aloqa formasi: `[lang]/contact/actions.ts` Server Action `contact_messages` ga yozadi
   (honeypot `website` maydoni bor; telefon yoki email majburiy). Action kiritilgan qiymatlarni
   qaytaradi — React 19 action'dan keyin formani tozalaydi, shuning uchun `defaultValue` kerak.
-- Maktab faktlari `src/lib/school.ts` da: manzil, telefon, ish vaqti (tarjima qilinadiganlari
+- Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
+  bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
   `school_classes` dan hisoblanadi (YT — yakka tartibdagi sinflar qo‘shilmaydi).
 - Qo‘ng‘iroqlar: `src/lib/bells.ts` — 2 smena (08:00: 1,2,5,9,10,11-sinf; 13:00: 3,4,6,7,8-sinf),

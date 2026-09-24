@@ -46,7 +46,14 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
       <div className="hidden border-b border-white/[0.07] bg-navy text-[12.5px] text-[#aeb8d4] md:block">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
-            {school.address && <span>📍 {school.address[lang]}</span>}
+            {school.address &&
+              (school.mapUrl ? (
+                <a href={school.mapUrl} target="_blank" rel="noopener noreferrer" className="transition-colors hover:text-white">
+                  📍 {school.address[lang]}
+                </a>
+              ) : (
+                <span>📍 {school.address[lang]}</span>
+              ))}
             {school.phone && (
               <a href={telHref(school.phone)} className="transition-colors hover:text-white">
                 ☎ {school.phone}

@@ -64,7 +64,17 @@ export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Diction
               </li>
             )}
             {school.hours && <li>{school.hours[lang]}</li>}
-            {school.address && <li>📍 {school.address[lang]}</li>}
+            {school.address && (
+              <li>
+                {school.mapUrl ? (
+                  <a href={school.mapUrl} target="_blank" rel="noopener noreferrer" className={link}>
+                    📍 {school.address[lang]}
+                  </a>
+                ) : (
+                  <>📍 {school.address[lang]}</>
+                )}
+              </li>
+            )}
           </ul>
         </div>
       </div>

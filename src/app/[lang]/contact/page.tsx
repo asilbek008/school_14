@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { resolveLang } from "@/i18n/server";
-import { school, telHref } from "@/lib/school";
+import { mapEmbedUrl, school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
 import ContactForm from "./ContactForm";
 
@@ -13,7 +13,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
   const { lang, dict } = await resolveLang(params);
   const t = dict.contact;
   const rows = [
-    { label: t.address, value: school.address?.[lang] ?? null },
+    { label: t.address, value: school.address?.[lang] ?? null, href: school.mapUrl },
     { label: t.phone, value: school.phone, href: school.phone && telHref(school.phone) },
     { label: t.email, value: school.email, href: school.email && `mailto:${school.email}` },
     { label: t.hours, value: school.hours?.[lang] ?? null },
@@ -31,7 +31,17 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
                 <dt className="text-sm text-slate-500">{label}</dt>
                 <dd className="font-medium text-slate-900">
                   {value ? (
-                    href ? <a href={href} className="text-brand link-grow">{value}</a> : value
+                    href ? (
+                      <a
+                        href={href}
+                        className="text-brand link-grow"
+                        {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                      >
+                        {value}
+                      </a>
+                    ) : (
+                      value
+                    )
                   ) : (
                     <span className="text-slate-400">{t.tbd}</span>
                   )}
@@ -39,13 +49,26 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
               </div>
             ))}
           </dl>
-          {school.mapEmbedUrl && (
-            <iframe
-              src={school.mapEmbedUrl}
-              title={t.address}
-              loading="lazy"
-              className="mt-6 aspect-video w-full rounded-xl border border-slate-200"
-            />
+          {school.location && (
+            <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 bg-white">
+              <iframe
+                src={mapEmbedUrl(lang)!}
+                title={`${t.address}: ${school.address?.[lang] ?? ""}`}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="block aspect-video w-full"
+              />
+              {school.mapUrl && (
+                <a
+                  href={school.mapUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-between px-5 py-3 text-sm font-bold text-brand transition-colors hover:bg-paper"
+                >
+                  📍 {t.openMap} <span aria-hidden>↗</span>
+                </a>
+              )}
+            </div>
           )}
         </section>
         <section>
