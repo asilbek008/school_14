@@ -6,7 +6,7 @@ import { normalizeName } from "@/lib/staff-import";
 import { positionGroup } from "@/lib/positions";
 import AdminHeader from "@/components/admin/AdminHeader";
 import StaffList, { type StaffItem } from "./StaffList";
-import { allLessons } from "./lessons";
+import { allLessons } from "@/lib/all-lessons";
 
 export const metadata: Metadata = { title: "O‘qituvchilar" };
 

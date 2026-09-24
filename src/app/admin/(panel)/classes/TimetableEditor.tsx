@@ -10,11 +10,14 @@ export default function TimetableEditor({
   classId,
   grade,
   subjects,
+  teachers,
   current,
 }: {
   classId: number;
   grade: number;
   subjects: { id: number; name_uz: string }[];
+  /** eMaktab names of the staff ("Karimova D.A."), suggested in the teacher fields so the timetable links to profiles. */
+  teachers: string[];
   current: {
     weekday: number;
     period: number;
@@ -31,7 +34,13 @@ export default function TimetableEditor({
     <AdminForm action={saveTimetable.bind(null, classId)} submitLabel="Jadvalni saqlash">
       <p className="text-sm text-slate-600">
         {grade}-sinflar {shift.id}-smenada ({shift.start} dan). Har bir katakka fan tanlang (o‘qituvchi ismi ixtiyoriy); dars bo‘lmasa «—» qoldiring.
+        O‘qituvchi ismini yozishni boshlasangiz, xodimlar ro‘yxatidagi eMaktab nomlari taklif qilinadi — shunda saytda ism profilga bog‘lanadi.
       </p>
+      <datalist id="timetable-teachers">
+        {teachers.map((t) => (
+          <option key={t} value={t} />
+        ))}
+      </datalist>
       <div className="-mx-6 overflow-x-auto px-6">
         <table className="w-full min-w-[860px] border-collapse text-sm">
           <thead>
@@ -71,6 +80,7 @@ export default function TimetableEditor({
                     <input
                       name={`t-${d}-${l.n}`}
                       defaultValue={find(d, l.n)?.teacher ?? ""}
+                      list="timetable-teachers"
                       placeholder="O‘qituvchi"
                       aria-label={`${dayNames[d - 1]}, ${l.n}-dars o‘qituvchisi`}
                       className="mt-1 w-full rounded-md border border-slate-200 px-2 py-1 text-xs text-slate-600 focus:border-blue-600 focus:outline-none"

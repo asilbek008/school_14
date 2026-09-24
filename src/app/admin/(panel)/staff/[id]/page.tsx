@@ -7,7 +7,7 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import DeleteButton from "@/components/admin/DeleteButton";
 import StaffForm from "../StaffForm";
 import { deleteStaff } from "../actions";
-import { allLessons } from "../lessons";
+import { allLessons } from "@/lib/all-lessons";
 
 export const metadata: Metadata = { title: "Tahrirlash" };
 
