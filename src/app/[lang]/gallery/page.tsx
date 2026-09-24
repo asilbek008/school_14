@@ -9,7 +9,7 @@ export const revalidate = 300;
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/gallery">): Promise<Metadata> {
   const { dict } = await resolveLang(params);
-  return { title: dict.nav.gallery };
+  return { title: dict.gallery.title };
 }
 
 export default async function GalleryPage({ params }: PageProps<"/[lang]/gallery">) {
@@ -18,7 +18,7 @@ export default async function GalleryPage({ params }: PageProps<"/[lang]/gallery
 
   return (
     <>
-      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.gallery} intro={dict.gallery.intro} kicker={dict.home.galleryTitle} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.gallery.title} intro={dict.gallery.intro} kicker={dict.home.galleryTitle} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         {albums.length ? (
           <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">

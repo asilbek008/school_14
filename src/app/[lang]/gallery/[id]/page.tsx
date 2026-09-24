@@ -8,6 +8,7 @@ import { fill } from "@/i18n/fill";
 import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
 import Lightbox from "@/components/Lightbox";
+import EmptyState from "@/components/EmptyState";
 
 export const revalidate = 300;
 
@@ -29,9 +30,9 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
   return (
     <>
       <PageHeader
-        crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/gallery`, label: dict.nav.gallery }]}
+        crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/gallery`, label: dict.gallery.title }]}
         title={title}
-        kicker={album.event_date ? formatDate(album.event_date, lang) : dict.nav.gallery}
+        kicker={album.event_date ? formatDate(album.event_date, lang) : dict.gallery.album}
         intro={fill(dict.gallery.photos, { n: album.gallery_photos.length })}
       />
       <div className="mx-auto max-w-6xl px-4 py-10">
@@ -45,6 +46,7 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
           </div>
         )}
         <div className="mt-6">
+          {album.gallery_photos.length === 0 && <EmptyState>{dict.gallery.noPhotos}</EmptyState>}
           <Lightbox
             photos={album.gallery_photos.map((p) => mediaUrl(p.path)!)}
             alt={title}
