@@ -3,6 +3,7 @@
 import { redirect } from "next/navigation";
 import { requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
 import { fromTashkentInput } from "@/lib/format";
+import { runTelegramSync, telegram } from "@/lib/telegram-bot";
 
 /** "@maktab14", "https://t.me/maktab14", "t.me/s/maktab14" → "maktab14". */
 function channelName(value: string): string {
@@ -37,37 +38,9 @@ export async function saveTelegram(_prev: FormState, form: FormData): Promise<Fo
 /** Runs the telegram-sync Edge Function now (the same call pg_cron makes every 15 minutes). */
 export async function syncTelegramNow() {
   const { supabase } = await requireAdmin();
-  const { data: settings } = await supabase.from("telegram_settings").select("sync_secret").eq("id", 1).single();
-  let status = "error";
-  if (settings) {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/telegram-sync`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-sync-secret": settings.sync_secret },
-        body: "{}",
-        cache: "no-store",
-      });
-      if (res.ok) status = "done";
-    } catch {}
-  }
+  const status = (await runTelegramSync(supabase)) ? "done" : "error";
   revalidatePublic();
   redirect(`/admin/telegram?synced=${status}`);
-}
-
-type TgResult<T> = { ok: boolean; result?: T; description?: string };
-
-async function telegram<T>(token: string, method: string, params: Record<string, unknown> = {}): Promise<TgResult<T>> {
-  try {
-    const res = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
-      cache: "no-store",
-    });
-    return (await res.json()) as TgResult<T>;
-  } catch {
-    return { ok: false, description: "Telegram bilan bog‘lanib bo‘lmadi" };
-  }
 }
 
 /**

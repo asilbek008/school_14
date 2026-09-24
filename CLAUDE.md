@@ -303,6 +303,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
 - Xabarlar admini: client `MessageList` — "Yangi" / "O‘qilgan" / "Hammasi" yorliqlari, mavzu tugmalari, qidiruv (ism, telefon,
   email, matn), "Hammasini o‘qildi deb belgilash" (`markAllRead`); uzun xabar qisqartiriladi, telefon/email — bosiladigan tugmalar.
+  Tepada `NotifyCard` — yangi xabar Telegram'ga: `contact_messages` insert trigger'i (`private.notify_contact_message`, pg_net)
+  sayt boti orqali `bot_chat_id` ga yuboradi, `telegram_settings.notify_messages` bilan yoqiladi; token bazadan chiqmaydi, xato bo‘lsa
+  xabar baribir saqlanadi. Kartada: bot ulanmagan bo‘lsa — Telegram bo‘limiga havola, Start bosilmagan bo‘lsa — bot havolasi va
+  "Tekshirish" (`runTelegramSync`), keyin "Yoqish/O‘chirish" va "Sinov xabari". Telegram API yordamchilari — `src/lib/telegram-bot.ts`.
 - Galereya: albom yaratilgach rasm qo‘shish sahifasiga o‘tiladi; rasm/albom o‘chirilganda
   Storage'dagi fayllar ham o‘chiriladi (`gallery/actions.ts`). Admin ro‘yxati — muqovali kartalar (sana bo‘yicha, saytdagidek;
   albomlarni qo‘lda tartiblash yo‘q). Albom sahifasida `PhotoManager` (`components/admin`): rasmlar tartibi sudrab yoki ←→ bilan (`reorderPhotos`,
