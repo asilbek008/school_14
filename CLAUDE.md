@@ -135,6 +135,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `forward_origin` (kanal + message_id) bo‘yicha moslanadi. `telegram_posts.photo_ids` (albomdagi rasm post id'lari) va `hd` — har ishga tushishda 6 tagacha
   eski yangilik rasmlari asl sifatga almashtiriladi; faqat hamma rasm yuklangandagina almashtiriladi.
   Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
+- Xodimlar ro‘yxati (`/staff`, maketdagidek): "Jamoa" kicker, "O‘qituvchilar va xodimlar", ro‘yxatdagi soni; client
+  `StaffDirectory` — ism/fan bo‘yicha qidiruv va lavozim `select`i, kompyuterda jadval (avatar-initsiallar, lavozim
+  belgisi: rahbariyat ko‘k, o‘qituvchi yashil, boshqalar sariq; fan; biriktirilgan sinf — `getHomerooms()`),
+  telefonda kartalar. Qator bosilsa profil ochiladi.
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).

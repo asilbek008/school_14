@@ -228,6 +228,26 @@ export async function getStaff(): Promise<Staff[]> {
   return data ?? [];
 }
 
+/** Homeroom class of each teacher who has one: staff id → "5-A" (several joined with ", "). */
+export async function getHomerooms(): Promise<Record<number, string>> {
+  const supabase = createPublicClient();
+  if (!supabase) return {};
+  const { data, error } = await supabase
+    .from("school_classes")
+    .select("grade, letter, homeroom_teacher_id")
+    .eq("is_published", true)
+    .not("homeroom_teacher_id", "is", null)
+    .order("grade")
+    .order("letter");
+  logError("getHomerooms", error);
+  const map: Record<number, string> = {};
+  for (const c of data ?? []) {
+    const id = c.homeroom_teacher_id as number;
+    map[id] = map[id] ? `${map[id]}, ${c.grade}-${c.letter}` : `${c.grade}-${c.letter}`;
+  }
+  return map;
+}
+
 export async function getStaffMember(id: number): Promise<StaffProfile | null> {
   const supabase = createPublicClient();
   if (!supabase || !Number.isSafeInteger(id)) return null;

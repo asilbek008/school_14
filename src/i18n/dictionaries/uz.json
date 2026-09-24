@@ -114,7 +114,17 @@
     },
     "education": "Ma’lumoti",
     "homeroom": "Sinf rahbari",
-    "about": "Qo‘shimcha ma’lumot"
+    "about": "Qo‘shimcha ma’lumot",
+    "title": "O‘qituvchilar va xodimlar",
+    "kicker": "Jamoa",
+    "countIntro": "Ro‘yxatda {n} nafar xodim. Xodim haqida to‘liq ma’lumot uchun uning ustiga bosing.",
+    "search": "Ism yoki fan bo‘yicha qidirish…",
+    "allPositions": "Barcha lavozimlar",
+    "colName": "F.I.Sh.",
+    "colPosition": "Lavozim",
+    "colSubject": "Fan / yo‘nalish",
+    "colClass": "Biriktirilgan sinf",
+    "noMatch": "Hech kim topilmadi."
   },
   "contact": {
     "intro": "Savol yoki taklifingiz bo‘lsa, bizga yozing — albatta javob beramiz.",
