@@ -18,7 +18,8 @@
     "faq": "FAQ",
     "clubs": "Clubs",
     "gallery": "Gallery",
-    "timetable": "Timetable"
+    "timetable": "Timetable",
+    "programs": "Regular programs"
   },
   "navDesc": {
     "about": "History and general information",
@@ -30,7 +31,8 @@
     "emaktab": "Grades and attendance",
     "upcoming": "Coming holidays and events",
     "past": "Events that took place",
-    "gallery": "Moments of school life"
+    "gallery": "Moments of school life",
+    "programs": "Zakovat and other year-round projects"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -78,7 +80,8 @@
     "empty": "No news yet.",
     "intro": "The latest school news, announcements and our students’ achievements.",
     "photos": "Photos",
-    "more": "More news"
+    "more": "More news",
+    "search": "Search news…"
   },
   "events": {
     "upcoming": "Upcoming events",
@@ -213,6 +216,19 @@
     "where": "Where",
     "leader": "Leader"
   },
+  "programs": {
+    "intro": "Projects and competitions that run regularly throughout the school year.",
+    "when": "When",
+    "where": "Where",
+    "related": "News about this program",
+    "noNews": "No news about this program yet.",
+    "empty": "Regular programs will be added soon.",
+    "open": "Learn more",
+    "newsCount": {
+      "one": "{n} news item",
+      "other": "{n} news items"
+    }
+  },
   "gallery": {
     "intro": "Moments from school life: events, lessons and celebrations.",
     "empty": "No albums yet.",
@@ -272,9 +288,7 @@
       "Sat"
     ],
     "today": "Today",
-    "now": "Now",
-    "period": "Lesson {n}",
-    "time": "Time"
+    "now": "Now"
   },
   "emaktab": {
     "title": "eMaktab — grades and attendance",

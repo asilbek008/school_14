@@ -74,6 +74,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   yashiradi, shuning uchun sahifa keshlanishi buzilmaydi.
 - `events.all_day` — bayramlar kabi vaqtsiz tadbirlar Toshkent vaqti 00:00–23:59 sifatida saqlanadi
   (yaqinlashayotgan/o‘tgan ajratish kun davomida to‘g‘ri ishlashi uchun), saytda faqat sana chiqadi.
+- Doimiy tadbirlar (`/programs`, `/programs/[slug]`, `programs` jadvali; admin `/admin/programs`): yil bo‘yi muntazam
+  loyihalar (birinchisi — Zakovat, `supabase/seed/programs.sql`). `keyword` kiritilsa, `getNewsMentioning()` shu so‘z
+  sarlavha yoki matnda uchragan yangiliklarni (Telegram'dan kelganlarini ham) loyiha sahifasida ko‘rsatadi; o‘z rasmi
+  (`cover`) bo‘lmasa, oxirgi tegishli yangilik muqovasi olinadi. Menyuda "Tadbirlar ▾" ichida.
 - To‘garaklar (`/clubs`, `clubs` jadvali) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmlar to‘ri (`layout="mosaic"`: 1-rasm katta, `mosaicSpan` qatorlarni
@@ -89,8 +93,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Ochiq sahifa: `/timetable` — `TimetablePicker` (smena → parallel → sinf; tanlov URL hash'da `#s2-g8`,
   `useSyncExternalStore` bilan o‘qiladi, sahifa keshi buzilmaydi), `/timetable/[id]` — `ClassTimetableView`
   ("Kunlik": kun tanlash + vaqt chizig‘i, "Haftalik": jadval; "bugun"/"hozir" brauzerda Toshkent vaqti bo‘yicha).
-  Telefonda ixcham: smena kartalari yonma-yon (2 ustun, ikonkasiz), parallel/sinf tugmalari kichik, haftalik jadval
-  640px dan gorizontal aylantiriladi.
+  Telefonda ixcham: smena kartalari yonma-yon (2 ustun, ikonkasiz), parallel/sinf tugmalari kichik. "Haftalik" — jadval
+  emas, har kun alohida karta (1/2/3 ustun; dars raqami, fan, o‘qituvchi, vaqt; bugungi karta ajratilgan) — keng
+  jadvalni yonga aylantirish chalkash edi.
   Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
   saqlashda to‘ldirilganlar upsert, bo‘shatilganlar o‘chiriladi (`classes/actions.ts`).
 - eMaktab'dan jadval importi: `scripts/emaktab_timetable.py` (xlrd). Ikki format: "Calendar"
@@ -172,6 +177,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (egasining talabi); sig‘ishi uchun sm dan kichikda tugmalar ixcham, "Rasmiy sayt" yozuvi yo‘q, 375px dan tor ekranda
   faqat "14" belgisi qoladi. Header kengligini o‘zgartirsangiz, 320–414px da uch tilda tekshiring.
 - Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), maketdagidek.
+- Yangiliklar (maketdagidek): `NewsCard` `layout` — `card`, `featured` (yangiliklar sahifasida birinchisi), `tall` +
+  `row` (bosh sahifada: katta karta chapda, ikkita ixcham qator o‘ngda). `/news` da turkum tugmalari yonida qidiruv —
+  `CategoryFilter` `searchLabel`; kartadagi `data-q` (kichik harfli sarlavha) CSS `[data-q*="…" i]` bilan filtrlanadi,
+  sahifa keshi buzilmaydi.
 
 ### Supabase
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
@@ -222,6 +231,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
   phone, email, bio_*, sort_order, is_published)
 - `subjects` (name_*, sort_order), `school_classes` (grade, letter, homeroom_teacher_id,
   is_published), `lessons` (class_id, weekday, period, subject_id, teacher, alt_subject_id, alt_teacher)
+- `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, message, is_read, created_at)
 
