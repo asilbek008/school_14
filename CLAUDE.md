@@ -66,7 +66,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (honeypot `website` maydoni bor; telefon yoki email majburiy). Action kiritilgan qiymatlarni
   qaytaradi — React 19 action'dan keyin formani tozalaydi, shuning uchun `defaultValue` kerak (`select` yangi
   `defaultValue` ni olmaydi — u `attempt` bo‘yicha qayta yaratiladi). Mavzu (`topic`: savol/taklif/murojaat/boshqa,
-  `contactTopics`) admin xabarlarida belgi bo‘lib chiqadi. Sahifa maketdagidek: 4 aloqa kartasi (telefonda ixcham),
+  `contactTopics`) admin xabarlarida belgi bo‘lib chiqadi. Sahifa maketdagidek: 4 aloqa kartasi (boshqa sahifalardagi raqam kartalari kabi rangli — `tileColors` `StatTiles` dan; telefonda ixcham),
   "Murojaat yuborish" formasi, "Tezkor javob kerakmi?" izohi va xarita.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari

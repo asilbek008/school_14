@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { resolveLang } from "@/i18n/server";
 import { mapEmbedUrl, school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
+import { tileColors } from "@/components/StatTiles";
 import ContactForm from "./ContactForm";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/contact">): Promise<Metadata> {
@@ -21,10 +22,10 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
   const { lang, dict } = await resolveLang(params);
   const t = dict.contact;
   const cards = [
-    { icon: "phone", color: "bg-brand-soft text-brand-deep", label: t.phone, value: school.phone, href: school.phone && telHref(school.phone) },
-    { icon: "mail", color: "bg-teal-soft text-[#0c6d62]", label: t.email, value: school.email, href: school.email && `mailto:${school.email}` },
-    { icon: "pin", color: "bg-gold-soft text-gold-deep", label: t.address, value: school.address?.[lang] ?? null, href: school.mapUrl },
-    { icon: "clock", color: "bg-[#fae7e2] text-[#c9553f]", label: t.hours, value: school.hours?.[lang] ?? null },
+    { icon: "phone", label: t.phone, value: school.phone, href: school.phone && telHref(school.phone) },
+    { icon: "mail", label: t.email, value: school.email, href: school.email && `mailto:${school.email}` },
+    { icon: "pin", label: t.address, value: school.address?.[lang] ?? null, href: school.mapUrl },
+    { icon: "clock", label: t.hours, value: school.hours?.[lang] ?? null },
   ];
 
   return (
@@ -33,32 +34,33 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
         <h2 className="sr-only">{t.info}</h2>
         <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-          {cards.map(({ icon, color, label, value, href }) => {
+          {cards.map(({ icon, label, value, href }, i) => {
             const external = href?.startsWith("http");
             const body = (
               <>
-                <span className={`grid size-10 shrink-0 place-items-center rounded-xl transition-transform duration-300 ease-(--ease-spring) group-hover:-rotate-6 ${color}`}>
+                <span className="relative grid size-10 shrink-0 place-items-center rounded-xl bg-white/20 transition-transform duration-300 ease-(--ease-spring) group-hover:-rotate-6">
                   <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                     {icons[icon]}
                   </svg>
                 </span>
-                <span className="min-w-0">
-                <small className="block text-[12.5px] font-bold text-slate-500">{label}</small>
-                <b className={`font-display mt-1 block break-words text-[17px] font-bold leading-snug ${value ? "text-slate-900" : "text-slate-400"} ${href ? "transition-colors group-hover:text-brand" : ""}`}>
-                  {value ?? t.tbd}
-                  {external && <span aria-hidden> ↗</span>}
-                </b>
+                <span className="relative min-w-0">
+                  <small className="block text-[12.5px] font-bold opacity-85">{label}</small>
+                  <b className={`font-display mt-1 block break-words text-[17px] font-bold leading-snug ${value ? "" : "opacity-70"}`}>
+                    {value ?? t.tbd}
+                    {external && <span aria-hidden> ↗</span>}
+                  </b>
                 </span>
               </>
             );
-            // Phones: icon beside the text, so the four cards stay short; from sm up the icon sits on top.
-            const box = "reveal group flex items-center gap-4 rounded-[14px] border border-slate-200 bg-white px-5 py-4 sm:block sm:py-5 sm:[&>span:first-child]:mb-3";
+            // Colored tiles, as the number tiles on the other pages. Phones: icon beside the text, so the four
+            // cards stay short; from sm up the icon sits on top.
+            const box = `reveal group relative flex items-center gap-4 overflow-hidden rounded-[14px] bg-gradient-to-br px-5 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:block sm:py-5 sm:[&>span:first-child]:mb-3 ${tileColors[i]}`;
             return value && href ? (
-              <a key={label} href={href} className={`${box} lift`} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+              <a key={label} href={href} style={{ animationDelay: `${i * 60}ms` }} className={`${box} lift`} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
                 {body}
               </a>
             ) : (
-              <div key={label} className={box}>
+              <div key={label} style={{ animationDelay: `${i * 60}ms` }} className={box}>
                 {body}
               </div>
             );
