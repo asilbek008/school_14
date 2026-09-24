@@ -18,7 +18,9 @@ export const school = {
     en: "Monday – Saturday, 09:00 – 17:30",
   } as Localized | null,
   mapEmbedUrl: null as string | null, // Google/Yandex Maps embed URL
-  stats: { students: 1001, staff: 72, classes: 45 },
+  // The home page counts classes from the timetable (school_classes, no individual-study "YT"
+  // classes); this number is only the fallback when the database is not reachable.
+  stats: { students: 1001, staff: 72, classes: 43 },
   // Official electronic journal: grades, attendance and homework, behind each family's own login.
   eMaktabUrl: "https://emaktab.uz",
 };

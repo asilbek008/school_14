@@ -20,6 +20,22 @@
     "gallery": "Gallery",
     "timetable": "Timetable"
   },
+  "navDesc": {
+    "about": "History and general information",
+    "admissions": "Enrolment in grade 1 and above",
+    "schedule": "Lesson times for both shifts",
+    "clubs": "After-school activities",
+    "faq": "Answers for parents",
+    "contact": "Phone, address and messages",
+    "emaktab": "Grades and attendance",
+    "upcoming": "Coming holidays and events",
+    "past": "Events that took place",
+    "gallery": "Moments of school life"
+  },
+  "topbar": {
+    "year": "{from}–{to} school year",
+    "close": "Close menu"
+  },
   "home": {
     "welcome": "Welcome to School No. 14",
     "intro": "Knowledge, character and the future start here.",

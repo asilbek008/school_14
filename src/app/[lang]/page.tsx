@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
-import { getAlbums, getEvents, getNews } from "@/lib/content";
+import { getAlbums, getClasses, getEvents, getNews } from "@/lib/content";
 import AlbumCard from "@/components/AlbumCard";
 import { school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
@@ -15,12 +15,12 @@ export const revalidate = 300;
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
-  const [news, { upcoming }, albums] = await Promise.all([getNews(3), getEvents(), getAlbums()]);
+  const [news, { upcoming }, albums, classes] = await Promise.all([getNews(3), getEvents(), getAlbums(), getClasses()]);
   const recentAlbums = albums.filter((a) => a.gallery_photos.length > 0).slice(0, 3);
   const stats = [
     { value: school.stats.students, label: dict.home.statStudents, dot: "bg-[#6e9bff]" },
     { value: school.stats.staff, label: dict.home.statStaff, dot: "bg-[#3ecfb2]" },
-    { value: school.stats.classes, label: dict.home.statClasses, dot: "bg-gold" },
+    { value: classes.length || school.stats.classes, label: dict.home.statClasses, dot: "bg-gold" },
   ];
   const quick = [
     { key: "news", color: "bg-brand" },
