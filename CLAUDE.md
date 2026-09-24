@@ -238,7 +238,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (egasining talabi); sig‘ishi uchun sm dan kichikda tugmalar ixcham, "Rasmiy sayt" yozuvi yo‘q, 375px dan tor ekranda
   faqat "14" belgisi qoladi. Header kengligini o‘zgartirsangiz, 320–414px da uch tilda tekshiring.
 - Galereya (maketdagidek): sarlavha "Foto-galereya" (`gallery.title`; menyuda "Galereya"), sanasiz albom kickeri "Albom",
-  bo‘sh albomda `gallery.noPhotos`; `Lightbox` tugmalari — 46px shisha doira (chegara bilan), yuqorida hisob va sarlavha. `AlbumCard` — 190px muqova (rasmsiz bo‘lsa ikonka), rasm soni, sarlavha va sana ("Sana
+  bo‘sh albomda `gallery.noPhotos`; `/gallery` tepasida 3 rangli raqam kartasi (albom/rasm/video, "Maktab haqida"dagidek), o‘quv yili tugmalari (sentabrdan; bir nechta yil bo‘lsa, "Sanasiz" oxirida) va albom nomi bo‘yicha qidiruv — `CategoryFilter` (`data-cat` yil, `data-q` nom), sahifa keshi buzilmaydi; `Lightbox` tugmalari — 46px shisha doira (chegara bilan), yuqorida hisob va sarlavha. `AlbumCard` — 190px muqova (rasmsiz bo‘lsa ikonka), rasm soni, sarlavha va sana ("Sana
   ko‘rsatilmagan"); albom sahifasida intro — rasm soni, `Lightbox` to‘ri 4 ustunli, 25:18 kataklar. Bosh sahifada
   "Maktab hayotidan" — albomlardagi eng yangi 4 rasm (`Lightbox` `gridClassName`), kamida 2 ta bo‘lsa chiqadi.
 - Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), ostida `EMaktabCard`, maketdagidek.

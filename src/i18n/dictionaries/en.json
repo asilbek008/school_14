@@ -310,7 +310,24 @@
     "album": "Album",
     "noPhotos": "There are no photos in this album yet.",
     "videos": "{n} videos",
-    "videosTitle": "Videos"
+    "videosTitle": "Videos",
+    "search": "Search album titles",
+    "notFound": "No album found.",
+    "statAlbums": {
+      "one": "album",
+      "other": "albums"
+    },
+    "statPhotos": {
+      "one": "photo",
+      "other": "photos"
+    },
+    "statVideos": {
+      "one": "video",
+      "other": "videos"
+    },
+    "schoolYear": "{from}–{to} school year",
+    "undated": "Undated",
+    "countIntro": "{n} albums — moments from events, lessons and holidays at our school."
   },
   "timetable": {
     "intro": "Choose a shift, then a grade and a class to see the daily and weekly timetable.",
