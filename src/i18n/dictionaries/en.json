@@ -93,7 +93,21 @@
       "yutuq": "Achievements"
     },
     "notFound": "No news matches your search.",
-    "all": "All news"
+    "all": "All news",
+    "countIntro": "{n} stories — the latest news, announcements and our students’ achievements.",
+    "statTotal": {
+      "one": "story",
+      "other": "stories"
+    },
+    "statMonth": "this month",
+    "statPhotos": {
+      "one": "photo",
+      "other": "photos"
+    },
+    "statWins": {
+      "one": "achievement",
+      "other": "achievements"
+    }
   },
   "events": {
     "upcoming": "Upcoming events",
