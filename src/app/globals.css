@@ -161,3 +161,8 @@ body {
     animation: none !important;
   }
 }
+
+/* The mobile menu covers the page; the page behind it must not scroll. */
+html:has(.mobile-nav[open]) {
+  overflow: hidden;
+}

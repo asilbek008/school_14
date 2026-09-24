@@ -34,7 +34,7 @@ export default async function EventsPage({ params }: PageProps<"/[lang]/events">
           allLabel={dict.common.all}
           options={present.map((c) => ({ value: c, label: dict.eventCats[c] }))}
         >
-          <section>
+          <section id="upcoming" className="scroll-mt-24">
             {heading(dict.events.upcoming, upcoming.length)}
             {upcoming.length ? (
               <div className="space-y-3">
@@ -47,7 +47,7 @@ export default async function EventsPage({ params }: PageProps<"/[lang]/events">
             )}
           </section>
           {past.length > 0 && (
-            <section className="mt-12">
+            <section id="past" className="mt-12 scroll-mt-24">
               {heading(dict.events.past, past.length)}
               <div className="space-y-3 opacity-75">
                 {past.map((event) => (

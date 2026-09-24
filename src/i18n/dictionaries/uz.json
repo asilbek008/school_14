@@ -20,6 +20,22 @@
     "gallery": "Galereya",
     "timetable": "Dars jadvali"
   },
+  "navDesc": {
+    "about": "Maktab tarixi va umumiy ma’lumot",
+    "admissions": "1-sinfga va boshqa sinflarga qabul",
+    "schedule": "1- va 2-smena dars vaqtlari",
+    "clubs": "Darsdan tashqari mashg‘ulotlar",
+    "faq": "Ota-onalar uchun javoblar",
+    "contact": "Telefon, manzil va murojaat",
+    "emaktab": "Baholar va davomat",
+    "upcoming": "Kelgusi bayram va tadbirlar",
+    "past": "Bo‘lib o‘tgan tadbirlar",
+    "gallery": "Maktab hayotidan lavhalar"
+  },
+  "topbar": {
+    "year": "{from}–{to} o‘quv yili",
+    "close": "Menyuni yopish"
+  },
   "home": {
     "welcome": "14-maktabga xush kelibsiz",
     "intro": "Bilim, tarbiya va kelajak shu yerda boshlanadi.",

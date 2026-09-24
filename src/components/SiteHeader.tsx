@@ -1,102 +1,96 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { school } from "@/lib/school";
+import { fill } from "@/i18n/fill";
+import { school, telHref } from "@/lib/school";
 import LanguageSwitcher from "./LanguageSwitcher";
-import MobileMenu from "./MobileMenu";
+import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
 
-const schoolItems = ["about", "staff", "timetable", "schedule", "clubs", "faq"] as const;
-const afterItems = ["admissions", "contact"] as const;
+/** The school year that runs now: from August on it is this year's, before that last year's. */
+function schoolYear() {
+  const now = new Date();
+  const from = now.getMonth() >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+  return { from, to: from + 1 };
+}
 
-const Chevron = () => (
-  <svg viewBox="0 0 24 24" className="size-4 transition-transform duration-300 ease-(--ease-spring) group-hover:rotate-180" fill="none" stroke="currentColor" strokeWidth="2.4" aria-hidden="true">
-    <path d="M6 9l6 6 6-6" />
-  </svg>
-);
-
+/** Top info bar (scrolls away) and the sticky navigation bar below it. */
 export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
-  const href = (item: string) => `/${lang}/${item}`;
-  const pill = "rounded-full px-3.5 py-2 text-slate-300 transition-colors duration-200 hover:bg-white/10 hover:text-white";
-  const allItems = ["news", "events", "gallery", ...schoolItems, ...afterItems] as const;
+  const href = (path: string) => `/${lang}${path}`;
+  const d = dict.navDesc;
+  const entries: NavEntry[] = [
+    { href: href(""), label: dict.nav.home },
+    {
+      key: "school",
+      label: dict.nav.school,
+      items: [
+        { href: href("/about"), label: dict.nav.about, desc: d.about, icon: "info", color: "blue" },
+        { href: href("/admissions"), label: dict.nav.admissions, desc: d.admissions, icon: "door", color: "green" },
+        { href: href("/schedule"), label: dict.nav.schedule, desc: d.schedule, icon: "bell", color: "amber" },
+        { href: href("/clubs"), label: dict.nav.clubs, desc: d.clubs, icon: "star", color: "coral" },
+        { href: href("/faq"), label: dict.nav.faq, desc: d.faq, icon: "question", color: "blue" },
+        { href: href("/contact"), label: dict.nav.contact, desc: d.contact, icon: "phone", color: "green" },
+      ],
+    },
+    { href: href("/timetable"), label: dict.nav.timetable },
+    { href: href("/staff"), label: dict.nav.staff },
+    { href: href("/news"), label: dict.nav.news },
+    {
+      key: "events",
+      label: dict.nav.events,
+      items: [
+        { href: href("/events#upcoming"), label: dict.events.upcoming, desc: d.upcoming, icon: "calendar", color: "blue" },
+        { href: href("/events#past"), label: dict.events.past, desc: d.past, icon: "history", color: "green" },
+        { href: href("/gallery"), label: dict.nav.gallery, desc: d.gallery, icon: "photo", color: "amber" },
+      ],
+    },
+  ];
+  const emaktab: NavItem = { href: school.eMaktabUrl, label: "eMaktab", desc: d.emaktab, icon: "grade", color: "amber", external: true };
+  const year = schoolYear();
 
   return (
-    <header className="sticky top-0 z-30 bg-navy text-white shadow-[0_1px_0_rgb(255_255_255/0.08)]">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4">
-        <Link href={`/${lang}`} className="group/logo flex items-center gap-3">
-          <span className="relative grid size-10 place-items-center rounded-xl bg-white font-extrabold text-navy transition-transform duration-300 ease-(--ease-spring) after:absolute after:inset-x-3 after:bottom-1.5 after:h-0.5 after:rounded after:bg-gold after:transition-[left,right] after:duration-300 group-hover/logo:-rotate-6 group-hover/logo:after:inset-x-2">
-            14
-          </span>
-          <span className="leading-tight">
-            <b className="block text-[15px]">{dict.site.name}</b>
-            <small className="block text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-              {dict.site.tagline}
-            </small>
-          </span>
-        </Link>
-
-        <nav className="hidden items-center text-sm font-semibold lg:flex">
-          <Link href={href("news")} className={pill}>{dict.nav.news}</Link>
-          <Link href={href("events")} className={pill}>{dict.nav.events}</Link>
-          <Link href={href("gallery")} className={pill}>{dict.nav.gallery}</Link>
-          {/* Desktop dropdown: opens on hover, and on keyboard focus (:focus-visible, so a mouse click on a link doesn't leave it stuck open). */}
-          <div className="group relative">
-            <button type="button" aria-haspopup="true" className={`${pill} flex items-center gap-1`}>
-              {dict.nav.school} <Chevron />
-            </button>
-            <div className="invisible absolute left-1/2 top-full w-64 -translate-x-1/2 translate-y-2 pt-3 opacity-0 transition duration-300 ease-(--ease-spring) group-has-[:focus-visible]:visible group-has-[:focus-visible]:translate-y-0 group-has-[:focus-visible]:opacity-100 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100">
-              <div className="rounded-2xl border border-slate-200 bg-white p-2 text-slate-800 shadow-xl">
-                {schoolItems.map((item) => (
-                  <Link key={item} href={href(item)} className="block rounded-xl px-3 py-2.5 transition duration-200 hover:translate-x-1 hover:bg-paper hover:text-brand">
-                    {dict.nav[item]}
-                  </Link>
-                ))}
-              </div>
-            </div>
+    <>
+      <div className="hidden border-b border-white/[0.07] bg-navy text-[12.5px] text-[#aeb8d4] md:block">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
+            {school.address && <span>📍 {school.address[lang]}</span>}
+            {school.phone && (
+              <a href={telHref(school.phone)} className="transition-colors hover:text-white">
+                ☎ {school.phone}
+              </a>
+            )}
+            <span>{fill(dict.topbar.year, year)}</span>
           </div>
-          {afterItems.map((item) => (
-            <Link key={item} href={href(item)} className={pill}>{dict.nav[item]}</Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
           <a
             href={school.eMaktabUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="press hidden rounded-full bg-gold px-3.5 py-1.5 text-xs font-bold text-[#241703] hover:bg-[#eba53c] xl:inline-block"
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] py-1 pl-2.5 pr-3 text-[11.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white"
           >
-            eMaktab ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
+            <span className="size-1.5 rounded-full bg-[#3ecfb2]" />
+            {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
           </a>
-          <LanguageSwitcher current={lang} />
-          {/* Mobile menu: native <details> so it opens without client JS; MobileMenu closes it. */}
-          <MobileMenu className="group relative lg:hidden">
-            <summary
-              aria-label={dict.nav.menu}
-              className="grid size-10 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-white/10 [&::-webkit-details-marker]:hidden"
-            >
-              <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M4 7h16M4 12h16M4 17h16" className="group-open:hidden" />
-                <path d="M6 6l12 12M18 6L6 18" className="hidden group-open:block" />
-              </svg>
-            </summary>
-            <nav className="absolute right-0 mt-2 flex w-64 animate-fade-up flex-col rounded-2xl border border-slate-200 bg-white p-2 text-slate-800 shadow-xl [animation-duration:0.35s]">
-              {allItems.map((item) => (
-                <Link key={item} href={href(item)} className="rounded-xl px-3 py-2.5 font-medium transition-colors hover:bg-paper hover:text-brand">
-                  {dict.nav[item]}
-                </Link>
-              ))}
-              <a
-                href={school.eMaktabUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-1 rounded-xl bg-gold-soft px-3 py-2.5 font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
-              >
-                {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
-              </a>
-            </nav>
-          </MobileMenu>
         </div>
       </div>
-    </header>
+
+      <header className="sticky top-0 z-30 bg-navy text-white shadow-[0_1px_0_rgb(255_255_255/0.08)]">
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 lg:h-[74px]">
+          <Link href={href("")} className="group/logo flex shrink-0 items-center gap-3">
+            <span className="relative grid size-10 place-items-center rounded-xl bg-white text-lg font-extrabold tracking-tight text-navy transition-transform duration-300 ease-(--ease-spring) after:absolute after:inset-x-3 after:bottom-1.5 after:h-[3px] after:rounded after:bg-gold after:transition-[left,right] after:duration-300 group-hover/logo:-rotate-6 group-hover/logo:after:inset-x-2 lg:size-11">
+              <span className="-translate-y-0.5">14</span>
+            </span>
+            <span className="leading-tight">
+              <b className="block text-base font-bold tracking-tight">{dict.site.name}</b>
+              <small className="block text-[11px] font-semibold uppercase tracking-wider text-[#93a0c4] lg:hidden xl:block">
+                {dict.site.tagline}
+              </small>
+            </span>
+          </Link>
+
+          <SiteNav home={href("")} entries={entries} labels={{ menu: dict.nav.menu, newTab: dict.emaktab.newTab, extra: emaktab }}>
+            <LanguageSwitcher current={lang} />
+          </SiteNav>
+        </div>
+      </header>
+    </>
   );
 }
