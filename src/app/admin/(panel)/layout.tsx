@@ -17,14 +17,24 @@ const nav = [
   { href: "/admin/years", label: "O‘quv yillari" },
   { href: "/admin/messages", label: "Xabarlar" },
   { href: "/admin/trust", label: "Ishonch qutisi" },
+  { href: "/admin/applications", label: "Qabul arizalari" },
 ];
 
 export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
   const { email, supabase } = await requireAdmin();
   // Unread counts shown next to their menu entries.
   const unreadIn = (table: string) => supabase.from(table).select("id", { count: "exact", head: true }).eq("is_read", false);
-  const [{ count: unread }, { count: unreadTrust }] = await Promise.all([unreadIn("contact_messages"), unreadIn("trust_messages")]);
-  const badges: Record<string, number | null> = { "/admin/messages": unread, "/admin/trust": unreadTrust };
+  const [{ count: unread }, { count: unreadTrust }, { count: newApplications }] = await Promise.all([
+    unreadIn("contact_messages"),
+    unreadIn("trust_messages"),
+    // Applications have no "read" flag: the ones still waiting are those left at their initial status.
+    supabase.from("admission_applications").select("id", { count: "exact", head: true }).eq("status", "new"),
+  ]);
+  const badges: Record<string, number | null> = {
+    "/admin/messages": unread,
+    "/admin/trust": unreadTrust,
+    "/admin/applications": newApplications,
+  };
 
   return (
     <div className="min-h-screen md:flex">

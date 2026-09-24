@@ -78,6 +78,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (10 daqiqada 20 ta), `private.notify_trust_message` — Telegram'ga 🔒 belgisi bilan (`notify_messages` yoqilgan bo‘lsa).
   Sahifa `robots: index:false`. Havolalar: footer, aloqa sahifasidagi karta. Admin menyusida o‘qilmaganlar soni, bosh sahifadagi
   "E’tibor talab qiladi" ro‘yxatida ham.
+- Onlayn qabul arizasi (`/[lang]/admissions/apply`, `admission_applications`; admin `/admin/applications`): bola F.I.Sh.,
+  tug‘ilgan sanasi, sinf (1–11), ota-ona F.I.Sh. va telefoni majburiy; manzil, oldingi maktab va izoh ixtiyoriy. Bu bolaning
+  shaxsiy ma’lumoti — saytda hech qachon ko‘rinmaydi: RLS'da hamma yozadi, faqat admin o‘qiydi; `actions.ts` faqat xato kodini
+  loglaydi. Yosh 5–20 oralig‘ida tekshiriladi (`badDate`), `private.admission_rate_limit` — 10 daqiqada bir raqamdan 2 ta,
+  jami 20 ta; `private.notify_admission` — Telegram'ga 🎒 belgisi bilan. Holat: `new` → `contacted` → `accepted`/`declined`,
+  admin izohi alohida maydonda. Sahifa `robots: index:false`, havola — "Qabul" sahifasidagi tugma va sayt qidiruvi.
+  Admin menyusida yangi arizalar soni, bosh sahifadagi "E’tibor talab qiladi" ro‘yxatida ham.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -390,7 +397,9 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
   `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order); `league_tables` (program_id, stage, title, as_of, rows)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
-- `contact_messages` (name, email, phone, topic, message, is_read, created_at)
+- `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,
+  is_read); `admission_applications` (child_name, child_birth_date, grade, parent_name, phone, address, previous_school, note,
+  status, admin_note)
 
 ### Xavfsizlik modeli
 Har bir jadvalda Row Level Security yoqilgan. Admin tekshiruvi `private.is_admin()` funksiyasi

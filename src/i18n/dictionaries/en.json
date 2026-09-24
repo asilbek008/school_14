@@ -633,5 +633,33 @@
     "privacy": "Your name, phone number and IP address are not stored. Only the text you write and the topic you choose are. We can reach you only if you fill in the contact field.",
     "urgentTitle": "In an emergency",
     "urgent": "If a child's life or health is at risk, do not wait — call 102 (police) or 103 (ambulance), and tell the school at once:"
+  },
+  "apply": {
+    "title": "Apply online",
+    "lead": "Fill in the form and a member of staff will call you back and explain the next steps.",
+    "childName": "Child's surname and name",
+    "childBirth": "Date of birth",
+    "grade": "Which grade",
+    "gradeOption": "Grade {n}",
+    "parentName": "Parent's (or guardian's) full name",
+    "phone": "Your phone number",
+    "address": "Home address",
+    "addressHint": "Mahalla, street and house number.",
+    "previousSchool": "Previous school",
+    "previousSchoolHint": "If moving from another school: its name and the grade.",
+    "note": "Anything else",
+    "notePlaceholder": "Anything else we should know (for example a health matter needing attention)…",
+    "optional": "optional",
+    "submit": "Send the application",
+    "sending": "Sending…",
+    "successTitle": "Your application has been received",
+    "success": "Thank you. A member of staff will call the number you gave in the next few days.",
+    "again": "Send another application",
+    "invalid": "Please fill in the fields marked with a star.",
+    "badDate": "Please give a valid date of birth.",
+    "error": "The application could not be sent. Please try again later or call the school.",
+    "tooMany": "Too many applications were sent from this number. Please try again in 10 minutes.",
+    "privacy": "Your child's details are not shown on the site — only the school's leadership sees them. Do not write passport or certificate numbers here; you will show those at the school.",
+    "openForm": "Apply online"
   }
 }

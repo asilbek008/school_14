@@ -17,6 +17,7 @@ async function load(supabase: Supabase) {
   const [
     { count: unreadCount },
     { count: unreadTrustCount },
+    { count: newApplicationCount },
     { count: newsCount },
     { count: hiddenCount },
     { count: upcomingCount },
@@ -36,6 +37,7 @@ async function load(supabase: Supabase) {
   ] = await Promise.all([
     head("contact_messages").eq("is_read", false),
     head("trust_messages").eq("is_read", false),
+    head("admission_applications").eq("status", "new"),
     head("news"),
     head("news").eq("is_published", false),
     head("events").eq("is_published", true).gte("starts_at", now),
@@ -54,9 +56,10 @@ async function load(supabase: Supabase) {
     supabase.from("gallery_albums").select("id, gallery_photos(count), gallery_videos(count)"),
   ]);
 
-  const [unread, unreadTrust, news, hiddenNews, upcoming, clubs, albums] = [
+  const [unread, unreadTrust, newApplications, news, hiddenNews, upcoming, clubs, albums] = [
     unreadCount,
     unreadTrustCount,
+    newApplicationCount,
     newsCount,
     hiddenCount,
     upcomingCount,
@@ -73,6 +76,7 @@ async function load(supabase: Supabase) {
   const attention = [
     { n: unread, text: "ta o‘qilmagan xabar", href: "/admin/messages" },
     { n: unreadTrust, text: "ta o‘qilmagan maxfiy murojaat (ishonch qutisi)", href: "/admin/trust" },
+    { n: newApplications, text: "ta yangi qabul arizasi — ota-ona bilan bog‘laning", href: "/admin/applications" },
     { n: hiddenNews, text: "ta yashirin yangilik (Telegram’dan kelgan bo‘lsa — tekshirib yoqing)", href: "/admin/news" },
     { n: unlinked.size, text: "ta o‘qituvchi ismi dars jadvalida profilga bog‘lanmagan", href: "/admin/classes" },
     { n: (classes ?? []).filter((c) => !c.homeroom_teacher_id).length, text: "ta sinfda sinf rahbari tanlanmagan", href: "/admin/classes" },

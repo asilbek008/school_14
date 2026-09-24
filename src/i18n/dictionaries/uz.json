@@ -633,5 +633,33 @@
     "privacy": "Ismingiz, telefon raqamingiz va IP manzilingiz saqlanmaydi. Faqat siz yozgan matn va tanlagan mavzu saqlanadi. Aloqa maydonini to‘ldirsangizgina biz siz bilan bog‘lana olamiz.",
     "urgentTitle": "Shoshilinch holatda",
     "urgent": "Bolaning hayoti yoki sog‘lig‘iga xavf tug‘ilsa, kutmang — 102 (politsiya) yoki 103 (tez yordam) ga qo‘ng‘iroq qiling, maktabga ham darhol xabar bering:"
+  },
+  "apply": {
+    "title": "Onlayn ariza qoldirish",
+    "lead": "Arizani to‘ldiring — maktab xodimi siz bilan bog‘lanadi va keyingi qadamlarni tushuntiradi.",
+    "childName": "Bolaning familiyasi va ismi",
+    "childBirth": "Tug‘ilgan sanasi",
+    "grade": "Qaysi sinfga",
+    "gradeOption": "{n}-sinf",
+    "parentName": "Ota-ona (yoki vasiy) F.I.Sh.",
+    "phone": "Telefon raqamingiz",
+    "address": "Yashash manzili",
+    "addressHint": "Mahalla, ko‘cha va uy raqami.",
+    "previousSchool": "Oldingi maktab",
+    "previousSchoolHint": "Boshqa maktabdan o‘tayotgan bo‘lsangiz: maktab nomi va sinfi.",
+    "note": "Qo‘shimcha ma’lumot",
+    "notePlaceholder": "Bilishimiz kerak bo‘lgan boshqa narsa (masalan, sog‘liq bo‘yicha e’tibor talab qiladigan holat)…",
+    "optional": "ixtiyoriy",
+    "submit": "Arizani yuborish",
+    "sending": "Yuborilmoqda…",
+    "successTitle": "Arizangiz qabul qilindi",
+    "success": "Rahmat. Maktab xodimi yaqin kunlarda ko‘rsatilgan raqamga qo‘ng‘iroq qiladi.",
+    "again": "Yana ariza yuborish",
+    "invalid": "Yulduzcha bilan belgilangan maydonlarni to‘ldiring.",
+    "badDate": "Tug‘ilgan sanani to‘g‘ri kiriting.",
+    "error": "Arizani yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling.",
+    "tooMany": "Bu raqamdan juda ko‘p ariza yuborildi. 10 daqiqadan so‘ng urinib ko‘ring.",
+    "privacy": "Bolangizning ma’lumotlari saytda ko‘rinmaydi — ularni faqat maktab rahbariyati ko‘radi. Pasport yoki guvohnoma raqamini bu yerga yozmang, ularni maktabga kelganingizda topshirasiz.",
+    "openForm": "Onlayn ariza qoldirish"
   }
 }

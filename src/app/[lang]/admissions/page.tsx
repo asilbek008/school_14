@@ -90,7 +90,13 @@ export default async function AdmissionsPage({ params }: PageProps<"/[lang]/admi
                 </div>
               ))}
           </dl>
-          <div className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          <Link
+            href={`/${lang}/admissions/apply`}
+            className="press mt-4 block rounded-full bg-gradient-to-br from-[#3e72e8] to-brand-deep px-5 py-3.5 text-center text-sm font-bold text-white"
+          >
+            {dict.apply.openForm} →
+          </Link>
+          <div className="mt-2.5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
             {school.phone && (
               <a href={telHref(school.phone)} className="press rounded-full bg-brand px-5 py-3 text-center text-sm font-bold text-white transition-colors hover:bg-brand-deep">
                 {t.call}
