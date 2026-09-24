@@ -113,7 +113,15 @@ export type Club = {
   grade_to: number | null;
   leader: string | null;
   photo: string | null;
+  days: number[];
+  start_time: string | null;
+  end_time: string | null;
+  /** The leader from the staff list (null if not picked, or their profile is hidden). */
+  staff: { id: number; full_name: string } | null;
+  club_media: { kind: "photo" | "video" | "youtube" }[];
 };
+
+export type ClubMedia = { id: number; kind: "photo" | "video" | "youtube"; path: string };
 
 export type Album = {
   id: number;
@@ -310,19 +318,34 @@ export async function getPage(slug: string): Promise<Page | null> {
   return data;
 }
 
+const clubColumns =
+  "id, name_uz, name_ru, name_en, description_uz, description_ru, description_en, schedule_uz, schedule_ru, schedule_en, place_uz, place_ru, place_en, grade_from, grade_to, leader, photo, days, start_time, end_time, staff(id, full_name), club_media(kind)";
+
 export async function getClubs(): Promise<Club[]> {
   const supabase = createPublicClient();
   if (!supabase) return [];
   const { data, error } = await supabase
     .from("clubs")
     .select(
-      "id, name_uz, name_ru, name_en, description_uz, description_ru, description_en, schedule_uz, schedule_ru, schedule_en, place_uz, place_ru, place_en, grade_from, grade_to, leader, photo",
+      clubColumns,
     )
     .eq("is_published", true)
     .order("sort_order")
     .order("id");
   logError("getClubs", error);
-  return data ?? [];
+  return (data ?? []) as unknown as Club[];
+}
+
+/** One club with its photos and videos in order, or null. */
+export async function getClub(id: number): Promise<(Club & { media: ClubMedia[] }) | null> {
+  const supabase = createPublicClient();
+  if (!supabase || !Number.isSafeInteger(id)) return null;
+  const [{ data, error }, { data: media, error: mediaError }] = await Promise.all([
+    supabase.from("clubs").select(clubColumns).eq("id", id).eq("is_published", true).maybeSingle(),
+    supabase.from("club_media").select("id, kind, path").eq("club_id", id).order("sort_order").order("id"),
+  ]);
+  logError("getClub", error ?? mediaError);
+  return data ? { ...(data as unknown as Club), media: (media ?? []) as ClubMedia[] } : null;
 }
 
 export type Program = {
