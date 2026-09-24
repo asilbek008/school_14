@@ -22,7 +22,8 @@
     "programs": "Regular programs",
     "timetableShort": "Timetable",
     "search": "Search",
-    "trust": "Trust box"
+    "trust": "Trust box",
+    "documents": "Documents"
   },
   "navDesc": {
     "about": "History and general information",
@@ -35,7 +36,8 @@
     "upcoming": "Coming holidays and events",
     "past": "Events that took place",
     "gallery": "Moments of school life",
-    "programs": "Zakovat and other year-round projects"
+    "programs": "Zakovat and other year-round projects",
+    "documents": "Licence, orders, reports and forms"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -661,5 +663,36 @@
     "tooMany": "Too many applications were sent from this number. Please try again in 10 minutes.",
     "privacy": "Your child's details are not shown on the site — only the school's leadership sees them. Do not write passport or certificate numbers here; you will show those at the school.",
     "openForm": "Apply online"
+  },
+  "docCats": {
+    "meyoriy": "Regulations",
+    "buyruq": "Orders",
+    "hisobot": "Reports",
+    "shakl": "Application forms",
+    "boshqa": "Other"
+  },
+  "documents": {
+    "kicker": "Openness",
+    "title": "Documents",
+    "intro": "The school's open documents: regulations, orders, reports and the forms parents fill in.",
+    "statAll": {
+      "one": "document",
+      "other": "documents"
+    },
+    "statCats": {
+      "one": "section",
+      "other": "sections"
+    },
+    "statForms": {
+      "one": "application form",
+      "other": "application forms"
+    },
+    "search": "Search by document title…",
+    "empty": "No documents have been added yet.",
+    "notFound": "No documents found in this section.",
+    "open": "Open",
+    "download": "Download",
+    "external": "On another site",
+    "hint": "If a document will not open or is out of date, please tell the school."
   }
 }

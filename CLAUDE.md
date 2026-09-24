@@ -85,6 +85,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   jami 20 ta; `private.notify_admission` — Telegram'ga 🎒 belgisi bilan. Holat: `new` → `contacted` → `accepted`/`declined`,
   admin izohi alohida maydonda. Sahifa `robots: index:false`, havola — "Qabul" sahifasidagi tugma va sayt qidiruvi.
   Admin menyusida yangi arizalar soni, bosh sahifadagi "E’tibor talab qiladi" ro‘yxatida ham.
+- Hujjatlar (`/[lang]/documents`, `documents`; admin `/admin/documents`): litsenziya, nizom, buyruq, hisobot va ariza
+  shakllari. Har hujjat — yo `media` bucket'dagi fayl (`kind='file'`, `path`, `file_type`/`file_size` avtomatik), yo boshqa
+  saytdagi havola (`kind='link'`, `url` — masalan lex.uz). Bo‘limlar `documentCategories` (`meyoriy|buyruq|hisobot|shakl|boshqa`,
+  nomlari lug‘atda `docCats`), sahifada 3 rangli raqam kartasi, `CategoryFilter` (bo‘lim tugmalari + nom bo‘yicha qidiruv).
+  Bucket PDF/Word/Excel'ni ham oladi (50 MB gacha; `FileUpload` brauzerdan to‘g‘ridan-to‘g‘ri yuklaydi, Server Action faylni
+  ko‘tarmaydi). Admin ro‘yxati `SortableList` (sudrab/↑↓ — `reorderDocuments`), fayl almashtirilsa eskisi Storage'dan o‘chadi;
+  hujjat o‘chirilganda fayli ham. Menyuda "Maktab ▾" ichida, footer va sayt qidiruvida ham.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -397,6 +404,8 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
   `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order); `league_tables` (program_id, stage, title, as_of, rows)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
+- `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
+  sort_order, is_published)
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,
   is_read); `admission_applications` (child_name, child_birth_date, grade, parent_name, phone, address, previous_school, note,
   status, admin_note)

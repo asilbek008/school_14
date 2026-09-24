@@ -22,7 +22,8 @@
     "programs": "Doimiy tadbirlar",
     "timetableShort": "Dars jadvali",
     "search": "Qidirish",
-    "trust": "Ishonch qutisi"
+    "trust": "Ishonch qutisi",
+    "documents": "Hujjatlar"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -35,7 +36,8 @@
     "upcoming": "Kelgusi bayram va tadbirlar",
     "past": "Bo‘lib o‘tgan tadbirlar",
     "gallery": "Maktab hayotidan lavhalar",
-    "programs": "Zakovat va boshqa muntazam loyihalar"
+    "programs": "Zakovat va boshqa muntazam loyihalar",
+    "documents": "Litsenziya, buyruq, hisobot va shakllar"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -661,5 +663,36 @@
     "tooMany": "Bu raqamdan juda ko‘p ariza yuborildi. 10 daqiqadan so‘ng urinib ko‘ring.",
     "privacy": "Bolangizning ma’lumotlari saytda ko‘rinmaydi — ularni faqat maktab rahbariyati ko‘radi. Pasport yoki guvohnoma raqamini bu yerga yozmang, ularni maktabga kelganingizda topshirasiz.",
     "openForm": "Onlayn ariza qoldirish"
+  },
+  "docCats": {
+    "meyoriy": "Me’yoriy hujjatlar",
+    "buyruq": "Buyruqlar",
+    "hisobot": "Hisobotlar",
+    "shakl": "Ariza shakllari",
+    "boshqa": "Boshqa"
+  },
+  "documents": {
+    "kicker": "Ochiqlik",
+    "title": "Hujjatlar",
+    "intro": "Maktabning ochiq hujjatlari: me’yoriy hujjatlar, buyruqlar, hisobotlar va ota-onalar to‘ldiradigan shakllar.",
+    "statAll": {
+      "one": "hujjat",
+      "other": "hujjat"
+    },
+    "statCats": {
+      "one": "bo‘lim",
+      "other": "bo‘lim"
+    },
+    "statForms": {
+      "one": "ariza shakli",
+      "other": "ariza shakli"
+    },
+    "search": "Hujjat nomi bo‘yicha qidirish…",
+    "empty": "Hujjatlar hali qo‘shilmagan.",
+    "notFound": "Bu bo‘limda hujjat topilmadi.",
+    "open": "Ochish",
+    "download": "Yuklab olish",
+    "external": "Boshqa saytda",
+    "hint": "Hujjat ochilmasa yoki eskirgan bo‘lsa, maktabga xabar bering."
   }
 }

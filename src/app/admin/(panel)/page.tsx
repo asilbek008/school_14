@@ -28,6 +28,7 @@ async function load(supabase: Supabase) {
     lessons,
     { data: subjects },
     { data: pages },
+    { data: documents },
     { data: telegram },
     { data: nextEvents },
     { data: messages },
@@ -48,6 +49,7 @@ async function load(supabase: Supabase) {
     allLessons<{ teacher: string | null; alt_teacher: string | null }>(supabase, "teacher, alt_teacher"),
     supabase.from("subjects").select("name_ru, name_en"),
     supabase.from("pages").select("slug, title_uz, body_uz, body_ru, body_en"),
+    supabase.from("documents").select("title_ru, title_en"),
     supabase.from("telegram_settings").select("enabled, channel, last_synced_at, last_status").eq("id", 1).maybeSingle(),
     supabase.from("events").select("id, title_uz, starts_at, all_day, is_published").gte("starts_at", now).order("starts_at").limit(5),
     supabase.from("contact_messages").select("id, name, message, is_read, created_at").order("created_at", { ascending: false }).limit(4),
@@ -88,6 +90,7 @@ async function load(supabase: Supabase) {
       text: "ta sahifada ba’zi tillarda matn yo‘q",
       href: "/admin/pages",
     },
+    { n: (documents ?? []).filter((d) => !d.title_ru || !d.title_en).length, text: "ta hujjatning tarjimasi to‘liq emas", href: "/admin/documents" },
     { n: (clubRows ?? []).filter((c) => !c.start_time && !c.leader && !c.leader_id).length, text: "ta to‘garakning vaqti va rahbari kiritilmagan", href: "/admin/clubs" },
     {
       n: (albumRows ?? []).filter((a) => !a.gallery_photos[0]?.count && !a.gallery_videos[0]?.count).length,
