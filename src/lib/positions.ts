@@ -64,3 +64,22 @@ export function positionLabel(row: { position_uz: string; position_ru?: string |
   const own = lang === "uz" ? row.position_uz : row[`position_${lang}`];
   return own?.trim() || findPosition(row.position_uz)?.[lang] || row.position_uz;
 }
+
+/** Position badge colors by group: leadership blue, teachers teal, other staff gold. */
+export const groupBadge: Record<StaffGroup, string> = {
+  leaders: "bg-brand-soft text-brand-deep",
+  teachers: "bg-teal-soft text-[#0c6d62]",
+  others: "bg-gold-soft text-gold-deep",
+};
+
+/** Initials avatar gradient, fixed per person (so the list and the profile agree, whatever the filter). */
+export const avatarGradient = (id: number) => ["from-brand to-brand-deep", "from-teal to-[#0c6d62]", "from-gold to-gold-deep"][id % 3];
+
+/** Up to two initials of a name ("Karimov Anvar" → "KA"). */
+export const initials = (name: string) =>
+  name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w.charAt(0))
+    .join("")
+    .toUpperCase();

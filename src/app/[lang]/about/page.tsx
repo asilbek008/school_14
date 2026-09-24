@@ -6,7 +6,7 @@ import { fill } from "@/i18n/fill";
 import { getClasses, getPage, getStaff, localized, mediaUrl } from "@/lib/content";
 import { currentSchoolYear, school, telHref } from "@/lib/school";
 import { shifts } from "@/lib/bells";
-import { positionGroup, positionLabel } from "@/lib/positions";
+import { avatarGradient, initials, positionGroup, positionLabel } from "@/lib/positions";
 import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
 import SectionHead from "@/components/SectionHead";
@@ -17,16 +17,6 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/about">): 
   const { dict } = await resolveLang(params);
   return { title: dict.nav.about };
 }
-
-const initials = (name: string) =>
-  name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w.charAt(0))
-    .join("")
-    .toUpperCase();
-
-const avatarColors = ["from-brand to-brand-deep", "from-teal to-[#0c6d62]", "from-gold to-gold-deep"];
 
 /**
  * About the school, as in the design mockup: key numbers, the admin-edited text with short facts,
@@ -112,7 +102,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
           <div className="mx-auto max-w-6xl px-4 py-12 sm:py-14">
             <SectionHead kicker={t.leadersKicker} title={t.leadersTitle} desc={t.leadersDesc} />
             <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-              {leaders.map((p, i) => {
+              {leaders.map((p) => {
                 const photo = mediaUrl(p.photo);
                 return (
                   // Phones: photo beside the name; from sm up the photo sits on top.
@@ -126,7 +116,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
                     ) : (
                       <span
                         className={`grid size-[52px] shrink-0 place-items-center rounded-full bg-gradient-to-br text-[17px] font-bold text-white transition-transform duration-300 ease-(--ease-spring) group-hover:-rotate-6 group-hover:scale-105 sm:mb-3.5 ${
-                          avatarColors[i % avatarColors.length]
+                          avatarGradient(p.id)
                         }`}
                       >
                         {initials(p.full_name)}

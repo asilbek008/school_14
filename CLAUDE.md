@@ -104,11 +104,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `alt_subject_id` + `alt_teacher`). `lessons` da `subjects` ga ikkita FK bor, shuning uchun embed'da
   aniq ko‘rsating: `subjects!lessons_subject_id_fkey(...)`. Smena va dars vaqtlari sinfdan `shiftForGrade()`
   orqali olinadi (`bells.ts`), bazada saqlanmaydi. Darslar RLS'da sinfga bog‘liq (galereya kabi).
-  Ochiq sahifa: `/timetable` — maketdagidek hamma parallellar bir to‘rda (server render): har parallel kartasi (ustida
-  daraja rangi: 1–4 ko‘k, 5–9 yashil, 10–11 sariq; raqam, sinflar soni, smena belgisi) va sinf harflari — to‘g‘ridan-to‘g‘ri
-  `/timetable/[id]` ga havola; karta `id="g5"`, sinf sahifasidagi "← Barcha sinflar" shunga qaytaradi. `/timetable/[id]` — `ClassTimetableView`
+  Ochiq sahifa: `/timetable` — `TimetablePicker` (smena → parallel → sinf; tanlov URL hash'da `#s2-g8`,
+  `useSyncExternalStore` bilan o‘qiladi, sahifa keshi buzilmaydi; egasining talabi — maketdagi parallellar to‘ri qaytarildi), `/timetable/[id]` — `ClassTimetableView`
   ("Kunlik": kun tanlash + vaqt chizig‘i, "Haftalik": jadval; "bugun"/"hozir" brauzerda Toshkent vaqti bo‘yicha).
-  "Haftalik" — jadval
+  Telefonda ixcham: smena kartalari yonma-yon (2 ustun, ikonkasiz), parallel/sinf tugmalari kichik. "Haftalik" — jadval
   emas, har kun alohida karta (1/2/3 ustun; dars raqami, fan, o‘qituvchi, vaqt; bugungi karta ajratilgan) — keng
   jadvalni yonga aylantirish chalkash edi.
   Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
@@ -158,8 +157,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `position_uz` apostrof farqisiz (`positionKey`) moslanadi; ro‘yxatda yo‘q lavozim so‘zlariga qarab guruhga qo‘shiladi
   (`positionGroup`). `position_ru/en` bo‘sh bo‘lsa tarjima ro‘yxatdan olinadi (`positionLabel`). Admin formada lavozim
   maydoni shu ro‘yxatni taklif qiladi (`TranslatedField` `suggestions`, datalist).
-- Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
-  bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
+- Xodim profili (`/staff/[id]`, maketdagidek): chapda karta (rasm yoki initsiallar doirasi, lavozim belgisi guruh rangida,
+  telefon/email belgilar bilan — faqat xodim roziligi bilan), o‘ngda toifa, ma’lumoti, ish staji, sinf rahbarligi va
+  qo‘shimcha ma’lumot. Ranglar umumiy (`positions.ts`: `groupBadge`, `avatarGradient(id)` — xodimga bog‘liq, filtrda
+  o‘zgarmaydi; `initials`) — ro‘yxat, profil va "Maktab haqida"dagi rahbariyat bir xil. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
 - `supabase/seed/2026-2027.sql`, `supabase/seed/clubs.sql` va `supabase/seed/subjects.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
   tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).
