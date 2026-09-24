@@ -3,7 +3,7 @@ import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { getAlbums, getClasses, getEvents, getNews } from "@/lib/content";
 import AlbumCard from "@/components/AlbumCard";
-import { school } from "@/lib/school";
+import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
 import NewsCard from "@/components/NewsCard";
 import EventItem from "@/components/EventItem";
@@ -17,6 +17,9 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
   const [news, { upcoming }, albums, classes] = await Promise.all([getNews(3), getEvents(), getAlbums(), getClasses()]);
   const recentAlbums = albums.filter((a) => a.gallery_photos.length > 0).slice(0, 3);
+  const year = currentSchoolYear();
+  // September: the year has just begun.
+  const started = new Date().getMonth() === 8;
   const stats = [
     { value: school.stats.students, label: dict.home.statStudents, dot: "bg-[#6e9bff]" },
     { value: school.stats.staff, label: dict.home.statStaff, dot: "bg-[#3ecfb2]" },
@@ -34,17 +37,25 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <section className="chrome tricolor-rule">
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.1fr_0.9fr]">
           <div>
-            <p className="inline-block animate-fade-up rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold">
-              {school.foundedLabel[lang]}
+            <p className="flex animate-fade-up flex-wrap items-center gap-2.5 text-[13.5px] font-semibold text-[#b9c4e2]">
+              <span className="font-display rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold text-white">
+                {year.from}–{year.to}
+              </span>
+              {started ? dict.home.eyebrowStarted : dict.home.eyebrow}
             </p>
-            <h1 className="mt-5 animate-fade-up text-4xl font-bold tracking-tight [animation-delay:80ms] sm:text-5xl">{dict.home.welcome}</h1>
-            <p className="mt-4 max-w-xl animate-fade-up text-lg leading-relaxed text-slate-300 [animation-delay:160ms]">{dict.home.intro}</p>
-            <div className="mt-8 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">
-              <Link href={`/${lang}/admissions`} className="press rounded-full bg-gold px-6 py-3 font-bold text-[#241703] shadow-lg shadow-gold/30 hover:bg-[#eba53c] hover:shadow-xl hover:shadow-gold/40">
-                {dict.home.ctaAdmissions}
+            <h1 className="font-display mt-5 max-w-[15ch] animate-fade-up text-[clamp(2.25rem,5.1vw,3.75rem)] font-bold leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
+              {dict.home.heroTitle}
+            </h1>
+            <p className="mt-5 max-w-[48ch] animate-fade-up text-[17.5px] leading-relaxed text-[#c3cce6] [animation-delay:160ms]">{dict.home.heroLead}</p>
+            <div className="mt-7 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">
+              <Link
+                href={`/${lang}/timetable`}
+                className="press rounded-full bg-gold px-[22px] py-[13px] text-[14.5px] font-bold text-[#241703] shadow-[0_12px_26px_-14px_rgb(217_148_42/0.9)] hover:bg-[#eba53c]"
+              >
+                {dict.home.ctaTimetable}
               </Link>
-              <Link href={`/${lang}/contact`} className="press rounded-full border border-white/35 px-6 py-3 font-bold hover:border-white hover:bg-white/10">
-                {dict.home.ctaContact}
+              <Link href={`/${lang}/news`} className="press rounded-full border-[1.5px] border-white/35 px-[22px] py-[13px] text-[14.5px] font-bold hover:border-white hover:bg-white/10">
+                {dict.home.ctaNews}
               </Link>
             </div>
             <dl className="mt-10 grid max-w-md animate-fade-up grid-cols-3 gap-3 [animation-delay:320ms]">

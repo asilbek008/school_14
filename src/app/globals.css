@@ -2,6 +2,7 @@
 
 @theme inline {
   --font-sans: var(--font-inter);
+  --font-display: var(--font-bricolage), var(--font-inter);
 }
 
 /* Brand palette (from the school's design mockup). */
