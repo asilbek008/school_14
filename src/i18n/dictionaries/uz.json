@@ -21,7 +21,8 @@
     "timetable": "Dars jadvali",
     "programs": "Doimiy tadbirlar",
     "timetableShort": "Dars jadvali",
-    "search": "Qidirish"
+    "search": "Qidirish",
+    "trust": "Ishonch qutisi"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -603,5 +604,34 @@
     "bannerHint": "yangiliklar, tadbirlar va galereya shu yil bo‘yicha",
     "back": "Joriy yilga qaytish",
     "page": "Yil sahifasi"
+  },
+  "trust": {
+    "title": "Ishonch qutisi",
+    "kicker": "Maxfiy murojaat",
+    "intro": "Ismingizni yozmasdan murojaat qoldiring. Xabarni faqat maktab rahbariyati ko‘radi.",
+    "topicLabel": "Murojaat mavzusi",
+    "topics": {
+      "xavfsizlik": "Bola xavfsizligi, zo‘ravonlik",
+      "pul": "Noqonuniy pul yig‘ish",
+      "munosabat": "O‘qituvchi yoki xodim munosabati",
+      "taklif": "Taklif",
+      "boshqa": "Boshqa"
+    },
+    "message": "Murojaat matni",
+    "messagePlaceholder": "Nima bo‘lganini iloji boricha aniq yozing: qachon, qayerda, kim ishtirok etgan…",
+    "contact": "Aloqa uchun telefon yoki pochta",
+    "contactHint": "Ixtiyoriy. Javob kerak bo‘lsagina yozing — bo‘sh qoldirsangiz, murojaat butunlay anonim bo‘ladi.",
+    "submit": "Yuborish",
+    "sending": "Yuborilmoqda…",
+    "successTitle": "Murojaatingiz qabul qilindi",
+    "success": "Rahmat. Xabaringiz maktab rahbariyatiga yetkazildi.",
+    "again": "Yana murojaat yuborish",
+    "invalid": "Murojaat matnini yozing (kamida 10 ta belgi).",
+    "error": "Yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring.",
+    "tooMany": "Hozir juda ko‘p murojaat kelmoqda. 10 daqiqadan so‘ng qayta urinib ko‘ring.",
+    "privacyTitle": "Bu murojaat qanday saqlanadi",
+    "privacy": "Ismingiz, telefon raqamingiz va IP manzilingiz saqlanmaydi. Faqat siz yozgan matn va tanlagan mavzu saqlanadi. Aloqa maydonini to‘ldirsangizgina biz siz bilan bog‘lana olamiz.",
+    "urgentTitle": "Shoshilinch holatda",
+    "urgent": "Bolaning hayoti yoki sog‘lig‘iga xavf tug‘ilsa, kutmang — 102 (politsiya) yoki 103 (tez yordam) ga qo‘ng‘iroq qiling, maktabga ham darhol xabar bering:"
   }
 }

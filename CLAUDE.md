@@ -72,6 +72,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `defaultValue` ni olmaydi — u `attempt` bo‘yicha qayta yaratiladi). Mavzu (`topic`: savol/taklif/murojaat/boshqa,
   `contactTopics`) admin xabarlarida belgi bo‘lib chiqadi. Sahifa maketdagidek: 4 aloqa kartasi (boshqa sahifalardagi raqam kartalari kabi rangli — `tileColors` `StatTiles` dan; telefonda ixcham),
   "Murojaat yuborish" formasi, "Tezkor javob kerakmi?" izohi va xarita.
+- Ishonch qutisi (`/[lang]/trust`, `trust_messages`; admin `/admin/trust`): ismsiz maxfiy murojaat — mavzu (`trustTopics`:
+  xavfsizlik/pul/munosabat/taklif/boshqa), matn (10–5000 belgi) va ixtiyoriy aloqa. Yuboruvchi haqida hech narsa saqlanmaydi
+  (ism, IP yo‘q); `actions.ts` xato matnini ham loglamaydi. RLS: hamma yozadi, faqat admin o‘qiydi. `private.trust_rate_limit`
+  (10 daqiqada 20 ta), `private.notify_trust_message` — Telegram'ga 🔒 belgisi bilan (`notify_messages` yoqilgan bo‘lsa).
+  Sahifa `robots: index:false`. Havolalar: footer, aloqa sahifasidagi karta. Admin menyusida o‘qilmaganlar soni, bosh sahifadagi
+  "E’tibor talab qiladi" ro‘yxatida ham.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada

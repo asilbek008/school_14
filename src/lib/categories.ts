@@ -24,3 +24,7 @@ export const eventColors: Record<EventCategory, { badge: string; tile: string }>
 // What a contact-form message is about (matches the contact_messages.topic check).
 export const contactTopics = ["savol", "taklif", "murojaat", "boshqa"] as const;
 export type ContactTopic = (typeof contactTopics)[number];
+
+// What a trust-box message is about (matches the trust_messages.topic check).
+export const trustTopics = ["xavfsizlik", "pul", "munosabat", "taklif", "boshqa"] as const;
+export type TrustTopic = (typeof trustTopics)[number];

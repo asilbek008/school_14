@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { mapEmbedUrl, school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
@@ -75,6 +76,17 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
           </section>
 
           <div className="space-y-6">
+            {/* The trust box, for anyone who would rather not give a name. */}
+            <Link
+              href={`/${lang}/trust`}
+              className="lift group reveal flex items-start gap-3 rounded-[14px] border border-teal/40 bg-teal-soft px-5 py-4 text-[13.5px] leading-relaxed text-slate-800"
+            >
+              <span aria-hidden className="text-lg">🔒</span>
+              <span>
+                <b className="block text-slate-900 group-hover:text-[#0c6d62]">{dict.trust.title}</b>
+                {dict.trust.intro}
+              </span>
+            </Link>
             {school.phone && (
               <div className="reveal rounded-[14px] bg-gold-soft px-5 py-4 text-[13.5px] leading-relaxed text-slate-800 shadow-[inset_4px_0_0_var(--color-gold)]">
                 <b className="block text-slate-900">{t.quickTitle}</b>

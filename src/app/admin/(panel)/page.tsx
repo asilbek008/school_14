@@ -16,6 +16,7 @@ async function load(supabase: Supabase) {
   const head = (table: string) => supabase.from(table).select("*", { count: "exact", head: true });
   const [
     { count: unreadCount },
+    { count: unreadTrustCount },
     { count: newsCount },
     { count: hiddenCount },
     { count: upcomingCount },
@@ -34,6 +35,7 @@ async function load(supabase: Supabase) {
     { data: albumRows },
   ] = await Promise.all([
     head("contact_messages").eq("is_read", false),
+    head("trust_messages").eq("is_read", false),
     head("news"),
     head("news").eq("is_published", false),
     head("events").eq("is_published", true).gte("starts_at", now),
@@ -52,9 +54,15 @@ async function load(supabase: Supabase) {
     supabase.from("gallery_albums").select("id, gallery_photos(count), gallery_videos(count)"),
   ]);
 
-  const [unread, news, hiddenNews, upcoming, clubs, albums] = [unreadCount, newsCount, hiddenCount, upcomingCount, clubsCount, albumsCount].map(
-    (n) => n ?? 0,
-  );
+  const [unread, unreadTrust, news, hiddenNews, upcoming, clubs, albums] = [
+    unreadCount,
+    unreadTrustCount,
+    newsCount,
+    hiddenCount,
+    upcomingCount,
+    clubsCount,
+    albumsCount,
+  ].map((n) => n ?? 0);
 
   // Missing data across the sections (the same checks as their "Kamchiliklar" filters).
   const known = new Set((staff ?? []).flatMap((s) => (s.short_name ? [normalizeName(s.short_name)] : [])));
@@ -64,6 +72,7 @@ async function load(supabase: Supabase) {
   const teachers = (staff ?? []).filter((s) => positionGroup(s.position_uz) === "teachers");
   const attention = [
     { n: unread, text: "ta o‘qilmagan xabar", href: "/admin/messages" },
+    { n: unreadTrust, text: "ta o‘qilmagan maxfiy murojaat (ishonch qutisi)", href: "/admin/trust" },
     { n: hiddenNews, text: "ta yashirin yangilik (Telegram’dan kelgan bo‘lsa — tekshirib yoqing)", href: "/admin/news" },
     { n: unlinked.size, text: "ta o‘qituvchi ismi dars jadvalida profilga bog‘lanmagan", href: "/admin/classes" },
     { n: (classes ?? []).filter((c) => !c.homeroom_teacher_id).length, text: "ta sinfda sinf rahbari tanlanmagan", href: "/admin/classes" },

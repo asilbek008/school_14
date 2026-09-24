@@ -21,7 +21,8 @@
     "timetable": "Timetable",
     "programs": "Regular programs",
     "timetableShort": "Timetable",
-    "search": "Search"
+    "search": "Search",
+    "trust": "Trust box"
   },
   "navDesc": {
     "about": "History and general information",
@@ -603,5 +604,34 @@
     "bannerHint": "news, events and gallery for that year",
     "back": "Back to the current year",
     "page": "Year page"
+  },
+  "trust": {
+    "title": "Trust box",
+    "kicker": "Confidential message",
+    "intro": "Write to us without giving your name. Only the school's leadership sees the message.",
+    "topicLabel": "What it is about",
+    "topics": {
+      "xavfsizlik": "A child's safety, violence",
+      "pul": "Money collected unlawfully",
+      "munosabat": "How a teacher or member of staff behaved",
+      "taklif": "A suggestion",
+      "boshqa": "Other"
+    },
+    "message": "Your message",
+    "messagePlaceholder": "Please be as precise as you can: when, where, who was involved…",
+    "contact": "Phone or email for a reply",
+    "contactHint": "Optional. Fill it in only if you want an answer — left empty, the message is fully anonymous.",
+    "submit": "Send",
+    "sending": "Sending…",
+    "successTitle": "Your message has been received",
+    "success": "Thank you. It has been passed to the school's leadership.",
+    "again": "Send another message",
+    "invalid": "Please write your message (at least 10 characters).",
+    "error": "It could not be sent. Please try again later.",
+    "tooMany": "Too many messages are arriving right now. Please try again in 10 minutes.",
+    "privacyTitle": "How this message is stored",
+    "privacy": "Your name, phone number and IP address are not stored. Only the text you write and the topic you choose are. We can reach you only if you fill in the contact field.",
+    "urgentTitle": "In an emergency",
+    "urgent": "If a child's life or health is at risk, do not wait — call 102 (police) or 103 (ambulance), and tell the school at once:"
   }
 }
