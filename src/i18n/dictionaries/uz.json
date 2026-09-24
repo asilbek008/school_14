@@ -331,7 +331,21 @@
     "newsCount": {
       "one": "{n} ta yangilik",
       "other": "{n} ta yangilik"
-    }
+    },
+    "countIntro": "{n} ta loyiha — butun o‘quv yili davomida muntazam o‘tkaziladigan loyiha va musobaqalar.",
+    "statPrograms": {
+      "one": "loyiha",
+      "other": "loyiha"
+    },
+    "statNews": {
+      "one": "yangilik",
+      "other": "yangilik"
+    },
+    "statMedia": "rasm va video",
+    "statTeams": "ligadagi jamoalarimiz",
+    "search": "Loyiha nomi…",
+    "notFound": "Qidiruv bo‘yicha loyiha topilmadi.",
+    "place": "{stage}: {n}-o‘rin"
   },
   "gallery": {
     "intro": "Maktabimizdagi tadbirlar, darslar va bayramlardan lavhalar.",

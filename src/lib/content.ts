@@ -380,10 +380,16 @@ export type Program = {
 const programColumns =
   "id, slug, name_uz, name_ru, name_en, summary_uz, summary_ru, summary_en, description_uz, description_ru, description_en, schedule_uz, schedule_ru, schedule_en, place_uz, place_ru, place_en, keyword, cover";
 
-export async function getPrograms(): Promise<Program[]> {
+/** Published programs in order, each with its photo/video count. */
+export async function getPrograms(): Promise<(Program & { media: { count: number }[] })[]> {
   const supabase = createPublicClient();
   if (!supabase) return [];
-  const { data, error } = await supabase.from("programs").select(programColumns).eq("is_published", true).order("sort_order").order("id");
+  const { data, error } = await supabase
+    .from("programs")
+    .select(`${programColumns}, media:program_media(count)`)
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("id");
   logError("getPrograms", error);
   return data ?? [];
 }
