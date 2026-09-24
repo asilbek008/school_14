@@ -67,7 +67,19 @@
       "faq": "Ota-onalar uchun javoblar"
     },
     "galleryTitle": "Maktab hayotidan",
-    "allPhotos": "Barcha rasmlar"
+    "allPhotos": "Barcha rasmlar",
+    "numbersKicker": "Raqamlarda",
+    "numbersTitle": "Maktab hayoti",
+    "numNews": {
+      "one": "yangilik",
+      "other": "yangilik"
+    },
+    "numEvents": "yaqin tadbir",
+    "numClubs": {
+      "one": "to‘garak",
+      "other": "to‘garak"
+    },
+    "numPrograms": "doimiy loyiha"
   },
   "common": {
     "readMore": "Batafsil",

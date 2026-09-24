@@ -67,7 +67,19 @@
       "faq": "Answers for parents"
     },
     "galleryTitle": "School life",
-    "allPhotos": "All photos"
+    "allPhotos": "All photos",
+    "numbersKicker": "In numbers",
+    "numbersTitle": "School life",
+    "numNews": {
+      "one": "news story",
+      "other": "news stories"
+    },
+    "numEvents": "upcoming events",
+    "numClubs": {
+      "one": "club",
+      "other": "clubs"
+    },
+    "numPrograms": "regular projects"
   },
   "common": {
     "readMore": "Read more",

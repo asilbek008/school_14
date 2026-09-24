@@ -1,7 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
-import { getAlbums, getClasses, getEvents, getNews, mediaUrl } from "@/lib/content";
+import { plural } from "@/i18n/fill";
+import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, mediaUrl } from "@/lib/content";
 import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
@@ -11,12 +12,28 @@ import SectionHead from "@/components/SectionHead";
 import EmptyState from "@/components/EmptyState";
 import EMaktabCard from "@/components/EMaktabCard";
 import LiveCard from "@/components/LiveCard";
+import StatTiles from "@/components/StatTiles";
 
 export const revalidate = 300;
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
-  const [news, { upcoming }, albums, classes] = await Promise.all([getNews(3), getEvents(), getAlbums(), getClasses()]);
+  const [allNews, { upcoming }, albums, classes, clubs, programs] = await Promise.all([
+    getNews(),
+    getEvents(),
+    getAlbums(),
+    getClasses(),
+    getClubs(),
+    getPrograms(),
+  ]);
+  const news = allNews.slice(0, 3);
+  // "School life in numbers": each tile opens its section.
+  const numbers = [
+    { value: allNews.length, label: plural(dict.home.numNews, allNews.length, lang), href: `/${lang}/news` },
+    { value: upcoming.length, label: dict.home.numEvents, href: `/${lang}/events` },
+    { value: clubs.length, label: plural(dict.home.numClubs, clubs.length, lang), href: `/${lang}/clubs` },
+    { value: programs.length, label: dict.home.numPrograms, href: `/${lang}/programs` },
+  ];
   const recentPhotos = albums.flatMap((a) => a.gallery_photos.map((p) => mediaUrl(p.path)!)).slice(0, 4);
   const year = currentSchoolYear();
   // September: the year has just begun.
@@ -119,6 +136,13 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       </section>
 
       {/* Sections are divided by a hairline, as in the design mockup. */}
+      <section className="border-t border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+          <SectionHead kicker={dict.home.numbersKicker} title={dict.home.numbersTitle} />
+          <StatTiles stats={numbers} className="" />
+        </div>
+      </section>
+
       <section className="border-t border-slate-200">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
         <SectionHead kicker={dict.nav.news} title={dict.home.latestNews} action={{ href: `/${lang}/news`, label: dict.home.allNews }} />
