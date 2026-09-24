@@ -331,7 +331,21 @@
     "newsCount": {
       "one": "{n} news item",
       "other": "{n} news items"
-    }
+    },
+    "countIntro": "{n} projects — regular projects and competitions held throughout the school year.",
+    "statPrograms": {
+      "one": "project",
+      "other": "projects"
+    },
+    "statNews": {
+      "one": "news story",
+      "other": "news stories"
+    },
+    "statMedia": "photos and videos",
+    "statTeams": "our league teams",
+    "search": "Project name…",
+    "notFound": "No projects match your search.",
+    "place": "{stage}: place {n}"
   },
   "gallery": {
     "intro": "Moments from school life: events, lessons and celebrations.",

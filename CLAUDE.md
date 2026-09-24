@@ -88,7 +88,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Doimiy tadbirlar (`/programs`, `/programs/[slug]`, `programs` jadvali; admin `/admin/programs`): yil bo‘yi muntazam
   loyihalar (birinchisi — Zakovat, `supabase/seed/programs.sql`). `keyword` kiritilsa, `getNewsMentioning()` shu so‘z
   sarlavha yoki matnda uchragan yangiliklarni (Telegram'dan kelganlarini ham) loyiha sahifasida ko‘rsatadi; o‘z rasmi
-  (`cover`) bo‘lmasa, oxirgi tegishli yangilik muqovasi olinadi. Menyuda "Tadbirlar ▾" ichida. Rasm/video — `program_media`
+  (`cover`) bo‘lmasa, oxirgi tegishli yangilik muqovasi olinadi. Menyuda "Tadbirlar ▾" ichida. `/programs` tepasida 4 rangli raqam kartasi (loyiha, tegishli yangiliklar, rasm/video — `getPrograms`
+  `media:program_media(count)`, ligadagi 14-maktab jamoalari), kartada har bosqichdagi eng yaxshi o‘rnimiz (🏆), qidiruv 3 tadan ko‘p loyiha bo‘lsa. Rasm/video — `program_media`
   (`club_media` kabi, `media/programs/<id>/`); sahifada tavsifdan keyin rasmlar (`Lightbox`), videolar (`VideoGrid`), keyin yangiliklar.
   Admin: ro‘yxat `SortableList` (to‘garaklar bilan umumiy; sudrab yoki ↑↓, `reorderPrograms`), qatorda kalit so‘z va u topgan
   yangiliklar soni; yangi tadbir saqlangach rasm/video sahifasiga o‘tiladi; rasmlar tartibi `PhotoManager` bilan.
