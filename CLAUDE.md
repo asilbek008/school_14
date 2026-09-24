@@ -59,7 +59,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Aloqa formasi: `[lang]/contact/actions.ts` Server Action `contact_messages` ga yozadi
   (honeypot `website` maydoni bor; telefon yoki email majburiy). Action kiritilgan qiymatlarni
   qaytaradi — React 19 action'dan keyin formani tozalaydi, shuning uchun `defaultValue` kerak.
-- Maktab faktlari `src/lib/school.ts` da: manzil, telefon, ish vaqti (tarjima qilinadiganlari
+- Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
+  bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
   `school_classes` dan hisoblanadi (YT — yakka tartibdagi sinflar qo‘shilmaydi).
 - Qo‘ng‘iroqlar: `src/lib/bells.ts` — 2 smena (08:00: 1,2,5,9,10,11-sinf; 13:00: 3,4,6,7,8-sinf),
@@ -165,7 +166,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · O‘qituvchilar · Yangiliklar · Tadbirlar ▾. Dropdown'larda
   ikonka + qisqa izoh (`navDesc` lug‘atda); hover/bosish/klaviatura bilan ochiladi, Esc, tashqariga bosish va sahifa
   o‘zgarganda yopiladi. Joriy sahifa oq "pill". Mobil — butun ekranli panel (`MobileMenu` `<details>`, guruhlar ichki
-  `<details>`; ochiqligida sahifa scroll bo‘lmaydi).
+  `<details>`; ochiqligida sahifa scroll bo‘lmaydi). Telefonda (sm dan kichik) til va rejim tugmalari header'da emas,
+  menyu panelining tepasida — rus/ingliz nomlari uzun, header'ga sig‘maydi (menyu tugmasi ekrandan chiqib ketardi).
+- Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), maketdagidek.
 
 ### Supabase
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
