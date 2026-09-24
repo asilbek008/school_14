@@ -53,7 +53,8 @@
   "news": {
     "empty": "No news yet.",
     "intro": "The latest school news, announcements and our students’ achievements.",
-    "photos": "Photos"
+    "photos": "Photos",
+    "more": "More news"
   },
   "events": {
     "upcoming": "Upcoming events",
