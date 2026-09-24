@@ -147,8 +147,25 @@
       "success": "Thank you! Your message has been received.",
       "error": "Could not send your message. Please try again later.",
       "invalid": "Please fill in your name and message.",
-      "needContact": "Please enter a phone number or email."
-    }
+      "needContact": "Please enter a phone number or email.",
+      "lead": "Leave your question, suggestion or request.",
+      "namePlaceholder": "Full name",
+      "messagePlaceholder": "Your message…",
+      "topic": "Topic",
+      "topics": {
+        "savol": "Question",
+        "taklif": "Suggestion",
+        "murojaat": "Request",
+        "boshqa": "Other"
+      },
+      "hint": "Do not write personal or confidential data (passwords, document numbers) here.",
+      "successTitle": "Your message was sent",
+      "again": "Write another message"
+    },
+    "title": "Get in touch",
+    "quickTitle": "Need a quick answer?",
+    "quickText": "For urgent matters, call the school:",
+    "quickNote": "Messages are reviewed on working days. For questions about grades and homework, please contact the class teacher first."
   },
   "footer": {
     "rights": "All rights reserved.",
