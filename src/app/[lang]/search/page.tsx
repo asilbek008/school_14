@@ -40,6 +40,7 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
     ["/news", dict.nav.news, dict.news.intro],
     ["/events", dict.nav.events, dict.events.intro],
     ["/programs", dict.nav.programs, d.programs],
+    ["/achievements", dict.achievements.title, d.achievements],
     ["/clubs", dict.nav.clubs, d.clubs],
     ["/gallery", dict.gallery.title, d.gallery],
     ["/faq", dict.nav.faq, d.faq],

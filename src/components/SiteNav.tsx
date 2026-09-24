@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import MobileMenu from "./MobileMenu";
 
-export type NavIcon = "info" | "door" | "bell" | "star" | "question" | "phone" | "grade" | "calendar" | "history" | "photo" | "repeat" | "doc";
+export type NavIcon = "info" | "door" | "bell" | "star" | "question" | "phone" | "grade" | "calendar" | "history" | "photo" | "repeat" | "doc" | "trophy";
 export type NavItem = { href: string; label: string; desc: string; icon: NavIcon; color: keyof typeof colors; external?: boolean };
 export type NavEntry = { href: string; label: string } | { key: string; label: string; items: NavItem[] };
 
@@ -27,6 +27,7 @@ const icons: Record<NavIcon, React.ReactNode> = {
   calendar: <><rect x="3.5" y="5" width="17" height="15" rx="3" /><path d="M3.5 10h17M8 3v4M16 3v4" /></>,
   history: <><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5M12 7v5l3 2" /></>,
   photo: <><rect x="3" y="5" width="18" height="14" rx="3" /><circle cx="8.5" cy="10" r="1.6" /><path d="M3.6 17.5l4.4-4.2 3.2 3 3-2.7 6.2 5.4" /></>,
+  trophy: <><path d="M8 4h8v5a4 4 0 0 1-8 0z" /><path d="M8 6H5a3 3 0 0 0 3 3M16 6h3a3 3 0 0 1-3 3M12 13v4M8.5 20h7M10 17h4v3h-4z" /></>,
   doc: <><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M9 13h6M9 17h4" /></>,
   repeat: <><path d="M17 2l4 4-4 4" /><path d="M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4" /><path d="M21 13v1a4 4 0 0 1-4 4H3" /></>,
 };

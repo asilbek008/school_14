@@ -40,3 +40,9 @@ export const documentColors: Record<DocumentCategory, string> = {
   shakl: "bg-[#fae7e2] text-[#c9553f]",
   boshqa: "bg-slate-100 text-slate-600",
 };
+
+// Achievements: what kind of result and at which stage (match the achievements checks). Labels: achievements.fields / .levels.
+export const achievementFields = ["olimpiada", "sport", "tanlov", "boshqa"] as const;
+export type AchievementField = (typeof achievementFields)[number];
+export const achievementLevels = ["maktab", "tuman", "viloyat", "respublika", "xalqaro"] as const;
+export type AchievementLevel = (typeof achievementLevels)[number];

@@ -24,7 +24,8 @@
     "search": "Qidirish",
     "trust": "Ishonch qutisi",
     "documents": "Hujjatlar",
-    "calendar": "O‘quv yili taqvimi"
+    "calendar": "O‘quv yili taqvimi",
+    "achievements": "Yutuqlar"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -39,7 +40,8 @@
     "gallery": "Maktab hayotidan lavhalar",
     "programs": "Zakovat va boshqa muntazam loyihalar",
     "documents": "Litsenziya, buyruq, hisobot va shakllar",
-    "calendar": "Choraklar, ta’tillar va imtihonlar"
+    "calendar": "Choraklar, ta’tillar va imtihonlar",
+    "achievements": "Olimpiada, sport va tanlov natijalari"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -746,5 +748,50 @@
     "byMonth": "Oylar bo‘yicha",
     "empty": "Taqvim hali kiritilmagan — sanalar vazirlik buyrug‘i chiqqach e’lon qilinadi.",
     "note": "Sanalar Maktabgacha va maktab ta’limi vazirligi buyrug‘iga asosan. O‘zgarish bo‘lsa, shu sahifada yangilanadi."
+  },
+  "achievements": {
+    "kicker": "Faxrimiz",
+    "title": "Yutuqlar devori",
+    "intro": "O‘quvchilarimizning olimpiada, sport musobaqalari va tanlovlardagi natijalari.",
+    "fields": {
+      "olimpiada": "Olimpiada",
+      "sport": "Sport",
+      "tanlov": "Tanlov",
+      "boshqa": "Boshqa"
+    },
+    "levels": {
+      "maktab": "Maktab bosqichi",
+      "tuman": "Tuman bosqichi",
+      "viloyat": "Viloyat bosqichi",
+      "respublika": "Respublika bosqichi",
+      "xalqaro": "Xalqaro"
+    },
+    "place": {
+      "1": "1-o‘rin",
+      "2": "2-o‘rin",
+      "3": "3-o‘rin"
+    },
+    "statAll": {
+      "one": "yutuq",
+      "other": "yutuq"
+    },
+    "statPrizes": {
+      "one": "sovrinli o‘rin",
+      "other": "sovrinli o‘rin"
+    },
+    "statHigh": {
+      "one": "viloyat va undan yuqori",
+      "other": "viloyat va undan yuqori"
+    },
+    "statTeachers": {
+      "one": "tayyorlagan o‘qituvchi",
+      "other": "tayyorlagan o‘qituvchi"
+    },
+    "teacher": "Tayyorlagan o‘qituvchi",
+    "winner": "G‘olib",
+    "search": "Fan, sinf yoki o‘qituvchi bo‘yicha qidirish…",
+    "empty": "Yutuqlar hali qo‘shilmagan.",
+    "notFound": "Bu bo‘limda yutuq topilmadi.",
+    "privacy": "O‘quvchilarning ismlari faqat ota-onalari roziligi bilan ko‘rsatiladi."
   }
 }

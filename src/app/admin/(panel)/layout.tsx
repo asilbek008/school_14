@@ -8,6 +8,7 @@ const nav = [
   { href: "/admin/events", label: "Tadbirlar" },
   { href: "/admin/programs", label: "Doimiy tadbirlar" },
   { href: "/admin/calendar", label: "O‘quv taqvimi" },
+  { href: "/admin/achievements", label: "Yutuqlar" },
   { href: "/admin/telegram", label: "Telegram" },
   { href: "/admin/staff", label: "O‘qituvchilar" },
   { href: "/admin/classes", label: "Dars jadvali" },

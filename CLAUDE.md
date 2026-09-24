@@ -98,6 +98,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Toshkent kuni: hozirgi davr — chorak ichidagi ta’til/imtihon ustun — va keyingisi, necha kun qolgani), md+ da yil chizig‘i
   (sentabr–avgust, sanaga qarab joylashadi; qisqa bo‘lakda nom yo‘q, `title`da), oylar bo‘yicha kartalar. Sanalar faqat vazirlik
   buyrug‘idan (egasi kiritadi). Menyuda "Maktab ▾" ichida.
+- Yutuqlar devori (`/[lang]/achievements`, `achievements`; admin `/admin/achievements`): olimpiada/sport/tanlov natijalari —
+  `field` (`achievementFields`), `level` (maktab…xalqaro), `place` 1–3 yoki bo‘sh (`result_*` — sertifikat, ball), g‘olib — `winner`
+  (sinf yoki jamoa). O‘quvchi ismi (`names`) faqat `names_consent` bilan: DB `check` + action ham rad etadi, `getAchievements()` ham
+  roziliksizni tashlab yuboradi. `teacher_id` — tayyorlagan o‘qituvchi (profilga havola). Sahifa: raqam kartalari (o‘qituvchi kartasi 0 da
+  chiqmaydi), medal (oltin/kumush/bronza), bosqich belgisi, turkum tugmalari + qidiruv, `year-scope`/`data-year`. Menyuda "Tadbirlar ▾".
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -410,6 +415,8 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
   `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order); `league_tables` (program_id, stage, title, as_of, rows)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
+- `achievements` (title_*, field, level, place, result_*, winner, names, names_consent, teacher_id, achieved_on, photo,
+  is_published)
 - `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)

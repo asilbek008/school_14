@@ -593,3 +593,38 @@ export async function getCalendar(start: number): Promise<{ periods: CalendarPer
   logError("getCalendar holidays", holidays.error);
   return { periods: (periods.data ?? []) as CalendarPeriod[], holidays: holidays.data ?? [] };
 }
+
+export type Achievement = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  field: string;
+  level: string;
+  place: number | null;
+  result_uz: string | null;
+  result_ru: string | null;
+  result_en: string | null;
+  winner: string | null;
+  names: string | null;
+  names_consent: boolean;
+  achieved_on: string;
+  photo: string | null;
+  staff: { id: number; full_name: string } | null;
+};
+
+/** Published results, newest first; pupils' names only where consent was given (the DB also enforces it). */
+export async function getAchievements(): Promise<Achievement[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("achievements")
+    .select(
+      "id, title_uz, title_ru, title_en, field, level, place, result_uz, result_ru, result_en, winner, names, names_consent, achieved_on, photo, staff(id, full_name)",
+    )
+    .eq("is_published", true)
+    .order("achieved_on", { ascending: false })
+    .order("id", { ascending: false });
+  logError("getAchievements", error);
+  return ((data ?? []) as unknown as Achievement[]).map((a) => (a.names_consent ? a : { ...a, names: null }));
+}

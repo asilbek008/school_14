@@ -24,7 +24,8 @@
     "search": "Search",
     "trust": "Trust box",
     "documents": "Documents",
-    "calendar": "School calendar"
+    "calendar": "School calendar",
+    "achievements": "Achievements"
   },
   "navDesc": {
     "about": "History and general information",
@@ -39,7 +40,8 @@
     "gallery": "Moments of school life",
     "programs": "Zakovat and other year-round projects",
     "documents": "Licence, orders, reports and forms",
-    "calendar": "Terms, holidays and exams"
+    "calendar": "Terms, holidays and exams",
+    "achievements": "Olympiads, sports and contests"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -746,5 +748,50 @@
     "byMonth": "By month",
     "empty": "The calendar has not been filled in yet — dates are published after the ministry's order.",
     "note": "Dates follow the order of the Ministry of Preschool and School Education. Any change is updated on this page."
+  },
+  "achievements": {
+    "kicker": "Our pride",
+    "title": "Achievements wall",
+    "intro": "How our pupils did at olympiads, sports competitions and contests.",
+    "fields": {
+      "olimpiada": "Olympiad",
+      "sport": "Sport",
+      "tanlov": "Contest",
+      "boshqa": "Other"
+    },
+    "levels": {
+      "maktab": "School stage",
+      "tuman": "District stage",
+      "viloyat": "Regional stage",
+      "respublika": "National stage",
+      "xalqaro": "International"
+    },
+    "place": {
+      "1": "1st place",
+      "2": "2nd place",
+      "3": "3rd place"
+    },
+    "statAll": {
+      "one": "achievement",
+      "other": "achievements"
+    },
+    "statPrizes": {
+      "one": "prize place",
+      "other": "prize places"
+    },
+    "statHigh": {
+      "one": "regional or higher",
+      "other": "regional or higher"
+    },
+    "statTeachers": {
+      "one": "coaching teacher",
+      "other": "coaching teachers"
+    },
+    "teacher": "Coached by",
+    "winner": "Winner",
+    "search": "Search by subject, class or teacher…",
+    "empty": "No achievements have been added yet.",
+    "notFound": "No achievements found in this section.",
+    "privacy": "Pupils' names are shown only with their parents' consent."
   }
 }
