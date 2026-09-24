@@ -274,7 +274,12 @@
     "where": "Where",
     "leader": "Leader",
     "title": "Clubs and activities",
-    "kicker": "Extracurricular"
+    "kicker": "Extracurricular",
+    "photos": "Photos",
+    "videos": "Videos",
+    "back": "All clubs",
+    "open": "Details",
+    "gradesLabel": "Grades"
   },
   "programs": {
     "intro": "Projects and competitions that run regularly throughout the school year.",

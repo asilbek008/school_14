@@ -91,6 +91,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Bir ma’lumot bir bo‘limda (egasining talabi): `getNews()` (yangiliklar sahifasi, bosh sahifa, "Boshqa yangiliklar")
   dasturlar kalit so‘zi uchragan yangiliklarni chiqarmaydi — ular faqat dastur sahifasida; bunday yangilikdagi
   "orqaga" havolasi dastur sahifasiga olib boradi.
+- To‘garak tafsilotlari (`club_details` migratsiyasi): rahbar — `leader_id` (xodimlar ro‘yxatidan; saytda profilga havola) yoki
+  `leader` matni (ro‘yxatda yo‘q bo‘lsa); vaqt — `days` (1–6) + `start_time`/`end_time`, saytda `clubSchedule()` (`src/lib/clubs.ts`,
+  kun nomlari `timetable.days` dan), `schedule_*` — faqat izoh. Rasm/video — `club_media` (`photo`/`video` — `media/clubs/<id>/`
+  dagi fayl, `youtube` — video id; RLS to‘garakka bog‘liq). `media` bucket videoni ham oladi (MP4/WebM/MOV, 50 MB gacha).
+  Har to‘garakning sahifasi `/clubs/[id]` (tavsif, rasmlar `Lightbox`, videolar — `<video>` yoki youtube-nocookie iframe, yon
+  kartada rahbar/vaqt/joy/sinflar). Admin: ro‘yxatda tartib sudrab yoki ↑↓ bilan (`reorderClubs`, darhol saqlanadi), formada
+  hafta kunlari tugmalari va vaqt, yangi to‘garak saqlangach rasm/video qo‘shish sahifasiga o‘tiladi; o‘chirilganda fayllari ham o‘chadi.
 - To‘garaklar (`/clubs`, `clubs` jadvali; maketdagidek: "Qo‘shimcha ta’lim" / "To‘garaklar va mashg‘ulotlar", karta chetida
   navbatma-navbat rangli chiziq, sarlavha yonida sinflar, pastda Rahbari → Vaqti → Joyi) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
@@ -271,6 +278,8 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
   phone, email, bio_*, sort_order, is_published)
 - `subjects` (name_*, sort_order), `school_classes` (grade, letter, homeroom_teacher_id,
   is_published), `lessons` (class_id, weekday, period, subject_id, teacher, alt_subject_id, alt_teacher)
+- `clubs` (name_*, description_*, schedule_*, place_*, grade_from/to, leader, leader_id, days, start_time, end_time, photo,
+  sort_order, is_published); `club_media` (club_id, kind, path, sort_order)
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at)
@@ -283,4 +292,5 @@ yozuvlarni o‘qiydi va faqat `contact_messages` ga yozadi; qolganiga faqat admi
 U `SECURITY DEFINER`, shuning uchun API'ga chiqmaydigan `private` sxemasida turadi (Supabase
 advisors talabi). Har bir jadval va amal uchun bitta siyosat: `for all` ishlatmang, aks holda
 SELECT'da ikkita permissive siyosat bo‘ladi.
-Rasmlar `media` Storage bucket'ida (JPEG/PNG/WebP, 5 MB gacha): hamma o‘qiydi, faqat admin yuklaydi.
+Rasmlar va videolar `media` Storage bucket'ida (JPEG/PNG/WebP va MP4/WebM/MOV, 50 MB gacha; rasmlar brauzerda kichraytiriladi):
+hamma o‘qiydi, faqat admin yuklaydi.

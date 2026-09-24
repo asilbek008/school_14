@@ -29,7 +29,7 @@ export function revalidatePublic() {
   revalidatePath("/[lang]", "layout");
 }
 
-export type FormState = { error?: string };
+export type FormState = { error?: string; ok?: boolean };
 
 export function text(form: FormData, name: string): string {
   return String(form.get(name) ?? "").trim();

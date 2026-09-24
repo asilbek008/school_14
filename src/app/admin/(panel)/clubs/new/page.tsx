@@ -6,11 +6,12 @@ import ClubForm from "../ClubForm";
 export const metadata: Metadata = { title: "To‘garak qo‘shish" };
 
 export default async function NewClubPage() {
-  await requireAdmin();
+  const { supabase } = await requireAdmin();
+  const { data: staff } = await supabase.from("staff").select("id, full_name, position_uz").order("full_name");
   return (
     <>
       <AdminHeader title="To‘garak qo‘shish" back="/admin/clubs" />
-      <ClubForm />
+      <ClubForm staff={staff ?? []} />
     </>
   );
 }

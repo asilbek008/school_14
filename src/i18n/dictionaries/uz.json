@@ -274,7 +274,12 @@
     "where": "Joyi",
     "leader": "Rahbari",
     "title": "To‘garaklar va mashg‘ulotlar",
-    "kicker": "Qo‘shimcha ta’lim"
+    "kicker": "Qo‘shimcha ta’lim",
+    "photos": "Rasmlar",
+    "videos": "Videolar",
+    "back": "Barcha to‘garaklar",
+    "open": "Batafsil",
+    "gradesLabel": "Sinflar"
   },
   "programs": {
     "intro": "Butun o‘quv yili davomida muntazam o‘tkaziladigan loyiha va musobaqalar.",
