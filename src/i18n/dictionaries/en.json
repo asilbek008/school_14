@@ -90,7 +90,7 @@
     "emptyUpcoming": "No events scheduled yet.",
     "emptyPast": "No past events.",
     "location": "Location",
-    "intro": "Holidays, school events, olympiads and sports competitions.",
+    "intro": "Holidays, school events, olympiads and sports competitions. Tap an event for details.",
     "today": "Today",
     "tomorrow": "Tomorrow",
     "inDays": {
@@ -99,7 +99,8 @@
     },
     "time": "Time",
     "noDetails": "Details will be announced later.",
-    "note": "Dates of school events are planned and may change."
+    "note": "Dates of school events are planned and may change.",
+    "noneOfType": "No events of this type."
   },
   "staff": {
     "intro": "Our school's leadership and teachers.",
