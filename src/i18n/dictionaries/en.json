@@ -82,7 +82,17 @@
     "intro": "The latest school news, announcements and our students’ achievements.",
     "photos": "Photos",
     "more": "More news",
-    "search": "Search news…"
+    "search": "Search news…",
+    "kicker": "School life",
+    "title": "News and announcements",
+    "cats": {
+      "yangilik": "News",
+      "elon": "Announcements",
+      "tadbir": "Events",
+      "yutuq": "Achievements"
+    },
+    "notFound": "No news matches your search.",
+    "all": "All news"
   },
   "events": {
     "upcoming": "Upcoming events",

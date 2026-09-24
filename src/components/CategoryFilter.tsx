@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 /**
  * Filter chips (and an optional search box) for a server-rendered list. Items stay server-rendered
@@ -11,12 +11,15 @@ import { useState } from "react";
 export default function CategoryFilter({
   allLabel,
   searchLabel,
+  emptyLabel,
   options,
   children,
 }: {
   allLabel: string;
   /** Shows a search box (placeholder text) that filters items by their data-q. */
   searchLabel?: string;
+  /** Shown when the chip and search leave nothing visible. */
+  emptyLabel?: string;
   options: { value: string; label: string }[];
   children: React.ReactNode;
 }) {
@@ -24,13 +27,23 @@ export default function CategoryFilter({
   const [query, setQuery] = useState("");
   // Quotes and backslashes would break out of the CSS string.
   const q = query.trim().toLowerCase().replace(/["\\\n]/g, "");
+  const listRef = useRef<HTMLDivElement>(null);
+  const emptyRef = useRef<HTMLParagraphElement>(null);
+
+  // After the rules apply, show the "nothing found" note if no item is left visible.
+  useEffect(() => {
+    if (!emptyRef.current || !listRef.current) return;
+    const items = [...listRef.current.querySelectorAll<HTMLElement>("[data-q], [data-cat]:not([data-cat='__all'])")];
+    emptyRef.current.hidden = !(active || q) || items.some((el) => el.offsetParent !== null);
+  }, [active, q]);
   const chip = (selected: boolean) =>
     `rounded-full border px-4 py-2 text-sm font-bold transition ${
       selected ? "border-navy bg-navy text-white" : "border-slate-200 bg-white text-slate-600 hover:border-brand hover:text-brand"
     }`;
 
   return (
-    <div className="category-filter">
+    // data-filtered lets items restyle while filtering (e.g. the featured news card turns normal).
+    <div className="category-filter group/filter" data-filtered={active || q ? "" : undefined}>
       {/* data-cat-only: hidden by default, shown only for its chip (per-category counts, "none of this type" notes). */}
       {active && (
         <style>{`.category-filter [data-cat]:not([data-cat="${active}"]){display:none}.category-filter [data-cat-only="${active}"]{display:revert!important}`}</style>
@@ -64,7 +77,12 @@ export default function CategoryFilter({
           />
         )}
       </div>
-      {children}
+      <div ref={listRef}>{children}</div>
+      {emptyLabel && (
+        <p ref={emptyRef} hidden className="rounded-[14px] border-[1.5px] border-dashed border-slate-200 bg-white p-6 text-center text-sm text-slate-500">
+          {emptyLabel}
+        </p>
+      )}
     </div>
   );
 }

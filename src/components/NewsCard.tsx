@@ -38,12 +38,15 @@ export default function NewsCard({
       data-q={title.toLowerCase()}
       className={`reveal lift group flex overflow-hidden rounded-2xl border border-slate-200 bg-white hover:shadow-xl hover:shadow-navy/10 ${
         row ? "flex-row" : "flex-col"
-      } ${featured ? "sm:col-span-2 lg:grid lg:grid-cols-[1.4fr_1fr]" : ""} ${layout === "tall" ? "lg:row-span-2" : ""}`}
+      } ${
+        // While a chip or search filters the list (CategoryFilter's data-filtered), the featured card is a normal one.
+        featured ? "sm:col-span-2 lg:grid lg:grid-cols-[1.4fr_1fr] group-data-filtered/filter:col-span-1! group-data-filtered/filter:grid-cols-1!" : ""
+      } ${layout === "tall" ? "lg:row-span-2" : ""}`}
     >
       <div
         className={`relative shrink-0 overflow-hidden bg-gradient-to-br ${colors.cover} ${
           featured
-            ? "aspect-video lg:aspect-auto lg:min-h-80"
+            ? "aspect-video lg:aspect-auto lg:min-h-80 group-data-filtered/filter:aspect-video! group-data-filtered/filter:min-h-0!"
             : layout === "tall"
               ? "aspect-video lg:aspect-auto lg:min-h-64 lg:flex-1"
               : row

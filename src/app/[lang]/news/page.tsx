@@ -11,7 +11,7 @@ export const revalidate = 300;
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/news">): Promise<Metadata> {
   const { dict } = await resolveLang(params);
-  return { title: dict.nav.news };
+  return { title: dict.news.title };
 }
 
 export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
@@ -21,13 +21,14 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
 
   return (
     <>
-      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.news} intro={dict.news.intro} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.news.title} intro={dict.news.intro} kicker={dict.news.kicker} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         {news.length ? (
           <CategoryFilter
             allLabel={dict.common.all}
             searchLabel={dict.news.search}
-            options={present.map((c) => ({ value: c, label: dict.newsCats[c] }))}
+            emptyLabel={dict.news.notFound}
+            options={present.map((c) => ({ value: c, label: dict.news.cats[c] }))}
           >
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {news.map((item, i) => (
