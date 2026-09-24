@@ -115,10 +115,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   doimiy emas). Olingan har post `telegram_posts` (channel, post_id) da qoladi — saytdan o‘chirilgan post qayta
   kelmaydi. `import_since` dan oldingi postlar olinmaydi. `?dry=1` — hech narsa yozmasdan natijani qaytaradi; `?backfill=1` — galereyasi yo‘q eski yangiliklarga rasmlarni qo‘shadi.
   Asl sifatli rasmlar: `t.me/s` faqat ~800px nusxa beradi. Admin `@BotFather` botining tokenini `/admin/telegram` da
-  kiritsa (`telegram_settings.bot_token`, brauzerga qaytarilmaydi; bot kanalda admin bo‘lishi kerak), funksiya
-  `getUpdates` bilan yangi postlarning asl rasmlarini (`telegram_media`: message_id → file_id) oladi. Eski postlar
-  uchun admin botga /start bosadi (`bot_chat_id`) — funksiya postni o‘sha chatga forward qilib, rasmini olib,
-  xabarni o‘chiradi. `telegram_posts.photo_ids` (albomdagi rasm post id'lari) va `hd` — har ishga tushishda 6 tagacha
+  kiritsa (`telegram_settings.bot_token`, brauzerga qaytarilmaydi), funksiya `getUpdates` bilan asl rasmlarni
+  (`telegram_media`: message_id → file_id) oladi. Bot kanalda admin bo‘lsa (`bot_status` = `ok`): yangi postlar
+  `channel_post` bilan keladi, eskilari uchun admin botga /start bosadi (`bot_chat_id`) va funksiya postni o‘sha
+  chatga forward qilib, rasmini olib, xabarni o‘chiradi. Admin qilib bo‘lmasa (`not_admin`; Telegram admin
+  bo‘lmagan botga kanaldan forward qilishga ruxsat bermaydi) — admin postlarni botga qo‘lda forward qiladi,
+  `forward_origin` (kanal + message_id) bo‘yicha moslanadi. `telegram_posts.photo_ids` (albomdagi rasm post id'lari) va `hd` — har ishga tushishda 6 tagacha
   eski yangilik rasmlari asl sifatga almashtiriladi; faqat hamma rasm yuklangandagina almashtiriladi.
   Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
