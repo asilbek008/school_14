@@ -135,6 +135,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   "Familiya I.O.") yoki to‘liq ism bo‘yicha moslanadi; bo‘sh katak eski qiymatni o‘chirmaydi;
   "Sinf rahbari" (5-A) `school_classes.homeroom_teacher_id` ga yoziladi. Faylda xato bo‘lsa hech narsa saqlanmaydi.
   Dars jadvalidagi o‘qituvchi ismi `staff.short_name` bilan mos kelsa, profilga havola bo‘ladi.
+  Admin ro‘yxati — client `StaffList`: qidiruv (ism, eMaktab nomi, fan, lavozim), guruh tugmalari (`positionGroup`), kamchiliklar
+  filtri (rasmsiz, eMaktab nomisiz, jadvalda darsi topilmagan, yashirin); qatorda avatar, lavozim belgisi, sinf rahbarligi va
+  jadvaldagi darslar soni. Tahrirlash sahifasi tepasida — sinf rahbarligi va jadvaldagi darslar/sinflar (`short_name` bo‘yicha).
+  `lessons` 1000 qatordan ko‘p (API bir so‘rovda 1000 tagacha beradi) — hammasi kerak bo‘lsa `allLessons()` (`staff/lessons.ts`) bilan bo‘laklab o‘qing.
 - Telegram kanal → yangilik/tadbir (`/admin/telegram`): Supabase Edge Function `supabase/functions/telegram-sync`
   (Deno; service role'ni Supabase o‘zi beradi — kalit hech kimga kerak emas) kanalning ochiq sahifasini
   (`t.me/s/<kanal>`) o‘qiydi. pg_cron har 15 daqiqada `pg_net` bilan chaqiradi; admin "Hozir tekshirish" ham shu.
