@@ -13,7 +13,8 @@ export type SortableItem = {
   meta: string[];
   /** Shown in amber when something important is missing. */
   warning?: string | null;
-  published: boolean;
+  /** Leave out for lists without a published flag (subjects). */
+  published?: boolean;
 };
 
 const tints = ["bg-blue-100 text-blue-800", "bg-teal-100 text-teal-800", "bg-amber-100 text-amber-800"];
@@ -117,7 +118,7 @@ export default function SortableList({ items, reorder }: { items: SortableItem[]
                 {item.warning && <span className="text-amber-700">{item.warning}</span>}
               </p>
             </Link>
-            <Status published={item.published} />
+            {item.published !== undefined && <Status published={item.published} />}
           </li>
         ))}
       </ul>

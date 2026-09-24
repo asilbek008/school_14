@@ -1,5 +1,5 @@
 import AdminForm from "@/components/admin/AdminForm";
-import { Field, TranslatedField, inputClass } from "@/components/admin/fields";
+import { FormSection, TranslatedField } from "@/components/admin/fields";
 import { saveSubject } from "./actions";
 
 export type SubjectRow = {
@@ -7,16 +7,17 @@ export type SubjectRow = {
   name_uz: string;
   name_ru: string | null;
   name_en: string | null;
-  sort_order: number;
 };
 
 export default function SubjectForm({ row }: { row?: SubjectRow }) {
   return (
     <AdminForm action={saveSubject.bind(null, row?.id ?? null)}>
-      <TranslatedField name="name" label="Fan nomi" row={row} />
-      <Field label="Tartib raqami" hint="Jadval tahririda fanlar ro‘yxati shu tartibda chiqadi.">
-        <input type="number" name="sort_order" defaultValue={row?.sort_order ?? 100} className={`${inputClass} max-w-40`} />
-      </Field>
+      <FormSection
+        title="Fan nomi"
+        hint="Ruscha va inglizcha nomlar saytning o‘sha tillaridagi dars jadvalida chiqadi; bo‘sh bo‘lsa, o‘zbekchasi ko‘rsatiladi."
+      >
+        <TranslatedField name="name" label="Nomi" row={row} />
+      </FormSection>
     </AdminForm>
   );
 }

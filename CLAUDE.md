@@ -121,7 +121,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Telefonda ixcham: smena kartalari yonma-yon (2 ustun, ikonkasiz), parallel/sinf tugmalari kichik. "Haftalik" — jadval
   emas, har kun alohida karta (1/2/3 ustun; dars raqami, fan, o‘qituvchi, vaqt; bugungi karta ajratilgan) — keng
   jadvalni yonga aylantirish chalkash edi.
-  Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
+  Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`; admin fan sahifasida o‘chirish tugmasi o‘rniga izoh, tepada — fan
+  ishlatilgan sinflar va o‘qituvchilar). Fanlar ro‘yxati `SortableList` (sudrab/↑↓, `reorderSubjects`) — jadval tahririda shu tartib;
+  qatorda darslar soni (almashib o‘tiladiganlari alohida) va tarjimasi yo‘qligi haqida ogohlantirish. Admin tahriri — 6×6 `select` jadvali,
   saqlashda to‘ldirilganlar upsert, bo‘shatilganlar o‘chiriladi (`classes/actions.ts`).
   Admin ro‘yxati — client `ClassList`: smena tugmalari, kamchiliklar filtri (jadvali bo‘sh, sinf rahbarisiz, profilga bog‘lanmagan
   o‘qituvchi ismi, yashirin); sinf kartasida rahbar, darslar soni va `staff.short_name` ga mos kelmagan ismlar. Sinf sahifasi
