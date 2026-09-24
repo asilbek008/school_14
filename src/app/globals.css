@@ -233,6 +233,19 @@ html.dark body {
 html.dark .bg-white:not(.text-navy) {
   background-color: var(--surface);
 }
+/* Form fields that turn white on focus (contact form) take the dark surface too, or the light text
+   on them could not be read. */
+html.dark .focus\:bg-white:focus {
+  background-color: var(--surface);
+}
+/* The browser's autofill paints its own light background; keep the field's colors instead. */
+html.dark input:-webkit-autofill,
+html.dark textarea:-webkit-autofill,
+html.dark select:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-slate-900);
+  box-shadow: 0 0 0 1000px var(--surface) inset;
+  caret-color: var(--color-slate-900);
+}
 /* Deep accent text on the (now dark) soft tints needs to be lighter to stay readable. */
 html.dark .text-brand-deep {
   color: #9db7ff;
@@ -255,4 +268,11 @@ html.dark :is(main, .surface) .bg-navy {
 }
 html.dark :is(main, .surface) .border-navy {
   border-color: var(--color-brand);
+}
+
+/* The navigation bar stays on top while the page scrolls; -webkit-sticky for older iPhone Safari. */
+.site-header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
 }

@@ -242,8 +242,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   bo‘lmasa) → `--surface`, `-soft` ranglar to‘q, `-deep` matnlar ochroq, `main` ichidagi `bg-navy` → brand. Navy
   bloklar (`.chrome`, `.site-header`) light-mode slate'ni saqlaydi; ular ichidagi oq kartalarga `surface` klassini
   bering (dropdown, mobil menyu, `LiveCard`). Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
+  Forma maydonlari: `focus:bg-white` va brauzer autofill'i tungi rejimda `--surface` bo‘ladi (aks holda oq fonda och matn o‘qilmaydi).
   Admin panelga ta’sir qilmaydi.
-- Header (`SiteHeader` + client `SiteNav`): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
+- Header (`SiteHeader` + client `SiteNav`; navbar `sticky top-0`, eski iPhone Safari uchun `globals.css` da `-webkit-sticky` ham): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
   40px da, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin (lg da ikkala tomon 16px — ruscha sig‘ishi uchun); yuqorida topbar (md+; manzil, telefon, o‘quv yili; eMaktab faqat xl dan kichikda), ostida
   sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · Xodimlar · Yangiliklar · Tadbirlar ▾ (lg+ da o‘ngga,
   tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi; xl dan tugmalar yonida "eMaktab ↗" (qisqa nom, to‘liq
