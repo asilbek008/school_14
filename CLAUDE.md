@@ -267,6 +267,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   darhol saqlanadi), muqova tanlash, o‘chirish. Videolar — `gallery_videos` (`video` fayl `media/gallery/<id>/` da yoki `youtube` id;
   `gallery_photos` dan alohida, chunki rasmlar Lightbox/sanoq/bosh sahifada ishlatiladi). Umumiy: `VideoUploader`, `YoutubeForm`,
   admin `VideoList`, ochiq `VideoGrid` (to‘garaklar bilan bir xil), forma bo‘limlari — `FormSection` (`fields.tsx`), `youtubeId` — `media.ts`.
+- Tadbirlar admini: client `EventList` — "Yaqinlashayotgan" (eng yaqini birinchi) / "O‘tgan" / "Hammasi" yorliqlari, qidiruv
+  (nom/joy), turkum tugmalari; qatorda sana plitkasi, vaqt yoki "Butun kun", joy, Telegram belgisi. Formada sana va vaqt alohida
+  (`start_date`, `start_time`, `end_time`, ixtiyoriy `end_date`); "Butun kun" belgilansa vaqt maydonlari CSS bilan yashiriladi
+  (`group-has-[#all-day:checked]`). Tadbirlarda rasm/video yo‘q (saytda akkordeon).
 - `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
   (`toTashkentInput` / `fromTashkentInput`).
 - Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:

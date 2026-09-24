@@ -11,13 +11,19 @@ export async function saveEvent(id: number | null, _prev: FormState, form: FormD
   const title_uz = text(form, "title_uz");
   const all_day = form.get("all_day") === "on";
   const category = text(form, "category") as EventCategory;
-  // All-day events: take only the date and store 00:00–23:59 Tashkent time.
-  const date = text(form, "starts_at").slice(0, 10);
-  const starts_at = all_day ? fromTashkentInput(date && `${date}T00:00`) : fromTashkentInput(text(form, "starts_at"));
-  const ends_at = all_day ? fromTashkentInput(date && `${date}T23:59`) : fromTashkentInput(text(form, "ends_at"));
+  const date = text(form, "start_date");
+  const startTime = text(form, "start_time");
+  const endTime = text(form, "end_time");
+  const endDate = text(form, "end_date") || date;
   if (!title_uz) return { error: "O‘zbekcha nom majburiy." };
   if (!eventCategories.includes(category)) return { error: "Turkumni tanlang." };
-  if (!starts_at) return { error: "Sanani kiriting." };
+  if (!date) return { error: "Sanani kiriting." };
+  if (!all_day && !startTime) return { error: "Boshlanish vaqtini kiriting yoki “Butun kun”ni belgilang." };
+  if (!all_day && text(form, "end_date") && !endTime) return { error: "Tugash sanasi bilan birga tugash vaqtini ham kiriting." };
+  // All-day events: store 00:00–23:59 Tashkent time, so "upcoming" holds for the whole day.
+  const starts_at = fromTashkentInput(`${date}T${all_day ? "00:00" : startTime}`);
+  const ends_at = all_day ? fromTashkentInput(`${date}T23:59`) : endTime ? fromTashkentInput(`${endDate}T${endTime}`) : null;
+  if (!starts_at) return { error: "Sana yoki vaqt noto‘g‘ri." };
   if (ends_at && ends_at < starts_at) return { error: "Tugash vaqti boshlanishdan oldin bo‘lishi mumkin emas." };
 
   const row = {

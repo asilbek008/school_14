@@ -1,7 +1,7 @@
 // Server-renderable form fields shared by admin forms.
 
 export const inputClass =
-  "mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200";
+  "mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200";
 
 const languages = [
   { code: "uz", label: "O‘zbekcha", required: true },

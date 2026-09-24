@@ -18,7 +18,7 @@ export default async function EditEventPage({ params }: PageProps<"/admin/events
     <>
       <AdminHeader title="Tadbirni tahrirlash" back="/admin/events" />
       <EventForm row={row} />
-      <div className="mt-4 text-right">
+      <div className="mt-8 border-t border-slate-200 pt-4 text-right">
         <DeleteButton action={deleteEvent.bind(null, id)} confirmText="Bu tadbirni o‘chirasizmi?" />
       </div>
     </>
