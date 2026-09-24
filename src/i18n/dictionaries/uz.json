@@ -9,7 +9,7 @@
     "news": "Yangiliklar",
     "events": "Tadbirlar",
     "about": "Maktab haqida",
-    "staff": "O‘qituvchilar",
+    "staff": "Xodimlar",
     "admissions": "Qabul",
     "contact": "Aloqa",
     "menu": "Menyu",
@@ -129,7 +129,7 @@
     "groups": {
       "leaders": "Rahbariyat",
       "teachers": "O‘qituvchilar",
-      "others": "Xodimlar"
+      "others": "Boshqa xodimlar"
     },
     "wholeGroup": "hammasi",
     "filterLabel": "Lavozim yoki fan"
@@ -349,5 +349,29 @@
     "bellsTitle": "Dars vaqtlari",
     "bellsMore": "Qo‘ng‘iroqlar jadvali",
     "lessonsFrom": "{time} dan, 6 ta dars"
+  },
+  "admissions": {
+    "lead": "1-sinfga va boshqa sinflarga o‘quvchi qabuli haqida ma’lumot.",
+    "stepsKicker": "Qabul tartibi",
+    "stepsTitle": "Qanday murojaat qilinadi",
+    "steps": [
+      {
+        "title": "Qo‘ng‘iroq qiling",
+        "text": "Qabul bo‘yicha savollaringizni maktab telefoni orqali bering."
+      },
+      {
+        "title": "Maktabga keling",
+        "text": "Ish vaqtida maktab hududiga tashrif buyuring: {hours}."
+      },
+      {
+        "title": "Rahbariyat bilan uchrashing",
+        "text": "Maktab rahbariyati qabul shartlari va kerakli hujjatlarni tushuntiradi."
+      }
+    ],
+    "info": "Ma’lumot",
+    "contactTitle": "Qabul bo‘yicha aloqa",
+    "call": "Qo‘ng‘iroq qilish",
+    "write": "Murojaat yozish",
+    "note": "Kerakli hujjatlar ro‘yxati va qabul muddatlarini maktab rahbariyatidan aniqlang."
   }
 }

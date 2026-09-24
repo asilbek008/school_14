@@ -9,7 +9,7 @@
     "news": "News",
     "events": "Events",
     "about": "About",
-    "staff": "Teachers",
+    "staff": "Staff",
     "admissions": "Admissions",
     "contact": "Contact",
     "menu": "Menu",
@@ -129,7 +129,7 @@
     "groups": {
       "leaders": "Leadership",
       "teachers": "Teachers",
-      "others": "Staff"
+      "others": "Other staff"
     },
     "wholeGroup": "all",
     "filterLabel": "Position or subject"
@@ -349,5 +349,29 @@
     "bellsTitle": "Lesson times",
     "bellsMore": "Bell schedule",
     "lessonsFrom": "from {time}, 6 lessons"
+  },
+  "admissions": {
+    "lead": "About admission to grade 1 and other grades.",
+    "stepsKicker": "How admission works",
+    "stepsTitle": "How to apply",
+    "steps": [
+      {
+        "title": "Call us",
+        "text": "Ask your questions about admission by the school phone."
+      },
+      {
+        "title": "Visit the school",
+        "text": "Come during office hours: {hours}."
+      },
+      {
+        "title": "Meet the administration",
+        "text": "The school administration explains the admission terms and the documents needed."
+      }
+    ],
+    "info": "Information",
+    "contactTitle": "Admission contacts",
+    "call": "Call",
+    "write": "Send a message",
+    "note": "Ask the school administration for the list of documents and admission dates."
   }
 }
