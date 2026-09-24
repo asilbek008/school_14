@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/gallery">)
 
 export default async function GalleryPage({ params }: PageProps<"/[lang]/gallery">) {
   const { lang, dict } = await resolveLang(params);
-  const albums = (await getAlbums()).filter((a) => a.gallery_photos.length > 0);
+  const albums = (await getAlbums()).filter((a) => a.gallery_photos.length + a.gallery_videos.length > 0);
 
   return (
     <>

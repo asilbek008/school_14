@@ -134,6 +134,7 @@ export type Album = {
   event_date: string | null;
   cover_photo: string | null;
   gallery_photos: { id: number; path: string }[];
+  gallery_videos: { id: number; kind: "video" | "youtube"; path: string }[];
 };
 
 type Localizable<F extends string> = { [K in `${F}_${Locale}`]: string | null };
@@ -418,7 +419,7 @@ export async function getNewsMentioning(keyword: string, limit = 12): Promise<Ne
 }
 
 const albumColumns =
-  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, event_date, cover_photo, gallery_photos(id, path)";
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, event_date, cover_photo, gallery_photos(id, path), gallery_videos(id, kind, path)";
 
 export async function getAlbums(): Promise<Album[]> {
   const supabase = createPublicClient();
@@ -430,7 +431,9 @@ export async function getAlbums(): Promise<Album[]> {
     .order("event_date", { ascending: false, nullsFirst: false })
     .order("id", { ascending: false })
     .order("sort_order", { referencedTable: "gallery_photos" })
-    .order("id", { referencedTable: "gallery_photos" });
+    .order("id", { referencedTable: "gallery_photos" })
+    .order("sort_order", { referencedTable: "gallery_videos" })
+    .order("id", { referencedTable: "gallery_videos" });
   logError("getAlbums", error);
   return data ?? [];
 }
@@ -445,6 +448,8 @@ export async function getAlbum(id: number): Promise<Album | null> {
     .eq("id", id)
     .order("sort_order", { referencedTable: "gallery_photos" })
     .order("id", { referencedTable: "gallery_photos" })
+    .order("sort_order", { referencedTable: "gallery_videos" })
+    .order("id", { referencedTable: "gallery_videos" })
     .maybeSingle();
   logError("getAlbum", error);
   return data;

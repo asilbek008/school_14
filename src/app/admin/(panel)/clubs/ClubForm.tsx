@@ -1,6 +1,6 @@
 import AdminForm from "@/components/admin/AdminForm";
 import ImageUpload from "@/components/admin/ImageUpload";
-import { Field, PublishedCheckbox, TranslatedField, inputClass } from "@/components/admin/fields";
+import { Field, FormSection, PublishedCheckbox, TranslatedField, inputClass } from "@/components/admin/fields";
 import { mediaBaseUrl } from "@/lib/media";
 import { CLUB_DAYS, hhmm } from "@/lib/clubs";
 import { saveClub } from "./actions";
@@ -22,24 +22,11 @@ export type StaffOption = { id: number; full_name: string; position_uz: string }
 
 const dayNames = ["Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
 
-/** A titled block of the form, divided from the one above. */
-function Section({ title, hint, children }: { title: string; hint?: string; children: React.ReactNode }) {
-  return (
-    <section className="space-y-4 border-t border-slate-100 pt-6 first:border-0 first:pt-0">
-      <div>
-        <h2 className="text-base font-bold text-slate-900">{title}</h2>
-        {hint && <p className="mt-0.5 text-sm text-slate-500">{hint}</p>}
-      </div>
-      {children}
-    </section>
-  );
-}
-
 export default function ClubForm({ row, staff }: { row?: ClubRow; staff: StaffOption[] }) {
   const days = new Set(row?.days ?? []);
   return (
     <AdminForm action={saveClub.bind(null, row?.id ?? null)}>
-      <Section title="Asosiy ma’lumot">
+      <FormSection title="Asosiy ma’lumot">
         <TranslatedField name="name" label="To‘garak nomi" row={row} />
         <TranslatedField name="description" label="Tavsif" row={row} multiline uzRequired={false} />
         <div className="grid gap-4 sm:grid-cols-2 md:max-w-md">
@@ -50,9 +37,9 @@ export default function ClubForm({ row, staff }: { row?: ClubRow; staff: StaffOp
             <input type="number" name="grade_to" min={1} max={11} defaultValue={row?.grade_to ?? ""} className={inputClass} />
           </Field>
         </div>
-      </Section>
+      </FormSection>
 
-      <Section title="Vaqti va joyi" hint="Mashg‘ulot kunlarini belgilang va vaqtini tanlang.">
+      <FormSection title="Vaqti va joyi" hint="Mashg‘ulot kunlarini belgilang va vaqtini tanlang.">
         <fieldset>
           <legend className="text-sm font-semibold text-slate-800">Kunlari</legend>
           <div className="mt-2 flex flex-wrap gap-2">
@@ -76,9 +63,9 @@ export default function ClubForm({ row, staff }: { row?: ClubRow; staff: StaffOp
         </div>
         <TranslatedField name="schedule" label="Vaqt bo‘yicha izoh (masalan: darsdan keyin)" row={row} uzRequired={false} />
         <TranslatedField name="place" label="Joyi" row={row} uzRequired={false} />
-      </Section>
+      </FormSection>
 
-      <Section title="Rahbar" hint="Xodimlar ro‘yxatidan tanlang — saytda uning profiliga havola bo‘ladi.">
+      <FormSection title="Rahbar" hint="Xodimlar ro‘yxatidan tanlang — saytda uning profiliga havola bo‘ladi.">
         <div className="grid gap-4 md:grid-cols-2">
           <Field label="Xodimlar ro‘yxatidan">
             <select name="leader_id" defaultValue={row?.leader_id ?? ""} className={inputClass}>
@@ -94,15 +81,15 @@ export default function ClubForm({ row, staff }: { row?: ClubRow; staff: StaffOp
             <input name="leader" defaultValue={row?.leader ?? ""} className={inputClass} />
           </Field>
         </div>
-      </Section>
+      </FormSection>
 
-      <Section title="Muqova rasmi" hint="Ixtiyoriy. Qo‘shimcha rasm va videolarni saqlagandan keyin shu sahifada qo‘shasiz.">
+      <FormSection title="Muqova rasmi" hint="Ixtiyoriy. Qo‘shimcha rasm va videolarni saqlagandan keyin shu sahifada qo‘shasiz.">
         <ImageUpload name="photo" folder="clubs" initialPath={row?.photo ?? null} publicBaseUrl={mediaBaseUrl} />
-      </Section>
+      </FormSection>
 
-      <Section title="Ko‘rinishi">
+      <FormSection title="Ko‘rinishi">
         <PublishedCheckbox checked={row?.is_published ?? true} />
-      </Section>
+      </FormSection>
     </AdminForm>
   );
 }
