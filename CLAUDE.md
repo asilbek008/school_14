@@ -123,6 +123,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   jadvalni yonga aylantirish chalkash edi.
   Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
   saqlashda to‘ldirilganlar upsert, bo‘shatilganlar o‘chiriladi (`classes/actions.ts`).
+  Admin ro‘yxati — client `ClassList`: smena tugmalari, kamchiliklar filtri (jadvali bo‘sh, sinf rahbarisiz, profilga bog‘lanmagan
+  o‘qituvchi ismi, yashirin); sinf kartasida rahbar, darslar soni va `staff.short_name` ga mos kelmagan ismlar. Sinf sahifasi
+  tepasida xulosa (smena, rahbar, darslar, bog‘lanmagan ismlar); jadvaldagi o‘qituvchi maydonlari xodimlarning eMaktab nomlarini
+  taklif qiladi (`datalist`).
 - eMaktab'dan jadval importi: `scripts/emaktab_timetable.py` (xlrd). Ikki format: "Calendar"
   (chorak kalendari, o‘qituvchilar bilan) va "WeekJournal" (sinf jurnali, bitta hafta, o‘qituvchisiz —
   pastida o‘quvchilar ro‘yxati bor, skript faqat sarlavha qatorlarini o‘qiydi; bunday fayllarni
@@ -138,7 +142,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin ro‘yxati — client `StaffList`: qidiruv (ism, eMaktab nomi, fan, lavozim), guruh tugmalari (`positionGroup`), kamchiliklar
   filtri (rasmsiz, eMaktab nomisiz, jadvalda darsi topilmagan, yashirin); qatorda avatar, lavozim belgisi, sinf rahbarligi va
   jadvaldagi darslar soni. Tahrirlash sahifasi tepasida — sinf rahbarligi va jadvaldagi darslar/sinflar (`short_name` bo‘yicha).
-  `lessons` 1000 qatordan ko‘p (API bir so‘rovda 1000 tagacha beradi) — hammasi kerak bo‘lsa `allLessons()` (`staff/lessons.ts`) bilan bo‘laklab o‘qing.
+  `lessons` 1000 qatordan ko‘p (API bir so‘rovda 1000 tagacha beradi) — hammasi kerak bo‘lsa `allLessons()` (`src/lib/all-lessons.ts`) bilan bo‘laklab o‘qing.
 - Telegram kanal → yangilik/tadbir (`/admin/telegram`): Supabase Edge Function `supabase/functions/telegram-sync`
   (Deno; service role'ni Supabase o‘zi beradi — kalit hech kimga kerak emas) kanalning ochiq sahifasini
   (`t.me/s/<kanal>`) o‘qiydi. pg_cron har 15 daqiqada `pg_net` bilan chaqiradi; admin "Hozir tekshirish" ham shu.
