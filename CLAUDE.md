@@ -142,6 +142,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `StaffDirectory` — ism/fan bo‘yicha qidiruv va lavozim `select`i, kompyuterda jadval (avatar-initsiallar, lavozim
   belgisi: rahbariyat ko‘k, o‘qituvchi yashil, boshqalar sariq; fan; biriktirilgan sinf — `getHomerooms()`),
   telefonda kartalar. Qator bosilsa profil ochiladi.
+- Lavozimlar (`src/lib/positions.ts`, `staffPositions`): egasi bergan 14 ta lavozim, tartibi bilan, uch tilda. `/staff`
+  filtri hammasini ko‘rsatadi (ro‘yxatda yo‘q lavozim bo‘lsa, oxiriga qo‘shiladi); `position_uz` apostrof farqisiz
+  (`positionKey`) moslanadi, `position_ru/en` bo‘sh bo‘lsa tarjima ro‘yxatdan olinadi (`positionLabel`). Admin formada
+  lavozim maydoni shu ro‘yxatni taklif qiladi (`TranslatedField` `suggestions`, datalist).
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).

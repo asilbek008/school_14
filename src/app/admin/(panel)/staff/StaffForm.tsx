@@ -3,6 +3,7 @@ import ImageUpload from "@/components/admin/ImageUpload";
 import { Field, PublishedCheckbox, TranslatedField, inputClass } from "@/components/admin/fields";
 import { mediaBaseUrl } from "@/lib/media";
 import { saveStaff } from "./actions";
+import { staffPositions } from "@/lib/positions";
 
 export type StaffRow = {
   id: number;
@@ -40,7 +41,12 @@ export default function StaffForm({ row }: { row?: StaffRow }) {
       <Field label="eMaktab'dagi nomi" hint="Dars jadvalidagidek, masalan «Karimova D.A.». Shu orqali jadvaldagi ism profilga bog‘lanadi.">
         <input name="short_name" maxLength={80} defaultValue={row?.short_name ?? ""} className={`${inputClass} max-w-xs`} />
       </Field>
-      <TranslatedField name="position" label="Lavozim" row={row} />
+      <TranslatedField
+        name="position"
+        label="Lavozim"
+        row={row}
+        suggestions={{ uz: staffPositions.map((p) => p.uz), ru: staffPositions.map((p) => p.ru), en: staffPositions.map((p) => p.en) }}
+      />
       <TranslatedField name="subject" label="Fan" row={row} uzRequired={false} />
       <Field label="Rasm">
         <div className="mt-2">
