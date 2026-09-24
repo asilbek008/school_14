@@ -55,11 +55,12 @@
     "statStudents": "O‘quvchilar",
     "statStaff": "Xodimlar",
     "statClasses": "Sinflar",
+    "quickKicker": "Tezkor kirish",
     "quickTitle": "Sizga nima kerak?",
     "quick": {
       "news": "Maktabdagi so‘nggi yangilik va e’lonlar",
       "events": "Yaqinlashayotgan bayram va tadbirlar",
-      "timetable": "Har bir sinfning haftalik dars jadvali",
+      "timetable": "Sinf va parallelni tanlab, haftalik jadvalni ko‘ring",
       "faq": "Ota-onalar uchun javoblar"
     },
     "galleryTitle": "Maktab hayotidan",

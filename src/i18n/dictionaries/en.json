@@ -55,11 +55,12 @@
     "statStudents": "Students",
     "statStaff": "Staff",
     "statClasses": "Classes",
+    "quickKicker": "Quick access",
     "quickTitle": "What do you need?",
     "quick": {
       "news": "Latest school news and announcements",
       "events": "Upcoming holidays and events",
-      "timetable": "Weekly lessons for every class",
+      "timetable": "Pick a grade and class to see the weekly timetable",
       "faq": "Answers for parents"
     },
     "galleryTitle": "School life",

@@ -25,11 +25,12 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
     { value: school.stats.staff, label: dict.home.statStaff, dot: "bg-[#3ecfb2]" },
     { value: classes.length || school.stats.classes, label: dict.home.statClasses, dot: "bg-gold" },
   ];
+  // Quick access cards (from the design mockup): icon tint, and the icon's SVG paths.
   const quick = [
-    { key: "news", color: "bg-brand" },
-    { key: "events", color: "bg-teal" },
-    { key: "timetable", color: "bg-gold" },
-    { key: "faq", color: "bg-[#c9553f]" },
+    { key: "timetable", tint: "bg-brand-soft text-brand-deep", icon: <><rect x="3.5" y="4.5" width="17" height="15" rx="3" /><path d="M3.5 9.5h17M9 9.5v10M15 9.5v10" /></> },
+    { key: "news", tint: "bg-teal-soft text-[#0c6d62]", icon: <><path d="M4 5h13v14H6a2 2 0 0 1-2-2z" /><path d="M17 9h3v8a2 2 0 0 1-2 2" /><path d="M7.5 9h6M7.5 12.5h6M7.5 16h4" /></> },
+    { key: "events", tint: "bg-gold-soft text-gold-deep", icon: <><rect x="3.5" y="5" width="17" height="15" rx="3" /><path d="M3.5 10h17M8 3v4M16 3v4" /></> },
+    { key: "faq", tint: "bg-[#fae7e2] text-[#c9553f]", icon: <><circle cx="12" cy="12" r="9" /><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17h.01" /></> },
   ] as const;
 
   return (
@@ -80,20 +81,31 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-14">
-        <h2 className="mb-6 text-2xl font-bold tracking-tight">{dict.home.quickTitle}</h2>
+        <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
+          {dict.home.quickKicker}
+        </p>
+        <h2 className="font-display mb-7 text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.quickTitle}</h2>
         <div className="grid gap-4 lg:grid-cols-[1fr_2fr]">
           <LiveCard t={dict.live} scheduleHref={`/${lang}/schedule`} />
-          <div className="grid gap-4 sm:grid-cols-2">
-            {quick.map(({ key, color }) => (
+          <div className="grid gap-3.5 sm:grid-cols-2">
+            {quick.map(({ key, tint, icon }) => (
               <Link
                 key={key}
                 href={`/${lang}/${key}`}
-                className="reveal lift group rounded-2xl border border-slate-200 bg-white p-5"
+                className="reveal lift group relative flex flex-col gap-1 rounded-2xl border border-slate-200 bg-white p-5 pb-[60px] hover:border-slate-300"
               >
-                <span className={`mb-3 block h-1 w-10 rounded-full transition-[width] duration-500 ease-(--ease-spring) group-hover:w-16 ${color}`} />
-                <b className="text-lg">{dict.nav[key]}</b>
-                <p className="mt-1 text-sm text-slate-500">{dict.home.quick[key]}</p>
-                <span className="mt-3 inline-grid size-8 place-items-center rounded-full bg-paper text-sm font-bold text-slate-600 transition duration-300 group-hover:translate-x-1 group-hover:bg-brand group-hover:text-white">→</span>
+                <span className={`mb-3 grid size-11 place-items-center rounded-[13px] transition-transform duration-300 ease-(--ease-spring) group-hover:-rotate-6 group-hover:scale-105 ${tint}`}>
+                  <svg viewBox="0 0 24 24" className="size-[22px]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    {icon}
+                  </svg>
+                </span>
+                <b className="font-display text-[16.5px] tracking-tight text-slate-900">{dict.nav[key]}</b>
+                <span className="text-[13.5px] leading-snug text-slate-500">{dict.home.quick[key]}</span>
+                <span className="absolute bottom-4 left-5 grid size-8 place-items-center rounded-full bg-paper text-slate-600 transition duration-300 group-hover:translate-x-1.5 group-hover:bg-brand group-hover:text-white">
+                  <svg viewBox="0 0 24 24" className="size-[15px]" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6" />
+                  </svg>
+                </span>
               </Link>
             ))}
           </div>
