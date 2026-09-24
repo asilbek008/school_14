@@ -3,7 +3,7 @@ import { resolveLang } from "@/i18n/server";
 import { getEvents, type SchoolEvent } from "@/lib/content";
 import { eventCategories } from "@/lib/categories";
 import PageHeader from "@/components/PageHeader";
-import { fill } from "@/i18n/fill";
+import { fill, plural } from "@/i18n/fill";
 import { currentSchoolYear } from "@/lib/school";
 import EventItem from "@/components/EventItem";
 import EmptyState from "@/components/EmptyState";
@@ -16,11 +16,29 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/events">):
   return { title: dict.nav.events };
 }
 
+/** "2026-09": the month a date falls in, Tashkent time. */
+const tashkentMonth = (date: string | number) =>
+  new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Tashkent", year: "numeric", month: "2-digit" }).format(new Date(date));
+
+/** Events starting in the current month (Tashkent time). */
+function thisMonth(events: SchoolEvent[]) {
+  const month = tashkentMonth(Date.now());
+  return events.filter((e) => tashkentMonth(e.starts_at) === month).length;
+}
+
 export default async function EventsPage({ params }: PageProps<"/[lang]/events">) {
   const { lang, dict } = await resolveLang(params);
   const { upcoming, past } = await getEvents();
   const all = [...upcoming, ...past];
   const present = eventCategories.filter((c) => all.some((e) => e.category === c));
+  const t = dict.events;
+  const holidays = all.filter((e) => e.category === "bayram").length;
+  const stats = [
+    { value: upcoming.length, label: t.statUpcoming, bg: "from-[#3e72e8] to-brand-deep" },
+    { value: thisMonth(all), label: t.statMonth, bg: "from-[#17a090] to-[#0c6d62]" },
+    { value: past.length, label: t.statPast, bg: "from-[#e0a33e] to-gold-deep" },
+    { value: holidays, label: plural(t.statHolidays, holidays, lang), bg: "from-[#d2664e] to-[#a63b28]" },
+  ];
   // Count pill that follows the chosen category, and a note for a category with nothing in the group
   // (CategoryFilter shows the data-cat-only one of the chosen chip; "__all" hides while one is chosen).
   const heading = (text: string, list: SchoolEvent[]) => (
@@ -49,9 +67,26 @@ export default async function EventsPage({ params }: PageProps<"/[lang]/events">
     <>
       <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.events} intro={dict.events.intro} kicker={fill(dict.topbar.year, currentSchoolYear())} />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
+        {all.length > 0 && (
+          // Totals, as colored tiles (as on "About", the gallery and news).
+          <div className="mb-8 grid grid-cols-2 gap-2.5 sm:gap-3.5 lg:grid-cols-4">
+            {stats.map(({ value, label, bg }, i) => (
+              <div
+                key={bg}
+                style={{ animationDelay: `${i * 60}ms` }}
+                className={`reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-4 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${bg}`}
+              >
+                <b className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]">{value}</b>
+                <span className="mt-1.5 block text-[12.5px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
+              </div>
+            ))}
+          </div>
+        )}
         <CategoryFilter
-          allLabel={dict.common.all}
-          options={present.map((c) => ({ value: c, label: dict.eventCats[c] }))}
+          allLabel={`${dict.common.all} · ${all.length}`}
+          searchLabel={all.length ? t.search : undefined}
+          emptyLabel={t.notFound}
+          options={present.map((c) => ({ value: c, label: `${dict.eventCats[c]} · ${all.filter((e) => e.category === c).length}` }))}
         >
           <section id="upcoming" className="scroll-mt-24">
             {heading(dict.events.upcoming, upcoming)}

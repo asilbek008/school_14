@@ -22,6 +22,7 @@ export default function EventItem({ event, lang, dict, past = false }: { event: 
   return (
     <details
       data-cat={event.category}
+      data-q={`${localized(event, "title", lang)} ${event.location ?? ""}`.toLowerCase()}
       className="acc reveal group rounded-2xl border border-slate-200 bg-white transition-[border-color,box-shadow] duration-200 hover:border-slate-300 open:border-brand open:shadow-[0_12px_24px_-12px_rgb(19_26_46/0.18)]"
     >
       <summary className="flex cursor-pointer list-none items-center gap-4 rounded-2xl p-4 sm:px-5 [&::-webkit-details-marker]:hidden">

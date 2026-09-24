@@ -125,7 +125,16 @@
     "time": "Time",
     "noDetails": "Details will be announced later.",
     "note": "Dates of school events are planned and may change.",
-    "noneOfType": "No events of this type."
+    "noneOfType": "No events of this type.",
+    "statUpcoming": "upcoming",
+    "statMonth": "this month",
+    "statPast": "past",
+    "statHolidays": {
+      "one": "holiday",
+      "other": "holidays"
+    },
+    "search": "Event or place…",
+    "notFound": "No events match your search."
   },
   "staff": {
     "intro": "Our school's leadership and teachers.",

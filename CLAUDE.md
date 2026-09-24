@@ -213,6 +213,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `animate-fade-up` / `animate-fade-in` (hero va sarlavhalar). Karta ichidagi rasm/strelka uchun
   `group` + `group-hover:`. `prefers-reduced-motion` da hammasi o‘chadi — yangi animatsiya ham
   shu qoidaga bo‘ysunsin.
+- Tadbirlar sahifasi (`/events`): tepada 4 rangli raqam kartasi (yaqinlashayotgan, shu oyda boshlanadigan — Toshkent vaqti, o‘tgan,
+  bayramlar), turkum tugmalari soni bilan, tadbir nomi yoki joyi bo‘yicha qidiruv (`EventItem` `data-q`).
 - Tadbirlar (`EventItem`): `<details class="acc">` akkordeon — sana plitkasi (turkum rangida), sarlavha, hafta kuni bilan
   sana va yaqinlashayotganlarda `DaysLeft` ("Bugun"/"Ertaga"/"N kundan so‘ng"; brauzerda Toshkent kuni bo‘yicha,
   serverda hech narsa chiqarmaydi). Ochilganda turkum, vaqt, joy va tavsif. `details.acc` ochilish animatsiyasi
