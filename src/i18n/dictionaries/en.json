@@ -114,7 +114,17 @@
     },
     "education": "Education",
     "homeroom": "Homeroom teacher of",
-    "about": "About"
+    "about": "About",
+    "title": "Teachers and staff",
+    "kicker": "Our team",
+    "countIntro": "{n} staff members listed. Click a person for their full profile.",
+    "search": "Search by name or subject…",
+    "allPositions": "All positions",
+    "colName": "Full name",
+    "colPosition": "Position",
+    "colSubject": "Subject / area",
+    "colClass": "Homeroom class",
+    "noMatch": "No one found."
   },
   "contact": {
     "intro": "Have a question or suggestion? Write to us and we'll get back to you.",
