@@ -168,7 +168,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 
 ### Dizayn
 - Shriftlar: Inter (`font-sans`) va sarlavhalar uchun Bricolage Grotesque (`font-display`; bosh sahifa hero va
-  `PageHeader` h1; kirillcha harfi yo‘q — rus matni Inter'ga tushadi). Bosh sahifa hero matni lug‘atda (`home.heroTitle`,
+  `PageHeader` h1; kirillcha harfi yo‘q — rus matni Inter'ga tushadi). Bosh sahifa hero matni lug‘atda (`home.heroTitle` — egasi bergan shior, uzun bo‘lgani uchun 21ch / 3.25rem gacha,
   `heroLead`, `eyebrow`/`eyebrowStarted` — sentabrda "o‘quv yili boshlandi"), tugmalar: dars jadvali va yangiliklar.
 - Rang tokenlari `src/app/globals.css` `@theme` da: `navy`, `brand` (ko‘k), `teal`, `gold` (+ `-deep`,
   `-soft`), `paper`. Qorong‘i bloklar (hero, `PageHeader`, footer) — `chrome` va `tricolor-rule` utility'lari.
@@ -193,7 +193,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`): yuqorida topbar (md+; manzil, telefon, o‘quv yili, eMaktab), ostida
   sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · Xodimlar · Yangiliklar · Tadbirlar ▾ (lg+ da o‘ngga,
-  tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi). Dropdown'larda
+  tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi; `whitespace-nowrap`, menyuda qisqa `nav.timetableShort` —
+  ruscha "Расписание уроков" sig‘maydi). Dropdown'larda
   ikonka + qisqa izoh (`navDesc` lug‘atda); hover/bosish/klaviatura bilan ochiladi, Esc, tashqariga bosish va sahifa
   o‘zgarganda yopiladi. Joriy sahifa oq "pill". Mobil — butun ekranli panel (`MobileMenu` `<details>`, guruhlar ichki
   `<details>`; ochiqligida sahifa scroll bo‘lmaydi). Til va rejim tugmalari telefonda ham header'da

@@ -19,7 +19,8 @@
     "clubs": "Clubs",
     "gallery": "Gallery",
     "timetable": "Timetable",
-    "programs": "Regular programs"
+    "programs": "Regular programs",
+    "timetableShort": "Timetable"
   },
   "navDesc": {
     "about": "History and general information",
@@ -45,7 +46,7 @@
   "home": {
     "eyebrow": "school year",
     "eyebrowStarted": "school year has begun",
-    "heroTitle": "Clear knowledge and clear order for every child.",
+    "heroTitle": "The mark of quality education is explaining difficult topics in simple words.",
     "heroLead": "Timetables, news, events and teachers — everything about School No. 14 in Qiziriq district in one place.",
     "ctaTimetable": "View the timetable",
     "ctaNews": "Latest news",

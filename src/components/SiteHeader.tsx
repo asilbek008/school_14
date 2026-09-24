@@ -25,7 +25,8 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
         { href: href("/contact"), label: dict.nav.contact, desc: d.contact, icon: "phone", color: "green" },
       ],
     },
-    { href: href("/timetable"), label: dict.nav.timetable },
+    // Short label in the bar: the Russian "Расписание уроков" does not fit next to the buttons.
+    { href: href("/timetable"), label: dict.nav.timetableShort },
     { href: href("/staff"), label: dict.nav.staff },
     { href: href("/news"), label: dict.nav.news },
     {

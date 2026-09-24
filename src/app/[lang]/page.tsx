@@ -44,7 +44,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
               </span>
               {started ? dict.home.eyebrowStarted : dict.home.eyebrow}
             </p>
-            <h1 className="font-display mt-5 max-w-[15ch] animate-fade-up text-[clamp(2.25rem,5.1vw,3.75rem)] font-bold leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
+            <h1 className="font-display mt-5 max-w-[21ch] animate-fade-up text-[clamp(2rem,4.3vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
               {dict.home.heroTitle}
             </h1>
             <p className="mt-5 max-w-[48ch] animate-fade-up text-[17.5px] leading-relaxed text-[#c3cce6] [animation-delay:160ms]">{dict.home.heroLead}</p>
