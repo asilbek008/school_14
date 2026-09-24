@@ -177,14 +177,13 @@ export default function SiteNav({
         })}
       </nav>
 
-      <div className="flex items-center gap-2">
-        {/* On phones the header has room only for the logo and the menu button (Russian and English
-            names are wider), so the language and theme buttons move into the menu there. */}
-        <div className="hidden items-center gap-2 sm:flex">{children}</div>
+      {/* Tighter on phones so the Russian and English names still fit next to the buttons. */}
+      <div className="flex items-center gap-1 sm:gap-2">
+        {children}
         <MobileMenu className="mobile-nav group lg:hidden">
           <summary
             aria-label={labels.menu}
-            className="grid size-10 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-white/10 [&::-webkit-details-marker]:hidden"
+            className="grid size-9 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-white/10 [&::-webkit-details-marker]:hidden sm:size-10"
           >
             <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M4 7h16M4 12h16M4 17h16" className="group-open:hidden" />
@@ -193,7 +192,6 @@ export default function SiteNav({
           </summary>
           <nav className="surface fixed inset-x-0 bottom-0 top-16 z-40 animate-fade-in overflow-y-auto overscroll-contain bg-paper px-4 pb-10 pt-4 text-slate-900 [animation-duration:0.25s]">
             <div className="mx-auto max-w-xl space-y-2">
-            <div className="chrome flex items-center justify-between gap-3 rounded-2xl px-3 py-2 sm:hidden [&>*]:relative">{children}</div>
               {entries.map((entry) => {
                 if ("href" in entry) {
                   const active = isActive(entry.href);

@@ -35,17 +35,17 @@ export default function TimetablePicker({ shifts, lang, t }: { shifts: PickerShi
   const step = classes ? 3 : shift ? 2 : 1;
 
   return (
-    <div className="space-y-10">
-      <ol className="flex items-center gap-2 text-sm font-bold sm:gap-3" aria-label={t.chooseClass}>
+    <div className="space-y-7 sm:space-y-10">
+      <ol className="flex items-center gap-1.5 text-xs font-bold sm:gap-3 sm:text-sm" aria-label={t.chooseClass}>
         {[t.stepShift, t.stepGrade, t.stepClass].map((label, i) => {
           const n = i + 1;
           const done = n < step;
           const current = n === step;
           return (
-            <li key={label} className="flex items-center gap-2 sm:gap-3" aria-current={current ? "step" : undefined}>
-              {i > 0 && <span className={`h-0.5 w-6 rounded-full sm:w-12 ${n <= step ? "bg-brand" : "bg-slate-200"}`} />}
+            <li key={label} className="flex items-center gap-1.5 sm:gap-3" aria-current={current ? "step" : undefined}>
+              {i > 0 && <span className={`h-0.5 w-3 rounded-full sm:w-12 ${n <= step ? "bg-brand" : "bg-slate-200"}`} />}
               <span
-                className={`grid size-8 place-items-center rounded-full transition-colors duration-300 ${
+                className={`grid size-6 place-items-center rounded-full sm:size-8 transition-colors duration-300 ${
                   done ? "bg-brand text-white" : current ? "bg-navy text-white" : "bg-slate-200 text-slate-500"
                 }`}
               >
@@ -58,8 +58,8 @@ export default function TimetablePicker({ shifts, lang, t }: { shifts: PickerShi
       </ol>
 
       <section>
-        <h2 className="mb-4 text-xl font-bold">{t.chooseShift}</h2>
-        <div className="grid gap-4 md:grid-cols-2">
+        <h2 className="mb-3 text-lg font-bold sm:mb-4 sm:text-xl">{t.chooseShift}</h2>
+        <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {shifts.map((s) => {
             const selected = s.id === shiftId;
             const morning = s.id === 1;
@@ -70,11 +70,11 @@ export default function TimetablePicker({ shifts, lang, t }: { shifts: PickerShi
                 type="button"
                 aria-pressed={selected}
                 onClick={() => choose(`#s${s.id}`, gradesRef.current)}
-                className={`lift group relative overflow-hidden rounded-3xl border-2 p-6 text-left transition-colors duration-300 ${
+                className={`lift group relative overflow-hidden rounded-2xl border-2 p-3.5 text-left sm:rounded-3xl sm:p-5 transition-colors duration-300 ${
                   selected
                     ? morning
-                      ? "border-gold bg-gradient-to-br from-gold-soft to-white shadow-lg shadow-gold/20"
-                      : "border-brand bg-gradient-to-br from-brand-soft to-white shadow-lg shadow-brand/20"
+                      ? "border-gold bg-white bg-gradient-to-br from-gold-soft to-transparent shadow-lg shadow-gold/20"
+                      : "border-brand bg-white bg-gradient-to-br from-brand-soft to-transparent shadow-lg shadow-brand/20"
                     : "border-slate-200 bg-white hover:border-slate-300"
                 }`}
               >
@@ -84,29 +84,29 @@ export default function TimetablePicker({ shifts, lang, t }: { shifts: PickerShi
                     morning ? "bg-gold/30" : "bg-brand/25"
                   }`}
                 />
-                <span className="relative flex items-start justify-between gap-4">
+                <span className="relative flex items-start justify-between gap-3">
                   <span>
-                    <span className={`text-xs font-bold uppercase tracking-wider ${morning ? "text-gold-deep" : "text-brand-deep"}`}>
+                    <span className={`text-[10px] font-bold uppercase tracking-wider sm:text-xs ${morning ? "text-gold-deep" : "text-brand-deep"}`}>
                       {morning ? t.morning : t.afternoon}
                     </span>
-                    <span className="mt-1 block text-2xl font-extrabold tracking-tight text-slate-900">
+                    <span className="mt-0.5 block text-lg font-extrabold tracking-tight text-slate-900 sm:mt-1 sm:text-xl">
                       {fill(t.shiftName, { n: s.id })}
                     </span>
                   </span>
                   <span
-                    className={`grid size-12 shrink-0 place-items-center rounded-2xl transition-transform duration-500 group-hover:rotate-12 ${
+                    className={`hidden size-10 shrink-0 place-items-center rounded-xl sm:grid transition-transform duration-500 group-hover:rotate-12 ${
                       morning ? "bg-gold-soft text-gold-deep" : "bg-brand-soft text-brand-deep"
                     }`}
                   >
                     {morning ? <SunIcon /> : <SunsetIcon />}
                   </span>
                 </span>
-                <span className="relative mt-5 block text-3xl font-extrabold tabular-nums tracking-tight text-slate-900">
+                <span className="relative mt-2 block text-base font-extrabold tabular-nums tracking-tight text-slate-900 sm:mt-3 sm:text-2xl">
                   {s.start} <span className="text-slate-300">–</span> {s.end}
                 </span>
-                <span className="relative mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-600">
+                <span className="relative mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[11px] leading-snug text-slate-600 sm:mt-2 sm:gap-x-3 sm:text-sm">
                   <span>{fill(t.gradesLine, { list: s.grades.map((g) => g.grade).join(", ") })}</span>
-                  <span className="size-1 rounded-full bg-slate-300" />
+                  <span className="hidden size-1 rounded-full bg-slate-300 sm:inline-block" />
                   <span className="font-semibold">{plural(t.classes, count, lang)}</span>
                 </span>
               </button>
@@ -118,8 +118,8 @@ export default function TimetablePicker({ shifts, lang, t }: { shifts: PickerShi
       <section ref={gradesRef} className="scroll-mt-24">
         {shift && (
           <div key={shift.id} className="animate-fade-up">
-            <h2 className="mb-4 text-xl font-bold">{t.chooseGrade}</h2>
-            <div className="grid grid-cols-3 gap-3 sm:grid-cols-6">
+            <h2 className="mb-3 text-lg font-bold sm:mb-4 sm:text-xl">{t.chooseGrade}</h2>
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
               {shift.grades.map((g) => {
                 const selected = g.grade === grade;
                 return (
@@ -128,14 +128,14 @@ export default function TimetablePicker({ shifts, lang, t }: { shifts: PickerShi
                     type="button"
                     aria-pressed={selected}
                     onClick={() => choose(`#s${shift.id}-g${g.grade}`, classesRef.current)}
-                    className={`press flex flex-col items-center rounded-2xl border-2 px-2 py-4 transition-colors duration-300 ${
+                    className={`press flex flex-col items-center rounded-xl border-2 px-2 py-2.5 transition-colors sm:rounded-2xl sm:py-3.5 duration-300 ${
                       selected
                         ? "border-navy bg-navy text-white shadow-lg shadow-navy/25"
                         : "border-slate-200 bg-white text-slate-900 hover:border-brand hover:text-brand"
                     }`}
                   >
-                    <span className="text-3xl font-extrabold leading-none tabular-nums">{g.grade}</span>
-                    <span className={`mt-1.5 text-xs font-semibold ${selected ? "text-white/70" : "text-slate-500"}`}>
+                    <span className="text-2xl font-extrabold leading-none tabular-nums sm:text-3xl">{g.grade}</span>
+                    <span className={`mt-1 text-[11px] font-semibold sm:mt-1.5 sm:text-xs ${selected ? "text-white/70" : "text-slate-500"}`}>
                       {plural(t.classes, g.classes.length, lang)}
                     </span>
                   </button>
@@ -149,16 +149,16 @@ export default function TimetablePicker({ shifts, lang, t }: { shifts: PickerShi
       <section ref={classesRef} className="scroll-mt-24">
         {shift && classes && (
           <div key={`${shift.id}-${grade}`} className="animate-fade-up">
-            <h2 className="mb-4 text-xl font-bold">{t.chooseClass}</h2>
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+            <h2 className="mb-3 text-lg font-bold sm:mb-4 sm:text-xl">{t.chooseClass}</h2>
+            <div className="grid grid-cols-3 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-5">
               {classes.map((c) => (
                 <Link
                   key={c.id}
                   href={`/${lang}/timetable/${c.id}`}
-                  className="lift group flex items-center justify-between rounded-2xl border border-slate-200 bg-white px-5 py-4 hover:border-brand hover:shadow-lg hover:shadow-brand/15"
+                  className="lift group flex items-center justify-between rounded-xl border border-slate-200 bg-white px-3 py-2.5 hover:border-brand sm:rounded-2xl sm:px-5 sm:py-4 hover:shadow-lg hover:shadow-brand/15"
                 >
-                  <span className="text-2xl font-extrabold tracking-tight text-slate-900 group-hover:text-brand">{c.label}</span>
-                  <span className="grid size-8 place-items-center rounded-full bg-brand-soft text-brand-deep transition-transform duration-300 group-hover:translate-x-1 group-hover:bg-brand group-hover:text-white">
+                  <span className="text-lg font-extrabold tracking-tight text-slate-900 group-hover:text-brand sm:text-2xl">{c.label}</span>
+                  <span className="grid size-6 place-items-center text-xs sm:size-8 sm:text-base rounded-full bg-brand-soft text-brand-deep transition-transform duration-300 group-hover:translate-x-1 group-hover:bg-brand group-hover:text-white">
                     →
                   </span>
                 </Link>
