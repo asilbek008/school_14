@@ -19,7 +19,8 @@
     "clubs": "To‘garaklar",
     "gallery": "Galereya",
     "timetable": "Dars jadvali",
-    "programs": "Doimiy tadbirlar"
+    "programs": "Doimiy tadbirlar",
+    "timetableShort": "Dars jadvali"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -45,7 +46,7 @@
   "home": {
     "eyebrow": "o‘quv yili",
     "eyebrowStarted": "o‘quv yili boshlandi",
-    "heroTitle": "Har bir bola uchun aniq bilim, aniq tartib.",
+    "heroTitle": "Sifatli ta’limning belgisi — qiyin mavzularni oddiy so‘zlar bilan tushuntira olishdir.",
     "heroLead": "Dars jadvallari, yangiliklar, tadbirlar va o‘qituvchilar — Qiziriq tumanidagi 14-sonli maktab haqidagi barcha ma’lumot bir joyda.",
     "ctaTimetable": "Dars jadvalini ko‘rish",
     "ctaNews": "So‘nggi yangiliklar",
