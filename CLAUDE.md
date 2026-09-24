@@ -74,7 +74,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (yaqinlashayotgan/o‘tgan ajratish kun davomida to‘g‘ri ishlashi uchun), saytda faqat sana chiqadi.
 - To‘garaklar (`/clubs`, `clubs` jadvali) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
-  ham mehmonga ko‘rinmaydi. `Lightbox` — rasmni to‘liq ekranda ochadi (Esc, ←/→).
+  ham mehmonga ko‘rinmaydi. `Lightbox` — rasmlar to‘ri (`layout="mosaic"`: 1-rasm katta, `mosaicSpan` qatorlarni
+  bo‘shliqsiz yopadi) va to‘liq ekranli ko‘ruvchi (Esc, ←/→, telefonda surish, miniatyuralar; kichik rasm 1.5× dan
+  ortiq kattalashtirilmaydi, orqasida o‘zining xiralashgan nusxasi). `PhotoFrame` — muqovani qirqmasdan, xira
+  fon ustida ko‘rsatadi (Telegram'ning past sifatli rasmlari ham chiroyli chiqishi uchun).
 - Dars jadvali (`/timetable`, `/timetable/[id]`): `school_classes` (grade + letter, sinf rahbari
   `homeroom_teacher_id` → `staff`), `subjects` (fanlar ro‘yxati, tarjimali) va `lessons` (bitta katak:
   class_id, weekday 1–6, period 1–6, subject_id, teacher — eMaktab'dagidek "Familiya I.O." matn); haftama-hafta almashadigan dars uchun
@@ -111,6 +114,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Albomli postlar ko‘p bo‘lsa sahifada 4–5 ta post turadi, shuning uchun `?before=` bilan 8 sahifagacha orqaga boriladi. Birinchi rasm `media/telegram/` ga ko‘chiriladi (Telegram havolalari
   doimiy emas). Olingan har post `telegram_posts` (channel, post_id) da qoladi — saytdan o‘chirilgan post qayta
   kelmaydi. `import_since` dan oldingi postlar olinmaydi. `?dry=1` — hech narsa yozmasdan natijani qaytaradi; `?backfill=1` — galereyasi yo‘q eski yangiliklarga rasmlarni qo‘shadi.
+  Asl sifatli rasmlar: `t.me/s` faqat ~800px nusxa beradi. Admin `@BotFather` botining tokenini `/admin/telegram` da
+  kiritsa (`telegram_settings.bot_token`, brauzerga qaytarilmaydi; bot kanalda admin bo‘lishi kerak), funksiya
+  `getUpdates` bilan yangi postlarning asl rasmlarini (`telegram_media`: message_id → file_id) oladi. Eski postlar
+  uchun admin botga /start bosadi (`bot_chat_id`) — funksiya postni o‘sha chatga forward qilib, rasmini olib,
+  xabarni o‘chiradi. `telegram_posts.photo_ids` (albomdagi rasm post id'lari) va `hd` — har ishga tushishda 6 tagacha
+  eski yangilik rasmlari asl sifatga almashtiriladi; faqat hamma rasm yuklangandagina almashtiriladi.
   Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi

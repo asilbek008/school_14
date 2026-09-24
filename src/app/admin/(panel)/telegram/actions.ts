@@ -53,3 +53,83 @@ export async function syncTelegramNow() {
   revalidatePublic();
   redirect(`/admin/telegram?synced=${status}`);
 }
+
+type TgResult<T> = { ok: boolean; result?: T; description?: string };
+
+async function telegram<T>(token: string, method: string, params: Record<string, unknown> = {}): Promise<TgResult<T>> {
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/${method}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
+      cache: "no-store",
+    });
+    return (await res.json()) as TgResult<T>;
+  } catch {
+    return { ok: false, description: "Telegram bilan bog‘lanib bo‘lmadi" };
+  }
+}
+
+/**
+ * Connects the bot that gives full-quality photos: checks the token, turns off any webhook (the sync
+ * reads updates itself) and checks that the bot is an admin of the channel.
+ */
+export async function saveBot(_prev: FormState, form: FormData): Promise<FormState> {
+  const { supabase } = await requireAdmin();
+  const token = text(form, "bot_token").replace(/\s+/g, "");
+  if (!/^\d+:[A-Za-z0-9_-]{30,}$/.test(token)) {
+    return { error: "Token noto‘g‘ri ko‘rinishda. @BotFather bergan to‘liq tokenni nusxalang (masalan 123456789:AAH…)." };
+  }
+  const me = await telegram<{ id: number; username: string }>(token, "getMe");
+  if (!me.ok || !me.result) return { error: `Telegram tokenni qabul qilmadi: ${me.description ?? "noma’lum xato"}` };
+  await telegram(token, "deleteWebhook", { drop_pending_updates: false });
+
+  const { data: settings } = await supabase.from("telegram_settings").select("channel").eq("id", 1).single();
+  let status = "Kanal kiritilmagan — avval kanalni saqlang.";
+  if (settings?.channel) {
+    const member = await telegram<{ status: string }>(token, "getChatMember", {
+      chat_id: `@${settings.channel}`,
+      user_id: me.result.id,
+    });
+    status =
+      member.ok && member.result && ["administrator", "creator"].includes(member.result.status)
+        ? "ok"
+        : `Bot @${settings.channel} kanalida admin emas. Kanal → Adminlar → Admin qo‘shish → @${me.result.username}.`;
+  }
+
+  const { error } = await supabase
+    .from("telegram_settings")
+    .update({ bot_token: token, bot_username: me.result.username, bot_status: status })
+    .eq("id", 1);
+  if (error) return { error: `Saqlab bo‘lmadi: ${error.message}` };
+  redirect("/admin/telegram?bot=1");
+}
+
+/** Re-checks that the saved bot is still an admin of the channel (after the admin adds it there). */
+export async function recheckBot() {
+  const { supabase } = await requireAdmin();
+  const { data: s } = await supabase.from("telegram_settings").select("channel, bot_token").eq("id", 1).single();
+  if (s?.bot_token && s.channel) {
+    const me = await telegram<{ id: number; username: string }>(s.bot_token, "getMe");
+    const member = me.result
+      ? await telegram<{ status: string }>(s.bot_token, "getChatMember", { chat_id: `@${s.channel}`, user_id: me.result.id })
+      : null;
+    const ok = member?.ok && member.result && ["administrator", "creator"].includes(member.result.status);
+    await supabase
+      .from("telegram_settings")
+      .update({
+        bot_status: ok ? "ok" : `Bot @${s.channel} kanalida admin emas. Kanal → Adminlar → Admin qo‘shish → @${me.result?.username ?? "bot"}.`,
+      })
+      .eq("id", 1);
+  }
+  redirect("/admin/telegram?bot=1");
+}
+
+export async function removeBot() {
+  const { supabase } = await requireAdmin();
+  await supabase
+    .from("telegram_settings")
+    .update({ bot_token: null, bot_username: null, bot_status: null, bot_chat_id: null, bot_offset: 0 })
+    .eq("id", 1);
+  redirect("/admin/telegram");
+}

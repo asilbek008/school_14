@@ -53,7 +53,8 @@
   "news": {
     "empty": "Hozircha yangiliklar yo‘q.",
     "intro": "Maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari.",
-    "photos": "Fotosuratlar"
+    "photos": "Fotosuratlar",
+    "more": "Boshqa yangiliklar"
   },
   "events": {
     "upcoming": "Yaqinlashayotgan tadbirlar",

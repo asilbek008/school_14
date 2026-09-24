@@ -4,7 +4,8 @@ import { requireAdmin } from "@/lib/admin";
 import { formatDateTime } from "@/lib/format";
 import AdminHeader from "@/components/admin/AdminHeader";
 import TelegramForm from "./TelegramForm";
-import { syncTelegramNow } from "./actions";
+import BotForm from "./BotForm";
+import { recheckBot, removeBot, syncTelegramNow } from "./actions";
 
 export const metadata: Metadata = { title: "Telegram" };
 
@@ -20,10 +21,10 @@ type ImportedRow = {
 export default async function TelegramPage({ searchParams }: PageProps<"/admin/telegram">) {
   const { supabase } = await requireAdmin();
   const params = await searchParams;
-  const [{ data: settings }, { data: imported }] = await Promise.all([
+  const [{ data: settings }, { data: imported }, { count: newsTotal }, { count: newsHd }] = await Promise.all([
     supabase
       .from("telegram_settings")
-      .select("channel, enabled, auto_publish, import_since, last_synced_at, last_status")
+      .select("channel, enabled, auto_publish, import_since, last_synced_at, last_status, bot_username, bot_status, bot_chat_id")
       .eq("id", 1)
       .single(),
     supabase
@@ -32,6 +33,8 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
       .order("imported_at", { ascending: false })
       .order("post_id", { ascending: false })
       .limit(15),
+    supabase.from("telegram_posts").select("post_id", { count: "exact", head: true }).not("news_id", "is", null),
+    supabase.from("telegram_posts").select("post_id", { count: "exact", head: true }).not("news_id", "is", null).eq("hd", true),
   ]);
   if (!settings) return <p>Sozlamalarni o‘qib bo‘lmadi.</p>;
   // Without generated DB types supabase-js types to-one embeds as arrays.
@@ -106,6 +109,68 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
         </aside>
       </div>
 
+      <section className="mt-10 rounded-xl bg-white p-6 shadow-sm">
+        <h2 className="text-lg font-bold">Asl sifatli rasmlar (Telegram bot)</h2>
+        <p className="mt-1 max-w-3xl text-sm text-slate-600">
+          Telegram&apos;ning ochiq sahifasi rasmlarni faqat kichik (taxminan 800 piksel) nusxada beradi. Kanalga admin
+          qilib qo‘shilgan bot esa asl rasmlarni oladi — saytda ular ancha tiniq ko‘rinadi.
+        </p>
+        {settings.bot_username ? (
+          <div className="mt-4 space-y-3 text-sm">
+            <p>
+              Bot:{" "}
+              <a href={`https://t.me/${settings.bot_username}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 hover:underline">
+                @{settings.bot_username}
+              </a>
+            </p>
+            <Step done={settings.bot_status === "ok"}>
+              {settings.bot_status === "ok" ? "Bot kanalda admin — yangi postlar asl sifatda olinadi." : settings.bot_status}
+            </Step>
+            <Step done={!!settings.bot_chat_id}>
+              {settings.bot_chat_id ? (
+                "Eski postlar uchun chat ulangan."
+              ) : (
+                <>
+                  Eski postlarning rasmlarini ham almashtirish uchun{" "}
+                  <a href={`https://t.me/${settings.bot_username}?start=sayt`} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 hover:underline">
+                    botni oching
+                  </a>{" "}
+                  va <b>Start</b> tugmasini bosing (keyingi tekshiruvda ulanadi).
+                </>
+              )}
+            </Step>
+            <p className="text-slate-600">
+              Asl sifatga o‘tgan yangiliklar: <b>{newsHd ?? 0}</b> / {newsTotal ?? 0} (har tekshiruvda bir nechtadan almashtiriladi).
+            </p>
+            <div className="flex flex-wrap gap-3 pt-1">
+              {settings.bot_status !== "ok" && (
+                <form action={recheckBot}>
+                  <button className="rounded-lg bg-slate-800 px-4 py-2 font-semibold text-white hover:bg-slate-900">Qayta tekshirish</button>
+                </form>
+              )}
+              <form action={removeBot}>
+                <button className="rounded-lg px-4 py-2 font-semibold text-red-700 hover:bg-red-50">Botni uzish</button>
+              </form>
+            </div>
+          </div>
+        ) : (
+          <ol className="mt-4 list-decimal space-y-1.5 pl-5 text-sm text-slate-700">
+            <li>
+              Telegram&apos;da{" "}
+              <a href="https://t.me/BotFather" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 hover:underline">
+                @BotFather
+              </a>{" "}
+              ni oching, <code>/newbot</code> yozing, botga nom bering — u sizga <b>token</b> beradi.
+            </li>
+            <li>Kanal sozlamalari → Adminlar → Admin qo‘shish → yangi botingizni tanlang (qo‘shimcha huquq shart emas).</li>
+            <li>Tokenni pastga qo‘yib, «Botni ulash»ni bosing.</li>
+          </ol>
+        )}
+        <div className="mt-5 max-w-xl">
+          <BotForm connected={!!settings.bot_username} />
+        </div>
+      </section>
+
       <h2 className="mb-3 mt-10 text-lg font-bold">Oxirgi olingan postlar</h2>
       <div className="overflow-hidden rounded-xl bg-white shadow-sm">
         {rows.length ? (
@@ -136,6 +201,17 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
         )}
       </div>
     </>
+  );
+}
+
+function Step({ done, children }: { done: boolean; children: React.ReactNode }) {
+  return (
+    <p className="flex items-start gap-2">
+      <span className={`mt-0.5 grid size-5 shrink-0 place-items-center rounded-full text-xs font-bold text-white ${done ? "bg-green-600" : "bg-amber-500"}`}>
+        {done ? "✓" : "!"}
+      </span>
+      <span>{children}</span>
+    </p>
   );
 }
 

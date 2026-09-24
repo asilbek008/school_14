@@ -6,7 +6,11 @@ export type TelegramPost = {
   /** ISO time from Telegram (UTC). */
   date: string;
   text: string;
+  /** Preview-size (~800px) photo links; the originals come from the bot (see index.ts). */
   images: string[];
+  /** Channel message of each photo (an album is one message per photo), same order as images;
+   * empty when the only image is a video's preview frame. */
+  photoIds: number[];
 };
 
 /** Reads posts from a public channel preview page (https://t.me/s/<channel>), oldest first. */
@@ -17,16 +21,35 @@ export function parseChannelPage(html: string): TelegramPost[] {
     const date = /class="tgme_widget_message_date"[^>]*>\s*<time datetime="([^"]+)"/.exec(block)?.[1];
     if (!id || !date || block.includes("service_message")) continue;
     const textHtml = /<div class="tgme_widget_message_text js-message_text"[^>]*>([\s\S]*?)<\/div>/.exec(block)?.[1] ?? "";
-    // Post photos (albums have several), else a video's preview frame. Not the channel avatar
-    // (user_photo) or link preview pictures.
-    const images = [...block.matchAll(/tgme_widget_message_photo_wrap[^"]*"[^>]*background-image:url\('([^']+)'\)/g)].map((m) => m[1]);
-    if (!images.length) {
+    const photos = postPhotos(block);
+    const images = photos.map((p) => p.url);
+    if (!photos.length) {
+      // No photo: a video's preview frame. It has no original photo, so no photoIds entry.
       const thumb = /tgme_widget_message_video_thumb"[^>]*background-image:url\('([^']+)'\)/.exec(block)?.[1];
       if (thumb) images.push(thumb);
     }
-    posts.push({ id: Number(id), date, text: htmlToText(textHtml), images: images.map((u) => (u.startsWith("//") ? `https:${u}` : u)) });
+    posts.push({
+      id: Number(id),
+      date,
+      text: htmlToText(textHtml),
+      images: images.map((u) => (u.startsWith("//") ? `https:${u}` : u)),
+      photoIds: photos.map((p) => p.id),
+    });
   }
   return posts;
+}
+
+/**
+ * A post's photos (albums have several) with the message each one is: the photo link points at it.
+ * Not the channel avatar (user_photo) or link preview pictures.
+ */
+export function postPhotos(html: string): { url: string; id: number }[] {
+  // Attribute order differs between single photos and albums, so read each opening tag whole.
+  return [...html.matchAll(/<a class="tgme_widget_message_photo_wrap[^>]*>/g)].flatMap(([tag]) => {
+    const url = /background-image:url\('([^']+)'\)/.exec(tag)?.[1];
+    const id = /href="https:\/\/t\.me\/[^/"]+\/(\d+)/.exec(tag)?.[1];
+    return url && id ? [{ url, id: Number(id) }] : [];
+  });
 }
 
 /** Number of the oldest post on the page, for fetching the page before it (?before=). */

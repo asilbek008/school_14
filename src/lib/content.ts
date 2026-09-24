@@ -16,9 +16,11 @@ export type News = {
   cover_image: string | null;
   published_at: string | null;
   category: NewsCategory;
+  /** Gallery size, for the photo badge on cards (list queries only). */
+  news_photos?: { count: number }[];
 };
 
-export type NewsArticle = News & { news_photos: { path: string }[] };
+export type NewsArticle = Omit<News, "news_photos"> & { news_photos: { path: string }[] };
 
 export type SchoolEvent = {
   id: number;
@@ -149,7 +151,7 @@ export async function getNews(limit?: number): Promise<News[]> {
   if (!supabase) return [];
   let query = supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(count)")
     .eq("is_published", true)
     .order("published_at", { ascending: false, nullsFirst: false });
   if (limit) query = query.limit(limit);

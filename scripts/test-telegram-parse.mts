@@ -1,7 +1,7 @@
 // Tests for supabase/functions/telegram-sync/parse.ts:
 //   node --experimental-strip-types scripts/test-telegram-parse.mts
 import assert from "node:assert/strict";
-import { classify, findDate, oldestPostId, parseChannelPage, slugFor, tidyTitle } from "../supabase/functions/telegram-sync/parse.ts";
+import { classify, findDate, oldestPostId, parseChannelPage, postPhotos, slugFor, tidyTitle } from "../supabase/functions/telegram-sync/parse.ts";
 
 const post = (id: number, inner: string, date = "2026-09-20T05:00:00+00:00") => `
 <div class="tgme_widget_message_wrap js-widget_message_wrap"><div class="tgme_widget_message text_not_supported_wrap js-widget_message" data-post="maktab14/${id}" data-view="x">
@@ -25,6 +25,11 @@ const posts = parseChannelPage(html);
 assert.deepEqual(posts.map((p) => p.id), [10, 11, 12, 13, 14, 15]);
 assert.deepEqual(posts[0].images, ["https://cdn4.telesco.pe/file/photo10.jpg"], "photo, not the avatar");
 assert.deepEqual(posts[2].images, ["https://cdn4.telesco.pe/file/thumb12.jpg"], "video thumb fallback");
+assert.deepEqual(posts[0].photoIds, [10]);
+const album = `<div class="tgme_widget_message_grouped_wrap"><a class="tgme_widget_message_photo_wrap grouped_media_wrap blured js-message_photo" style="" href="https://t.me/maktab14/21" x><i></i></a>
+<a class="tgme_widget_message_photo_wrap grouped_media_wrap blured js-message_photo" style="left:0px;width:225px;background-image:url('https://cdn4.telesco.pe/file/a.jpg')" data-ratio="1.33" href="https://t.me/maktab14/20?single"></a>
+<a class="tgme_widget_message_photo_wrap 52 12" href="https://t.me/maktab14/21?single" style="width:226px;background-image:url('https://cdn4.telesco.pe/file/b.jpg')"></a></div>`;
+assert.deepEqual(postPhotos(album), [{ id: 20, url: "https://cdn4.telesco.pe/file/a.jpg" }, { id: 21, url: "https://cdn4.telesco.pe/file/b.jpg" }], "album photo ids");
 assert.ok(posts[0].text.includes("bo'lib o‘tadi"), "entities decoded");
 assert.ok(posts[0].text.includes("🎉"));
 
