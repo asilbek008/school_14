@@ -6,7 +6,8 @@ import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
 import NewsCard from "@/components/NewsCard";
-import EventItem from "@/components/EventItem";
+import EventCard from "@/components/EventCard";
+import SectionHead from "@/components/SectionHead";
 import EmptyState from "@/components/EmptyState";
 import EMaktabCard from "@/components/EMaktabCard";
 import LiveCard from "@/components/LiveCard";
@@ -85,11 +86,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
-          {dict.home.quickKicker}
-        </p>
-        <h2 className="font-display mb-7 text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.quickTitle}</h2>
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+        <SectionHead kicker={dict.home.quickKicker} title={dict.home.quickTitle} />
         <div className="grid gap-4 lg:grid-cols-[1fr_2fr]">
           <LiveCard t={dict.live} scheduleHref={`/${lang}/schedule`} />
           <div className="grid gap-3.5 sm:grid-cols-2">
@@ -115,27 +113,15 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             ))}
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4">
-        <EMaktabCard t={dict.emaktab} />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
-              {dict.nav.news}
-            </p>
-            <h2 className="font-display text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.latestNews}</h2>
-          </div>
-          <Link
-            href={`/${lang}/news`}
-            className="press rounded-full border-[1.5px] border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 hover:border-brand hover:text-brand"
-          >
-            {dict.home.allNews}
-          </Link>
+        <div className="mt-4">
+          <EMaktabCard t={dict.emaktab} />
         </div>
+      </section>
+
+      {/* Sections are divided by a hairline, as in the design mockup. */}
+      <section className="border-t border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+        <SectionHead kicker={dict.nav.news} title={dict.home.latestNews} action={{ href: `/${lang}/news`, label: dict.home.allNews }} />
         {news.length ? (
           // The newest article large on the left, the next two as compact rows beside it.
           <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-5">
@@ -146,24 +132,13 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         ) : (
           <EmptyState>{dict.news.empty}</EmptyState>
         )}
+        </div>
       </section>
 
       {recentPhotos.length >= 2 && (
-        <section className="mx-auto max-w-6xl px-4 pb-14">
-          <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
-                {dict.nav.gallery}
-              </p>
-              <h2 className="font-display text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.galleryTitle}</h2>
-            </div>
-            <Link
-              href={`/${lang}/gallery`}
-              className="press rounded-full border-[1.5px] border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 hover:border-brand hover:text-brand"
-            >
-              {dict.home.allPhotos}
-            </Link>
-          </div>
+        <section className="border-t border-slate-200">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+          <SectionHead kicker={dict.nav.gallery} title={dict.home.galleryTitle} action={{ href: `/${lang}/gallery`, label: dict.home.allPhotos }} />
           {/* The newest photos across albums; a click opens them full screen. */}
           <Lightbox
             photos={recentPhotos}
@@ -171,26 +146,24 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             gridClassName="grid-cols-2 md:grid-cols-4"
             t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }}
           />
+          </div>
         </section>
       )}
 
-      <section className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 className="text-2xl font-bold text-slate-900">{dict.home.upcomingEvents}</h2>
-          <Link href={`/${lang}/events`} className="group text-sm font-bold text-brand">
-            {dict.home.allEvents}{" "}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
+      <section className="border-t border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+          <SectionHead kicker={dict.nav.events} title={dict.home.upcomingEvents} action={{ href: `/${lang}/events`, label: dict.home.allEvents }} />
+          {upcoming.length ? (
+            // Compact cards (as in the design mockup); the events page has the details.
+            <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+              {upcoming.slice(0, 3).map((event) => (
+                <EventCard key={event.id} event={event} lang={lang} dict={dict} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState>{dict.events.emptyUpcoming}</EmptyState>
+          )}
         </div>
-        {upcoming.length ? (
-          <div className="grid gap-4 md:grid-cols-2">
-            {upcoming.slice(0, 4).map((event) => (
-              <EventItem key={event.id} event={event} lang={lang} dict={dict} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState>{dict.events.emptyUpcoming}</EmptyState>
-        )}
       </section>
     </>
   );
