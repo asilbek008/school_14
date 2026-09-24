@@ -36,7 +36,7 @@ function Form({ t, again }: { t: Labels; again: () => void }) {
 
   const v = state.values;
   const errorText =
-    state.status === "invalid" ? t.invalid : state.status === "needContact" ? t.needContact : state.status === "error" ? t.error : null;
+    state.status === "invalid" ? t.invalid : state.status === "needContact" ? t.needContact : state.status === "error" ? t.error : state.status === "tooMany" ? t.tooMany : null;
 
   return (
     <form action={action} className="space-y-4">

@@ -7,7 +7,7 @@ type Values = { name: string; email: string; phone: string; topic: string; messa
 
 // `values` is echoed back so the form can refill itself: React resets forms after an action.
 export type ContactState = {
-  status: "idle" | "success" | "invalid" | "needContact" | "error";
+  status: "idle" | "success" | "invalid" | "needContact" | "error" | "tooMany";
   values?: Values;
   attempt?: number; // counts sends, so the form can remount what a reset would not refill
 };
@@ -38,6 +38,8 @@ export async function sendContactMessage(prev: ContactState, form: FormData): Pr
   const { error } = await supabase
     .from("contact_messages")
     .insert({ name, email: email || null, phone: phone || null, topic: topic || null, message });
+  // Too many messages from this phone/email (or in all) just now: the database refuses them.
+  if (error?.message.includes("rate_limited")) return { status: "tooMany", values, attempt };
   if (error) {
     console.error(`[contact] insert failed: ${error.message}`);
     return { status: "error", values, attempt };

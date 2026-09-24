@@ -230,7 +230,8 @@
       },
       "hint": "Do not write personal or confidential data (passwords, document numbers) here.",
       "successTitle": "Your message was sent",
-      "again": "Write another message"
+      "again": "Write another message",
+      "tooMany": "Too many messages were sent. Please try again in 10 minutes or call the school."
     },
     "title": "Get in touch",
     "quickTitle": "Need a quick answer?",

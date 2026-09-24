@@ -63,7 +63,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   matni + "Qisqacha" (faoliyati, manzil, telefon, ish vaqti), rahbariyat (`positionGroup` = `leaders`, profilga havola)
   va dars vaqtlari qisqacha — to‘liq qo‘ng‘iroqlar jadvali va savol-javob o‘z sahifalarida (takrorlanmaydi).
 - Aloqa formasi: `[lang]/contact/actions.ts` Server Action `contact_messages` ga yozadi
-  (honeypot `website` maydoni bor; telefon yoki email majburiy). Action kiritilgan qiymatlarni
+  (honeypot `website` maydoni bor; telefon yoki email majburiy; spam cheklovi — `private.contact_rate_limit` trigger'i: bir telefon/email'dan
+  10 daqiqada 3 tadan, jami 30 tadan ortiq bo‘lsa `rate_limited` → formada `tooMany`). Action kiritilgan qiymatlarni
   qaytaradi — React 19 action'dan keyin formani tozalaydi, shuning uchun `defaultValue` kerak (`select` yangi
   `defaultValue` ni olmaydi — u `attempt` bo‘yicha qayta yaratiladi). Mavzu (`topic`: savol/taklif/murojaat/boshqa,
   `contactTopics`) admin xabarlarida belgi bo‘lib chiqadi. Sahifa maketdagidek: 4 aloqa kartasi (boshqa sahifalardagi raqam kartalari kabi rangli — `tileColors` `StatTiles` dan; telefonda ixcham),
@@ -285,6 +286,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   albomlar, sinflar, yillar); `robots.ts` — `/admin` yopiq. Manzil `siteUrl` (`school.ts`, `NEXT_PUBLIC_SITE_URL` — domen olinganda).
   Layout: `metadataBase`, Open Graph (sayt nomi, tavsif, locale); ulashish rasmi — `[lang]/opengraph-image.tsx` (1200×630, faqat lotin
   matni — standart shriftda kirill yo‘q). Layout'da `alternates.languages` yo‘q (har sahifani bosh sahifaga bog‘lab qo‘yardi) — hreflang sitemap'da.
+
+### Xavfsizlik sarlavhalari
+- `next.config.ts` `headers()`: nosniff, `X-Frame-Options`/`frame-ancestors 'self'`, `base-uri`/`object-src`/`form-action`, Referrer-Policy,
+  Permissions-Policy, HSTS; `poweredByHeader: false`. To‘liq CSP yo‘q (tema skripti inline, xarita va YouTube iframe'lari).
 
 ### Supabase
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client

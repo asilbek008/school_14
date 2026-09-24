@@ -230,7 +230,8 @@
       },
       "hint": "Shaxsiy va maxfiy ma’lumotlarni (parol, hujjat raqami) bu yerga yozmang.",
       "successTitle": "Murojaatingiz yuborildi",
-      "again": "Yana murojaat yozish"
+      "again": "Yana murojaat yozish",
+      "tooMany": "Juda ko‘p xabar yuborildi. 10 daqiqadan so‘ng qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling."
     },
     "title": "Biz bilan bog‘laning",
     "quickTitle": "Tezkor javob kerakmi?",
