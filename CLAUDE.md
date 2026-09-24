@@ -166,8 +166,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · O‘qituvchilar · Yangiliklar · Tadbirlar ▾. Dropdown'larda
   ikonka + qisqa izoh (`navDesc` lug‘atda); hover/bosish/klaviatura bilan ochiladi, Esc, tashqariga bosish va sahifa
   o‘zgarganda yopiladi. Joriy sahifa oq "pill". Mobil — butun ekranli panel (`MobileMenu` `<details>`, guruhlar ichki
-  `<details>`; ochiqligida sahifa scroll bo‘lmaydi). Telefonda (sm dan kichik) til va rejim tugmalari header'da emas,
-  menyu panelining tepasida — rus/ingliz nomlari uzun, header'ga sig‘maydi (menyu tugmasi ekrandan chiqib ketardi).
+  `<details>`; ochiqligida sahifa scroll bo‘lmaydi). Til va rejim tugmalari telefonda ham header'da
+  (egasining talabi); sig‘ishi uchun sm dan kichikda tugmalar ixcham, "Rasmiy sayt" yozuvi yo‘q, 375px dan tor ekranda
+  faqat "14" belgisi qoladi. Header kengligini o‘zgartirsangiz, 320–414px da uch tilda tekshiring.
 - Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), maketdagidek.
 
 ### Supabase

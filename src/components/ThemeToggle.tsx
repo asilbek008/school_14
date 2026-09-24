@@ -28,7 +28,7 @@ export default function ThemeToggle({ t }: { t: { dark: string; light: string } 
           localStorage.setItem("theme", next ? "dark" : "light");
         } catch {}
       }}
-      className="grid size-10 shrink-0 place-items-center rounded-xl text-[#c2cbe4] transition-colors hover:bg-white/10 hover:text-white"
+      className="grid size-9 shrink-0 sm:size-10 place-items-center rounded-xl text-[#c2cbe4] transition-colors hover:bg-white/10 hover:text-white"
     >
       <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         {dark ? (

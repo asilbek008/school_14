@@ -75,13 +75,13 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
 
       <header className="site-header sticky top-0 z-30 bg-navy text-white shadow-[0_1px_0_rgb(255_255_255/0.08)]">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 lg:h-[74px]">
-          <Link href={href("")} className="group/logo flex shrink-0 items-center gap-3">
+          <Link href={href("")} className="group/logo flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3">
             <span className="relative grid size-10 place-items-center rounded-xl bg-white text-lg font-extrabold tracking-tight text-navy transition-transform duration-300 ease-(--ease-spring) after:absolute after:inset-x-3 after:bottom-1.5 after:h-[3px] after:rounded after:bg-gold after:transition-[left,right] after:duration-300 group-hover/logo:-rotate-6 group-hover/logo:after:inset-x-2 lg:size-11">
               <span className="-translate-y-0.5">14</span>
             </span>
-            <span className="leading-tight">
-              <b className="block text-base font-bold tracking-tight">{dict.site.name}</b>
-              <small className="block text-[11px] font-semibold uppercase tracking-wider text-[#93a0c4] lg:hidden xl:block">
+            <span className="leading-tight max-[374px]:hidden">
+              <b className="block text-[15px] font-bold tracking-tight sm:text-base">{dict.site.name}</b>
+              <small className="block text-[11px] font-semibold uppercase tracking-wider text-[#93a0c4] max-sm:hidden lg:hidden xl:block">
                 {dict.site.tagline}
               </small>
             </span>
