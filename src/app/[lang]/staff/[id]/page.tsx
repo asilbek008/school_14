@@ -6,6 +6,7 @@ import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
 import { getStaffMember, localized, mediaUrl } from "@/lib/content";
 import { classLabel } from "@/lib/timetable";
+import { positionLabel } from "@/lib/positions";
 import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
 
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/staff/[id]
   const photo = mediaUrl(person.photo);
   return {
     title: person.full_name,
-    description: localized(person, "position", lang),
+    description: positionLabel(person, lang),
     openGraph: photo ? { images: [photo] } : undefined,
   };
 }
@@ -29,7 +30,7 @@ export default async function StaffProfilePage({ params }: PageProps<"/[lang]/st
   if (!person) notFound();
   const t = dict.staff;
   const photo = mediaUrl(person.photo);
-  const position = localized(person, "position", lang);
+  const position = positionLabel(person, lang);
   const bio = localized(person, "bio", lang);
 
   const facts: [string, React.ReactNode][] = [];

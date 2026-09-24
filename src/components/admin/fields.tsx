@@ -18,12 +18,15 @@ export function TranslatedField({
   row,
   multiline = false,
   uzRequired = true,
+  suggestions,
 }: {
   name: string;
   label: string;
   row?: Row;
   multiline?: boolean;
   uzRequired?: boolean;
+  /** Values offered while typing (a datalist), per language; any other text is still allowed. */
+  suggestions?: Record<string, string[]>;
 }) {
   return (
     <fieldset>
@@ -40,7 +43,16 @@ export function TranslatedField({
               {multiline ? (
                 <textarea name={field} defaultValue={value} required={isRequired} rows={8} className={inputClass} />
               ) : (
-                <input name={field} defaultValue={value} required={isRequired} className={inputClass} />
+                <>
+                  <input name={field} defaultValue={value} required={isRequired} list={suggestions?.[code] && `${field}-list`} className={inputClass} />
+                  {suggestions?.[code] && (
+                    <datalist id={`${field}-list`}>
+                      {suggestions[code].map((v) => (
+                        <option key={v} value={v} />
+                      ))}
+                    </datalist>
+                  )}
+                </>
               )}
             </label>
           );

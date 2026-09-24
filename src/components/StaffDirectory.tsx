@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +8,7 @@ export type StaffRow = {
   id: number;
   name: string;
   position: string;
+  positionKey: string; // positionKey() of the Uzbek name, what the filter matches
   subject: string | null;
   homeroom: string | null;
   photo: string | null;
@@ -56,14 +57,23 @@ function Avatar({ row, index }: { row: StaffRow; index: number }) {
 }
 
 /** Staff table (as in the design mockup): search by name or subject, filter by position; each row opens the profile. */
-export default function StaffDirectory({ rows, lang, t }: { rows: StaffRow[]; lang: string; t: Labels }) {
+export default function StaffDirectory({
+  rows,
+  positions,
+  lang,
+  t,
+}: {
+  rows: StaffRow[];
+  positions: { value: string; label: string }[];
+  lang: string;
+  t: Labels;
+}) {
   const [query, setQuery] = useState("");
   const [position, setPosition] = useState("");
-  const positions = useMemo(() => [...new Set(rows.map((r) => r.position))], [rows]);
   const q = query.trim().toLowerCase();
   const shown = rows.filter(
     (r) =>
-      (!position || r.position === position) &&
+      (!position || r.positionKey === position) &&
       (!q || r.name.toLowerCase().includes(q) || (r.subject ?? "").toLowerCase().includes(q)),
   );
   const href = (r: StaffRow) => `/${lang}/staff/${r.id}`;
@@ -76,8 +86,8 @@ export default function StaffDirectory({ rows, lang, t }: { rows: StaffRow[]; la
         <select value={position} onChange={(e) => setPosition(e.target.value)} aria-label={t.colPosition} className={`${field} sm:w-72`}>
           <option value="">{t.allPositions}</option>
           {positions.map((p) => (
-            <option key={p} value={p}>
-              {p}
+            <option key={p.value} value={p.value}>
+              {p.label}
             </option>
           ))}
         </select>
