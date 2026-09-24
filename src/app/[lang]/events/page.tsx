@@ -67,7 +67,7 @@ export default async function EventsPage({ params }: PageProps<"/[lang]/events">
   return (
     <>
       <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.events} intro={dict.events.intro} kicker={fill(dict.topbar.year, currentSchoolYear())} />
-      <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
+      <div className="year-scope mx-auto max-w-6xl px-4 py-10 sm:py-12">
         {all.length > 0 && <StatTiles stats={stats} />}
         <CategoryFilter
           allLabel={`${dict.common.all} · ${all.length}`}

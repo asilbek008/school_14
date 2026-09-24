@@ -581,5 +581,26 @@
     "pick": "Pick a class",
     "shortcut": "My class: {c}",
     "now": "Now"
+  },
+  "year": {
+    "title": "{y} school year",
+    "kicker": "School year",
+    "current": "Current year",
+    "intro": "News, events and photos from this school year (1 September – 31 August).",
+    "choose": "Choose a school year",
+    "summary": "Year in review",
+    "news": "News",
+    "events": "Events",
+    "albums": "Albums",
+    "empty": "Nothing has been added for this school year yet.",
+    "students": "students",
+    "staff": "staff",
+    "classes": "classes",
+    "graduates": "graduates",
+    "other": "Other school years",
+    "banner": "Showing the {y} school year",
+    "bannerHint": "news, events and gallery for that year",
+    "back": "Back to the current year",
+    "page": "Year page"
   }
 }

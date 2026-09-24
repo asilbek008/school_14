@@ -211,6 +211,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sinf jadvalida `MyClassButton` (⭐), bosh sahifada "Tezkor kirish" ostida `MyClassCard` — sinf tanlanmagan bo‘lsa taklif, tanlangan bo‘lsa
   bugungi darslar (smena tugagach yoki yakshanba — keyingi o‘quv kuni; hozirgi dars ajratilgan), darslar brauzerda anon client bilan o‘qiladi;
   `/timetable` da `MyClassShortcut`.
+- O‘quv yillari (egasining talabi): `school_years` (start_year — 2025 = 2025–2026, students/staff/classes/graduates — faqat tasdiqlangan
+  sonlar, bo‘sh bo‘lishi mumkin; summary_* — yil yakuni; is_published), admin `/admin/years`. Yil 1-sentabr – 31-avgust (`src/lib/school-years.ts`:
+  `schoolYearOf`, `yearRange`, `yearLabel`). Topbar'dagi o‘quv yili — `YearSwitcher` (joriy yil + e’lon qilingan yillar; telefonda menyu
+  panelining oxirida chiplar). Yil tanlansa `/[lang]/year/[start]` ochiladi: raqamlar (`StatTiles`; joriy yilda bo‘sh bo‘lsa `school.stats`),
+  yil yakuni, o‘sha yilgi yangiliklar, tadbirlar, albomlar, boshqa yillar. O‘tgan yil tanlanganda (`SetSiteYear` → `sessionStorage.siteYear`,
+  faqat shu tashrif) header ostida `YearBanner` chiqadi va yangiliklar/tadbirlar/galereya (`year-scope` o‘rami, elementlarda `data-year`)
+  shu yil bo‘yicha CSS bilan filtrlanadi, umumiy raqamlar (`year-hide`) yashiriladi — sahifa keshi buzilmaydi.
 - Sayt bo‘yicha qidiruv (`/[lang]/search`): sahifa statik — server hamma qidiriladigan narsani (sahifalar, yangiliklar, tadbirlar,
   xodimlar, to‘garaklar, doimiy tadbirlar, savol-javob, albomlar) yig‘adi, client `SiteSearch` brauzerda filtrlaydi (hamma so‘z uchrashi
   kerak, sarlavhadagisi oldinda; apostrof va ё farqsiz), turlar bo‘yicha tugmalar, `?q=` manzilda (`useSearchParams`, `Suspense` ichida).

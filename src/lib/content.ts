@@ -1,5 +1,6 @@
 import "server-only";
 import { leagueStages, type LeagueTable } from "./league";
+import type { SchoolYearRow } from "./school-years";
 import { cache } from "react";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
@@ -497,3 +498,12 @@ export async function getLeagueTables(programId: number): Promise<LeagueTable[]>
   logError("getLeagueTables", error);
   return ((data ?? []) as LeagueTable[]).sort((a, b) => leagueStages.indexOf(a.stage) - leagueStages.indexOf(b.stage));
 }
+
+/** Published school years, newest first (the header's year switcher and the year pages). */
+export const getSchoolYears = cache(async (): Promise<SchoolYearRow[]> => {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("school_years").select("*").eq("is_published", true).order("start_year", { ascending: false });
+  logError("getSchoolYears", error);
+  return (data ?? []) as SchoolYearRow[];
+});

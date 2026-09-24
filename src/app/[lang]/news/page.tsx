@@ -52,7 +52,7 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
         intro={news.length ? fill(t.countIntro, { n: news.length }) : t.intro}
         kicker={t.kicker}
       />
-      <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="year-scope mx-auto max-w-6xl px-4 py-10">
         {news.length ? (
           <>
             <StatTiles stats={stats} />
