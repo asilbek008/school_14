@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
-import { fill } from "@/i18n/fill";
-import { getClubs, localized, mediaUrl } from "@/lib/content";
+import { fill, plural } from "@/i18n/fill";
+import { getClubs, localized, mediaUrl, type Club } from "@/lib/content";
 import { clubSchedule } from "@/lib/clubs";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
+import CategoryFilter from "@/components/CategoryFilter";
 
 export const revalidate = 300;
 
@@ -14,6 +15,17 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/clubs">): 
   const { dict } = await resolveLang(params);
   return { title: dict.clubs.title };
 }
+
+// Grade bands for the filter chips: primary, middle and senior school.
+const bands = [
+  { key: "g1", from: 1, to: 4 },
+  { key: "g5", from: 5, to: 9 },
+  { key: "g10", from: 10, to: 11 },
+];
+
+/** The bands a club's grades overlap (every band when it has no grades set), as data-cat tokens. */
+const bandsOf = (club: Club) =>
+  bands.filter((b) => (club.grade_from ?? 1) <= b.to && (club.grade_to ?? 11) >= b.from).map((b) => b.key);
 
 // Left edge color, in turn (as in the design mockup).
 const accents = ["before:bg-brand", "before:bg-teal", "before:bg-gold"];
@@ -23,12 +35,40 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
   const { lang, dict } = await resolveLang(params);
   const t = dict.clubs;
   const clubs = await getClubs();
+  const leaders = new Set(clubs.map((c) => c.staff?.full_name ?? c.leader).filter(Boolean)).size;
+  const sessions = clubs.reduce((n, c) => n + (c.days?.length ?? 0), 0);
+  const media = clubs.reduce((n, c) => n + c.club_media.length, 0);
+  const stats = [
+    { value: clubs.length, label: plural(t.statClubs, clubs.length, lang), bg: "from-[#3e72e8] to-brand-deep" },
+    { value: leaders, label: plural(t.statLeaders, leaders, lang), bg: "from-[#17a090] to-[#0c6d62]" },
+    { value: sessions, label: t.statSessions, bg: "from-[#e0a33e] to-gold-deep" },
+    { value: media, label: t.statMedia, bg: "from-[#d2664e] to-[#a63b28]" },
+  ];
+  const options = bands
+    .map((b) => ({ value: b.key, label: `${fill(t.grades, { from: b.from, to: b.to })} · ${clubs.filter((c) => bandsOf(c).includes(b.key)).length}` }))
+    .filter((_, i) => clubs.some((c) => bandsOf(c).includes(bands[i].key)));
 
   return (
     <>
-      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={t.title} intro={t.intro} kicker={t.kicker} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={t.title} intro={clubs.length ? fill(t.countIntro, { n: clubs.length }) : t.intro} kicker={t.kicker} />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
         {clubs.length ? (
+          <>
+          {/* Totals, as colored tiles (as on "About", news and events). */}
+          <div className="mb-8 grid grid-cols-2 gap-2.5 sm:gap-3.5 lg:grid-cols-4">
+            {stats.map(({ value, label, bg }, i) => (
+              <div
+                key={bg}
+                style={{ animationDelay: `${i * 60}ms` }}
+                className={`reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-4 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${bg}`}
+              >
+                <b className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]">{value}</b>
+                <span className="mt-1.5 block text-[12.5px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
+              </div>
+            ))}
+          </div>
+          {/* Grade chips: a club shows under every band its grades overlap. */}
+          <CategoryFilter allLabel={`${dict.common.all} · ${clubs.length}`} searchLabel={t.search} emptyLabel={t.notFound} options={options}>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {clubs.map((club, i) => {
               const photo = mediaUrl(club.photo);
@@ -39,9 +79,12 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
                 { label: t.when, value: clubSchedule(club, dict.timetable.days) || localized(club, "schedule", lang) },
                 { label: t.where, value: localized(club, "place", lang) },
               ].filter((m) => m.value);
+              const q = [localized(club, "name", lang), ...meta.map((m) => m.value)].join(" ").toLowerCase();
               return (
                 <article
                   key={club.id}
+                  data-cat={bandsOf(club).join(" ")}
+                  data-q={q}
                   style={{ animationDelay: `${(i % 6) * 60}ms` }}
                   className={`reveal lift group relative flex flex-col overflow-hidden rounded-[14px] border border-slate-200 bg-white before:absolute before:inset-y-0 before:left-0 before:z-10 before:w-[3px] hover:border-slate-300 ${accents[i % accents.length]}`}
                 >
@@ -90,6 +133,8 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
               );
             })}
           </div>
+          </CategoryFilter>
+          </>
         ) : (
           <EmptyState>{t.empty}</EmptyState>
         )}

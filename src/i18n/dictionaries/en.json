@@ -303,7 +303,20 @@
     "videos": "Videos",
     "back": "All clubs",
     "open": "Details",
-    "gradesLabel": "Grades"
+    "gradesLabel": "Grades",
+    "countIntro": "{n} clubs — after-school activities. To join, contact the club leader or your homeroom teacher.",
+    "statClubs": {
+      "one": "club",
+      "other": "clubs"
+    },
+    "statLeaders": {
+      "one": "leader",
+      "other": "leaders"
+    },
+    "statSessions": "sessions a week",
+    "statMedia": "photos and videos",
+    "search": "Club, leader or place…",
+    "notFound": "No clubs match your search."
   },
   "programs": {
     "intro": "Projects and competitions that run regularly throughout the school year.",

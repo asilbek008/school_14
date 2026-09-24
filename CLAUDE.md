@@ -109,7 +109,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   kartada rahbar/vaqt/joy/sinflar). Admin: ro‘yxatda tartib sudrab yoki ↑↓ bilan (`reorderClubs`, darhol saqlanadi), formada
   hafta kunlari tugmalari va vaqt, yangi to‘garak saqlangach rasm/video qo‘shish sahifasiga o‘tiladi; o‘chirilganda fayllari ham o‘chadi.
 - To‘garaklar (`/clubs`, `clubs` jadvali; maketdagidek: "Qo‘shimcha ta’lim" / "To‘garaklar va mashg‘ulotlar", karta chetida
-  navbatma-navbat rangli chiziq, sarlavha yonida sinflar, pastda Rahbari → Vaqti → Joyi) va galereya (`/gallery`, `gallery_albums` +
+  navbatma-navbat rangli chiziq, sarlavha yonida sinflar, pastda Rahbari → Vaqti → Joyi; tepada 4 rangli raqam kartasi — to‘garak, rahbar,
+  haftalik mashg‘ulot, rasm/video; sinf tugmalari 1–4 / 5–9 / 10–11 — to‘garak sinflari kesishgan har guruhda chiqadi, `data-cat` bo‘sh joy bilan
+  ajratilgan ro‘yxat, `CategoryFilter` `~=` bilan tekshiradi; nom/rahbar/joy bo‘yicha qidiruv) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmlar to‘ri (`layout="mosaic"`: 1-rasm katta, `mosaicSpan` qatorlarni
   bo‘shliqsiz yopadi) va to‘liq ekranli ko‘ruvchi (Esc, ←/→, telefonda surish, miniatyuralar; kichik rasm 1.5× dan
