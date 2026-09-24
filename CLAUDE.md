@@ -276,6 +276,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   yangilik saqlangach tahrirlash sahifasiga o‘tiladi. Ochiq sahifada matndan keyin `Lightbox`, keyin videolar (`news_videos`,
   galereya videolari kabi). Telegram'dan kelgan postning 1-rasmi muqova, qolganlari (12 tagacha) galereya. Admin ro‘yxati —
   client `NewsList`: qidiruv, turkum tugmalari (soni bilan), holat filtri; qatorda muqova, turkum, sana, 📷/🎬, Telegram belgisi.
+- Admin bosh sahifasi (`(panel)/page.tsx`): 8 statistika kartasi, tezkor tugmalar (+ Yangilik/Tadbir/Albom), "E’tibor talab qiladi" —
+  bo‘limlardagi kamchiliklar filtrlarining yig‘indisi (o‘qilmagan xabar, yashirin yangilik, jadvalda bog‘lanmagan o‘qituvchi ismi,
+  sinf rahbarisiz sinf, eMaktab nomisiz o‘qituvchi, rasmsiz xodim, tarjimasiz fan/sahifa, vaqtsiz to‘garak, bo‘sh albom, Telegram
+  xatosi; faqat 0 dan kattalari, har biri bo‘limga havola), yaqin tadbirlar, so‘nggi xabarlar va yangiliklar. Bo‘limga yangi
+  kamchilik filtri qo‘shsangiz, shu ro‘yxatga ham qo‘shing.
 - Admin menyusi (`(panel)/layout.tsx`) sahifa scroll bo‘lganda joyida turadi: kompyuterda `sticky` to‘liq balandlikdagi ustun,
   telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
 - Xabarlar admini: client `MessageList` — "Yangi" / "O‘qilgan" / "Hammasi" yorliqlari, mavzu tugmalari, qidiruv (ism, telefon,
