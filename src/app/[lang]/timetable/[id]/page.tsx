@@ -3,7 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { getClasses, getClassTimetable, localized } from "@/lib/content";
-import { fill } from "@/i18n/fill";
 import { shiftForGrade } from "@/lib/bells";
 import { classLabel } from "@/lib/timetable";
 import PageHeader from "@/components/PageHeader";
@@ -42,29 +41,16 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
         ]
       : [],
   );
-  const pickerHref = `/${lang}/timetable`;
 
   return (
     <>
       <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/timetable`, label: dict.nav.timetable }]} title={classLabel(cls)} kicker={dict.nav.timetable} />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <nav aria-label={t.back} className="flex flex-wrap items-center gap-1.5 text-sm font-semibold text-slate-500">
-          <Link href={pickerHref} className="text-brand link-grow">
-            {dict.nav.timetable}
-          </Link>
-          <span aria-hidden>›</span>
-          <Link href={`${pickerHref}#s${shift.id}`} className="text-brand link-grow">
-            {fill(t.shiftName, { n: shift.id })}
-          </Link>
-          <span aria-hidden>›</span>
-          <Link href={`${pickerHref}#s${shift.id}-g${cls.grade}`} className="text-brand link-grow">
-            {fill(t.grade, { n: cls.grade })}
-          </Link>
-          <span aria-hidden>›</span>
-          <span className="text-slate-900" aria-current="page">
-            {classLabel(cls)}
-          </span>
-        </nav>
+        {/* Back to the grade's card on the all-classes page. */}
+        <Link href={`/${lang}/timetable#g${cls.grade}`} className="group inline-flex items-center gap-1.5 text-sm font-bold text-brand">
+          <span aria-hidden className="inline-block transition-transform duration-200 group-hover:-translate-x-1">←</span>
+          {t.back}
+        </Link>
 
         <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
           <ShiftBadge shift={shift} label={t.shift} />
