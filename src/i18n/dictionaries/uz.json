@@ -216,7 +216,13 @@
       },
       {
         "q": "Qaysi sinflar qaysi smenada o‘qiydi?",
-        "a": "1-smena: 1, 2, 5, 9, 10 va 11-sinflar.\n2-smena: 3, 4, 6, 7 va 8-sinflar."
+        "a": "1-smena: 1, 2, 5, 9, 10 va 11-sinflar.\n2-smena: 3, 4, 6, 7 va 8-sinflar.",
+        "link": "/schedule"
+      },
+      {
+        "q": "Farzandimning dars jadvalini qayerdan ko‘raman?",
+        "a": "“Dars jadvali” sahifasida smena, parallel va sinfni tanlang — kunlik va haftalik jadval ochiladi.",
+        "link": "/timetable"
       },
       {
         "q": "Baholar va uy vazifalarini qayerda ko‘rish mumkin?",
@@ -228,9 +234,14 @@
       },
       {
         "q": "Savol yoki taklifni qanday yuborsam bo‘ladi?",
-        "a": "“Aloqa” sahifasidagi formani to‘ldiring — xabaringiz maktab ma’muriyatiga yetib boradi. Shoshilinch masalalarda telefon qiling."
+        "a": "“Aloqa” sahifasidagi formani to‘ldiring — xabaringiz maktab ma’muriyatiga yetib boradi. Shoshilinch masalalarda telefon qiling.",
+        "link": "/contact"
       }
-    ]
+    ],
+    "title": "Ko‘p so‘raladigan savollar",
+    "moreTitle": "Javob topmadingizmi?",
+    "moreText": "Savolingizni yozib qoldiring yoki maktabga qo‘ng‘iroq qiling.",
+    "open": "Ochish"
   },
   "newsCats": {
     "yangilik": "Yangilik",
