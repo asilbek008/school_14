@@ -82,7 +82,17 @@
     "intro": "Maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari.",
     "photos": "Fotosuratlar",
     "more": "Boshqa yangiliklar",
-    "search": "Yangilik qidirish…"
+    "search": "Yangilik qidirish…",
+    "kicker": "Maktab hayoti",
+    "title": "Yangiliklar va e’lonlar",
+    "cats": {
+      "yangilik": "Yangiliklar",
+      "elon": "E’lonlar",
+      "tadbir": "Tadbirlar",
+      "yutuq": "Yutuqlar"
+    },
+    "notFound": "Qidiruv bo‘yicha yangilik topilmadi.",
+    "all": "Barcha yangiliklar"
   },
   "events": {
     "upcoming": "Yaqinlashayotgan tadbirlar",

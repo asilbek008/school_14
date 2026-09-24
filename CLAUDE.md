@@ -210,7 +210,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ko‘rsatilmagan"); albom sahifasida intro — rasm soni, `Lightbox` to‘ri 4 ustunli, 25:18 kataklar. Bosh sahifada
   "Maktab hayotidan" — albomlardagi eng yangi 4 rasm (`Lightbox` `gridClassName`), kamida 2 ta bo‘lsa chiqadi.
 - Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), maketdagidek.
-- Yangiliklar (maketdagidek): `NewsCard` `layout` — `card`, `featured` (yangiliklar sahifasida birinchisi), `tall` +
+- Yangiliklar (maketdagidek): banner "Maktab hayoti" / "Yangiliklar va e’lonlar", filtr tugmalari ko‘plikda (`news.cats`);
+  filtr/qidiruvda `CategoryFilter` o‘ramiga `data-filtered` qo‘yiladi — `featured` karta oddiy bo‘ladi (`group-data-filtered/filter:`;
+  `display` ni majburlamang, aks holda yashirish qoidasini bosadi), hech narsa qolmasa `emptyLabel`. Maqola sahifasi: `PageHeader`
+  (turkum, sarlavha, sana), chapda maqola kartasi + rasmlar, o‘ngda sticky "Boshqa yangiliklar" (4 ta). `NewsCard` `layout` — `card`, `featured` (yangiliklar sahifasida birinchisi), `tall` +
   `row` (bosh sahifada: katta karta chapda, ikkita ixcham qator o‘ngda). `/news` da turkum tugmalari yonida qidiruv —
   `CategoryFilter` `searchLabel`; kartadagi `data-q` (kichik harfli sarlavha) CSS `[data-q*="…" i]` bilan filtrlanadi,
   sahifa keshi buzilmaydi.
