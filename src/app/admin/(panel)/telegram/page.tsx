@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
 import { formatDateTime } from "@/lib/format";
+import { mediaBaseUrl } from "@/lib/media";
 import AdminHeader from "@/components/admin/AdminHeader";
 import TelegramForm from "./TelegramForm";
 import BotForm from "./BotForm";
+import PostList, { type PostItem } from "./PostList";
 import { recheckBot, removeBot, syncTelegramNow } from "./actions";
 
 export const metadata: Metadata = { title: "Telegram" };
@@ -14,31 +15,63 @@ type ImportedRow = {
   channel: string;
   skipped: string | null;
   imported_at: string;
-  news: { id: number; title_uz: string } | null;
-  events: { id: number; title_uz: string } | null;
+  news: { id: number; title_uz: string; cover_image: string | null; is_published: boolean } | null;
+  events: { id: number; title_uz: string; is_published: boolean } | null;
 };
 
 export default async function TelegramPage({ searchParams }: PageProps<"/admin/telegram">) {
   const { supabase } = await requireAdmin();
   const params = await searchParams;
-  const [{ data: settings }, { data: imported }, { count: newsTotal }, { count: newsHd }] = await Promise.all([
-    supabase
-      .from("telegram_settings")
-      .select("channel, enabled, auto_publish, import_since, last_synced_at, last_status, bot_username, bot_status, bot_chat_id")
-      .eq("id", 1)
-      .single(),
-    supabase
-      .from("telegram_posts")
-      .select("post_id, channel, skipped, imported_at, news(id, title_uz), events(id, title_uz)")
-      .order("imported_at", { ascending: false })
-      .order("post_id", { ascending: false })
-      .limit(15),
-    supabase.from("telegram_posts").select("post_id", { count: "exact", head: true }).not("news_id", "is", null),
-    supabase.from("telegram_posts").select("post_id", { count: "exact", head: true }).not("news_id", "is", null).eq("hd", true),
-  ]);
+  const posts = () => supabase.from("telegram_posts").select("post_id", { count: "exact", head: true });
+  const [{ data: settings }, { data: imported }, { count: newsTotal }, { count: newsHd }, { count: eventsTotal }, { count: skippedTotal }] =
+    await Promise.all([
+      supabase
+        .from("telegram_settings")
+        .select("channel, enabled, auto_publish, import_since, last_synced_at, last_status, bot_username, bot_status, bot_chat_id")
+        .eq("id", 1)
+        .single(),
+      supabase
+        .from("telegram_posts")
+        .select("post_id, channel, skipped, imported_at, news(id, title_uz, cover_image, is_published), events(id, title_uz, is_published)")
+        .order("imported_at", { ascending: false })
+        .order("post_id", { ascending: false })
+        .limit(200),
+      posts().not("news_id", "is", null),
+      posts().not("news_id", "is", null).eq("hd", true),
+      posts().not("event_id", "is", null),
+      posts().not("skipped", "is", null),
+    ]);
   if (!settings) return <p>Sozlamalarni o‘qib bo‘lmadi.</p>;
   // Without generated DB types supabase-js types to-one embeds as arrays.
   const rows = (imported ?? []) as unknown as ImportedRow[];
+  const items: PostItem[] = rows.map((row) => ({
+    key: `${row.channel}-${row.post_id}`,
+    url: `https://t.me/${row.channel}/${row.post_id}`,
+    kind: row.news ? "news" : row.events ? "event" : row.skipped ? "skipped" : "deleted",
+    title: row.news?.title_uz ?? row.events?.title_uz ?? null,
+    href: row.news ? `/admin/news/${row.news.id}` : row.events ? `/admin/events/${row.events.id}` : null,
+    cover: row.news?.cover_image ? `${mediaBaseUrl}/${row.news.cover_image}` : null,
+    hidden: row.news ? !row.news.is_published : row.events ? !row.events.is_published : false,
+    skipped: row.skipped ? `O‘tkazib yuborildi: ${row.skipped}` : null,
+    date: formatDateTime(row.imported_at, "uz"),
+  }));
+  const failed = settings.last_status?.startsWith("Xato");
+  const stats = [
+    { label: "Holat", value: settings.enabled && settings.channel ? "Yoqilgan" : "O‘chirilgan", tone: settings.enabled && settings.channel ? "text-green-700" : "text-slate-500" },
+    {
+      label: "Oxirgi tekshiruv",
+      value: settings.last_synced_at ? formatDateTime(settings.last_synced_at, "uz") : "Hali bo‘lmagan",
+      sub: settings.last_status,
+      tone: failed ? "text-red-700" : "text-slate-900",
+    },
+    { label: "Yangilik va tadbirlar", value: `${newsTotal ?? 0} + ${eventsTotal ?? 0}`, sub: `${skippedTotal ?? 0} ta post o‘tkazib yuborilgan`, tone: "text-slate-900" },
+    {
+      label: "Asl sifatli rasmlar",
+      value: `${newsHd ?? 0} / ${newsTotal ?? 0}`,
+      sub: settings.bot_username ? `Bot: @${settings.bot_username}` : "Bot ulanmagan",
+      tone: "text-slate-900",
+    },
+  ];
 
   return (
     <>
@@ -51,39 +84,37 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
       {params.saved && <Notice>Saqlandi.</Notice>}
       {params.synced === "done" && <Notice>Tekshirildi — natija quyida.</Notice>}
       {params.synced === "error" && <Notice error>Telegram bilan bog‘lanib bo‘lmadi. Birozdan keyin qayta urinib ko‘ring.</Notice>}
+      {params.bot && <Notice>Bot sozlamasi saqlandi.</Notice>}
+
+      <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((st) => (
+          <div key={st.label} className="rounded-xl bg-white p-4 shadow-sm">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{st.label}</p>
+            <p className={`mt-1 text-lg font-bold ${st.tone}`}>{st.value}</p>
+            {st.sub && <p className={`mt-0.5 text-xs ${failed && st.label === "Oxirgi tekshiruv" ? "text-red-700" : "text-slate-500"}`}>{st.sub}</p>}
+          </div>
+        ))}
+      </div>
 
       <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
         <TelegramForm settings={settings} />
 
         <aside className="space-y-4">
           <div className="rounded-xl bg-white p-5 shadow-sm">
-            <h2 className="font-bold">Holat</h2>
+            <h2 className="font-bold">Kanal</h2>
             <p className="mt-2 text-sm text-slate-600">
-              {settings.enabled && settings.channel ? (
-                <>
-                  <span className="font-semibold text-green-700">Yoqilgan</span> ·{" "}
-                  <a href={`https://t.me/${settings.channel}`} target="_blank" rel="noopener noreferrer" className="text-blue-700 hover:underline">
-                    @{settings.channel}
-                  </a>
-                </>
+              {settings.channel ? (
+                <a href={`https://t.me/${settings.channel}`} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 hover:underline">
+                  @{settings.channel} ↗
+                </a>
               ) : (
-                <span className="font-semibold text-slate-500">O‘chirilgan</span>
+                "Kanal kiritilmagan."
               )}
             </p>
-            {settings.last_synced_at && (
-              <p className="mt-2 text-sm text-slate-600">
-                Oxirgi tekshiruv: {formatDateTime(settings.last_synced_at, "uz")}
-                <br />
-                <span className={settings.last_status?.startsWith("Xato") ? "text-red-700" : "text-slate-800"}>
-                  {settings.last_status}
-                </span>
-              </p>
-            )}
             {settings.enabled && settings.channel && (
               <form action={syncTelegramNow} className="mt-4">
-                <button className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-900">
-                  Hozir tekshirish
-                </button>
+                <button className="rounded-lg bg-slate-800 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-900">Hozir tekshirish</button>
+                <p className="mt-2 text-xs text-slate-500">Avtomatik tekshiruv har 15 daqiqada bo‘ladi.</p>
               </form>
             )}
           </div>
@@ -192,35 +223,15 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
         </div>
       </section>
 
-      <h2 className="mb-3 mt-10 text-lg font-bold">Oxirgi olingan postlar</h2>
-      <div className="overflow-hidden rounded-xl bg-white shadow-sm">
-        {rows.length ? (
-          <ul className="divide-y divide-slate-100 text-sm">
-            {rows.map((row) => (
-              <li key={`${row.channel}-${row.post_id}`} className="flex flex-wrap items-center justify-between gap-3 px-5 py-3">
-                <span className="min-w-0">
-                  {row.news ? (
-                    <Link href={`/admin/news/${row.news.id}`} className="font-medium text-blue-700 hover:underline">
-                      Yangilik: {row.news.title_uz}
-                    </Link>
-                  ) : row.events ? (
-                    <Link href={`/admin/events/${row.events.id}`} className="font-medium text-blue-700 hover:underline">
-                      Tadbir: {row.events.title_uz}
-                    </Link>
-                  ) : (
-                    <span className="text-slate-500">{row.skipped ? `O‘tkazib yuborildi (${row.skipped})` : "Saytdan o‘chirilgan"}</span>
-                  )}
-                </span>
-                <a href={`https://t.me/${row.channel}/${row.post_id}`} target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:underline">
-                  Telegram&apos;da ↗
-                </a>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <p className="p-8 text-center text-slate-500">Hali hech narsa olinmagan.</p>
-        )}
-      </div>
+      <h2 className="mb-1 mt-10 text-lg font-bold">Kanaldan olingan postlar</h2>
+      <p className="mb-3 text-sm text-slate-600">
+        Har post saytda nima bo‘lganini ko‘rsatadi. Saytdan o‘chirilgan post qayta olinmaydi. Oxirgi 200 tasi.
+      </p>
+      {items.length ? (
+        <PostList items={items} />
+      ) : (
+        <p className="rounded-xl bg-white p-8 text-center text-slate-500 shadow-sm">Hali hech narsa olinmagan.</p>
+      )}
     </>
   );
 }

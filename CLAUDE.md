@@ -167,6 +167,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `forward_origin` (kanal + message_id) bo‘yicha moslanadi. `telegram_posts.photo_ids` (albomdagi rasm post id'lari) va `hd` — har ishga tushishda 6 tagacha
   eski yangilik rasmlari asl sifatga almashtiriladi; faqat hamma rasm yuklangandagina almashtiriladi.
   Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
+  Admin sahifasi: tepada 4 karta (holat, oxirgi tekshiruv va natijasi, yangilik + tadbirlar soni / o‘tkazilganlar, asl sifatli
+  rasmlar); sozlamalar formasi bo‘limlarda; "Kanaldan olingan postlar" — client `PostList` (oxirgi 200 ta; turi bo‘yicha filtr,
+  "Tekshirish kutilmoqda" — `auto_publish` o‘chiq bo‘lganda yashirin qo‘shilganlar, qidiruv, muqova, Telegram havolasi).
 - Xodimlar ro‘yxati (`/staff`, maketdagidek): "Jamoa" kicker, "O‘qituvchilar va xodimlar", ro‘yxatdagi soni; client
   `StaffDirectory` — ism/fan bo‘yicha qidiruv va lavozim `select`i, kompyuterda jadval (avatar-initsiallar, lavozim
   belgisi: rahbariyat ko‘k, o‘qituvchi yashil, boshqalar sariq; fan; biriktirilgan sinf — `getHomerooms()`),
