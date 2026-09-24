@@ -44,8 +44,13 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
               </span>
               {started ? dict.home.eyebrowStarted : dict.home.eyebrow}
             </p>
-            <h1 className="font-display mt-5 max-w-[21ch] animate-fade-up text-[clamp(2rem,4.3vw,3.25rem)] font-bold leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
-              {dict.home.heroTitle}
+            <h1 className="font-display mt-5 max-w-[22ch] animate-fade-up text-[clamp(2rem,4vw,3rem)] font-bold leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
+              {/* One sentence per line, so the motto does not break mid-thought. */}
+              {dict.home.heroTitle.split(/(?<=\.)\s+/).map((sentence) => (
+                <span key={sentence} className="block">
+                  {sentence}
+                </span>
+              ))}
             </h1>
             <p className="mt-5 max-w-[48ch] animate-fade-up text-[17.5px] leading-relaxed text-[#c3cce6] [animation-delay:160ms]">{dict.home.heroLead}</p>
             <div className="mt-7 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">

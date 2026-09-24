@@ -168,7 +168,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 
 ### Dizayn
 - Shriftlar: Inter (`font-sans`) va sarlavhalar uchun Bricolage Grotesque (`font-display`; bosh sahifa hero va
-  `PageHeader` h1; kirillcha harfi yo‘q — rus matni Inter'ga tushadi). Bosh sahifa hero matni lug‘atda (`home.heroTitle` — egasi bergan shior, uzun bo‘lgani uchun 21ch / 3.25rem gacha,
+  `PageHeader` h1; kirillcha harfi yo‘q — rus matni Inter'ga tushadi). Bosh sahifa hero matni lug‘atda (`home.heroTitle` — egasi bergan shior,
   `heroLead`, `eyebrow`/`eyebrowStarted` — sentabrda "o‘quv yili boshlandi"), tugmalar: dars jadvali va yangiliklar.
 - Rang tokenlari `src/app/globals.css` `@theme` da: `navy`, `brand` (ko‘k), `teal`, `gold` (+ `-deep`,
   `-soft`), `paper`. Qorong‘i bloklar (hero, `PageHeader`, footer) — `chrome` va `tricolor-rule` utility'lari.
