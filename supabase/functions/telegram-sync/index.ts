@@ -4,9 +4,10 @@
 // (with `&channel=` and `&since=` to preview another channel or period).
 // Runs with the service role key that Supabase injects, so it bypasses RLS.
 //
-// Photo quality: the public preview (t.me/s) only has ~800px copies. When a bot token is set and the
-// bot is an admin of the channel, getUpdates delivers new posts with their original photos, and old
-// posts are forwarded once to a private chat with the bot (someone pressed Start there) to read theirs.
+// Photo quality: the public preview (t.me/s) only has ~800px copies. When a bot token is set, originals
+// come from getUpdates: channel posts (when the bot is an admin of the channel), and posts someone
+// forwarded to the bot by hand (works without admin rights). An admin bot also forwards old posts
+// itself to a private chat with the bot (someone pressed Start there) to read theirs.
 // Articles made from preview copies are then upgraded a few at a time (`telegram_posts.hd`).
 
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
@@ -21,6 +22,9 @@ const MAX_PHOTOS = 12;
 /** Articles upgraded to original photos per run, and old messages forwarded per run. */
 const UPGRADE_BATCH = 6;
 const FORWARD_BUDGET = 40;
+/** Not-yet-upgraded articles looked at per run, and embed pages fetched for their photo ids. */
+const UPGRADE_SCAN = 100;
+const EMBED_BUDGET = 10;
 
 type Settings = {
   channel: string | null;
@@ -203,13 +207,18 @@ class Bot {
     return `${TG}/file/bot${this.token}/${path}`;
   }
 
-  /** New channel posts (with original photos) and "/start" from the private chat used for old posts. */
+  /** Original photos of channel posts (bot is admin) and of posts forwarded to the bot, and "/start". */
   async collectUpdates(settings: Settings) {
     type Update = {
       update_id: number;
       channel_post?: { message_id: number; chat: { username?: string }; photo?: TgPhoto[] };
       edited_channel_post?: { message_id: number; chat: { username?: string }; photo?: TgPhoto[] };
-      message?: { chat: { id: number; type: string }; text?: string };
+      message?: {
+        chat: { id: number; type: string };
+        text?: string;
+        photo?: TgPhoto[];
+        forward_origin?: { type: string; chat?: { username?: string }; message_id?: number };
+      };
     };
     const updates = await this.call<Update[]>("getUpdates", {
       offset: settings.bot_offset,
@@ -219,20 +228,49 @@ class Bot {
     if (!updates?.length) return;
     const rows = [];
     let chatId = settings.bot_chat_id;
+    const ours = (chat?: { username?: string }) => chat?.username?.toLowerCase() === this.channel.toLowerCase();
+    // Photos forwarded by hand, per private chat, to thank the sender once.
+    const received = new Map<number, number>();
+    const foreign = new Set<number>();
     for (const u of updates) {
       const post = u.channel_post ?? u.edited_channel_post;
-      if (post?.photo?.length && post.chat.username?.toLowerCase() === this.channel.toLowerCase()) {
+      if (post?.photo?.length && ours(post.chat)) {
         rows.push({ channel: this.channel, message_id: post.message_id, ...largest(post.photo) });
       }
-      if (u.message?.chat.type === "private" && u.message.text?.startsWith("/start")) {
-        chatId = u.message.chat.id;
+      const msg = u.message;
+      if (msg?.chat.type === "private" && (msg.forward_origin || msg.photo?.length)) {
+        // forward_origin is set by Telegram, so a photo with our channel as origin is the channel's own.
+        // A forward "without author" has no origin, so it cannot be matched to a post.
+        const origin = msg.forward_origin;
+        if (origin?.type === "channel" && ours(origin.chat) && origin.message_id && msg.photo?.length) {
+          rows.push({ channel: this.channel, message_id: origin.message_id, ...largest(msg.photo) });
+          received.set(msg.chat.id, (received.get(msg.chat.id) ?? 0) + 1);
+        } else if (origin?.type !== "channel" || !ours(origin.chat)) {
+          foreign.add(msg.chat.id);
+        }
+      }
+      if (msg?.chat.type === "private" && msg.text?.startsWith("/start")) {
+        chatId = msg.chat.id;
         await this.call("sendMessage", {
           chat_id: chatId,
-          text: "✅ Bot saytga ulandi. Kanaldagi eski postlarning asl sifatli rasmlari shu chat orqali olinadi — bu yerga vaqtincha xabarlar tushib, darhol o‘chiriladi.",
+          text: `✅ Bot saytga ulandi. @${this.channel} kanalidagi rasmli postlarni shu yerga forward qilsangiz, sayt ularning asl sifatli rasmlarini oladi. (Bot kanalda admin bo‘lsa, bu avtomatik bo‘ladi — shu chatga vaqtincha xabarlar tushib, darhol o‘chiriladi.)`,
         });
       }
     }
     if (rows.length) await this.supabase.from("telegram_media").upsert(rows);
+    for (const [chat, n] of received) {
+      await this.call("sendMessage", {
+        chat_id: chat,
+        text: `✅ ${n} ta rasm asl sifatda olindi. Saytdagi yangilik keyingi tekshiruvda (15 daqiqagacha) yangilanadi.`,
+      });
+    }
+    for (const chat of foreign) {
+      if (received.has(chat)) continue;
+      await this.call("sendMessage", {
+        chat_id: chat,
+        text: `Faqat @${this.channel} kanalidagi rasmli postlarni forward qiling («Muallifsiz yuborish»ni yoqmang).`,
+      });
+    }
     await this.supabase
       .from("telegram_settings")
       .update({ bot_offset: updates[updates.length - 1].update_id + 1, bot_chat_id: chatId })
@@ -351,14 +389,21 @@ async function upgradeOld(
     .eq("hd", false)
     .not("news_id", "is", null)
     .order("post_id", { ascending: false })
-    .limit(UPGRADE_BATCH);
+    .limit(UPGRADE_SCAN);
   const media = await loadMedia(supabase, channel);
   let forwards = FORWARD_BUDGET;
+  // Without admin rights every forward fails, so stop trying after a few failures.
+  let failures = 0;
+  let embeds = EMBED_BUDGET;
   let upgraded = 0;
 
   for (const row of pending ?? []) {
+    if (upgraded >= UPGRADE_BATCH) break;
     let ids: number[] | null = row.photo_ids ?? parsed.get(row.post_id)?.photoIds ?? null;
-    if (!ids) ids = await photoIdsOf(channel, row.post_id);
+    if (!ids && embeds > 0) {
+      embeds--;
+      ids = await photoIdsOf(channel, row.post_id);
+    }
     if (!ids) continue;
     if (!row.photo_ids) await supabase.from("telegram_posts").update({ photo_ids: ids }).eq("channel", channel).eq("post_id", row.post_id);
     if (!ids.length) {
@@ -368,10 +413,11 @@ async function upgradeOld(
     }
 
     for (const id of ids) {
-      if (media.has(id) || !chatId || forwards <= 0) continue;
+      if (media.has(id) || !chatId || forwards <= 0 || failures >= 3) continue;
       forwards--;
       const m = await bot.fetchOld(id, chatId);
       if (m) media.set(id, m);
+      else failures++;
     }
     if (!ids.every((id) => media.has(id))) continue;
 

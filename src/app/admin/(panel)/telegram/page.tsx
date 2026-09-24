@@ -112,8 +112,9 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
       <section className="mt-10 rounded-xl bg-white p-6 shadow-sm">
         <h2 className="text-lg font-bold">Asl sifatli rasmlar (Telegram bot)</h2>
         <p className="mt-1 max-w-3xl text-sm text-slate-600">
-          Telegram&apos;ning ochiq sahifasi rasmlarni faqat kichik (taxminan 800 piksel) nusxada beradi. Kanalga admin
-          qilib qo‘shilgan bot esa asl rasmlarni oladi — saytda ular ancha tiniq ko‘rinadi.
+          Telegram&apos;ning ochiq sahifasi rasmlarni faqat kichik (taxminan 800 piksel) nusxada beradi. Bot esa asl
+          rasmlarni oladi — saytda ular ancha tiniq ko‘rinadi. Bot kanalda admin bo‘lsa, hammasi avtomatik; admin qilib
+          bo‘lmasa, postlarni botga forward qilib yuborasiz.
         </p>
         {settings.bot_username ? (
           <div className="mt-4 space-y-3 text-sm">
@@ -123,22 +124,39 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
                 @{settings.bot_username}
               </a>
             </p>
-            <Step done={settings.bot_status === "ok"}>
-              {settings.bot_status === "ok" ? "Bot kanalda admin — yangi postlar asl sifatda olinadi." : settings.bot_status}
-            </Step>
             <Step done={!!settings.bot_chat_id}>
               {settings.bot_chat_id ? (
-                "Eski postlar uchun chat ulangan."
+                "Bot bilan chat ulangan."
               ) : (
                 <>
-                  Eski postlarning rasmlarini ham almashtirish uchun{" "}
                   <a href={`https://t.me/${settings.bot_username}?start=sayt`} target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 hover:underline">
-                    botni oching
+                    Botni oching
                   </a>{" "}
                   va <b>Start</b> tugmasini bosing (keyingi tekshiruvda ulanadi).
                 </>
               )}
             </Step>
+            {settings.bot_status === "ok" ? (
+              <Step done>Bot kanalda admin — yangi va eski postlarning rasmlari avtomatik asl sifatda olinadi.</Step>
+            ) : (
+              <div className="rounded-lg bg-amber-50 p-4 text-slate-700">
+                <p className="font-semibold text-slate-900">
+                  {settings.bot_status === "no_channel"
+                    ? "Avval yuqorida kanalni saqlang."
+                    : `Bot @${settings.channel} kanalida admin emas — rasmlarni botga forward qilib yuboring:`}
+                </p>
+                <ol className="mt-2 list-decimal space-y-1 pl-5">
+                  <li>Kanalda rasmli postni bosib turing (bir nechtasini birdaniga tanlash ham mumkin) → <b>Forward</b> (Uzatish).</li>
+                  <li>
+                    <b>@{settings.bot_username}</b> ni tanlang va yuboring. «Muallifsiz yuborish»ni yoqmang.
+                  </li>
+                  <li>Bot «✅ … ta rasm olindi» deb javob beradi; saytdagi yangilik 15 daqiqa ichida yangilanadi.</li>
+                </ol>
+                <p className="mt-2 text-slate-600">
+                  Kelajakda kanal egasi botni admin qilsa, «Qayta tekshirish»ni bosing — shundan keyin forward shart emas.
+                </p>
+              </div>
+            )}
             <p className="text-slate-600">
               Asl sifatga o‘tgan yangiliklar: <b>{newsHd ?? 0}</b> / {newsTotal ?? 0} (har tekshiruvda bir nechtadan almashtiriladi).
             </p>
@@ -162,7 +180,10 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
               </a>{" "}
               ni oching, <code>/newbot</code> yozing, botga nom bering — u sizga <b>token</b> beradi.
             </li>
-            <li>Kanal sozlamalari → Adminlar → Admin qo‘shish → yangi botingizni tanlang (qo‘shimcha huquq shart emas).</li>
+            <li>
+              Imkoni bo‘lsa, kanal sozlamalari → Adminlar → Admin qo‘shish → botni tanlang (qo‘shimcha huquq shart emas).
+              Imkoni bo‘lmasa ham bo‘ladi — rasmli postlarni botga forward qilasiz.
+            </li>
             <li>Tokenni pastga qo‘yib, «Botni ulash»ni bosing.</li>
           </ol>
         )}

@@ -72,7 +72,8 @@ async function telegram<T>(token: string, method: string, params: Record<string,
 
 /**
  * Connects the bot that gives full-quality photos: checks the token, turns off any webhook (the sync
- * reads updates itself) and checks that the bot is an admin of the channel.
+ * reads updates itself) and notes whether the bot is an admin of the channel (`bot_status` "ok" or
+ * "not_admin"; without admin rights, posts forwarded to the bot by hand still work).
  */
 export async function saveBot(_prev: FormState, form: FormData): Promise<FormState> {
   const { supabase } = await requireAdmin();
@@ -85,17 +86,7 @@ export async function saveBot(_prev: FormState, form: FormData): Promise<FormSta
   await telegram(token, "deleteWebhook", { drop_pending_updates: false });
 
   const { data: settings } = await supabase.from("telegram_settings").select("channel").eq("id", 1).single();
-  let status = "Kanal kiritilmagan — avval kanalni saqlang.";
-  if (settings?.channel) {
-    const member = await telegram<{ status: string }>(token, "getChatMember", {
-      chat_id: `@${settings.channel}`,
-      user_id: me.result.id,
-    });
-    status =
-      member.ok && member.result && ["administrator", "creator"].includes(member.result.status)
-        ? "ok"
-        : `Bot @${settings.channel} kanalida admin emas. Kanal → Adminlar → Admin qo‘shish → @${me.result.username}.`;
-  }
+  const status = settings?.channel ? await adminStatus(token, settings.channel, me.result.id) : "no_channel";
 
   const { error } = await supabase
     .from("telegram_settings")
@@ -111,18 +102,15 @@ export async function recheckBot() {
   const { data: s } = await supabase.from("telegram_settings").select("channel, bot_token").eq("id", 1).single();
   if (s?.bot_token && s.channel) {
     const me = await telegram<{ id: number; username: string }>(s.bot_token, "getMe");
-    const member = me.result
-      ? await telegram<{ status: string }>(s.bot_token, "getChatMember", { chat_id: `@${s.channel}`, user_id: me.result.id })
-      : null;
-    const ok = member?.ok && member.result && ["administrator", "creator"].includes(member.result.status);
-    await supabase
-      .from("telegram_settings")
-      .update({
-        bot_status: ok ? "ok" : `Bot @${s.channel} kanalida admin emas. Kanal → Adminlar → Admin qo‘shish → @${me.result?.username ?? "bot"}.`,
-      })
-      .eq("id", 1);
+    const status = me.result ? await adminStatus(s.bot_token, s.channel, me.result.id) : "not_admin";
+    await supabase.from("telegram_settings").update({ bot_status: status }).eq("id", 1);
   }
   redirect("/admin/telegram?bot=1");
+}
+
+async function adminStatus(token: string, channel: string, botId: number) {
+  const member = await telegram<{ status: string }>(token, "getChatMember", { chat_id: `@${channel}`, user_id: botId });
+  return member.ok && member.result && ["administrator", "creator"].includes(member.result.status) ? "ok" : "not_admin";
 }
 
 export async function removeBot() {
