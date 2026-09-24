@@ -13,6 +13,7 @@ import EmptyState from "@/components/EmptyState";
 import EMaktabCard from "@/components/EMaktabCard";
 import LiveCard from "@/components/LiveCard";
 import StatTiles from "@/components/StatTiles";
+import MyClassCard from "@/components/MyClassCard";
 
 export const revalidate = 300;
 
@@ -129,6 +130,10 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
               </Link>
             ))}
           </div>
+        </div>
+        {/* The visitor's own class, if they picked one (browser only). */}
+        <div className="mt-4">
+          <MyClassCard lang={lang} t={dict.myClass} days={dict.timetable.days} />
         </div>
         <div className="mt-4">
           <EMaktabCard t={dict.emaktab} />

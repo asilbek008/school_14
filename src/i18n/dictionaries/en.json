@@ -20,7 +20,8 @@
     "gallery": "Gallery",
     "timetable": "Timetable",
     "programs": "Regular programs",
-    "timetableShort": "Timetable"
+    "timetableShort": "Timetable",
+    "search": "Search"
   },
   "navDesc": {
     "about": "History and general information",
@@ -301,7 +302,9 @@
     "title": "Frequently asked questions",
     "moreTitle": "Didn’t find an answer?",
     "moreText": "Send us your question or call the school.",
-    "open": "Open"
+    "open": "Open",
+    "search": "Search questions and answers…",
+    "notFound": "No such question. Write to us and we’ll answer."
   },
   "newsCats": {
     "yangilik": "News",
@@ -538,5 +541,45 @@
     "shown": "{n} of {total}",
     "noMatch": "Nothing found.",
     "placeOf": "{place} of {total}"
+  },
+  "search": {
+    "title": "Search the site",
+    "kicker": "Search",
+    "intro": "Find a news story, event, teacher, club or answer.",
+    "placeholder": "For example: admissions, chess, Zakovat, a teacher’s name…",
+    "hint": "Type at least 2 letters.",
+    "noResults": "Nothing found for “{q}”. Try other words.",
+    "found": {
+      "one": "{n} result",
+      "other": "{n} results"
+    },
+    "more": "{n} more",
+    "all": "All",
+    "types": {
+      "page": "Pages",
+      "news": "News",
+      "event": "Events",
+      "staff": "Staff",
+      "club": "Clubs",
+      "program": "Regular events",
+      "faq": "FAQ",
+      "album": "Albums"
+    }
+  },
+  "myClass": {
+    "title": "My class",
+    "save": "My class",
+    "saveHint": "Mark it, and the home page shows this class’s lessons",
+    "saved": "My class ✓",
+    "today": "Today’s lessons",
+    "tomorrow": "Tomorrow’s lessons",
+    "dayLessons": "{day} lessons",
+    "none": "No lessons that day.",
+    "open": "Full timetable",
+    "change": "Another class",
+    "prompt": "Pick your child’s class once — their lessons for today will show here.",
+    "pick": "Pick a class",
+    "shortcut": "My class: {c}",
+    "now": "Now"
   }
 }

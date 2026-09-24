@@ -8,6 +8,7 @@ import { byGrade, classLabel } from "@/lib/timetable";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import StatTiles from "@/components/StatTiles";
+import MyClassShortcut from "@/components/MyClassShortcut";
 import TimetablePicker, { type PickerShift } from "@/components/TimetablePicker";
 
 export const revalidate = 300;
@@ -46,6 +47,7 @@ export default async function TimetablePage({ params }: PageProps<"/[lang]/timet
         {pickerShifts.length ? (
           <>
             <StatTiles stats={stats} />
+            <MyClassShortcut lang={lang} label={dict.myClass.shortcut} />
             <TimetablePicker shifts={pickerShifts} lang={lang} t={t} />
           </>
         ) : (

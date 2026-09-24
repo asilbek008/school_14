@@ -76,7 +76,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   dars 45 daq, tanaffus 5 daq. `/schedule` sahifasi va `LiveCard` ("Hozir maktabda", client
   komponent, Toshkent vaqtini brauzerda hisoblaydi — sahifa keshlangani uchun serverda emas) shundan foydalanadi.
 - Lug‘at satrlaridagi `{n}` kabi joylar `fill()` (`src/i18n/fill.ts`) bilan to‘ldiriladi.
-- Savol-javob (`/faq`, maketdagidek akkordeon — `details.acc`; yonida "Javob topmadingizmi?" aloqa kartasi) matnlari
+- Savol-javob (`/faq`, maketdagidek akkordeon — `details.acc`; yonida "Javob topmadingizmi?" — rangli karta, `tileColors[0]`;
+  tepada savol va javob matni bo‘yicha qidiruv — `CategoryFilter` `options={[]}`, tugmalarsiz faqat qidiruv chiqadi) matnlari
   lug‘atda (`faq.items`; ixtiyoriy `link` — javob ostida "Ochish →" havolasi). Maketdagi YT savoli qo‘shilmagan (raqamlari tasdiqlanmagan).
 - Turkumlar (`src/lib/categories.ts`): yangilik — `yangilik|elon|tadbir|yutuq`, tadbir —
   `bayram|maktab|olimpiada|sport` (DB `check` bilan bir xil; nomlari lug‘atda `newsCats`/`eventCats`).
@@ -206,6 +207,14 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
 - Sana/vaqt `src/lib/format.ts` orqali, `Asia/Tashkent` vaqt zonasida.
+- "Mening sinfim" (`src/lib/my-class.ts`, faqat brauzerda — `localStorage.myClass`, sahifa keshi buzilmaydi, shaxsiy ma’lumot chiqmaydi):
+  sinf jadvalida `MyClassButton` (⭐), bosh sahifada "Tezkor kirish" ostida `MyClassCard` — sinf tanlanmagan bo‘lsa taklif, tanlangan bo‘lsa
+  bugungi darslar (smena tugagach yoki yakshanba — keyingi o‘quv kuni; hozirgi dars ajratilgan), darslar brauzerda anon client bilan o‘qiladi;
+  `/timetable` da `MyClassShortcut`.
+- Sayt bo‘yicha qidiruv (`/[lang]/search`): sahifa statik — server hamma qidiriladigan narsani (sahifalar, yangiliklar, tadbirlar,
+  xodimlar, to‘garaklar, doimiy tadbirlar, savol-javob, albomlar) yig‘adi, client `SiteSearch` brauzerda filtrlaydi (hamma so‘z uchrashi
+  kerak, sarlavhadagisi oldinda; apostrof va ё farqsiz), turlar bo‘yicha tugmalar, `?q=` manzilda (`useSearchParams`, `Suspense` ichida).
+  Kirish: header'da lupa (sm–lg va 1100px dan; 1024–1100px da ruscha sig‘maydi), telefonda menyu panelining tepasida forma, footer'da havola.
 
 ### Dizayn
 - Shriftlar: Inter (`font-sans`) va sarlavhalar uchun Bricolage Grotesque (`font-display`; bosh sahifa hero va
@@ -302,6 +311,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
 - Xabarlar admini: client `MessageList` — "Yangi" / "O‘qilgan" / "Hammasi" yorliqlari, mavzu tugmalari, qidiruv (ism, telefon,
   email, matn), "Hammasini o‘qildi deb belgilash" (`markAllRead`); uzun xabar qisqartiriladi, telefon/email — bosiladigan tugmalar.
+  Tepada `NotifyCard` — yangi xabar Telegram'ga: `contact_messages` insert trigger'i (`private.notify_contact_message`, pg_net)
+  sayt boti orqali `bot_chat_id` ga yuboradi, `telegram_settings.notify_messages` bilan yoqiladi; token bazadan chiqmaydi, xato bo‘lsa
+  xabar baribir saqlanadi. Kartada: bot ulanmagan bo‘lsa — Telegram bo‘limiga havola, Start bosilmagan bo‘lsa — bot havolasi va
+  "Tekshirish" (`runTelegramSync`), keyin "Yoqish/O‘chirish" va "Sinov xabari". Telegram API yordamchilari — `src/lib/telegram-bot.ts`.
 - Galereya: albom yaratilgach rasm qo‘shish sahifasiga o‘tiladi; rasm/albom o‘chirilganda
   Storage'dagi fayllar ham o‘chiriladi (`gallery/actions.ts`). Admin ro‘yxati — muqovali kartalar (sana bo‘yicha, saytdagidek;
   albomlarni qo‘lda tartiblash yo‘q). Albom sahifasida `PhotoManager` (`components/admin`): rasmlar tartibi sudrab yoki ←→ bilan (`reorderPhotos`,

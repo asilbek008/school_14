@@ -9,6 +9,7 @@ import { classLabel } from "@/lib/timetable";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import ShiftBadge from "@/components/ShiftBadge";
+import MyClassButton from "@/components/MyClassButton";
 import ClassTimetableView, { type TimetableCell } from "@/components/ClassTimetableView";
 
 export const revalidate = 300;
@@ -68,6 +69,7 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
 
         <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
           <ShiftBadge shift={shift} label={t.shift} />
+          <MyClassButton cls={{ id: cls.id, label: classLabel(cls), grade: cls.grade }} t={dict.myClass} />
           {cls.staff && (
             <span className="text-slate-600">
               {t.homeroom}:{" "}

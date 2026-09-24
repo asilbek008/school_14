@@ -20,7 +20,8 @@
     "gallery": "Galereya",
     "timetable": "Dars jadvali",
     "programs": "Doimiy tadbirlar",
-    "timetableShort": "Dars jadvali"
+    "timetableShort": "Dars jadvali",
+    "search": "Qidirish"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -301,7 +302,9 @@
     "title": "Ko‘p so‘raladigan savollar",
     "moreTitle": "Javob topmadingizmi?",
     "moreText": "Savolingizni yozib qoldiring yoki maktabga qo‘ng‘iroq qiling.",
-    "open": "Ochish"
+    "open": "Ochish",
+    "search": "Savol yoki javobdan qidiring…",
+    "notFound": "Bunday savol topilmadi. Savolingizni bizga yozing — javob beramiz."
   },
   "newsCats": {
     "yangilik": "Yangilik",
@@ -538,5 +541,45 @@
     "shown": "{n} / {total} ta jamoa",
     "noMatch": "Hech narsa topilmadi.",
     "placeOf": "{place}-o‘rin · {total} ta jamoadan"
+  },
+  "search": {
+    "title": "Saytdan qidirish",
+    "kicker": "Qidiruv",
+    "intro": "Yangilik, tadbir, o‘qituvchi, to‘garak yoki savolni toping.",
+    "placeholder": "Masalan: qabul, shaxmat, Zakovat, o‘qituvchi ismi…",
+    "hint": "Kamida 2 ta harf yozing.",
+    "noResults": "«{q}» bo‘yicha hech narsa topilmadi. Boshqacha yozib ko‘ring.",
+    "found": {
+      "one": "{n} ta natija",
+      "other": "{n} ta natija"
+    },
+    "more": "Yana {n} ta",
+    "all": "Hammasi",
+    "types": {
+      "page": "Sahifalar",
+      "news": "Yangiliklar",
+      "event": "Tadbirlar",
+      "staff": "Xodimlar",
+      "club": "To‘garaklar",
+      "program": "Doimiy tadbirlar",
+      "faq": "Savol-javob",
+      "album": "Albomlar"
+    }
+  },
+  "myClass": {
+    "title": "Mening sinfim",
+    "save": "Mening sinfim",
+    "saveHint": "Belgilasangiz, bosh sahifada shu sinfning darslari chiqadi",
+    "saved": "Mening sinfim ✓",
+    "today": "Bugungi darslar",
+    "tomorrow": "Ertangi darslar",
+    "dayLessons": "{day} darslari",
+    "none": "Bu kun dars yo‘q.",
+    "open": "To‘liq jadval",
+    "change": "Boshqa sinf",
+    "prompt": "Farzandingiz sinfini bir marta tanlang — shu yerda uning bugungi darslari chiqadi.",
+    "pick": "Sinfni tanlash",
+    "shortcut": "Mening sinfim: {c}",
+    "now": "Hozir"
   }
 }

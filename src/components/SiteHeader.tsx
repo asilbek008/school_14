@@ -97,7 +97,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
             </span>
           </Link>
 
-          <SiteNav home={href("")} entries={entries} labels={{ menu: dict.nav.menu, newTab: dict.emaktab.newTab, extra: emaktab }}>
+          <SiteNav home={href("")} entries={entries} labels={{ menu: dict.nav.menu, newTab: dict.emaktab.newTab, extra: emaktab, search: { action: href("/search"), label: dict.search.placeholder } }}>
             <a
               href={school.eMaktabUrl}
               target="_blank"
@@ -109,6 +109,19 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
               <span className="size-1.5 rounded-full bg-[#3ecfb2]" />
               eMaktab ↗<span className="sr-only"> — {dict.emaktab.short} ({dict.emaktab.newTab})</span>
             </a>
+            {/* Phones get the search at the top of the menu panel instead; from 1024 to 1100px the Russian bar has no room
+                for it (the search page is still in reach from the footer). */}
+            <Link
+              href={href("/search")}
+              aria-label={dict.nav.search}
+              title={dict.nav.search}
+              className="hidden size-10 shrink-0 place-items-center rounded-xl text-[#c2cbe4] transition-colors hover:bg-white/10 hover:text-white sm:max-lg:grid min-[1100px]:grid"
+            >
+              <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7" />
+                <path d="m20 20-3.5-3.5" />
+              </svg>
+            </Link>
             <ThemeToggle t={dict.theme} />
             <LanguageSwitcher current={lang} />
           </SiteNav>
