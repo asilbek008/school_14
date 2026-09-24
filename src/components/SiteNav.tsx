@@ -106,7 +106,7 @@ export default function SiteNav({
     };
   }, [openKey]);
 
-  const pill = "rounded-full px-3 py-2 transition-colors duration-200 xl:px-4";
+  const pill = "rounded-full px-3 py-2 transition-colors duration-200 2xl:px-4";
   const pillState = (active: boolean) => (active ? "bg-white text-navy" : "text-[#c2cbe4] hover:bg-white/10 hover:text-white");
 
   return (

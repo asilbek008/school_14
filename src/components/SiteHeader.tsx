@@ -74,7 +74,8 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
             href={school.eMaktabUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] py-1 pl-2.5 pr-3 text-[11.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white"
+            // From xl it sits in the navbar instead (owner's request).
+            className="inline-flex shrink-0 items-center gap-2 rounded-full border border-white/10 bg-white/[0.07] py-1 pl-2.5 pr-3 text-[11.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white xl:hidden"
           >
             <span className="size-1.5 rounded-full bg-[#3ecfb2]" />
             {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
@@ -97,6 +98,17 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
           </Link>
 
           <SiteNav home={href("")} entries={entries} labels={{ menu: dict.nav.menu, newTab: dict.emaktab.newTab, extra: emaktab }}>
+            <a
+              href={school.eMaktabUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={dict.emaktab.short}
+              // Just the name here, so the Russian bar still fits at 1280px; the full label is the tooltip.
+              className="press hidden h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.07] pl-3 pr-3.5 text-[12.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white xl:inline-flex"
+            >
+              <span className="size-1.5 rounded-full bg-[#3ecfb2]" />
+              eMaktab ↗<span className="sr-only"> — {dict.emaktab.short} ({dict.emaktab.newTab})</span>
+            </a>
             <ThemeToggle t={dict.theme} />
             <LanguageSwitcher current={lang} />
           </SiteNav>
