@@ -18,7 +18,9 @@ const nav = [
 ];
 
 export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
-  const { email } = await requireAdmin();
+  const { email, supabase } = await requireAdmin();
+  // New contact messages, shown next to "Xabarlar" in the menu.
+  const { count: unread } = await supabase.from("contact_messages").select("id", { count: "exact", head: true }).eq("is_read", false);
 
   return (
     <div className="min-h-screen md:flex">
@@ -34,8 +36,13 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
         </div>
         <nav className="flex gap-1 overflow-x-auto px-2 pb-2 md:flex-col md:pb-0">
           {nav.map(({ href, label }) => (
-            <Link key={href} href={href} className="whitespace-nowrap rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-100">
+            <Link key={href} href={href} className="flex items-center justify-between gap-2 whitespace-nowrap rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-100">
               {label}
+              {href === "/admin/messages" && !!unread && (
+                <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold text-white" aria-label={`${unread} ta yangi`}>
+                  {unread}
+                </span>
+              )}
             </Link>
           ))}
         </nav>
