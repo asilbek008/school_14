@@ -373,6 +373,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   kamchilik filtri qo‘shsangiz, shu ro‘yxatga ham qo‘shing.
 - Admin menyusi (`(panel)/layout.tsx`) sahifa scroll bo‘lganda joyida turadi: kompyuterda `sticky` to‘liq balandlikdagi ustun,
   telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
+- Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
+  npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
+  qutisi ataylab eksport qilinmaydi (maxfiy).
 - Xabarlar admini: client `MessageList` — "Yangi" / "O‘qilgan" / "Hammasi" yorliqlari, mavzu tugmalari, qidiruv (ism, telefon,
   email, matn), "Hammasini o‘qildi deb belgilash" (`markAllRead`); uzun xabar qisqartiriladi, telefon/email — bosiladigan tugmalar.
   Tepada `NotifyCard` — yangi xabar Telegram'ga: `contact_messages` insert trigger'i (`private.notify_contact_message`, pg_net)

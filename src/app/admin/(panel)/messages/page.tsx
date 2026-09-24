@@ -51,7 +51,7 @@ export default async function MessagesPage({ searchParams }: PageProps<"/admin/m
 
   return (
     <>
-      <AdminHeader title="Aloqa formasidan kelgan xabarlar" />
+      <AdminHeader title="Aloqa formasidan kelgan xabarlar" download={items.length ? { href: "/admin/export/messages", label: "⬇ Excel’ga yuklab olish" } : undefined} />
       <NotifyCard s={{ botUsername: tg?.bot_username ?? null, chatReady, on: !!tg?.notify_messages }} flash={flash} />
       {items.length ? (
         <MessageList items={items} />
