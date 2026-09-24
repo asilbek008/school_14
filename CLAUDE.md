@@ -285,6 +285,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (nom/joy), turkum tugmalari; qatorda sana plitkasi, vaqt yoki "Butun kun", joy, Telegram belgisi. Formada sana va vaqt alohida
   (`start_date`, `start_time`, `end_time`, ixtiyoriy `end_date`); "Butun kun" belgilansa vaqt maydonlari CSS bilan yashiriladi
   (`group-has-[#all-day:checked]`). Tadbirlarda rasm/video yo‘q (saytda akkordeon).
+- Sahifalar admini: `pages/info.ts` (`pageInfo` — sahifa saytda qayerda chiqadi va sarlavhasi nima uchun ishlatiladi:
+  "Maktab haqida"da banner kickeri, "Qabul"da h1). Kartada har til bo‘yicha matn bor/yo‘q, oxirgi tahrir; tahrirlash sahifasida
+  uch tildagi sayt havolalari va tarjimasi yo‘q tillar haqida ogohlantirish. Yangi tahrirlanadigan sahifa qo‘shsangiz, `pageInfo` ga ham yozing.
 - `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
   (`toTashkentInput` / `fromTashkentInput`).
 - Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:
