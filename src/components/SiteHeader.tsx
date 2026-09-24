@@ -2,16 +2,10 @@ import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fill } from "@/i18n/fill";
-import { school, telHref } from "@/lib/school";
+import { currentSchoolYear, school, telHref } from "@/lib/school";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
-
-/** The school year that runs now: from August on it is this year's, before that last year's. */
-function schoolYear() {
-  const now = new Date();
-  const from = now.getMonth() >= 7 ? now.getFullYear() : now.getFullYear() - 1;
-  return { from, to: from + 1 };
-}
 
 /** Top info bar (scrolls away) and the sticky navigation bar below it. */
 export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
@@ -45,7 +39,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
     },
   ];
   const emaktab: NavItem = { href: school.eMaktabUrl, label: "eMaktab", desc: d.emaktab, icon: "grade", color: "amber", external: true };
-  const year = schoolYear();
+  const year = currentSchoolYear();
 
   return (
     <>
@@ -72,7 +66,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
         </div>
       </div>
 
-      <header className="sticky top-0 z-30 bg-navy text-white shadow-[0_1px_0_rgb(255_255_255/0.08)]">
+      <header className="site-header sticky top-0 z-30 bg-navy text-white shadow-[0_1px_0_rgb(255_255_255/0.08)]">
         <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 lg:h-[74px]">
           <Link href={href("")} className="group/logo flex shrink-0 items-center gap-3">
             <span className="relative grid size-10 place-items-center rounded-xl bg-white text-lg font-extrabold tracking-tight text-navy transition-transform duration-300 ease-(--ease-spring) after:absolute after:inset-x-3 after:bottom-1.5 after:h-[3px] after:rounded after:bg-gold after:transition-[left,right] after:duration-300 group-hover/logo:-rotate-6 group-hover/logo:after:inset-x-2 lg:size-11">
@@ -87,6 +81,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
           </Link>
 
           <SiteNav home={href("")} entries={entries} labels={{ menu: dict.nav.menu, newTab: dict.emaktab.newTab, extra: emaktab }}>
+            <ThemeToggle t={dict.theme} />
             <LanguageSwitcher current={lang} />
           </SiteNav>
         </div>

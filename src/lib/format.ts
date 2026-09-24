@@ -7,6 +7,15 @@ export function formatDate(iso: string, lang: Locale): string {
   return new Intl.DateTimeFormat(intlLocale[lang], { dateStyle: "long", timeZone }).format(new Date(iso));
 }
 
+/** Date with the weekday: "15-oktabr, 2026, chorshanba". */
+export function formatDateFull(iso: string, lang: Locale): string {
+  return new Intl.DateTimeFormat(intlLocale[lang], { dateStyle: "full", timeZone }).format(new Date(iso));
+}
+
+export function formatTime(iso: string, lang: Locale): string {
+  return new Intl.DateTimeFormat(intlLocale[lang], { timeStyle: "short", timeZone }).format(new Date(iso));
+}
+
 export function formatDateTime(iso: string, lang: Locale): string {
   return new Intl.DateTimeFormat(intlLocale[lang], {
     dateStyle: "long",

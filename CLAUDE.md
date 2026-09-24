@@ -145,6 +145,19 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `animate-fade-up` / `animate-fade-in` (hero va sarlavhalar). Karta ichidagi rasm/strelka uchun
   `group` + `group-hover:`. `prefers-reduced-motion` da hammasi o‘chadi — yangi animatsiya ham
   shu qoidaga bo‘ysunsin.
+- Tadbirlar (`EventItem`): `<details class="acc">` akkordeon — sana plitkasi (turkum rangida), sarlavha, hafta kuni bilan
+  sana va yaqinlashayotganlarda `DaysLeft` ("Bugun"/"Ertaga"/"N kundan so‘ng"; brauzerda Toshkent kuni bo‘yicha,
+  serverda hech narsa chiqarmaydi). Ochilganda turkum, vaqt, joy va tavsif. `details.acc` ochilish animatsiyasi
+  `globals.css` da (`::details-content`).
+- Sahifa banneri (`PageHeader`): `crumbs` — yuqoridagi sahifalar (Bosh sahifa › …), kicker, sarlavha, intro.
+  Footer: brend, manzil + o‘quv yili (`currentSchoolYear()`, `school.ts`), bo‘limlar (2 ustun), aloqa; `ToTop` tugmasi.
+- Tungi rejim: `html.dark` (`[lang]/layout.tsx` dagi inline skript birinchi chizishdan oldin qo‘yadi: saqlangan
+  tanlov `localStorage.theme`, bo‘lmasa tizim sozlamasi; `ThemeToggle` — header'dagi quyosh/oy tugmasi). `dark:`
+  klasslar ishlatilmaydi — `globals.css` da tokenlar almashtiriladi: slate shkalasi teskari, `bg-white` (text-navy
+  bo‘lmasa) → `--surface`, `-soft` ranglar to‘q, `-deep` matnlar ochroq, `main` ichidagi `bg-navy` → brand. Navy
+  bloklar (`.chrome`, `.site-header`) light-mode slate'ni saqlaydi; ular ichidagi oq kartalarga `surface` klassini
+  bering (dropdown, mobil menyu, `LiveCard`). Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
+  Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`): yuqorida topbar (md+; manzil, telefon, o‘quv yili, eMaktab), ostida
   sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · O‘qituvchilar · Yangiliklar · Tadbirlar ▾. Dropdown'larda
   ikonka + qisqa izoh (`navDesc` lug‘atda); hover/bosish/klaviatura bilan ochiladi, Esc, tashqariga bosish va sahifa

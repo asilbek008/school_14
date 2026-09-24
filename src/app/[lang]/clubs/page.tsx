@@ -22,7 +22,7 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
 
   return (
     <>
-      <PageHeader title={dict.nav.clubs} intro={t.intro} kicker={dict.nav.school} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.clubs} intro={t.intro} kicker={dict.nav.school} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         {clubs.length ? (
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

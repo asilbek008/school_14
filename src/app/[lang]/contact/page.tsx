@@ -21,7 +21,7 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
 
   return (
     <>
-      <PageHeader title={dict.nav.contact} intro={t.intro} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.contact} intro={t.intro} />
       <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 lg:grid-cols-2">
         <section>
           <h2 className="mb-4 text-xl font-bold text-slate-900">{t.info}</h2>

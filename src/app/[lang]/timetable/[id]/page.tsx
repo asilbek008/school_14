@@ -46,7 +46,7 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
 
   return (
     <>
-      <PageHeader title={classLabel(cls)} kicker={dict.nav.timetable} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/timetable`, label: dict.nav.timetable }]} title={classLabel(cls)} kicker={dict.nav.timetable} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         <nav aria-label={t.back} className="flex flex-wrap items-center gap-1.5 text-sm font-semibold text-slate-500">
           <Link href={pickerHref} className="text-brand link-grow">

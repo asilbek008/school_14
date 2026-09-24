@@ -26,11 +26,19 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   };
 }
 
+// Runs before the first paint so a dark-mode visitor never sees a white flash: the saved choice,
+// else the system setting. ThemeToggle changes it later.
+const themeScript = `try{var t=localStorage.getItem("theme");if(t==="dark"||(!t&&matchMedia("(prefers-color-scheme: dark)").matches))document.documentElement.classList.add("dark")}catch(e){}`;
+
 export default async function RootLayout({ children, params }: LayoutProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
 
   return (
-    <html lang={lang} className={`${inter.variable} h-full antialiased`}>
+    // suppressHydrationWarning: the theme script adds the "dark" class before React hydrates.
+    <html lang={lang} className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="flex min-h-full flex-col bg-paper">
         <SiteHeader lang={lang} dict={dict} />
         <main className="flex-1">{children}</main>

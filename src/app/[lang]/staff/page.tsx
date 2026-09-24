@@ -19,7 +19,7 @@ export default async function StaffPage({ params }: PageProps<"/[lang]/staff">) 
 
   return (
     <>
-      <PageHeader title={dict.nav.staff} intro={dict.staff.intro} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.staff} intro={dict.staff.intro} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         {staff.length ? (
           <ul className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">

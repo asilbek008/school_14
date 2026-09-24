@@ -25,5 +25,12 @@ export const school = {
   eMaktabUrl: "https://emaktab.uz",
 };
 
+/** The school year that runs now: from August on it is this year's, before that last year's. */
+export function currentSchoolYear() {
+  const now = new Date();
+  const from = now.getMonth() >= 7 ? now.getFullYear() : now.getFullYear() - 1;
+  return { from, to: from + 1 };
+}
+
 /** "tel:" link for a phone number written with spaces. */
 export const telHref = (phone: string) => `tel:${phone.replace(/\s/g, "")}`;
