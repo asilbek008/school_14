@@ -22,8 +22,9 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
 
   return (
     <div className="min-h-screen md:flex">
-      <aside className="border-b border-slate-200 bg-white md:w-60 md:shrink-0 md:border-r md:border-b-0">
-        <div className="flex items-center justify-between p-4 md:block">
+      {/* The menu stays in place while the page scrolls: a sticky bar on phones, a full-height column on wider screens. */}
+      <aside className="sticky top-0 z-30 border-b border-slate-200 bg-white md:h-screen md:w-60 md:shrink-0 md:overflow-y-auto md:border-r md:border-b-0">
+        <div className="flex items-center justify-between px-4 py-3 md:block md:p-4">
           <Link href="/admin" className="font-bold text-blue-800">
             14-maktab admin
           </Link>
@@ -43,7 +44,7 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
           <button className="mt-1 text-sm text-red-700 hover:underline">Chiqish</button>
         </form>
       </aside>
-      <main className="flex-1 p-4 md:p-8">
+      <main className="min-w-0 flex-1 p-4 md:p-8">
         <div className="mx-auto max-w-5xl">{children}</div>
         <form action={signOut} className="mt-8 md:hidden">
           <button className="text-sm text-red-700 hover:underline">Chiqish ({email})</button>

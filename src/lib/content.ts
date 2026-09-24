@@ -21,7 +21,10 @@ export type News = {
   news_photos?: { count: number }[];
 };
 
-export type NewsArticle = Omit<News, "news_photos"> & { news_photos: { path: string }[] };
+export type NewsArticle = Omit<News, "news_photos"> & {
+  news_photos: { path: string }[];
+  news_videos: { id: number; kind: "video" | "youtube"; path: string }[];
+};
 
 export type SchoolEvent = {
   id: number;
@@ -183,11 +186,13 @@ export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
   if (!supabase) return null;
   const { data, error } = await supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(path)")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(path), news_videos(id, kind, path)")
     .eq("is_published", true)
     .eq("slug", slug)
     .order("sort_order", { referencedTable: "news_photos" })
     .order("id", { referencedTable: "news_photos" })
+    .order("sort_order", { referencedTable: "news_videos" })
+    .order("id", { referencedTable: "news_videos" })
     .maybeSingle();
   logError("getNewsBySlug", error);
   return data;

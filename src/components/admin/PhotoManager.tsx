@@ -5,8 +5,9 @@ import { useState, useTransition } from "react";
 export type PhotoItem = { id: number; path: string; url: string };
 
 /**
- * The album's photos in their site order. Drag a photo (or use the arrows, on phones and with the
- * keyboard) to change the order — it is saved right away; choose the cover or delete a photo.
+ * Photos in their site order. Drag a photo (or use the arrows, on phones and with the keyboard) to
+ * change the order — it is saved right away; delete a photo, and (when `setCover` is given) choose the
+ * cover. Without a chosen cover the first photo is the cover.
  */
 export default function PhotoManager({
   items,
@@ -16,9 +17,9 @@ export default function PhotoManager({
   remove,
 }: {
   items: PhotoItem[];
-  cover: string | null;
+  cover?: string | null;
   reorder: (ids: number[]) => Promise<void>;
-  setCover: (path: string) => Promise<void>;
+  setCover?: (path: string) => Promise<void>;
   remove: (id: number) => Promise<void>;
 }) {
   const [list, setList] = useState(items);
@@ -52,7 +53,7 @@ export default function PhotoManager({
     commit(next);
   };
   // No cover chosen: the site uses the first photo.
-  const coverPath = cover ?? list[0]?.path;
+  const coverPath = setCover ? (cover ?? list[0]?.path) : null;
 
   if (!list.length) return null;
   return (
@@ -111,7 +112,7 @@ export default function PhotoManager({
                   </button>
                 </div>
                 <div className="flex items-center gap-3">
-                  {!isCover && (
+                  {setCover && !isCover && (
                     <button type="button" disabled={busy} onClick={() => startBusy(() => setCover(photo.path))} className="text-blue-700 hover:underline">
                       Muqova
                     </button>

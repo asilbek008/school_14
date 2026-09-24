@@ -8,8 +8,8 @@ import PhotoUploader from "@/components/admin/PhotoUploader";
 import VideoUploader from "@/components/admin/VideoUploader";
 import YoutubeForm from "@/components/admin/YoutubeForm";
 import VideoList from "@/components/admin/VideoList";
+import PhotoManager from "@/components/admin/PhotoManager";
 import AlbumForm from "../AlbumForm";
-import PhotoManager from "../PhotoManager";
 import { addPhotos, addVideos, addYoutube, deleteAlbum, deletePhoto, deleteVideo, reorderPhotos, setCover } from "../actions";
 
 export const metadata: Metadata = { title: "Albom" };

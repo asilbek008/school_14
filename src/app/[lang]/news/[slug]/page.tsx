@@ -8,6 +8,7 @@ import { newsColors } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import RichText from "@/components/RichText";
 import Lightbox from "@/components/Lightbox";
+import VideoGrid from "@/components/VideoGrid";
 import PhotoFrame from "@/components/PhotoFrame";
 import PageHeader from "@/components/PageHeader";
 
@@ -75,6 +76,15 @@ export default async function NewsArticlePage({ params }: PageProps<"/[lang]/new
                 layout="mosaic"
                 t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }}
               />
+            </section>
+          )}
+
+          {item.news_videos.length > 0 && (
+            <section className="mt-10">
+              <h2 className="font-display mb-5 text-xl font-bold tracking-tight text-slate-900">
+                {dict.news.videos} <span className="font-semibold text-slate-400">· {item.news_videos.length}</span>
+              </h2>
+              <VideoGrid videos={item.news_videos} title={title} />
             </section>
           )}
         </div>
