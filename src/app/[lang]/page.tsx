@@ -6,7 +6,8 @@ import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
 import NewsCard from "@/components/NewsCard";
-import EventItem from "@/components/EventItem";
+import EventCard from "@/components/EventCard";
+import SectionHead from "@/components/SectionHead";
 import EmptyState from "@/components/EmptyState";
 import EMaktabCard from "@/components/EMaktabCard";
 import LiveCard from "@/components/LiveCard";
@@ -36,15 +37,15 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   return (
     <>
       <section className="chrome tricolor-rule">
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.3fr_0.7fr] 2xl:max-w-7xl 2xl:gap-14">
           <div>
-            <p className="flex animate-fade-up flex-wrap items-center gap-2.5 text-[13.5px] font-semibold text-[#b9c4e2]">
-              <span className="font-display rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold text-white">
+            <p className="flex animate-fade-up flex-wrap items-center gap-2.5 text-[13.5px] font-semibold text-[#b9c4e2] xl:text-base">
+              <span className="font-display rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold text-white xl:px-3.5 xl:text-sm">
                 {year.from}–{year.to}
               </span>
               {started ? dict.home.eyebrowStarted : dict.home.eyebrow}
             </p>
-            <h1 className="font-display mt-5 max-w-[22ch] animate-fade-up text-[clamp(2rem,4vw,3rem)] font-bold leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
+            <h1 className="font-display mt-5 animate-fade-up text-[clamp(2rem,4vw,3rem)] font-bold xl:text-[3.5rem] 2xl:text-[3.75rem] leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
               {/* One sentence per line, so the motto does not break mid-thought. */}
               {dict.home.heroTitle.split(/(?<=\.)\s+/).map((sentence) => (
                 <span key={sentence} className="block">
@@ -52,24 +53,24 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
                 </span>
               ))}
             </h1>
-            <p className="mt-5 max-w-[48ch] animate-fade-up text-[17.5px] leading-relaxed text-[#c3cce6] [animation-delay:160ms]">{dict.home.heroLead}</p>
+            <p className="mt-5 max-w-[52ch] animate-fade-up text-[17.5px] leading-relaxed xl:mt-6 xl:text-xl text-[#c3cce6] [animation-delay:160ms]">{dict.home.heroLead}</p>
             <div className="mt-7 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">
               <Link
                 href={`/${lang}/timetable`}
-                className="press rounded-full bg-gold px-[22px] py-[13px] text-[14.5px] font-bold text-[#241703] shadow-[0_12px_26px_-14px_rgb(217_148_42/0.9)] hover:bg-[#eba53c]"
+                className="press rounded-full bg-gold px-[22px] py-[13px] text-[14.5px] font-bold text-[#241703] xl:px-7 xl:py-4 xl:text-base shadow-[0_12px_26px_-14px_rgb(217_148_42/0.9)] hover:bg-[#eba53c]"
               >
                 {dict.home.ctaTimetable}
               </Link>
-              <Link href={`/${lang}/news`} className="press rounded-full border-[1.5px] border-white/35 px-[22px] py-[13px] text-[14.5px] font-bold hover:border-white hover:bg-white/10">
+              <Link href={`/${lang}/news`} className="press rounded-full border-[1.5px] border-white/35 px-[22px] py-[13px] text-[14.5px] font-bold xl:px-7 xl:py-4 xl:text-base hover:border-white hover:bg-white/10">
                 {dict.home.ctaNews}
               </Link>
             </div>
-            <dl className="mt-10 grid max-w-md animate-fade-up grid-cols-3 gap-3 [animation-delay:320ms]">
+            <dl className="mt-10 grid max-w-md animate-fade-up xl:max-w-xl grid-cols-3 gap-3 [animation-delay:320ms]">
               {stats.map(({ value, label, dot }) => (
-                <div key={label} className="relative rounded-2xl border border-white/15 bg-white/[0.07] px-4 py-3 transition duration-300 hover:border-white/30 hover:bg-white/[0.12]">
+                <div key={label} className="relative rounded-2xl border border-white/15 bg-white/[0.07] px-4 py-3 transition duration-300 hover:border-white/30 xl:px-5 xl:py-4 hover:bg-white/[0.12]">
                   <span className={`absolute right-3 top-3.5 size-1.5 rounded-full ${dot}`} />
-                  <dd className="text-2xl font-extrabold tracking-tight">{value}</dd>
-                  <dt className="text-xs font-semibold text-slate-400">{label}</dt>
+                  <dd className="text-2xl font-extrabold tracking-tight xl:text-[1.9rem]">{value}</dd>
+                  <dt className="text-xs font-semibold text-slate-400 xl:text-sm">{label}</dt>
                 </div>
               ))}
             </dl>
@@ -80,16 +81,13 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             priority
             placeholder="blur"
             sizes="(min-width: 1024px) 500px, 100vw"
-            className="aspect-square w-full animate-fade-in rounded-3xl object-cover shadow-2xl ring-1 ring-white/20 [animation-delay:200ms] lg:max-w-[500px] lg:justify-self-end"
+            className="aspect-square w-full animate-fade-in rounded-3xl object-cover shadow-2xl ring-1 ring-white/20 [animation-delay:200ms] lg:max-w-[460px] lg:justify-self-end"
           />
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
-          {dict.home.quickKicker}
-        </p>
-        <h2 className="font-display mb-7 text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.quickTitle}</h2>
+      <section className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+        <SectionHead kicker={dict.home.quickKicker} title={dict.home.quickTitle} />
         <div className="grid gap-4 lg:grid-cols-[1fr_2fr]">
           <LiveCard t={dict.live} scheduleHref={`/${lang}/schedule`} />
           <div className="grid gap-3.5 sm:grid-cols-2">
@@ -115,27 +113,15 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             ))}
           </div>
         </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4">
-        <EMaktabCard t={dict.emaktab} />
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
-              {dict.nav.news}
-            </p>
-            <h2 className="font-display text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.latestNews}</h2>
-          </div>
-          <Link
-            href={`/${lang}/news`}
-            className="press rounded-full border-[1.5px] border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 hover:border-brand hover:text-brand"
-          >
-            {dict.home.allNews}
-          </Link>
+        <div className="mt-4">
+          <EMaktabCard t={dict.emaktab} />
         </div>
+      </section>
+
+      {/* Sections are divided by a hairline, as in the design mockup. */}
+      <section className="border-t border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+        <SectionHead kicker={dict.nav.news} title={dict.home.latestNews} action={{ href: `/${lang}/news`, label: dict.home.allNews }} />
         {news.length ? (
           // The newest article large on the left, the next two as compact rows beside it.
           <div className="grid gap-4 lg:grid-cols-[1.35fr_1fr] lg:gap-5">
@@ -146,24 +132,13 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         ) : (
           <EmptyState>{dict.news.empty}</EmptyState>
         )}
+        </div>
       </section>
 
       {recentPhotos.length >= 2 && (
-        <section className="mx-auto max-w-6xl px-4 pb-14">
-          <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
-                {dict.nav.gallery}
-              </p>
-              <h2 className="font-display text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.galleryTitle}</h2>
-            </div>
-            <Link
-              href={`/${lang}/gallery`}
-              className="press rounded-full border-[1.5px] border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 hover:border-brand hover:text-brand"
-            >
-              {dict.home.allPhotos}
-            </Link>
-          </div>
+        <section className="border-t border-slate-200">
+          <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+          <SectionHead kicker={dict.nav.gallery} title={dict.home.galleryTitle} action={{ href: `/${lang}/gallery`, label: dict.home.allPhotos }} />
           {/* The newest photos across albums; a click opens them full screen. */}
           <Lightbox
             photos={recentPhotos}
@@ -171,26 +146,24 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             gridClassName="grid-cols-2 md:grid-cols-4"
             t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }}
           />
+          </div>
         </section>
       )}
 
-      <section className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <h2 className="text-2xl font-bold text-slate-900">{dict.home.upcomingEvents}</h2>
-          <Link href={`/${lang}/events`} className="group text-sm font-bold text-brand">
-            {dict.home.allEvents}{" "}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
-          </Link>
+      <section className="border-t border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+          <SectionHead kicker={dict.nav.events} title={dict.home.upcomingEvents} action={{ href: `/${lang}/events`, label: dict.home.allEvents }} />
+          {upcoming.length ? (
+            // Compact cards (as in the design mockup); the events page has the details.
+            <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+              {upcoming.slice(0, 3).map((event) => (
+                <EventCard key={event.id} event={event} lang={lang} dict={dict} />
+              ))}
+            </div>
+          ) : (
+            <EmptyState>{dict.events.emptyUpcoming}</EmptyState>
+          )}
         </div>
-        {upcoming.length ? (
-          <div className="grid gap-4 md:grid-cols-2">
-            {upcoming.slice(0, 4).map((event) => (
-              <EventItem key={event.id} event={event} lang={lang} dict={dict} />
-            ))}
-          </div>
-        ) : (
-          <EmptyState>{dict.events.emptyUpcoming}</EmptyState>
-        )}
       </section>
     </>
   );
