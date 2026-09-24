@@ -158,8 +158,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `position_uz` apostrof farqisiz (`positionKey`) moslanadi; ro‘yxatda yo‘q lavozim so‘zlariga qarab guruhga qo‘shiladi
   (`positionGroup`). `position_ru/en` bo‘sh bo‘lsa tarjima ro‘yxatdan olinadi (`positionLabel`). Admin formada lavozim
   maydoni shu ro‘yxatni taklif qiladi (`TranslatedField` `suggestions`, datalist).
-- Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
-  bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
+- Xodim profili (`/staff/[id]`, maketdagidek): chapda karta (rasm yoki initsiallar doirasi, lavozim belgisi guruh rangida,
+  telefon/email belgilar bilan — faqat xodim roziligi bilan), o‘ngda toifa, ma’lumoti, ish staji, sinf rahbarligi va
+  qo‘shimcha ma’lumot. Ranglar umumiy (`positions.ts`: `groupBadge`, `avatarGradient(id)` — xodimga bog‘liq, filtrda
+  o‘zgarmaydi; `initials`) — ro‘yxat, profil va "Maktab haqida"dagi rahbariyat bir xil. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
 - `supabase/seed/2026-2027.sql`, `supabase/seed/clubs.sql` va `supabase/seed/subjects.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
   tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).

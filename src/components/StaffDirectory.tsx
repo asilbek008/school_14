@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import type { StaffGroup } from "@/lib/positions";
+import { avatarGradient, groupBadge, initials, type StaffGroup } from "@/lib/positions";
 import FilterMenu, { groupDot, matches } from "./StaffFilterMenu";
 import Image from "next/image";
 import Link from "next/link";
@@ -34,31 +34,13 @@ type Labels = {
   noMatch: string;
 };
 
-const avatarColors = ["from-brand to-brand-deep", "from-teal to-[#0c6d62]", "from-gold to-gold-deep"];
-
-/** Badge color by kind of position: leadership blue, teachers green, other staff gold. */
-function badge(position: string) {
-  const p = position.toLowerCase();
-  if (/direktor|директор|director|principal/.test(p)) return "bg-brand-soft text-brand-deep";
-  if (/o[‘'`ʻ]?qituvchi|учител|teacher/.test(p)) return "bg-teal-soft text-[#0c6d62]";
-  return "bg-gold-soft text-gold-deep";
-}
-
-const initials = (name: string) =>
-  name
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((w) => w.charAt(0))
-    .join("")
-    .toUpperCase();
-
-function Avatar({ row, index }: { row: StaffRow; index: number }) {
+function Avatar({ row }: { row: StaffRow }) {
   return row.photo ? (
     <Image src={row.photo} alt="" width={40} height={40} className="size-10 shrink-0 rounded-full object-cover" />
   ) : (
     <span
       className={`grid size-10 shrink-0 place-items-center rounded-full bg-gradient-to-br text-[13px] font-bold text-white transition-transform duration-200 group-hover:-rotate-6 group-hover:scale-110 ${
-        avatarColors[index % avatarColors.length]
+        avatarGradient(row.id)
       }`}
     >
       {initials(row.name)}
@@ -134,14 +116,14 @@ export default function StaffDirectory({ rows, filters, lang, t }: { rows: Staff
         <>
           {/* Phones: one card per person. */}
           <ul className="space-y-2.5 md:hidden">
-            {shown.map((r, i) => (
+            {shown.map((r) => (
               <li key={r.id}>
                 <Link href={href(r)} className="group flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-3.5 hover:border-brand">
-                  <Avatar row={r} index={i} />
+                  <Avatar row={r} />
                   <span className="min-w-0 flex-1">
                     <b className="block truncate font-semibold text-slate-900">{r.name}</b>
                     <span className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-slate-500">
-                      <span className={`rounded-full px-2 py-0.5 font-bold ${badge(r.position)}`}>{r.position}</span>
+                      <span className={`rounded-full px-2 py-0.5 font-bold ${groupBadge[r.group]}`}>{r.position}</span>
                       {r.subject && <span>{r.subject}</span>}
                       {r.homeroom && <span className="font-semibold text-slate-700">· {r.homeroom}</span>}
                     </span>
@@ -164,16 +146,16 @@ export default function StaffDirectory({ rows, filters, lang, t }: { rows: Staff
                 </tr>
               </thead>
               <tbody>
-                {shown.map((r, i) => (
+                {shown.map((r) => (
                   <tr key={r.id} className="group relative border-b border-slate-100 transition-colors last:border-0 hover:bg-brand-soft/60">
                     <td className="px-5 py-3.5">
                       <Link href={href(r)} className="flex items-center gap-3 font-medium text-slate-900 after:absolute after:inset-0">
-                        <Avatar row={r} index={i} />
+                        <Avatar row={r} />
                         {r.name}
                       </Link>
                     </td>
                     <td className="px-5 py-3.5">
-                      <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${badge(r.position)}`}>{r.position}</span>
+                      <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${groupBadge[r.group]}`}>{r.position}</span>
                     </td>
                     <td className="px-5 py-3.5 text-slate-700">{r.subject ?? <span className="text-slate-400">—</span>}</td>
                     <td className="px-5 py-3.5 font-semibold text-slate-900">{r.homeroom ?? <span className="font-normal text-slate-400">—</span>}</td>
