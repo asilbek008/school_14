@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
-import { getNews, getNewsBySlug, localized, mediaUrl } from "@/lib/content";
+import { getNews, getNewsBySlug, getPrograms, localized, mediaUrl } from "@/lib/content";
 import { newsColors } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import RichText from "@/components/RichText";
@@ -26,19 +26,25 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/news/[slug
 
 export default async function NewsArticlePage({ params }: PageProps<"/[lang]/news/[slug]">) {
   const { lang, dict } = await resolveLang(params);
-  const [item, latest] = await Promise.all([getNewsBySlug((await params).slug), getNews(4)]);
+  const [item, latest, programs] = await Promise.all([getNewsBySlug((await params).slug), getNews(4), getPrograms()]);
   if (!item) notFound();
   const title = localized(item, "title", lang);
   const cover = mediaUrl(item.cover_image);
   const colors = newsColors[item.category];
   const more = latest.filter((n) => n.id !== item.id).slice(0, 3);
   const photos = item.news_photos.map((p) => mediaUrl(p.path)!);
+  // News about a regular program is listed on that program's page, so "back" leads there.
+  const text = `${item.title_uz} ${item.body_uz}`.toLowerCase();
+  const program = programs.find((p) => p.keyword && text.includes(p.keyword.toLowerCase()));
+  const back = program
+    ? { href: `/${lang}/programs/${program.slug}`, label: localized(program, "name", lang) }
+    : { href: `/${lang}/news`, label: dict.common.back };
 
   return (
     <article className="pb-16">
       <header className="mx-auto max-w-3xl px-4 pt-8">
-        <Link href={`/${lang}/news`} className="text-sm font-bold text-brand link-grow">
-          ← {dict.common.back}
+        <Link href={back.href} className="text-sm font-bold text-brand link-grow">
+          ← {back.label}
         </Link>
         <div className="mt-6 flex animate-fade-up flex-wrap items-center gap-3 text-sm text-slate-500">
           <span className={`rounded-full px-3 py-1 text-xs font-bold ${colors.badge}`}>{dict.newsCats[item.category]}</span>

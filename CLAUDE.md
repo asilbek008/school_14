@@ -78,6 +78,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   loyihalar (birinchisi — Zakovat, `supabase/seed/programs.sql`). `keyword` kiritilsa, `getNewsMentioning()` shu so‘z
   sarlavha yoki matnda uchragan yangiliklarni (Telegram'dan kelganlarini ham) loyiha sahifasida ko‘rsatadi; o‘z rasmi
   (`cover`) bo‘lmasa, oxirgi tegishli yangilik muqovasi olinadi. Menyuda "Tadbirlar ▾" ichida.
+  Bir ma’lumot bir bo‘limda (egasining talabi): `getNews()` (yangiliklar sahifasi, bosh sahifa, "Boshqa yangiliklar")
+  dasturlar kalit so‘zi uchragan yangiliklarni chiqarmaydi — ular faqat dastur sahifasida; bunday yangilikdagi
+  "orqaga" havolasi dastur sahifasiga olib boradi.
 - To‘garaklar (`/clubs`, `clubs` jadvali) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmlar to‘ri (`layout="mosaic"`: 1-rasm katta, `mosaicSpan` qatorlarni
