@@ -89,7 +89,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Bir ma’lumot bir bo‘limda (egasining talabi): `getNews()` (yangiliklar sahifasi, bosh sahifa, "Boshqa yangiliklar")
   dasturlar kalit so‘zi uchragan yangiliklarni chiqarmaydi — ular faqat dastur sahifasida; bunday yangilikdagi
   "orqaga" havolasi dastur sahifasiga olib boradi.
-- To‘garaklar (`/clubs`, `clubs` jadvali) va galereya (`/gallery`, `gallery_albums` +
+- To‘garaklar (`/clubs`, `clubs` jadvali; maketdagidek: "Qo‘shimcha ta’lim" / "To‘garaklar va mashg‘ulotlar", karta chetida
+  navbatma-navbat rangli chiziq, sarlavha yonida sinflar, pastda Rahbari → Vaqti → Joyi) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmlar to‘ri (`layout="mosaic"`: 1-rasm katta, `mosaicSpan` qatorlarni
   bo‘shliqsiz yopadi) va to‘liq ekranli ko‘ruvchi (Esc, ←/→, telefonda surish, miniatyuralar; kichik rasm 1.5× dan

@@ -250,7 +250,9 @@
     "grades": "{from}–{to}-sinflar",
     "when": "Vaqti",
     "where": "Joyi",
-    "leader": "Rahbar"
+    "leader": "Rahbari",
+    "title": "To‘garaklar va mashg‘ulotlar",
+    "kicker": "Qo‘shimcha ta’lim"
   },
   "programs": {
     "intro": "Butun o‘quv yili davomida muntazam o‘tkaziladigan loyiha va musobaqalar.",

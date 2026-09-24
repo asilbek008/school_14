@@ -250,7 +250,9 @@
     "grades": "Grades {from}–{to}",
     "when": "When",
     "where": "Where",
-    "leader": "Leader"
+    "leader": "Leader",
+    "title": "Clubs and activities",
+    "kicker": "Extracurricular"
   },
   "programs": {
     "intro": "Projects and competitions that run regularly throughout the school year.",
