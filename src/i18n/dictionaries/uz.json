@@ -125,7 +125,16 @@
     "time": "Vaqti",
     "noDetails": "Batafsil ma’lumot keyinroq e’lon qilinadi.",
     "note": "Maktab ichki tadbirlarining sanalari rejalashtirilgan bo‘lib, o‘zgarishi mumkin.",
-    "noneOfType": "Bu turdagi tadbir yo‘q."
+    "noneOfType": "Bu turdagi tadbir yo‘q.",
+    "statUpcoming": "yaqinlashayotgan",
+    "statMonth": "shu oyda",
+    "statPast": "o‘tgan",
+    "statHolidays": {
+      "one": "bayram",
+      "other": "bayram"
+    },
+    "search": "Tadbir yoki joy nomi…",
+    "notFound": "Qidiruv bo‘yicha tadbir topilmadi."
   },
   "staff": {
     "intro": "Maktabimiz rahbariyati va o‘qituvchilari.",
