@@ -272,7 +272,10 @@
     "close": "Close",
     "prev": "Previous",
     "next": "Next",
-    "noDate": "No date"
+    "noDate": "No date",
+    "title": "Photo gallery",
+    "album": "Album",
+    "noPhotos": "There are no photos in this album yet."
   },
   "timetable": {
     "intro": "Choose a shift, then a grade and a class to see the daily and weekly timetable.",

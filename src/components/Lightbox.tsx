@@ -57,8 +57,9 @@ export default function Lightbox({
   }, [open]);
 
   const mosaic = layout === "mosaic" && photos.length >= 3;
+  // Round glass buttons, as in the design mockup.
   const navBtn =
-    "grid size-12 place-items-center rounded-full bg-white/10 text-2xl text-white backdrop-blur transition hover:scale-110 hover:bg-white/25";
+    "grid size-[46px] shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition hover:scale-105 hover:bg-white/25";
 
   return (
     <>
@@ -108,12 +109,15 @@ export default function Lightbox({
             <Image key={`bg-${open}`} src={photos[open]} alt="" fill sizes="64px" className="scale-125 object-cover opacity-50 blur-3xl" />
           </div>
 
-          <div className="relative flex items-center justify-between p-4 text-white">
-            <span className="rounded-full bg-black/30 px-3 py-1 text-sm font-semibold tabular-nums backdrop-blur">
-              {open + 1} / {photos.length}
+          <div className="relative flex items-center justify-between gap-3 p-4 text-white">
+            <span className="flex min-w-0 items-center gap-3">
+              <span className="shrink-0 rounded-full bg-black/30 px-3 py-1 text-sm font-semibold tabular-nums backdrop-blur">
+                {open + 1} / {photos.length}
+              </span>
+              <span className="truncate text-sm font-semibold text-[#d6dcee]">{alt}</span>
             </span>
             <button ref={closeRef} type="button" aria-label={t.close} onClick={() => setOpen(null)} className={navBtn}>
-              ×
+              <Icon d="M6 6l12 12M18 6L6 18" />
             </button>
           </div>
 
@@ -133,11 +137,11 @@ export default function Lightbox({
             <Photo key={open} src={photos[open]} alt={`${alt} — ${open + 1}`} />
             {photos.length > 1 && (
               <>
-                <button type="button" aria-label={t.prev} onClick={(e) => { e.stopPropagation(); move(-1); }} className={`${navBtn} absolute left-3 top-1/2 hidden -translate-y-1/2 sm:grid`}>
-                  ‹
+                <button type="button" aria-label={t.prev} onClick={(e) => { e.stopPropagation(); move(-1); }} className={`${navBtn} absolute left-[18px] top-1/2 hidden -translate-y-1/2 sm:grid`}>
+                  <Icon d="M15 6l-6 6 6 6" />
                 </button>
-                <button type="button" aria-label={t.next} onClick={(e) => { e.stopPropagation(); move(1); }} className={`${navBtn} absolute right-3 top-1/2 hidden -translate-y-1/2 sm:grid`}>
-                  ›
+                <button type="button" aria-label={t.next} onClick={(e) => { e.stopPropagation(); move(1); }} className={`${navBtn} absolute right-[18px] top-1/2 hidden -translate-y-1/2 sm:grid`}>
+                  <Icon d="M9 6l6 6-6 6" />
                 </button>
               </>
             )}
@@ -173,6 +177,12 @@ export default function Lightbox({
     </>
   );
 }
+
+const Icon = ({ d }: { d: string }) => (
+  <svg viewBox="0 0 24 24" className="size-[22px]" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d={d} />
+  </svg>
+);
 
 /**
  * Mosaic cell size, so rows always end flush: the first photo is 2×2; on phones (2 columns) an odd
