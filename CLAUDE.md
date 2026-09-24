@@ -280,6 +280,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `CategoryFilter` `searchLabel`; kartadagi `data-q` (kichik harfli sarlavha) CSS `[data-q*="…" i]` bilan filtrlanadi,
   sahifa keshi buzilmaydi.
 
+### SEO
+- `src/app/sitemap.ts` — barcha ochiq sahifalar uch tilda, har birida hreflang muqobillari (yangiliklar, xodimlar, to‘garaklar, dasturlar,
+  albomlar, sinflar, yillar); `robots.ts` — `/admin` yopiq. Manzil `siteUrl` (`school.ts`, `NEXT_PUBLIC_SITE_URL` — domen olinganda).
+  Layout: `metadataBase`, Open Graph (sayt nomi, tavsif, locale); ulashish rasmi — `[lang]/opengraph-image.tsx` (1200×630, faqat lotin
+  matni — standart shriftda kirill yo‘q). Layout'da `alternates.languages` yo‘q (har sahifani bosh sahifaga bog‘lab qo‘yardi) — hreflang sitemap'da.
+
 ### Supabase
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
   Components), `public.ts` (ochiq o‘qish va aloqa formasi).
