@@ -1,8 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
-import { getAlbums, getClasses, getEvents, getNews } from "@/lib/content";
-import AlbumCard from "@/components/AlbumCard";
+import { getAlbums, getClasses, getEvents, getNews, mediaUrl } from "@/lib/content";
+import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
 import NewsCard from "@/components/NewsCard";
@@ -16,7 +16,7 @@ export const revalidate = 300;
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
   const [news, { upcoming }, albums, classes] = await Promise.all([getNews(3), getEvents(), getAlbums(), getClasses()]);
-  const recentAlbums = albums.filter((a) => a.gallery_photos.length > 0).slice(0, 3);
+  const recentPhotos = albums.flatMap((a) => a.gallery_photos.map((p) => mediaUrl(p.path)!)).slice(0, 4);
   const year = currentSchoolYear();
   // September: the year has just begun.
   const started = new Date().getMonth() === 8;
@@ -143,20 +143,29 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         )}
       </section>
 
-      {recentAlbums.length > 0 && (
+      {recentPhotos.length >= 2 && (
         <section className="mx-auto max-w-6xl px-4 pb-14">
-          <div className="mb-6 flex items-end justify-between gap-4">
-            <h2 className="text-2xl font-bold text-slate-900">{dict.home.galleryTitle}</h2>
-            <Link href={`/${lang}/gallery`} className="group text-sm font-bold text-brand">
-              {dict.home.allPhotos}{" "}
-              <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
+          <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="mb-2.5 flex items-center gap-2 text-[12.5px] font-bold tracking-wide text-[#0c6d62] before:h-0.5 before:w-[18px] before:rounded before:bg-gold">
+                {dict.nav.gallery}
+              </p>
+              <h2 className="font-display text-[clamp(1.6rem,2.9vw,2.1rem)] font-bold tracking-tight text-slate-900">{dict.home.galleryTitle}</h2>
+            </div>
+            <Link
+              href={`/${lang}/gallery`}
+              className="press rounded-full border-[1.5px] border-slate-200 bg-white px-5 py-2.5 text-sm font-bold text-slate-900 hover:border-brand hover:text-brand"
+            >
+              {dict.home.allPhotos}
             </Link>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {recentAlbums.map((album) => (
-              <AlbumCard key={album.id} album={album} lang={lang} dict={dict} />
-            ))}
-          </div>
+          {/* The newest photos across albums; a click opens them full screen. */}
+          <Lightbox
+            photos={recentPhotos}
+            alt={dict.home.galleryTitle}
+            gridClassName="grid-cols-2 md:grid-cols-4"
+            t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }}
+          />
         </section>
       )}
 

@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
 import { mediaBaseUrl } from "@/lib/media";
@@ -146,6 +147,11 @@ function logError(scope: string, error: { message: string } | null) {
   if (error) console.error(`[content] ${scope}: ${error.message}`);
 }
 
+/**
+ * The news list (news page, home page, "more news"). News about a regular program — its title or
+ * text mentions the program's keyword — is left out: it lives on that program's page, so the same
+ * story does not show up in two sections.
+ */
 export async function getNews(limit?: number): Promise<News[]> {
   const supabase = createPublicClient();
   if (!supabase) return [];
@@ -154,6 +160,9 @@ export async function getNews(limit?: number): Promise<News[]> {
     .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(count)")
     .eq("is_published", true)
     .order("published_at", { ascending: false, nullsFirst: false });
+  for (const kw of await programKeywords()) {
+    query = query.not("title_uz", "ilike", `*${kw}*`).not("body_uz", "ilike", `*${kw}*`);
+  }
   if (limit) query = query.limit(limit);
   const { data, error } = await query;
   logError("getNews", error);
@@ -337,11 +346,22 @@ export async function getProgram(slug: string): Promise<Program | null> {
   return data;
 }
 
+/** Keywords of published programs, cleaned for use inside PostgREST filters. */
+const programKeywords = cache(async (): Promise<string[]> => {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("programs").select("keyword").eq("is_published", true).not("keyword", "is", null);
+  logError("programKeywords", error);
+  return (data ?? []).map((p) => cleanKeyword(p.keyword ?? "")).filter((kw) => kw.length >= 3);
+});
+
+// The keyword goes into a PostgREST filter: keep only characters that cannot break its syntax.
+const cleanKeyword = (keyword: string) => keyword.replace(/[^\p{L}\p{N} ‘’'-]/gu, "").trim();
+
 /** Published news whose Uzbek title or text mentions the keyword (a program's related news), newest first. */
 export async function getNewsMentioning(keyword: string, limit = 12): Promise<News[]> {
   const supabase = createPublicClient();
-  // The keyword goes into a PostgREST filter: keep only characters that cannot break its syntax.
-  const kw = keyword.replace(/[^\p{L}\p{N} ‘’'-]/gu, "").trim();
+  const kw = cleanKeyword(keyword);
   if (!supabase || kw.length < 3) return [];
   const { data, error } = await supabase
     .from("news")

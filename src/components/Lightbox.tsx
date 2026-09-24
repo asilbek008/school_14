@@ -16,11 +16,14 @@ export default function Lightbox({
   alt,
   t,
   layout = "grid",
+  gridClassName = "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4",
 }: {
   photos: string[];
   alt: string;
   t: Labels;
   layout?: "grid" | "mosaic";
+  /** Column classes of the even grid (e.g. four in a row for a short strip). */
+  gridClassName?: string;
 }) {
   const [open, setOpen] = useState<number | null>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -63,7 +66,7 @@ export default function Lightbox({
         className={
           mosaic
             ? "grid auto-rows-[9rem] grid-cols-2 gap-2 sm:auto-rows-[11rem] sm:gap-3 md:grid-cols-4"
-            : "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4"
+            : `grid gap-3 ${gridClassName}`
         }
       >
         {photos.map((src, i) => (
@@ -72,7 +75,7 @@ export default function Lightbox({
             type="button"
             onClick={() => setOpen(i)}
             className={`group relative overflow-hidden rounded-2xl bg-brand-soft focus-visible:outline-3 focus-visible:outline-brand ${
-              mosaic ? mosaicSpan(i, photos.length) : "aspect-square"
+              mosaic ? mosaicSpan(i, photos.length) : "aspect-[25/18] cursor-zoom-in rounded-xl border border-slate-200"
             }`}
           >
             <Image
