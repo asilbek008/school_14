@@ -52,7 +52,8 @@
   },
   "news": {
     "empty": "No news yet.",
-    "intro": "The latest school news, announcements and our students’ achievements."
+    "intro": "The latest school news, announcements and our students’ achievements.",
+    "photos": "Photos"
   },
   "events": {
     "upcoming": "Upcoming events",

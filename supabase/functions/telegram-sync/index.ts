@@ -1,7 +1,8 @@
 // Imports new posts of the school's public Telegram channel into news and events.
 // Called by pg_cron every 15 minutes and by the admin panel ("Hozir yangilash"); both send the
 // x-sync-secret header from telegram_settings. `?dry=1` only parses and returns what it would do
-// (with `&channel=` and `&since=` to preview another channel or period).
+// (with `&channel=` and `&since=` to preview another channel or period). `?backfill=1` adds the
+// photo galleries of already imported news that have none yet.
 // Runs with the service role key that Supabase injects, so it bypasses RLS.
 
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -11,6 +12,8 @@ const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
 /** A preview page holds only a few posts when they have photo albums; go back at most this many pages. */
 const MAX_PAGES = 8;
+/** Photos copied per post: the first is the cover, the rest go to the article's gallery. */
+const MAX_PHOTOS = 12;
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { "Content-Type": "application/json" } });
@@ -25,6 +28,7 @@ Deno.serve(async (req) => {
 
   const url = new URL(req.url);
   const dry = url.searchParams.get("dry") === "1";
+  const backfill = url.searchParams.get("backfill") === "1";
   const channel: string | null = (dry && url.searchParams.get("channel")) || settings.channel;
   if (!channel || !/^[A-Za-z0-9_]{4,32}$/.test(channel)) return json({ skipped: "kanal kiritilmagan" });
   if (!dry && !settings.enabled) return json({ skipped: "o‘chirilgan" });
@@ -70,10 +74,23 @@ Deno.serve(async (req) => {
 
   const { data: seen } = await supabase
     .from("telegram_posts")
-    .select("post_id")
+    .select("post_id, news_id")
     .eq("channel", channel)
     .in("post_id", posts.map((p) => p.id));
   const done = new Set((seen ?? []).map((r) => r.post_id));
+
+  if (backfill) {
+    const newsIds = (seen ?? []).flatMap((r) => (r.news_id ? [r.news_id] : []));
+    const { data: withPhotos } = await supabase.from("news_photos").select("news_id").in("news_id", newsIds);
+    const hasGallery = new Set((withPhotos ?? []).map((r) => r.news_id));
+    let photos = 0;
+    for (const row of seen ?? []) {
+      const post = posts.find((p) => p.id === row.post_id);
+      if (!post || !row.news_id || hasGallery.has(row.news_id)) continue;
+      photos += await addGallery(supabase, channel, post, row.news_id);
+    }
+    return json({ status: `${photos} ta rasm galereyalarga qo‘shildi` });
+  }
 
   let news = 0;
   let events = 0;
@@ -87,7 +104,7 @@ Deno.serve(async (req) => {
     if (result.kind === "skip") {
       record.skipped = result.reason;
     } else if (result.kind === "news") {
-      const cover = await copyImage(supabase, channel, post);
+      const cover = await copyImage(supabase, channel, post, 0);
       const row = {
         title_uz: result.title,
         body_uz: result.body,
@@ -113,6 +130,7 @@ Deno.serve(async (req) => {
         continue;
       }
       record.news_id = data.id;
+      await addGallery(supabase, channel, post, data.id);
       news++;
     } else {
       const { data, error } = await supabase
@@ -144,13 +162,31 @@ Deno.serve(async (req) => {
   return await finish(problems.length ? `${summary}. Xatolar: ${problems.join("; ")}` : summary, { news, events });
 });
 
-/** Copies the post's first picture into the media bucket (Telegram's file links are not permanent). */
+/** Copies the post's 2nd…12th photos into the article's gallery; returns how many were added. */
+async function addGallery(
+  supabase: ReturnType<typeof createClient>,
+  channel: string,
+  post: TelegramPost,
+  newsId: number,
+): Promise<number> {
+  const rows: { news_id: number; path: string; sort_order: number }[] = [];
+  for (let i = 1; i < Math.min(post.images.length, MAX_PHOTOS); i++) {
+    const path = await copyImage(supabase, channel, post, i);
+    if (path) rows.push({ news_id: newsId, path, sort_order: i });
+  }
+  if (!rows.length) return 0;
+  const { error } = await supabase.from("news_photos").insert(rows);
+  return error ? 0 : rows.length;
+}
+
+/** Copies one of the post's pictures into the media bucket (Telegram's file links are not permanent). */
 async function copyImage(
   supabase: ReturnType<typeof createClient>,
   channel: string,
   post: TelegramPost,
+  index: number,
 ): Promise<string | null> {
-  const src = post.images[0];
+  const src = post.images[index];
   if (!src) return null;
   try {
     const res = await fetch(src);
@@ -159,7 +195,7 @@ async function copyImage(
     const bytes = new Uint8Array(await res.arrayBuffer());
     if (bytes.byteLength > MAX_IMAGE_BYTES) return null;
     const ext = type === "image/png" ? "png" : type === "image/webp" ? "webp" : "jpg";
-    const path = `telegram/${channel.toLowerCase()}-${post.id}.${ext}`;
+    const path = `telegram/${channel.toLowerCase()}-${post.id}${index ? `-${index}` : ""}.${ext}`;
     const { error } = await supabase.storage.from("media").upload(path, bytes, { contentType: type, upsert: true });
     return error ? null : path;
   } catch {

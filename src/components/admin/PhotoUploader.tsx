@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { uploadImage } from "@/lib/resize-image";
 
-/** Uploads many photos (shrunk in the browser) to gallery/<albumId>/, then registers them. */
+/** Uploads many photos (shrunk in the browser) into `folder` (e.g. gallery/12), then registers them. */
 export default function PhotoUploader({
-  albumId,
+  folder,
   onUploaded,
 }: {
-  albumId: number;
-  onUploaded: (albumId: number, paths: string[]) => Promise<void>;
+  folder: string;
+  onUploaded: (paths: string[]) => Promise<void>;
 }) {
   const router = useRouter();
   const [status, setStatus] = useState<string | null>(null);
@@ -27,12 +27,12 @@ export default function PhotoUploader({
     for (const [i, file] of list.entries()) {
       setStatus(`Yuklanmoqda: ${i + 1} / ${list.length}…`);
       try {
-        paths.push(await uploadImage(supabase, `gallery/${albumId}`, file));
+        paths.push(await uploadImage(supabase, folder, file));
       } catch {
         failed++;
       }
     }
-    if (paths.length) await onUploaded(albumId, paths);
+    if (paths.length) await onUploaded(paths);
     setBusy(false);
     setStatus(
       failed

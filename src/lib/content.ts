@@ -18,6 +18,8 @@ export type News = {
   category: NewsCategory;
 };
 
+export type NewsArticle = News & { news_photos: { path: string }[] };
+
 export type SchoolEvent = {
   id: number;
   title_uz: string;
@@ -156,14 +158,16 @@ export async function getNews(limit?: number): Promise<News[]> {
   return data ?? [];
 }
 
-export async function getNewsBySlug(slug: string): Promise<News | null> {
+export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
   const supabase = createPublicClient();
   if (!supabase) return null;
   const { data, error } = await supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(path)")
     .eq("is_published", true)
     .eq("slug", slug)
+    .order("sort_order", { referencedTable: "news_photos" })
+    .order("id", { referencedTable: "news_photos" })
     .maybeSingle();
   logError("getNewsBySlug", error);
   return data;
