@@ -55,7 +55,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - `localized(row, "title", lang)` — `title_<lang>` bo‘sh bo‘lsa `title_uz` ni qaytaradi.
   `mediaUrl(path)` — `media` bucket'dagi yo‘lni ochiq URL'ga aylantiradi.
 - Admin kiritgan matn HTML emas, oddiy matn: `RichText` bo‘sh qator bo‘yicha paragraflarga ajratadi.
-- "Qabul" — `pages` jadvalidan (`CmsPage` komponenti). "Maktab haqida" (`[lang]/about`, maketdagidek): banner (kicker —
+- "Qabul" (`[lang]/admissions`; artifactda bu bo‘lim yo‘q, shu uslubda qilingan): 3 qadam (qo‘ng‘iroq, ish vaqtida kelish,
+  rahbariyat bilan uchrashish — egasining matnidan), `pages` matni, oltin izoh va aloqa kartasi (qo‘ng‘iroq / murojaat).
+  Hujjatlar ro‘yxati va muddatlar egasi tasdiqlamaguncha yozilmaydi. Bo‘lim sarlavhasi — `SectionHead`. "Maktab haqida" (`[lang]/about`, maketdagidek): banner (kicker —
   sahifa sarlavhasi, h1 — maktab nomi, `about.lead`), 4 rangli raqam kartasi (o‘quvchi, xodim, sinf, smena), `pages`
   matni + "Qisqacha" (faoliyati, manzil, telefon, ish vaqti), rahbariyat (`positionGroup` = `leaders`, profilga havola)
   va dars vaqtlari qisqacha — to‘liq qo‘ng‘iroqlar jadvali va savol-javob o‘z sahifalarida (takrorlanmaydi).
@@ -190,7 +192,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   bering (dropdown, mobil menyu, `LiveCard`). Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
   Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`): yuqorida topbar (md+; manzil, telefon, o‘quv yili, eMaktab), ostida
-  sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · O‘qituvchilar · Yangiliklar · Tadbirlar ▾. Dropdown'larda
+  sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · Xodimlar · Yangiliklar · Tadbirlar ▾ (lg+ da o‘ngga,
+  tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi). Dropdown'larda
   ikonka + qisqa izoh (`navDesc` lug‘atda); hover/bosish/klaviatura bilan ochiladi, Esc, tashqariga bosish va sahifa
   o‘zgarganda yopiladi. Joriy sahifa oq "pill". Mobil — butun ekranli panel (`MobileMenu` `<details>`, guruhlar ichki
   `<details>`; ochiqligida sahifa scroll bo‘lmaydi). Til va rejim tugmalari telefonda ham header'da
