@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { albumCover, getAlbum, localized, mediaUrl } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { fill } from "@/i18n/fill";
 import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
 import Lightbox from "@/components/Lightbox";
@@ -27,10 +28,16 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
 
   return (
     <>
-      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/gallery`, label: dict.nav.gallery }]} title={title} kicker={album.event_date ? formatDate(album.event_date, lang) : dict.nav.gallery} />
+      <PageHeader
+        crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/gallery`, label: dict.nav.gallery }]}
+        title={title}
+        kicker={album.event_date ? formatDate(album.event_date, lang) : dict.nav.gallery}
+        intro={fill(dict.gallery.photos, { n: album.gallery_photos.length })}
+      />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <Link href={`/${lang}/gallery`} className="text-sm font-bold text-brand link-grow">
-          ← {dict.gallery.back}
+        <Link href={`/${lang}/gallery`} className="group inline-flex items-center gap-1.5 text-sm font-bold text-brand">
+          <span aria-hidden className="inline-block transition-transform duration-200 group-hover:-translate-x-1">←</span>
+          {dict.gallery.back}
         </Link>
         {description && (
           <div className="mt-4 max-w-3xl">

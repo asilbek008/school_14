@@ -236,7 +236,8 @@
     "back": "Barcha albomlar",
     "close": "Yopish",
     "prev": "Oldingi",
-    "next": "Keyingi"
+    "next": "Keyingi",
+    "noDate": "Sana ko‘rsatilmagan"
   },
   "timetable": {
     "intro": "Smenani, keyin parallel va sinfni tanlang — kunlik va haftalik jadval ochiladi.",

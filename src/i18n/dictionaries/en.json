@@ -236,7 +236,8 @@
     "back": "All albums",
     "close": "Close",
     "prev": "Previous",
-    "next": "Next"
+    "next": "Next",
+    "noDate": "No date"
   },
   "timetable": {
     "intro": "Choose a shift, then a grade and a class to see the daily and weekly timetable.",
