@@ -20,3 +20,7 @@ export const eventColors: Record<EventCategory, { badge: string; tile: string }>
   olimpiada: { badge: "bg-teal-soft text-[#0c6d62]", tile: "bg-teal-soft text-[#0c6d62]" },
   sport: { badge: "bg-[#fae7e2] text-[#c9553f]", tile: "bg-[#fae7e2] text-[#c9553f]" },
 };
+
+// What a contact-form message is about (matches the contact_messages.topic check).
+export const contactTopics = ["savol", "taklif", "murojaat", "boshqa"] as const;
+export type ContactTopic = (typeof contactTopics)[number];

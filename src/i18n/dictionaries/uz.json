@@ -136,7 +136,7 @@
     "openMap": "Xaritada ochish",
     "tbd": "Tez orada qo‘shiladi",
     "form": {
-      "title": "Xabar yuborish",
+      "title": "Murojaat yuborish",
       "name": "Ismingiz",
       "email": "Elektron pochta",
       "phone": "Telefon",
@@ -147,8 +147,25 @@
       "success": "Rahmat! Xabaringiz qabul qilindi.",
       "error": "Xabarni yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring.",
       "invalid": "Iltimos, ism va xabarni to‘ldiring.",
-      "needContact": "Telefon yoki elektron pochtani kiriting."
-    }
+      "needContact": "Telefon yoki elektron pochtani kiriting.",
+      "lead": "Savol, taklif yoki murojaatingizni yozib qoldiring.",
+      "namePlaceholder": "F.I.Sh.",
+      "messagePlaceholder": "Murojaatingiz matni…",
+      "topic": "Mavzu",
+      "topics": {
+        "savol": "Savol",
+        "taklif": "Taklif",
+        "murojaat": "Murojaat",
+        "boshqa": "Boshqa"
+      },
+      "hint": "Shaxsiy va maxfiy ma’lumotlarni (parol, hujjat raqami) bu yerga yozmang.",
+      "successTitle": "Murojaatingiz yuborildi",
+      "again": "Yana murojaat yozish"
+    },
+    "title": "Biz bilan bog‘laning",
+    "quickTitle": "Tezkor javob kerakmi?",
+    "quickText": "Shoshilinch masalalarda maktab telefoniga qo‘ng‘iroq qiling:",
+    "quickNote": "Murojaatlar ish kunlari ko‘rib chiqiladi. Baho va uy vazifasi bo‘yicha savollarni avval sinf rahbariga yo‘naltiring."
   },
   "footer": {
     "rights": "Barcha huquqlar himoyalangan.",

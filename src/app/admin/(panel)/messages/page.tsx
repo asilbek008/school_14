@@ -5,6 +5,8 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import DeleteButton from "@/components/admin/DeleteButton";
 import { deleteMessage, setMessageRead } from "./actions";
 
+const topics: Record<string, string> = { savol: "Savol", taklif: "Taklif", murojaat: "Murojaat", boshqa: "Boshqa" };
+
 export const metadata: Metadata = { title: "Xabarlar" };
 
 export default async function MessagesPage() {
@@ -26,6 +28,7 @@ export default async function MessagesPage() {
               <div className="flex flex-wrap items-baseline justify-between gap-2">
                 <p className="font-semibold">
                   {m.name}
+                  {m.topic && <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-800">{topics[m.topic] ?? m.topic}</span>}
                   {!m.is_read && <span className="ml-2 rounded-full bg-blue-100 px-2 py-0.5 text-xs text-blue-800">Yangi</span>}
                 </p>
                 <time className="text-sm text-slate-500">{formatDateTime(m.created_at, "uz")}</time>
