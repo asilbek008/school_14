@@ -46,7 +46,8 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
   return (
     <>
       <div className="hidden border-b border-white/[0.07] bg-navy text-[12.5px] text-[#aeb8d4] md:block">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-2">
+        {/* Wider than the page column (owner's request): the menu and buttons sit nearer the right edge. */}
+        <div className="mx-auto flex max-w-[100rem] items-center justify-between gap-4 px-4 py-2 xl:px-8">
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1">
             {school.address &&
               (school.mapUrl ? (
@@ -76,7 +77,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
       </div>
 
       <header className="site-header sticky top-0 z-30 bg-navy text-white shadow-[0_1px_0_rgb(255_255_255/0.08)]">
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 lg:h-[74px]">
+        <div className="mx-auto flex h-16 max-w-[100rem] items-center justify-between gap-3 px-4 lg:h-[74px] xl:px-8">
           <Link href={href("")} className="group/logo flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3">
             <span className="relative grid size-10 place-items-center rounded-xl bg-white text-lg font-extrabold tracking-tight text-navy transition-transform duration-300 ease-(--ease-spring) after:absolute after:inset-x-3 after:bottom-1.5 after:h-[3px] after:rounded after:bg-gold after:transition-[left,right] after:duration-300 group-hover/logo:-rotate-6 group-hover/logo:after:inset-x-2 lg:size-11">
               <span className="-translate-y-0.5">14</span>
