@@ -104,7 +104,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
               rel="noopener noreferrer"
               title={dict.emaktab.short}
               // Just the name here, so the Russian bar still fits at 1280px; the full label is the tooltip.
-              className="press hidden h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.07] pl-3 pr-3.5 text-[12.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white xl:inline-flex"
+              className="press mr-3 hidden h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.07] pl-3 pr-3.5 text-[12.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white xl:inline-flex"
             >
               <span className="size-1.5 rounded-full bg-[#3ecfb2]" />
               eMaktab ↗<span className="sr-only"> — {dict.emaktab.short} ({dict.emaktab.newTab})</span>
