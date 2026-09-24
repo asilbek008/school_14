@@ -14,6 +14,7 @@ const nav = [
   { href: "/admin/clubs", label: "To‘garaklar" },
   { href: "/admin/gallery", label: "Galereya" },
   { href: "/admin/pages", label: "Sahifalar" },
+  { href: "/admin/years", label: "O‘quv yillari" },
   { href: "/admin/messages", label: "Xabarlar" },
 ];
 

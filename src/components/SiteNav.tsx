@@ -70,11 +70,14 @@ export default function SiteNav({
   home,
   entries,
   labels,
+  yearMenu,
   children,
 }: {
   home: string;
   entries: NavEntry[];
   labels: { menu: string; newTab: string; extra: NavItem; search: { action: string; label: string } };
+  /** The school-year chips at the end of the mobile menu (the top bar with the switcher is hidden on phones). */
+  yearMenu?: React.ReactNode;
   /** Shown at the right end, before the mobile menu button (the language switcher). */
   children: React.ReactNode;
 }) {
@@ -265,6 +268,7 @@ export default function SiteNav({
                   {labels.extra.label} ↗<small className="block text-xs font-medium opacity-80">{labels.extra.desc}</small>
                 </span>
               </ItemLink>
+              {yearMenu}
             </div>
           </nav>
         </MobileMenu>

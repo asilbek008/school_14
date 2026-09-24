@@ -9,7 +9,7 @@ export const tileColors = ["from-[#3e72e8] to-brand-deep", "from-[#17a090] to-[#
  */
 export default function StatTiles({ stats, className = "mb-8" }: { stats: { value: number; label: string; href?: string }[]; className?: string }) {
   return (
-    <div className={`grid gap-2.5 sm:gap-3.5 ${stats.length === 3 ? "grid-cols-3" : "grid-cols-2 lg:grid-cols-4"} ${className}`}>
+    <div className={`year-hide grid gap-2.5 sm:gap-3.5 ${stats.length === 3 ? "grid-cols-3" : "grid-cols-2 lg:grid-cols-4"} ${className}`}>
       {stats.map(({ value, label, href }, i) => {
         const tile = `reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-3.5 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${tileColors[i % tileColors.length]}`;
         const body = (

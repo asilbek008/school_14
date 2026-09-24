@@ -54,14 +54,14 @@ export default async function GalleryPage({ params }: PageProps<"/[lang]/gallery
         intro={albums.length ? fill(t.countIntro, { n: albums.length }) : t.intro}
         kicker={dict.home.galleryTitle}
       />
-      <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="year-scope mx-auto max-w-6xl px-4 py-10">
         {albums.length ? (
           <>
             <StatTiles stats={stats} />
             <CategoryFilter allLabel={`${dict.common.all} · ${albums.length}`} searchLabel={t.search} emptyLabel={t.notFound} options={options}>
               <div className="grid gap-[18px] sm:grid-cols-2 lg:grid-cols-3">
                 {albums.map((album) => (
-                  <div key={album.id} data-cat={schoolYearOf(album.event_date)} data-q={localized(album, "title", lang).toLowerCase()}>
+                  <div key={album.id} data-cat={schoolYearOf(album.event_date)} data-year={schoolYearOf(album.event_date)} data-q={localized(album, "title", lang).toLowerCase()}>
                     <AlbumCard album={album} lang={lang} dict={dict} />
                   </div>
                 ))}

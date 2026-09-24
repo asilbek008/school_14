@@ -1,11 +1,12 @@
 import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
-import { fill } from "@/i18n/fill";
 import { currentSchoolYear, school, telHref } from "@/lib/school";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeToggle from "./ThemeToggle";
 import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
+import YearSwitcher from "./YearSwitcher";
+import { getSchoolYears } from "@/lib/content";
 
 /**
  * Edges of the header rows (owner's requests): the logo sits 40px from the left edge from xl
@@ -15,7 +16,7 @@ import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
 const edges = "pl-4 pr-4 xl:pl-10 xl:pr-[max(2rem,calc((100%_-_100rem)/2_+_2rem))]";
 
 /** Top info bar (scrolls away) and the sticky navigation bar below it. */
-export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
   const href = (path: string) => `/${lang}${path}`;
   const d = dict.navDesc;
   const entries: NavEntry[] = [
@@ -49,6 +50,9 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
   ];
   const emaktab: NavItem = { href: school.eMaktabUrl, label: "eMaktab", desc: d.emaktab, icon: "grade", color: "amber", external: true };
   const year = currentSchoolYear();
+  // The year switcher: the current school year and every published past one, newest first.
+  const years = [...new Set([year.from, ...(await getSchoolYears()).map((y) => y.start_year)])].sort((a, b) => b - a);
+  const yearProps = { lang, years, current: year.from, format: dict.topbar.year, label: dict.year.choose, currentLabel: dict.year.current };
 
   return (
     <>
@@ -68,7 +72,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
                 ☎ {school.phone}
               </a>
             )}
-            <span>{fill(dict.topbar.year, year)}</span>
+            <YearSwitcher {...yearProps} />
           </div>
           <a
             href={school.eMaktabUrl}
@@ -97,7 +101,8 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
             </span>
           </Link>
 
-          <SiteNav home={href("")} entries={entries} labels={{ menu: dict.nav.menu, newTab: dict.emaktab.newTab, extra: emaktab, search: { action: href("/search"), label: dict.search.placeholder } }}>
+          <SiteNav home={href("")} entries={entries} labels={{ menu: dict.nav.menu, newTab: dict.emaktab.newTab, extra: emaktab, search: { action: href("/search"), label: dict.search.placeholder } }}
+            yearMenu={<YearSwitcher {...yearProps} variant="menu" />}>
             <a
               href={school.eMaktabUrl}
               target="_blank"

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Bricolage_Grotesque, Inter } from "next/font/google";
 import { locales } from "@/i18n/config";
 import { resolveLang } from "@/i18n/server";
+import YearBanner from "@/components/YearBanner";
+import { currentSchoolYear } from "@/lib/school";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import "../globals.css";
@@ -47,6 +49,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
       </head>
       <body className="flex min-h-full flex-col bg-paper">
         <SiteHeader lang={lang} dict={dict} />
+        <YearBanner lang={lang} current={currentSchoolYear().from} t={dict.year} />
         <main className="flex-1">{children}</main>
         <SiteFooter lang={lang} dict={dict} />
       </body>

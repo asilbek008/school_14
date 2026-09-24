@@ -581,5 +581,26 @@
     "pick": "Sinfni tanlash",
     "shortcut": "Mening sinfim: {c}",
     "now": "Hozir"
+  },
+  "year": {
+    "title": "{y} o‘quv yili",
+    "kicker": "O‘quv yili",
+    "current": "Joriy yil",
+    "intro": "Shu o‘quv yilidagi (1-sentabr – 31-avgust) yangiliklar, tadbirlar va lavhalar.",
+    "choose": "O‘quv yilini tanlang",
+    "summary": "Yil yakunlari",
+    "news": "Yangiliklar",
+    "events": "Tadbirlar",
+    "albums": "Albomlar",
+    "empty": "Bu o‘quv yili uchun ma’lumot hali qo‘shilmagan.",
+    "students": "o‘quvchi",
+    "staff": "xodim",
+    "classes": "sinf",
+    "graduates": "bitiruvchi",
+    "other": "Boshqa o‘quv yillari",
+    "banner": "{y} o‘quv yili ko‘rsatilmoqda",
+    "bannerHint": "yangiliklar, tadbirlar va galereya shu yil bo‘yicha",
+    "back": "Joriy yilga qaytish",
+    "page": "Yil sahifasi"
   }
 }

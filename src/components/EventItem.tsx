@@ -4,6 +4,7 @@ import { localized, type SchoolEvent } from "@/lib/content";
 import { eventColors } from "@/lib/categories";
 import { formatDateFull, formatTime } from "@/lib/format";
 import DaysLeft from "./DaysLeft";
+import { schoolYearOf } from "@/lib/school-years";
 
 const monthShort: Record<Locale, string> = { uz: "uz-UZ", ru: "ru-RU", en: "en-GB" };
 
@@ -22,6 +23,7 @@ export default function EventItem({ event, lang, dict, past = false }: { event: 
   return (
     <details
       data-cat={event.category}
+      data-year={schoolYearOf(event.starts_at)}
       data-q={`${localized(event, "title", lang)} ${event.location ?? ""}`.toLowerCase()}
       className="acc reveal group rounded-2xl border border-slate-200 bg-white transition-[border-color,box-shadow] duration-200 hover:border-slate-300 open:border-brand open:shadow-[0_12px_24px_-12px_rgb(19_26_46/0.18)]"
     >
