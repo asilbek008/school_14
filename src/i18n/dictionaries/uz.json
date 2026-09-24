@@ -301,7 +301,9 @@
     "title": "Ko‘p so‘raladigan savollar",
     "moreTitle": "Javob topmadingizmi?",
     "moreText": "Savolingizni yozib qoldiring yoki maktabga qo‘ng‘iroq qiling.",
-    "open": "Ochish"
+    "open": "Ochish",
+    "search": "Savol yoki javobdan qidiring…",
+    "notFound": "Bunday savol topilmadi. Savolingizni bizga yozing — javob beramiz."
   },
   "newsCats": {
     "yangilik": "Yangilik",

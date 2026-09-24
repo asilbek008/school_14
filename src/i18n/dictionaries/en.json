@@ -301,7 +301,9 @@
     "title": "Frequently asked questions",
     "moreTitle": "Didn’t find an answer?",
     "moreText": "Send us your question or call the school.",
-    "open": "Open"
+    "open": "Open",
+    "search": "Search questions and answers…",
+    "notFound": "No such question. Write to us and we’ll answer."
   },
   "newsCats": {
     "yangilik": "News",

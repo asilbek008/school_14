@@ -50,22 +50,25 @@ export default function CategoryFilter({
       )}
       {q && <style>{`.category-filter [data-q]:not([data-q*="${q}" i]){display:none}`}</style>}
       <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex flex-wrap gap-2" role="group">
-          <button type="button" aria-pressed={!active} className={chip(!active)} onClick={() => setActive(null)}>
-            {allLabel}
-          </button>
-          {options.map((o) => (
-            <button
-              key={o.value}
-              type="button"
-              aria-pressed={active === o.value}
-              className={chip(active === o.value)}
-              onClick={() => setActive(o.value)}
-            >
-              {o.label}
+        {/* Without options only the search box shows (e.g. the FAQ). */}
+        {options.length > 0 && (
+          <div className="flex flex-wrap gap-2" role="group">
+            <button type="button" aria-pressed={!active} className={chip(!active)} onClick={() => setActive(null)}>
+              {allLabel}
             </button>
-          ))}
-        </div>
+            {options.map((o) => (
+              <button
+                key={o.value}
+                type="button"
+                aria-pressed={active === o.value}
+                className={chip(active === o.value)}
+                onClick={() => setActive(o.value)}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+        )}
         {searchLabel && (
           <input
             type="search"
@@ -73,7 +76,7 @@ export default function CategoryFilter({
             onChange={(e) => setQuery(e.target.value)}
             placeholder={searchLabel}
             aria-label={searchLabel}
-            className="w-full rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-brand sm:w-72"
+            className={`w-full rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-brand ${options.length ? "sm:w-72" : ""}`}
           />
         )}
       </div>

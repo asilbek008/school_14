@@ -76,7 +76,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   dars 45 daq, tanaffus 5 daq. `/schedule` sahifasi va `LiveCard` ("Hozir maktabda", client
   komponent, Toshkent vaqtini brauzerda hisoblaydi — sahifa keshlangani uchun serverda emas) shundan foydalanadi.
 - Lug‘at satrlaridagi `{n}` kabi joylar `fill()` (`src/i18n/fill.ts`) bilan to‘ldiriladi.
-- Savol-javob (`/faq`, maketdagidek akkordeon — `details.acc`; yonida "Javob topmadingizmi?" aloqa kartasi) matnlari
+- Savol-javob (`/faq`, maketdagidek akkordeon — `details.acc`; yonida "Javob topmadingizmi?" — rangli karta, `tileColors[0]`;
+  tepada savol va javob matni bo‘yicha qidiruv — `CategoryFilter` `options={[]}`, tugmalarsiz faqat qidiruv chiqadi) matnlari
   lug‘atda (`faq.items`; ixtiyoriy `link` — javob ostida "Ochish →" havolasi). Maketdagi YT savoli qo‘shilmagan (raqamlari tasdiqlanmagan).
 - Turkumlar (`src/lib/categories.ts`): yangilik — `yangilik|elon|tadbir|yutuq`, tadbir —
   `bayram|maktab|olimpiada|sport` (DB `check` bilan bir xil; nomlari lug‘atda `newsCats`/`eventCats`).
