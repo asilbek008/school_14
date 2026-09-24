@@ -55,7 +55,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - `localized(row, "title", lang)` — `title_<lang>` bo‘sh bo‘lsa `title_uz` ni qaytaradi.
   `mediaUrl(path)` — `media` bucket'dagi yo‘lni ochiq URL'ga aylantiradi.
 - Admin kiritgan matn HTML emas, oddiy matn: `RichText` bo‘sh qator bo‘yicha paragraflarga ajratadi.
-- "Maktab haqida" va "Qabul" — `pages` jadvalidan (`CmsPage` komponenti).
+- "Qabul" — `pages` jadvalidan (`CmsPage` komponenti). "Maktab haqida" (`[lang]/about`, maketdagidek): banner (kicker —
+  sahifa sarlavhasi, h1 — maktab nomi, `about.lead`), 4 rangli raqam kartasi (o‘quvchi, xodim, sinf, smena), `pages`
+  matni + "Qisqacha" (faoliyati, manzil, telefon, ish vaqti), rahbariyat (`positionGroup` = `leaders`, profilga havola)
+  va dars vaqtlari qisqacha — to‘liq qo‘ng‘iroqlar jadvali va savol-javob o‘z sahifalarida (takrorlanmaydi).
 - Aloqa formasi: `[lang]/contact/actions.ts` Server Action `contact_messages` ga yozadi
   (honeypot `website` maydoni bor; telefon yoki email majburiy). Action kiritilgan qiymatlarni
   qaytaradi — React 19 action'dan keyin formani tozalaydi, shuning uchun `defaultValue` kerak (`select` yangi
