@@ -67,7 +67,23 @@
       "faq": "Ответы для родителей"
     },
     "galleryTitle": "Из жизни школы",
-    "allPhotos": "Все фото"
+    "allPhotos": "Все фото",
+    "numbersKicker": "В цифрах",
+    "numbersTitle": "Жизнь школы",
+    "numNews": {
+      "one": "новость",
+      "few": "новости",
+      "many": "новостей",
+      "other": "новости"
+    },
+    "numEvents": "ближайших мероприятий",
+    "numClubs": {
+      "one": "кружок",
+      "few": "кружка",
+      "many": "кружков",
+      "other": "кружка"
+    },
+    "numPrograms": "постоянных проектов"
   },
   "common": {
     "readMore": "Подробнее",

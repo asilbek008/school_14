@@ -250,6 +250,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ko‘rsatilmagan"); albom sahifasida intro — rasm soni, `Lightbox` to‘ri 4 ustunli, 25:18 kataklar. Bosh sahifada
   "Maktab hayotidan" — albomlardagi eng yangi 4 rasm (`Lightbox` `gridClassName`), kamida 2 ta bo‘lsa chiqadi.
 - Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), ostida `EMaktabCard`, maketdagidek.
+  Undan keyin "Raqamlarda" / "Maktab hayoti" — `StatTiles` `href` bilan (bosiladigan kartalar): yangiliklar, yaqin tadbirlar,
+  to‘garaklar, doimiy loyihalar.
   Bo‘limlar ingichka chiziq bilan ajratilgan, sarlavhalari `SectionHead` (`action` — o‘ngda "Barchasi" tugmasi); "Yaqin kunlardagi
   tadbirlar" — 3 ta ixcham `EventCard` (sana plitkasi, nom, sana • turkum; `/events` ga havola).
 - Yangiliklar (maketdagidek): banner "Maktab hayoti" / "Yangiliklar va e’lonlar" (intro — yangiliklar soni), tepada 4 rangli raqam kartasi
