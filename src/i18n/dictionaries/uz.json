@@ -90,7 +90,7 @@
     "emptyUpcoming": "Hozircha rejalashtirilgan tadbirlar yo‘q.",
     "emptyPast": "O‘tgan tadbirlar yo‘q.",
     "location": "Joy",
-    "intro": "Bayramlar, maktab tadbirlari, olimpiada va sport musobaqalari.",
+    "intro": "Bayramlar, maktab tadbirlari, olimpiada va sport musobaqalari. Batafsil ma’lumot uchun tadbirni bosing.",
     "today": "Bugun",
     "tomorrow": "Ertaga",
     "inDays": {
@@ -99,7 +99,8 @@
     },
     "time": "Vaqti",
     "noDetails": "Batafsil ma’lumot keyinroq e’lon qilinadi.",
-    "note": "Maktab ichki tadbirlarining sanalari rejalashtirilgan bo‘lib, o‘zgarishi mumkin."
+    "note": "Maktab ichki tadbirlarining sanalari rejalashtirilgan bo‘lib, o‘zgarishi mumkin.",
+    "noneOfType": "Bu turdagi tadbir yo‘q."
   },
   "staff": {
     "intro": "Maktabimiz rahbariyati va o‘qituvchilari.",

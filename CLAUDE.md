@@ -80,7 +80,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Turkumlar (`src/lib/categories.ts`): yangilik — `yangilik|elon|tadbir|yutuq`, tadbir —
   `bayram|maktab|olimpiada|sport` (DB `check` bilan bir xil; nomlari lug‘atda `newsCats`/`eventCats`).
   Ro‘yxatlarda `CategoryFilter` — server render qilingan elementlarni `data-cat` bo‘yicha CSS bilan
-  yashiradi, shuning uchun sahifa keshlanishi buzilmaydi.
+  yashiradi, shuning uchun sahifa keshlanishi buzilmaydi. `data-cat-only` + `hidden` — faqat o‘sha turkum tanlanganda
+  ko‘rinadi (`/events` da guruh sarlavhasidagi son turkum bo‘yicha o‘zgaradi, bo‘sh guruhda "Bu turdagi tadbir yo‘q").
 - `events.all_day` — bayramlar kabi vaqtsiz tadbirlar Toshkent vaqti 00:00–23:59 sifatida saqlanadi
   (yaqinlashayotgan/o‘tgan ajratish kun davomida to‘g‘ri ishlashi uchun), saytda faqat sana chiqadi.
 - Doimiy tadbirlar (`/programs`, `/programs/[slug]`, `programs` jadvali; admin `/admin/programs`): yil bo‘yi muntazam
