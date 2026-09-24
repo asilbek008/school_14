@@ -192,8 +192,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   bloklar (`.chrome`, `.site-header`) light-mode slate'ni saqlaydi; ular ichidagi oq kartalarga `surface` klassini
   bering (dropdown, mobil menyu, `LiveCard`). Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
   Admin panelga ta’sir qilmaydi.
-- Header (`SiteHeader` + client `SiteNav`): qatorlar chetlari `edges` (egasining talabi): chap tomoni sahifa
-  ustuni (72rem) bilan bir chiziqda — logo joyida, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin; yuqorida topbar (md+; manzil, telefon, o‘quv yili, eMaktab), ostida
+- Header (`SiteHeader` + client `SiteNav`): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
+  40px da, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin (lg da ikkala tomon 16px — ruscha sig‘ishi uchun); yuqorida topbar (md+; manzil, telefon, o‘quv yili, eMaktab), ostida
   sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · Xodimlar · Yangiliklar · Tadbirlar ▾ (lg+ da o‘ngga,
   tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi; `whitespace-nowrap`, menyuda qisqa `nav.timetableShort` —
   ruscha "Расписание уроков" sig‘maydi). Dropdown'larda
