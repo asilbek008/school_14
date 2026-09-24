@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
-import { getNewsMentioning, getProgram, localized, mediaUrl } from "@/lib/content";
+import { getLeagueTables, getNewsMentioning, getProgram, localized, mediaUrl } from "@/lib/content";
+import { formatDate } from "@/lib/format";
 import PageHeader from "@/components/PageHeader";
 import PhotoFrame from "@/components/PhotoFrame";
 import RichText from "@/components/RichText";
@@ -9,6 +10,7 @@ import NewsCard from "@/components/NewsCard";
 import EmptyState from "@/components/EmptyState";
 import Lightbox from "@/components/Lightbox";
 import VideoGrid from "@/components/VideoGrid";
+import LeagueStandings from "@/components/LeagueStandings";
 
 export const revalidate = 300;
 
@@ -25,7 +27,7 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
   if (!program) notFound();
   const t = dict.programs;
   const name = localized(program, "name", lang);
-  const news = program.keyword ? await getNewsMentioning(program.keyword) : [];
+  const [news, league] = await Promise.all([program.keyword ? getNewsMentioning(program.keyword) : [], getLeagueTables(program.id)]);
   const cover = mediaUrl(program.cover ?? news.find((n) => n.cover_image)?.cover_image ?? null);
   const schedule = localized(program, "schedule", lang);
   const place = localized(program, "place", lang);
@@ -70,6 +72,17 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
             </aside>
           )}
         </div>
+
+        {league.length > 0 && (
+          <section id="league" className="mt-14 scroll-mt-24">
+            <h2 className="font-display text-2xl font-bold tracking-tight text-slate-900">{dict.league.title}</h2>
+            <p className="mb-6 mt-1 text-slate-600">{dict.league.intro}</p>
+            <LeagueStandings
+              tables={league.map((x) => ({ stage: x.stage, title: x.title, asOf: x.as_of ? formatDate(x.as_of, lang) : null, rows: x.rows }))}
+              t={dict.league}
+            />
+          </section>
+        )}
 
         {photos.length > 0 && (
           <section className="mt-14">

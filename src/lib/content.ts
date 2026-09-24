@@ -1,4 +1,5 @@
 import "server-only";
+import { leagueStages, type LeagueTable } from "./league";
 import { cache } from "react";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
@@ -469,3 +470,12 @@ export async function getAlbum(id: number): Promise<Album | null> {
 
 /** Cover for an album card: the chosen cover, else its first photo. */
 export const albumCover = (album: Album) => album.cover_photo ?? album.gallery_photos[0]?.path ?? null;
+
+/** The league tables of a program (republic first), for its page; empty when none were uploaded. */
+export async function getLeagueTables(programId: number): Promise<LeagueTable[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("league_tables").select("stage, title, as_of, rows").eq("program_id", programId);
+  logError("getLeagueTables", error);
+  return ((data ?? []) as LeagueTable[]).sort((a, b) => leagueStages.indexOf(a.stage) - leagueStages.indexOf(b.stage));
+}

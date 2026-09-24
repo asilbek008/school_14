@@ -92,6 +92,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (`club_media` kabi, `media/programs/<id>/`); sahifada tavsifdan keyin rasmlar (`Lightbox`), videolar (`VideoGrid`), keyin yangiliklar.
   Admin: ro‘yxat `SortableList` (to‘garaklar bilan umumiy; sudrab yoki ↑↓, `reorderPrograms`), qatorda kalit so‘z va u topgan
   yangiliklar soni; yangi tadbir saqlangach rasm/video sahifasiga o‘tiladi; rasmlar tartibi `PhotoManager` bilan.
+  O‘quvchilar ligasi (Zakovat): `league_tables` (program_id, stage `republic`|`region`, title, as_of, rows jsonb — butun jadval
+  bitta qatorda). Admin tadbir sahifasida ligining Excel faylini yuklaydi (`importLeague`; `src/lib/league.ts` — «Jamoa nomi», «Jami»
+  va «N-tur» ustunlari, har biri ochko + reyting; reytingli va eng ko‘p jamoali varaq tanlanadi), bosqich jadvali almashtiriladi.
+  Saytda `LeagueStandings` (client, xodimlar ro‘yxati uslubida): bosqich yorliqlari, 14-maktab jamoalari kartalari (`isOurSchool` —
+  "Qiziriq tumani 14-maktab"), qidiruv, filtr (hammasi / 14-maktab / tuman — `districtOf`), jadval (telefonda kartalar), 50 tadan.
+  Viloyat jadvali egasi yuborgan rasmdan ko‘chirilgan (jami = turlar yig‘indisi bilan tekshirilgan).
   Bir ma’lumot bir bo‘limda (egasining talabi): `getNews()` (yangiliklar sahifasi, bosh sahifa, "Boshqa yangiliklar")
   dasturlar kalit so‘zi uchragan yangiliklarni chiqarmaydi — ular faqat dastur sahifasida; bunday yangilikdagi
   "orqaga" havolasi dastur sahifasiga olib boradi.
@@ -322,7 +328,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `gallery_albums` (title_*, description_*, event_date, cover_photo, is_published); `gallery_photos` (album_id, path,
   sort_order); `gallery_videos` (album_id, kind `video`|`youtube`, path, sort_order)
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
-  `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order)
+  `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order); `league_tables` (program_id, stage, title, as_of, rows)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at)
 

@@ -411,5 +411,30 @@
     "call": "Call",
     "write": "Send a message",
     "note": "Ask the school administration for the list of documents and admission dates."
+  },
+  "league": {
+    "title": "Students’ League",
+    "intro": "Standings of the Zakovat club Students’ League. School No. 14 teams are highlighted.",
+    "republic": "National stage",
+    "region": "Regional stage",
+    "teams": "{n} teams",
+    "ours": "Our teams",
+    "ourBadge": "School 14",
+    "search": "Search by team or school",
+    "all": "All teams",
+    "onlyOurs": "School 14 only",
+    "district": "{d} district",
+    "filterLabel": "Filter",
+    "place": "Place",
+    "team": "Team",
+    "points": "Points",
+    "rating": "Rating",
+    "total": "Total",
+    "round": "Round {n}",
+    "asOf": "as of {date}",
+    "more": "Show {n} more",
+    "shown": "{n} of {total}",
+    "noMatch": "Nothing found.",
+    "placeOf": "{place} of {total}"
   }
 }

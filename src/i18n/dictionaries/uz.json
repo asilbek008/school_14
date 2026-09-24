@@ -411,5 +411,30 @@
     "call": "Qo‘ng‘iroq qilish",
     "write": "Murojaat yozish",
     "note": "Kerakli hujjatlar ro‘yxati va qabul muddatlarini maktab rahbariyatidan aniqlang."
+  },
+  "league": {
+    "title": "O‘quvchilar ligasi",
+    "intro": "«Zakovat» klubi O‘quvchilar ligasining reytingi. 14-maktab jamoalari ajratib ko‘rsatilgan.",
+    "republic": "Respublika bosqichi",
+    "region": "Viloyat bosqichi",
+    "teams": "{n} ta jamoa",
+    "ours": "Bizning jamoalar",
+    "ourBadge": "14-maktab",
+    "search": "Jamoa yoki maktab nomini qidiring",
+    "all": "Barcha jamoalar",
+    "onlyOurs": "Faqat 14-maktab",
+    "district": "{d} tumani",
+    "filterLabel": "Saralash",
+    "place": "O‘rin",
+    "team": "Jamoa",
+    "points": "Ochko",
+    "rating": "Reyting",
+    "total": "Jami",
+    "round": "{n}-tur",
+    "asOf": "{date} holatiga",
+    "more": "Yana {n} ta ko‘rsatish",
+    "shown": "{n} / {total} ta jamoa",
+    "noMatch": "Hech narsa topilmadi.",
+    "placeOf": "{place}-o‘rin · {total} ta jamoadan"
   }
 }

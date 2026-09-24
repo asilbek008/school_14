@@ -11,16 +11,20 @@ import VideoUploader from "@/components/admin/VideoUploader";
 import YoutubeForm from "@/components/admin/YoutubeForm";
 import VideoList from "@/components/admin/VideoList";
 import ProgramForm from "../ProgramForm";
+import LeagueAdmin, { stageNames } from "../LeagueAdmin";
+import type { LeagueStage } from "@/lib/league";
 import { addProgramMedia, addProgramYoutube, deleteProgram, deleteProgramMedia, reorderProgramPhotos } from "../actions";
 
 export const metadata: Metadata = { title: "Doimiy tadbirni tahrirlash" };
 
-export default async function EditProgramPage({ params }: PageProps<"/admin/programs/[id]">) {
+export default async function EditProgramPage({ params, searchParams }: PageProps<"/admin/programs/[id]">) {
   const { supabase } = await requireAdmin();
   const id = Number((await params).id);
-  const [{ data: row }, { data: media }] = await Promise.all([
+  const { league, teams } = await searchParams;
+  const [{ data: row }, { data: media }, { data: leagueTables }] = await Promise.all([
     supabase.from("programs").select("*").eq("id", id).maybeSingle(),
     supabase.from("program_media").select("id, kind, path").eq("program_id", id).order("sort_order").order("id"),
+    supabase.from("league_tables").select("stage, title, as_of, rows, updated_at").eq("program_id", id),
   ]);
   if (!row) notFound();
   const photos = (media ?? []).filter((m) => m.kind === "photo");
@@ -63,6 +67,12 @@ export default async function EditProgramPage({ params }: PageProps<"/admin/prog
         </div>
         <VideoList videos={videos} remove={(mediaId) => deleteProgramMedia.bind(null, id, mediaId)} />
       </section>
+
+      <LeagueAdmin
+        programId={id}
+        tables={leagueTables ?? []}
+        notice={typeof league === "string" && league in stageNames ? `${stageNames[league as LeagueStage]}: ${teams} ta jamoa yuklandi.` : undefined}
+      />
 
       <div className="mt-8 border-t border-slate-200 pt-4 text-right">
         <DeleteButton action={deleteProgram.bind(null, id)} confirmText="Bu doimiy tadbirni (rasm va videolari bilan) o‘chirasizmi?" />

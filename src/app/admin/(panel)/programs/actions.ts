@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { optional, requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
 import { youtubeId } from "@/lib/media";
+import readXlsxFile from "read-excel-file/universal";
+import { leagueStages, pickLeagueSheet, type LeagueStage } from "@/lib/league";
 
 export async function saveProgram(id: number | null, _prev: FormState, form: FormData): Promise<FormState> {
   const { supabase } = await requireAdmin();
@@ -132,6 +134,44 @@ export async function deleteProgramMedia(programId: number, mediaId: number) {
   if (!item) return;
   await supabase.from("program_media").delete().eq("id", mediaId);
   if (item.kind !== "youtube") await supabase.storage.from("media").remove([item.path]);
+  revalidatePublic();
+  revalidatePath(`/admin/programs/${programId}`);
+}
+
+/** Replaces a stage's league table with the one in the uploaded Excel file (the league's own layout). */
+export async function importLeague(programId: number, _prev: FormState, form: FormData): Promise<FormState> {
+  const { supabase } = await requireAdmin();
+  const stage = text(form, "stage") as LeagueStage;
+  if (!leagueStages.includes(stage)) return { error: "Bosqichni tanlang." };
+  const file = form.get("file");
+  if (!(file instanceof Blob) || !file.size) return { error: "Excel faylni tanlang." };
+  if (file.size > 900_000) return { error: "Fayl juda katta (900 KB gacha bo‘lsin)." };
+
+  let sheets;
+  try {
+    sheets = await readXlsxFile(file);
+  } catch {
+    return { error: "Faylni o‘qib bo‘lmadi. Uni Excel'da .xlsx formatida saqlang." };
+  }
+  const { rows, error } = pickLeagueSheet(sheets);
+  if (error || !rows.length) return { error: error ?? "Jadvalda jamoa topilmadi." };
+
+  const { error: dbError } = await supabase.from("league_tables").upsert({
+    program_id: programId,
+    stage,
+    title: optional(form, "title"),
+    as_of: optional(form, "as_of"),
+    rows,
+    updated_at: new Date().toISOString(),
+  });
+  if (dbError) return { error: `Saqlab bo‘lmadi: ${dbError.message}` };
+  revalidatePublic();
+  redirect(`/admin/programs/${programId}?league=${stage}&teams=${rows.length}#league`);
+}
+
+export async function deleteLeague(programId: number, stage: LeagueStage) {
+  const { supabase } = await requireAdmin();
+  await supabase.from("league_tables").delete().eq("program_id", programId).eq("stage", stage);
   revalidatePublic();
   revalidatePath(`/admin/programs/${programId}`);
 }
