@@ -244,7 +244,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), ostida `EMaktabCard`, maketdagidek.
   Bo‘limlar ingichka chiziq bilan ajratilgan, sarlavhalari `SectionHead` (`action` — o‘ngda "Barchasi" tugmasi); "Yaqin kunlardagi
   tadbirlar" — 3 ta ixcham `EventCard` (sana plitkasi, nom, sana • turkum; `/events` ga havola).
-- Yangiliklar (maketdagidek): banner "Maktab hayoti" / "Yangiliklar va e’lonlar", filtr tugmalari ko‘plikda (`news.cats`);
+- Yangiliklar (maketdagidek): banner "Maktab hayoti" / "Yangiliklar va e’lonlar" (intro — yangiliklar soni), tepada 4 rangli raqam kartasi
+  (jami, shu oyda — Toshkent vaqti, rasmlar — muqova + galereya, yutuqlar), filtr tugmalari ko‘plikda (`news.cats`, soni bilan);
   filtr/qidiruvda `CategoryFilter` o‘ramiga `data-filtered` qo‘yiladi — `featured` karta oddiy bo‘ladi (`group-data-filtered/filter:`;
   `display` ni majburlamang, aks holda yashirish qoidasini bosadi), hech narsa qolmasa `emptyLabel`. Maqola sahifasi: `PageHeader`
   (turkum, sarlavha, sana), chapda maqola kartasi + rasmlar, o‘ngda sticky "Boshqa yangiliklar" (4 ta). `NewsCard` `layout` — `card`, `featured` (yangiliklar sahifasida birinchisi), `tall` +

@@ -93,7 +93,21 @@
       "yutuq": "Yutuqlar"
     },
     "notFound": "Qidiruv bo‘yicha yangilik topilmadi.",
-    "all": "Barcha yangiliklar"
+    "all": "Barcha yangiliklar",
+    "countIntro": "{n} ta yangilik — maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari.",
+    "statTotal": {
+      "one": "yangilik",
+      "other": "yangilik"
+    },
+    "statMonth": "shu oyda",
+    "statPhotos": {
+      "one": "rasm",
+      "other": "rasm"
+    },
+    "statWins": {
+      "one": "yutuq",
+      "other": "yutuq"
+    }
   },
   "events": {
     "upcoming": "Yaqinlashayotgan tadbirlar",
