@@ -29,7 +29,7 @@ export default async function EditAlbumPage({ params }: PageProps<"/admin/galler
 
       <section className="mb-8">
         <h2 className="mb-3 text-lg font-bold">Rasmlar ({photos?.length ?? 0})</h2>
-        <PhotoUploader albumId={id} onUploaded={addPhotos} />
+        <PhotoUploader folder={`gallery/${id}`} onUploaded={addPhotos.bind(null, id)} />
         {photos && photos.length > 0 && (
           <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {photos.map((photo) => (

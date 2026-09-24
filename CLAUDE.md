@@ -110,7 +110,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   matnda tadbir/bayram → `tadbir`). Sarlavha chetidagi emoji olinadi, KATTA HARFLI sarlavha oddiy yoziladi.
   Albomli postlar ko‘p bo‘lsa sahifada 4–5 ta post turadi, shuning uchun `?before=` bilan 8 sahifagacha orqaga boriladi. Birinchi rasm `media/telegram/` ga ko‘chiriladi (Telegram havolalari
   doimiy emas). Olingan har post `telegram_posts` (channel, post_id) da qoladi — saytdan o‘chirilgan post qayta
-  kelmaydi. `import_since` dan oldingi postlar olinmaydi. `?dry=1` — hech narsa yozmasdan natijani qaytaradi.
+  kelmaydi. `import_since` dan oldingi postlar olinmaydi. `?dry=1` — hech narsa yozmasdan natijani qaytaradi; `?backfill=1` — galereyasi yo‘q eski yangiliklarga rasmlarni qo‘shadi.
   Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
@@ -161,6 +161,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   RLS: faqat admin), bazaga bucket ichidagi yo‘l (`news/<uuid>.jpg`) yoziladi. Yuklashdan oldin
   `src/lib/resize-image.ts` rasmni 1920px gacha kichraytirib JPEG qiladi (telefon rasmlari 5 MB
   limitdan katta bo‘ladi; HEIC ham shu yo‘l bilan o‘tadi, agar brauzer o‘qiy olsa).
+- Yangilik galereyasi: yangilikni tahrirlash sahifasida `PhotoUploader` (`news/<id>/` ga yuklaydi); yangi
+  yangilik saqlangach tahrirlash sahifasiga o‘tiladi. Ochiq sahifada matndan keyin `Lightbox`. Telegram'dan
+  kelgan postning 1-rasmi muqova, qolganlari (12 tagacha) galereya.
 - Galereya: albom yaratilgach rasm qo‘shish sahifasiga o‘tiladi; rasm/albom o‘chirilganda
   Storage'dagi fayllar ham o‘chiriladi (`gallery/actions.ts`).
 - `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
@@ -175,7 +178,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `title_ru`,
 `title_en` (va `body_*`). Tanlangan tilda bo‘sh bo‘lsa, `_uz` ko‘rsatiladi.
 - `admins` (user_id) — kontent yozishi mumkin bo‘lgan Auth foydalanuvchilari; qo‘lda qo‘shiladi
-- `news` (slug, title_*, body_*, cover_image, published_at, is_published)
+- `news` (slug, title_*, body_*, cover_image, published_at, is_published); `news_photos` (news_id, path,
+  sort_order) — yangilik galereyasi (RLS'da yangilikka bog‘liq, albom rasmlari kabi)
 - `events` (title_*, description_*, location, starts_at, ends_at, is_published)
 - `staff` (full_name, short_name, position_*, subject_*, photo, category_*, education_*, experience_years,
   phone, email, bio_*, sort_order, is_published)

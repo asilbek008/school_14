@@ -6,6 +6,7 @@ import { resolveLang } from "@/i18n/server";
 import { getNewsBySlug, localized, mediaUrl } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import RichText from "@/components/RichText";
+import Lightbox from "@/components/Lightbox";
 
 export const revalidate = 300;
 
@@ -46,6 +47,18 @@ export default async function NewsArticlePage({ params }: PageProps<"/[lang]/new
       <div className="mt-8">
         <RichText text={localized(item, "body", lang)} />
       </div>
+      {item.news_photos.length > 0 && (
+        <section className="mt-10">
+          <h2 className="mb-4 text-xl font-bold text-slate-900">
+            {dict.news.photos} <span className="font-normal text-slate-400">· {item.news_photos.length}</span>
+          </h2>
+          <Lightbox
+            photos={item.news_photos.map((p) => mediaUrl(p.path)!)}
+            alt={localized(item, "title", lang)}
+            t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }}
+          />
+        </section>
+      )}
     </article>
   );
 }

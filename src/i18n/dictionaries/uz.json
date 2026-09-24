@@ -52,7 +52,8 @@
   },
   "news": {
     "empty": "Hozircha yangiliklar yo‘q.",
-    "intro": "Maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari."
+    "intro": "Maktabimizdagi so‘nggi yangiliklar, e’lonlar va o‘quvchilarimiz yutuqlari.",
+    "photos": "Fotosuratlar"
   },
   "events": {
     "upcoming": "Yaqinlashayotgan tadbirlar",

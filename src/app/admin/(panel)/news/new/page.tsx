@@ -11,6 +11,7 @@ export default async function NewNewsPage() {
     <>
       <AdminHeader title="Yangi yangilik" back="/admin/news" />
       <NewsForm />
+      <p className="mt-4 text-sm text-slate-500">Saqlagandan keyin shu yangilikka rasmlar galereyasini qo‘shishingiz mumkin.</p>
     </>
   );
 }
