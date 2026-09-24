@@ -565,5 +565,21 @@
       "faq": "FAQ",
       "album": "Albums"
     }
+  },
+  "myClass": {
+    "title": "My class",
+    "save": "My class",
+    "saveHint": "Mark it, and the home page shows this class’s lessons",
+    "saved": "My class ✓",
+    "today": "Today’s lessons",
+    "tomorrow": "Tomorrow’s lessons",
+    "dayLessons": "{day} lessons",
+    "none": "No lessons that day.",
+    "open": "Full timetable",
+    "change": "Another class",
+    "prompt": "Pick your child’s class once — their lessons for today will show here.",
+    "pick": "Pick a class",
+    "shortcut": "My class: {c}",
+    "now": "Now"
   }
 }

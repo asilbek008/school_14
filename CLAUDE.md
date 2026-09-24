@@ -207,6 +207,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
 - Sana/vaqt `src/lib/format.ts` orqali, `Asia/Tashkent` vaqt zonasida.
+- "Mening sinfim" (`src/lib/my-class.ts`, faqat brauzerda — `localStorage.myClass`, sahifa keshi buzilmaydi, shaxsiy ma’lumot chiqmaydi):
+  sinf jadvalida `MyClassButton` (⭐), bosh sahifada "Tezkor kirish" ostida `MyClassCard` — sinf tanlanmagan bo‘lsa taklif, tanlangan bo‘lsa
+  bugungi darslar (smena tugagach yoki yakshanba — keyingi o‘quv kuni; hozirgi dars ajratilgan), darslar brauzerda anon client bilan o‘qiladi;
+  `/timetable` da `MyClassShortcut`.
 - Sayt bo‘yicha qidiruv (`/[lang]/search`): sahifa statik — server hamma qidiriladigan narsani (sahifalar, yangiliklar, tadbirlar,
   xodimlar, to‘garaklar, doimiy tadbirlar, savol-javob, albomlar) yig‘adi, client `SiteSearch` brauzerda filtrlaydi (hamma so‘z uchrashi
   kerak, sarlavhadagisi oldinda; apostrof va ё farqsiz), turlar bo‘yicha tugmalar, `?q=` manzilda (`useSearchParams`, `Suspense` ichida).

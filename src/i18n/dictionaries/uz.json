@@ -565,5 +565,21 @@
       "faq": "Savol-javob",
       "album": "Albomlar"
     }
+  },
+  "myClass": {
+    "title": "Mening sinfim",
+    "save": "Mening sinfim",
+    "saveHint": "Belgilasangiz, bosh sahifada shu sinfning darslari chiqadi",
+    "saved": "Mening sinfim ✓",
+    "today": "Bugungi darslar",
+    "tomorrow": "Ertangi darslar",
+    "dayLessons": "{day} darslari",
+    "none": "Bu kun dars yo‘q.",
+    "open": "To‘liq jadval",
+    "change": "Boshqa sinf",
+    "prompt": "Farzandingiz sinfini bir marta tanlang — shu yerda uning bugungi darslari chiqadi.",
+    "pick": "Sinfni tanlash",
+    "shortcut": "Mening sinfim: {c}",
+    "now": "Hozir"
   }
 }
