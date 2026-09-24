@@ -294,6 +294,18 @@ export async function getClasses(): Promise<SchoolClass[]> {
   return data ?? [];
 }
 
+/** Totals for the timetable page: lessons a week across all published classes, and subjects taught. */
+export async function getTimetableTotals(): Promise<{ lessons: number; subjects: number }> {
+  const supabase = createPublicClient();
+  if (!supabase) return { lessons: 0, subjects: 0 };
+  const [{ count, error }, { data: used, error: usedError }] = await Promise.all([
+    supabase.from("lessons").select("*", { count: "exact", head: true }),
+    supabase.from("subjects").select("id, lessons!lessons_subject_id_fkey!inner(id)").limit(1, { referencedTable: "lessons" }),
+  ]);
+  logError("getTimetableTotals", error ?? usedError);
+  return { lessons: count ?? 0, subjects: used?.length ?? 0 };
+}
+
 export async function getClassTimetable(id: number): Promise<ClassTimetable | null> {
   const supabase = createPublicClient();
   if (!supabase || !Number.isSafeInteger(id)) return null;

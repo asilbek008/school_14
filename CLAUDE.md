@@ -180,7 +180,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   rasmlar); sozlamalar formasi bo‘limlarda; "Kanaldan olingan postlar" — client `PostList` (oxirgi 200 ta; turi bo‘yicha filtr,
   "Tekshirish kutilmoqda" — `auto_publish` o‘chiq bo‘lganda yashirin qo‘shilganlar, qidiruv, muqova, Telegram havolasi).
 - Ro‘yxat sahifalari tepasidagi rangli raqam kartalari — umumiy `StatTiles` (`{ value, label }[]`, ranglar navbat bilan; 3 ta bo‘lsa bir qatorda):
-  galereya, yangiliklar, tadbirlar, to‘garaklar, doimiy tadbirlar, xodimlar (jami, rahbariyat, o‘qituvchilar, sinf rahbarlari).
+  galereya, yangiliklar, tadbirlar, to‘garaklar, doimiy tadbirlar, xodimlar (jami, rahbariyat, o‘qituvchilar, sinf rahbarlari), dars jadvali
+  (sinf, smena, fan va haftalik dars — `getTimetableTotals()`: darslar `count` bilan, fanlar — darsda asosiy fan sifatida uchraganlari).
 - Xodimlar ro‘yxati (`/staff`, maketdagidek): "Jamoa" kicker, "O‘qituvchilar va xodimlar", ro‘yxatdagi soni; client
   `StaffDirectory` — ism/fan bo‘yicha qidiruv va lavozim `select`i, kompyuterda jadval (avatar-initsiallar, lavozim
   belgisi: rahbariyat ko‘k, o‘qituvchi yashil, boshqalar sariq; fan; biriktirilgan sinf — `getHomerooms()`),

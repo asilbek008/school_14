@@ -442,7 +442,17 @@
       "Sat"
     ],
     "today": "Today",
-    "now": "Now"
+    "now": "Now",
+    "statClasses": {
+      "one": "class",
+      "other": "classes"
+    },
+    "statShifts": "shifts",
+    "statSubjects": {
+      "one": "subject",
+      "other": "subjects"
+    },
+    "statLessons": "lessons a week"
   },
   "emaktab": {
     "title": "eMaktab — grades and attendance",

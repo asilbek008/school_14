@@ -442,7 +442,17 @@
       "Sh"
     ],
     "today": "Bugun",
-    "now": "Hozir"
+    "now": "Hozir",
+    "statClasses": {
+      "one": "sinf",
+      "other": "sinf"
+    },
+    "statShifts": "smena",
+    "statSubjects": {
+      "one": "fan",
+      "other": "fan"
+    },
+    "statLessons": "haftalik dars"
   },
   "emaktab": {
     "title": "eMaktab — baholar va davomat",
