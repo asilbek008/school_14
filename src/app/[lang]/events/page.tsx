@@ -3,6 +3,8 @@ import { resolveLang } from "@/i18n/server";
 import { getEvents } from "@/lib/content";
 import { eventCategories } from "@/lib/categories";
 import PageHeader from "@/components/PageHeader";
+import { fill } from "@/i18n/fill";
+import { currentSchoolYear } from "@/lib/school";
 import EventItem from "@/components/EventItem";
 import EmptyState from "@/components/EmptyState";
 import CategoryFilter from "@/components/CategoryFilter";
@@ -28,7 +30,7 @@ export default async function EventsPage({ params }: PageProps<"/[lang]/events">
 
   return (
     <>
-      <PageHeader title={dict.nav.events} intro={dict.events.intro} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.events} intro={dict.events.intro} kicker={fill(dict.topbar.year, currentSchoolYear())} />
       <div className="mx-auto max-w-4xl px-4 py-10">
         <CategoryFilter
           allLabel={dict.common.all}
@@ -49,14 +51,15 @@ export default async function EventsPage({ params }: PageProps<"/[lang]/events">
           {past.length > 0 && (
             <section id="past" className="mt-12 scroll-mt-24">
               {heading(dict.events.past, past.length)}
-              <div className="space-y-3 opacity-75">
+              <div className="space-y-3">
                 {past.map((event) => (
-                  <EventItem key={event.id} event={event} lang={lang} dict={dict} />
+                  <EventItem key={event.id} event={event} lang={lang} dict={dict} past />
                 ))}
               </div>
             </section>
           )}
         </CategoryFilter>
+        <p className="mt-8 text-[13px] text-slate-500">{dict.events.note}</p>
       </div>
     </>
   );

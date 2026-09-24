@@ -2,16 +2,9 @@ import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fill } from "@/i18n/fill";
-import { school, telHref } from "@/lib/school";
+import { currentSchoolYear, school, telHref } from "@/lib/school";
 import LanguageSwitcher from "./LanguageSwitcher";
 import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
-
-/** The school year that runs now: from August on it is this year's, before that last year's. */
-function schoolYear() {
-  const now = new Date();
-  const from = now.getMonth() >= 7 ? now.getFullYear() : now.getFullYear() - 1;
-  return { from, to: from + 1 };
-}
 
 /** Top info bar (scrolls away) and the sticky navigation bar below it. */
 export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Dictionary }) {
@@ -45,7 +38,7 @@ export default function SiteHeader({ lang, dict }: { lang: Locale; dict: Diction
     },
   ];
   const emaktab: NavItem = { href: school.eMaktabUrl, label: "eMaktab", desc: d.emaktab, icon: "grade", color: "amber", external: true };
-  const year = schoolYear();
+  const year = currentSchoolYear();
 
   return (
     <>

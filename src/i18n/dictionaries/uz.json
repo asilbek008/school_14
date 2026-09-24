@@ -64,7 +64,8 @@
     "back": "Orqaga",
     "comingSoon": "Bu bo‘lim tez orada to‘ldiriladi.",
     "all": "Barchasi",
-    "allDay": "Butun kun"
+    "allDay": "Butun kun",
+    "toTop": "Yuqoriga"
   },
   "news": {
     "empty": "Hozircha yangiliklar yo‘q.",
@@ -78,7 +79,16 @@
     "emptyUpcoming": "Hozircha rejalashtirilgan tadbirlar yo‘q.",
     "emptyPast": "O‘tgan tadbirlar yo‘q.",
     "location": "Joy",
-    "intro": "Bayramlar, maktab tadbirlari, olimpiada va sport musobaqalari."
+    "intro": "Bayramlar, maktab tadbirlari, olimpiada va sport musobaqalari.",
+    "today": "Bugun",
+    "tomorrow": "Ertaga",
+    "inDays": {
+      "one": "{n} kundan so‘ng",
+      "other": "{n} kundan so‘ng"
+    },
+    "time": "Vaqti",
+    "noDetails": "Batafsil ma’lumot keyinroq e’lon qilinadi.",
+    "note": "Maktab ichki tadbirlarining sanalari rejalashtirilgan bo‘lib, o‘zgarishi mumkin."
   },
   "staff": {
     "intro": "Maktabimiz rahbariyati va o‘qituvchilari.",
@@ -122,7 +132,9 @@
   "footer": {
     "rights": "Barcha huquqlar himoyalangan.",
     "contacts": "Aloqa",
-    "links": "Bo‘limlar"
+    "links": "Bo‘limlar",
+    "tagline": "{from}–{to} o‘quv yili uchun rasmiy ma’lumot sayti.",
+    "year": "{from}–{to} o‘quv yili"
   },
   "notFound": {
     "title": "Sahifa topilmadi",

@@ -166,3 +166,20 @@ body {
 html:has(.mobile-nav[open]) {
   overflow: hidden;
 }
+
+/* Accordions (<details class="acc">): the body slides open where the browser can animate to height:auto. */
+@media (prefers-reduced-motion: no-preference) {
+  :root {
+    interpolate-size: allow-keywords;
+  }
+  details.acc::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.34s var(--ease-spring),
+      content-visibility 0.34s allow-discrete;
+  }
+  details.acc[open]::details-content {
+    block-size: auto;
+  }
+}

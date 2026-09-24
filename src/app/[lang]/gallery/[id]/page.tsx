@@ -27,7 +27,7 @@ export default async function AlbumPage({ params }: PageProps<"/[lang]/gallery/[
 
   return (
     <>
-      <PageHeader title={title} kicker={album.event_date ? formatDate(album.event_date, lang) : dict.nav.gallery} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/gallery`, label: dict.nav.gallery }]} title={title} kicker={album.event_date ? formatDate(album.event_date, lang) : dict.nav.gallery} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         <Link href={`/${lang}/gallery`} className="text-sm font-bold text-brand link-grow">
           ← {dict.gallery.back}

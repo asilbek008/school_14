@@ -64,7 +64,8 @@
     "back": "Back",
     "comingSoon": "This section will be filled in soon.",
     "all": "All",
-    "allDay": "All day"
+    "allDay": "All day",
+    "toTop": "Back to top"
   },
   "news": {
     "empty": "No news yet.",
@@ -78,7 +79,16 @@
     "emptyUpcoming": "No events scheduled yet.",
     "emptyPast": "No past events.",
     "location": "Location",
-    "intro": "Holidays, school events, olympiads and sports competitions."
+    "intro": "Holidays, school events, olympiads and sports competitions.",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "inDays": {
+      "one": "in {n} day",
+      "other": "in {n} days"
+    },
+    "time": "Time",
+    "noDetails": "Details will be announced later.",
+    "note": "Dates of school events are planned and may change."
   },
   "staff": {
     "intro": "Our school's leadership and teachers.",
@@ -122,7 +132,9 @@
   "footer": {
     "rights": "All rights reserved.",
     "contacts": "Contact",
-    "links": "Sections"
+    "links": "Sections",
+    "tagline": "Official information site for the {from}–{to} school year.",
+    "year": "{from}–{to} school year"
   },
   "notFound": {
     "title": "Page not found",

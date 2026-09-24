@@ -22,7 +22,7 @@ export default async function CmsPage({
 
   return (
     <>
-      <PageHeader title={page ? localized(page, "title", lang) : fallbackTitle} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={page ? localized(page, "title", lang) : fallbackTitle} />
       <div className="mx-auto max-w-3xl px-4 py-10">
         {body ? <RichText text={body} /> : <EmptyState>{dict.common.comingSoon}</EmptyState>}
       </div>

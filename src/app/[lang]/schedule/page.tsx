@@ -16,7 +16,7 @@ export default async function SchedulePage({ params }: PageProps<"/[lang]/schedu
 
   return (
     <>
-      <PageHeader title={dict.nav.schedule} intro={t.intro} kicker={dict.nav.school} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.schedule} intro={t.intro} kicker={dict.nav.school} />
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 lg:grid-cols-[1fr_1fr_0.9fr]">
         {shifts.map((shift) => (
           <section key={shift.id} className="reveal lift rounded-2xl border border-slate-200 bg-white p-6">

@@ -55,7 +55,7 @@ export default async function StaffProfilePage({ params }: PageProps<"/[lang]/st
 
   return (
     <>
-      <PageHeader title={person.full_name} kicker={position} intro={subject || undefined} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }, { href: `/${lang}/staff`, label: dict.nav.staff }]} title={person.full_name} kicker={position} intro={subject || undefined} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         <Link href={`/${lang}/staff`} className="text-sm font-bold text-brand link-grow">
           ← {t.back}

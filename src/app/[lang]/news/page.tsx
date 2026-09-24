@@ -21,7 +21,7 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
 
   return (
     <>
-      <PageHeader title={dict.nav.news} intro={dict.news.intro} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.news} intro={dict.news.intro} />
       <div className="mx-auto max-w-6xl px-4 py-10">
         {news.length ? (
           <CategoryFilter

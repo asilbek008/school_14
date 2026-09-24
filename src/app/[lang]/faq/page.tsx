@@ -13,7 +13,7 @@ export default async function FaqPage({ params }: PageProps<"/[lang]/faq">) {
 
   return (
     <>
-      <PageHeader title={dict.nav.faq} intro={dict.faq.intro} kicker={dict.nav.school} />
+      <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} title={dict.nav.faq} intro={dict.faq.intro} kicker={dict.nav.school} />
       <div className="mx-auto max-w-3xl space-y-3 px-4 py-12">
         {dict.faq.items.map((item, i) => (
           <details
