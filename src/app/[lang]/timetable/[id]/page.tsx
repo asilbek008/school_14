@@ -3,11 +3,13 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { getClasses, getClassTimetable, localized } from "@/lib/content";
-import { fmtMinutes, lessons, shiftForGrade } from "@/lib/bells";
-import { WEEKDAYS, classLabel } from "@/lib/timetable";
+import { fill } from "@/i18n/fill";
+import { shiftForGrade } from "@/lib/bells";
+import { classLabel } from "@/lib/timetable";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import ShiftBadge from "@/components/ShiftBadge";
+import ClassTimetableView, { type TimetableCell } from "@/components/ClassTimetableView";
 
 export const revalidate = 300;
 
@@ -25,18 +27,44 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
   if (!cls) notFound();
 
   const shift = shiftForGrade(cls.grade);
-  const times = lessons(shift);
   const parallel = allClasses.filter((c) => c.grade === cls.grade);
-  const cell = (weekday: number, period: number) =>
-    cls.lessons.find((l) => l.weekday === weekday && l.period === period)?.subjects ?? null;
+  const cells: TimetableCell[] = cls.lessons.flatMap((l) =>
+    l.subjects
+      ? [
+          {
+            weekday: l.weekday,
+            period: l.period,
+            subject: localized(l.subjects, "name", lang),
+            teacher: l.teacher,
+            alt: l.alt ? localized(l.alt, "name", lang) : null,
+            altTeacher: l.alt_teacher,
+          },
+        ]
+      : [],
+  );
+  const pickerHref = `/${lang}/timetable`;
 
   return (
     <>
-      <PageHeader title={classLabel(cls)} kicker={t.weekly} />
+      <PageHeader title={classLabel(cls)} kicker={dict.nav.timetable} />
       <div className="mx-auto max-w-6xl px-4 py-10">
-        <Link href={`/${lang}/timetable`} className="text-sm font-bold text-brand link-grow">
-          ← {t.back}
-        </Link>
+        <nav aria-label={t.back} className="flex flex-wrap items-center gap-1.5 text-sm font-semibold text-slate-500">
+          <Link href={pickerHref} className="text-brand link-grow">
+            {dict.nav.timetable}
+          </Link>
+          <span aria-hidden>›</span>
+          <Link href={`${pickerHref}#s${shift.id}`} className="text-brand link-grow">
+            {fill(t.shiftName, { n: shift.id })}
+          </Link>
+          <span aria-hidden>›</span>
+          <Link href={`${pickerHref}#s${shift.id}-g${cls.grade}`} className="text-brand link-grow">
+            {fill(t.grade, { n: cls.grade })}
+          </Link>
+          <span aria-hidden>›</span>
+          <span className="text-slate-900" aria-current="page">
+            {classLabel(cls)}
+          </span>
+        </nav>
 
         <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
           <ShiftBadge shift={shift} label={t.shift} />
@@ -68,43 +96,13 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
           </nav>
         )}
 
-        {cls.lessons.length ? (
-          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {WEEKDAYS.map((day) => {
-              // Show periods up to the day's last lesson; gaps before it stay visible as "—".
-              const last = Math.max(0, ...cls.lessons.filter((l) => l.weekday === day).map((l) => l.period));
-              return (
-                <section key={day} className="reveal lift rounded-2xl border border-slate-200 bg-white p-5">
-                  <h2 className="mb-3 text-lg font-bold">{t.days[day - 1]}</h2>
-                  {last ? (
-                    <ol className="divide-y divide-slate-100 text-sm">
-                      {times.slice(0, last).map((time) => {
-                        const subject = cell(day, time.n);
-                        return (
-                          <li key={time.n} className="-mx-2 flex items-baseline gap-3 rounded-lg px-2 py-2 transition-colors hover:bg-paper">
-                            <span className="w-4 shrink-0 text-right font-bold text-slate-400">{time.n}</span>
-                            <span className="w-24 shrink-0 tabular-nums text-slate-500">
-                              {fmtMinutes(time.start)}–{fmtMinutes(time.end)}
-                            </span>
-                            <span className={subject ? "font-semibold text-slate-900" : "text-slate-400"}>
-                              {subject ? localized(subject, "name", lang) : "—"}
-                            </span>
-                          </li>
-                        );
-                      })}
-                    </ol>
-                  ) : (
-                    <p className="text-sm text-slate-400">{t.noLessons}</p>
-                  )}
-                </section>
-              );
-            })}
-          </div>
-        ) : (
-          <div className="mt-8">
+        <div className="mt-8">
+          {cells.length ? (
+            <ClassTimetableView shiftId={shift.id} cells={cells} teacherIds={cls.teacherIds} lang={lang} t={t} />
+          ) : (
             <EmptyState>{t.notFilled}</EmptyState>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </>
   );

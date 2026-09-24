@@ -9,7 +9,7 @@ export default async function AdminSubjectsPage() {
   const { supabase } = await requireAdmin();
   const { data: subjects } = await supabase
     .from("subjects")
-    .select("id, name_uz, name_ru, name_en, sort_order, lessons(count)")
+    .select("id, name_uz, name_ru, name_en, sort_order, lessons!lessons_subject_id_fkey(count)")
     .order("sort_order")
     .order("name_uz");
 

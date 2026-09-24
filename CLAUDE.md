@@ -77,10 +77,41 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmni to‘liq ekranda ochadi (Esc, ←/→).
 - Dars jadvali (`/timetable`, `/timetable/[id]`): `school_classes` (grade + letter, sinf rahbari
   `homeroom_teacher_id` → `staff`), `subjects` (fanlar ro‘yxati, tarjimali) va `lessons` (bitta katak:
-  class_id, weekday 1–6, period 1–6, subject_id). Smena va dars vaqtlari sinfdan `shiftForGrade()`
+  class_id, weekday 1–6, period 1–6, subject_id, teacher — eMaktab'dagidek "Familiya I.O." matn); haftama-hafta almashadigan dars uchun
+  `alt_subject_id` + `alt_teacher`). `lessons` da `subjects` ga ikkita FK bor, shuning uchun embed'da
+  aniq ko‘rsating: `subjects!lessons_subject_id_fkey(...)`. Smena va dars vaqtlari sinfdan `shiftForGrade()`
   orqali olinadi (`bells.ts`), bazada saqlanmaydi. Darslar RLS'da sinfga bog‘liq (galereya kabi).
+  Ochiq sahifa: `/timetable` — `TimetablePicker` (smena → parallel → sinf; tanlov URL hash'da `#s2-g8`,
+  `useSyncExternalStore` bilan o‘qiladi, sahifa keshi buzilmaydi), `/timetable/[id]` — `ClassTimetableView`
+  ("Kunlik": kun tanlash + vaqt chizig‘i, "Haftalik": jadval; "bugun"/"hozir" brauzerda Toshkent vaqti bo‘yicha).
   Ishlatilayotgan fanni o‘chirib bo‘lmaydi (`on delete restrict`). Admin tahriri — 6×6 `select` jadvali,
   saqlashda to‘ldirilganlar upsert, bo‘shatilganlar o‘chiriladi (`classes/actions.ts`).
+- eMaktab'dan jadval importi: `scripts/emaktab_timetable.py` (xlrd). Ikki format: "Calendar"
+  (chorak kalendari, o‘qituvchilar bilan) va "WeekJournal" (sinf jurnali, bitta hafta, o‘qituvchisiz —
+  pastida o‘quvchilar ro‘yxati bor, skript faqat sarlavha qatorlarini o‘qiydi; bunday fayllarni
+  repoga qo‘shmang va ishlatib bo‘lgach o‘chiring). Kalendardan standart haftani oladi (bayramsiz to‘liq haftalarda eng ko‘p uchragan dars),
+  SQL chiqaradi (sinfni yaratadi, darslarini almashtiradi). eMaktab fan nomlari `SUBJECT_ALIASES`
+  va `NEW_SUBJECTS` orqali `subjects` ga moslanadi; noma’lum fan `not null` xatosi bilan to‘xtaydi.
+- Xodimlarni Excel'dan yuklash (`/admin/staff/import`): `src/lib/staff-import.ts` faylni brauzerda
+  (ko‘rib chiqish uchun) va Server Action'da qayta o‘qiydi (`read-excel-file/universal`; npm `xlsx`
+  zaif — ishlatmang). Ustunlar sarlavha nomi bo‘yicha topiladi; xodim `short_name` (eMaktab'dagi
+  "Familiya I.O.") yoki to‘liq ism bo‘yicha moslanadi; bo‘sh katak eski qiymatni o‘chirmaydi;
+  "Sinf rahbari" (5-A) `school_classes.homeroom_teacher_id` ga yoziladi. Faylda xato bo‘lsa hech narsa saqlanmaydi.
+  Dars jadvalidagi o‘qituvchi ismi `staff.short_name` bilan mos kelsa, profilga havola bo‘ladi.
+- Telegram kanal → yangilik/tadbir (`/admin/telegram`): Supabase Edge Function `supabase/functions/telegram-sync`
+  (Deno; service role'ni Supabase o‘zi beradi — kalit hech kimga kerak emas) kanalning ochiq sahifasini
+  (`t.me/s/<kanal>`) o‘qiydi. pg_cron har 15 daqiqada `pg_net` bilan chaqiradi; admin "Hozir tekshirish" ham shu.
+  Funksiya JWT tekshirmaydi — `x-sync-secret` sarlavhasi `telegram_settings.sync_secret` bilan solishtiriladi
+  (anon o‘qiy olmaydi). Tahlil va turkumlash `parse.ts` da (importsiz, Node testi: `node --experimental-strip-types
+  scripts/test-telegram-parse.mts`): birinchi qator — sarlavha; `#tadbir/#bayram/#sport/#olimpiada` + sana
+  («15-oktabr soat 10:00», «15.10.2026») → tadbir, sanasiz → yangilik (`tadbir` turkumi); `#elon`, `#yutuq`;
+  `#saytga_emas`, matnsiz va 80 belgidan qisqa yangilik (iqtibos, tabrik; `#sayt` bilan olinadi) — o‘tkaziladi.
+  Hashtag bo‘lmasa turkum sarlavha so‘zlaridan (yutuq/natija/sertifikat → `yutuq`, e’lon/diqqat → `elon`,
+  matnda tadbir/bayram → `tadbir`). Sarlavha chetidagi emoji olinadi, KATTA HARFLI sarlavha oddiy yoziladi.
+  Albomli postlar ko‘p bo‘lsa sahifada 4–5 ta post turadi, shuning uchun `?before=` bilan 8 sahifagacha orqaga boriladi. Birinchi rasm `media/telegram/` ga ko‘chiriladi (Telegram havolalari
+  doimiy emas). Olingan har post `telegram_posts` (channel, post_id) da qoladi — saytdan o‘chirilgan post qayta
+  kelmaydi. `import_since` dan oldingi postlar olinmaydi. `?dry=1` — hech narsa yozmasdan natijani qaytaradi.
+  Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
 - Xodim profili (`/staff/[id]`): toifa, ma’lumoti, ish staji, telefon/email (faqat xodim roziligi
   bilan), qo‘shimcha ma’lumot va sinf rahbarligi. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
@@ -102,7 +133,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `animate-fade-up` / `animate-fade-in` (hero va sarlavhalar). Karta ichidagi rasm/strelka uchun
   `group` + `group-hover:`. `prefers-reduced-motion` da hammasi o‘chadi — yangi animatsiya ham
   shu qoidaga bo‘ysunsin.
-- Header: ochiq menyu + "Maktab ▾" dropdown (hover va `:focus-visible` bilan, JS'siz); mobil — `<details>`.
+- Header: ochiq menyu + "Maktab ▾" dropdown (hover va `:focus-visible` bilan, JS'siz); mobil — `<details>`
+  (`MobileMenu`: havola tanlanganda, sahifa o‘zgarganda, tashqariga bosilganda va Esc bilan yopiladi).
 
 ### Supabase
 - `src/lib/supabase/server.ts` (cookie asosida, admin panel uchun), `client.ts` (faqat Client
@@ -145,10 +177,10 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `admins` (user_id) — kontent yozishi mumkin bo‘lgan Auth foydalanuvchilari; qo‘lda qo‘shiladi
 - `news` (slug, title_*, body_*, cover_image, published_at, is_published)
 - `events` (title_*, description_*, location, starts_at, ends_at, is_published)
-- `staff` (full_name, position_*, subject_*, photo, category_*, education_*, experience_years,
+- `staff` (full_name, short_name, position_*, subject_*, photo, category_*, education_*, experience_years,
   phone, email, bio_*, sort_order, is_published)
 - `subjects` (name_*, sort_order), `school_classes` (grade, letter, homeroom_teacher_id,
-  is_published), `lessons` (class_id, weekday, period, subject_id)
+  is_published), `lessons` (class_id, weekday, period, subject_id, teacher, alt_subject_id, alt_teacher)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
 - `contact_messages` (name, email, phone, message, is_read, created_at)
 

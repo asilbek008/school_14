@@ -15,16 +15,22 @@ export default function TimetableEditor({
   classId: number;
   grade: number;
   subjects: { id: number; name_uz: string }[];
-  current: { weekday: number; period: number; subject_id: number }[];
+  current: {
+    weekday: number;
+    period: number;
+    subject_id: number;
+    teacher: string | null;
+    alt_subject_id: number | null;
+    alt_teacher: string | null;
+  }[];
 }) {
   const shift = shiftForGrade(grade);
-  const value = (weekday: number, period: number) =>
-    current.find((l) => l.weekday === weekday && l.period === period)?.subject_id ?? "";
+  const find = (weekday: number, period: number) => current.find((l) => l.weekday === weekday && l.period === period);
 
   return (
     <AdminForm action={saveTimetable.bind(null, classId)} submitLabel="Jadvalni saqlash">
       <p className="text-sm text-slate-600">
-        {grade}-sinflar {shift.id}-smenada ({shift.start} dan). Har bir katakka fan tanlang; dars bo‘lmasa «—» qoldiring.
+        {grade}-sinflar {shift.id}-smenada ({shift.start} dan). Har bir katakka fan tanlang (o‘qituvchi ismi ixtiyoriy); dars bo‘lmasa «—» qoldiring.
       </p>
       <div className="-mx-6 overflow-x-auto px-6">
         <table className="w-full min-w-[860px] border-collapse text-sm">
@@ -51,7 +57,7 @@ export default function TimetableEditor({
                   <td key={d} className="px-1 py-2">
                     <select
                       name={`l-${d}-${l.n}`}
-                      defaultValue={value(d, l.n)}
+                      defaultValue={find(d, l.n)?.subject_id ?? ""}
                       aria-label={`${dayNames[d - 1]}, ${l.n}-dars`}
                       className="w-full rounded-lg border border-slate-300 px-2 py-1.5 text-sm focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200"
                     >
@@ -62,6 +68,18 @@ export default function TimetableEditor({
                         </option>
                       ))}
                     </select>
+                    <input
+                      name={`t-${d}-${l.n}`}
+                      defaultValue={find(d, l.n)?.teacher ?? ""}
+                      placeholder="O‘qituvchi"
+                      aria-label={`${dayNames[d - 1]}, ${l.n}-dars o‘qituvchisi`}
+                      className="mt-1 w-full rounded-md border border-slate-200 px-2 py-1 text-xs text-slate-600 focus:border-blue-600 focus:outline-none"
+                    />
+                    {find(d, l.n)?.alt_subject_id && (
+                      <p className="mt-1 text-[11px] leading-tight text-amber-700">
+                        ↔ {subjects.find((s) => s.id === find(d, l.n)?.alt_subject_id)?.name_uz} (haftada almashib)
+                      </p>
+                    )}
                   </td>
                 ))}
               </tr>
