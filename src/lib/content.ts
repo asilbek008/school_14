@@ -387,10 +387,17 @@ export async function getPrograms(): Promise<Program[]> {
   return data ?? [];
 }
 
-export async function getProgram(slug: string): Promise<Program | null> {
+export async function getProgram(slug: string): Promise<(Program & { program_media: ClubMedia[] }) | null> {
   const supabase = createPublicClient();
   if (!supabase) return null;
-  const { data, error } = await supabase.from("programs").select(programColumns).eq("slug", slug).eq("is_published", true).maybeSingle();
+  const { data, error } = await supabase
+    .from("programs")
+    .select(`${programColumns}, program_media(id, kind, path)`)
+    .eq("slug", slug)
+    .eq("is_published", true)
+    .order("sort_order", { referencedTable: "program_media" })
+    .order("id", { referencedTable: "program_media" })
+    .maybeSingle();
   logError("getProgram", error);
   return data;
 }
@@ -405,7 +412,7 @@ const programKeywords = cache(async (): Promise<string[]> => {
 });
 
 // The keyword goes into a PostgREST filter: keep only characters that cannot break its syntax.
-const cleanKeyword = (keyword: string) => keyword.replace(/[^\p{L}\p{N} ‘’'-]/gu, "").trim();
+export const cleanKeyword = (keyword: string) => keyword.replace(/[^\p{L}\p{N} ‘’'-]/gu, "").trim();
 
 /** Published news whose Uzbek title or text mentions the keyword (a program's related news), newest first. */
 export async function getNewsMentioning(keyword: string, limit = 12): Promise<News[]> {

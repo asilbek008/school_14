@@ -3,39 +3,38 @@
 import { useState, useTransition } from "react";
 import Link from "next/link";
 import Status from "@/components/admin/Status";
-import { reorderClubs } from "./actions";
 
-export type ClubItem = {
+export type SortableItem = {
   id: number;
   name: string;
-  grades: string | null;
-  schedule: string | null;
-  leader: string | null;
+  href: string;
   cover: string | null;
-  photos: number;
-  videos: number;
+  /** Short facts shown under the name (grades, time, counts…). */
+  meta: string[];
+  /** Shown in amber when something important is missing. */
+  warning?: string | null;
   published: boolean;
 };
 
 const tints = ["bg-blue-100 text-blue-800", "bg-teal-100 text-teal-800", "bg-amber-100 text-amber-800"];
 
 /**
- * The clubs in their site order. Drag a row by its handle (or use the arrows, on phones and with the
+ * Rows in their site order (clubs, programs). Drag a row by its handle (or use the arrows, on phones and with the
  * keyboard) to change the order; it is saved right away.
  */
-export default function ClubList({ items }: { items: ClubItem[] }) {
+export default function SortableList({ items, reorder }: { items: SortableItem[]; reorder: (ids: number[]) => Promise<void> }) {
   const [list, setList] = useState(items);
   const [committed, setCommitted] = useState(items); // the saved order, to go back to if a drag is dropped outside
   const [dragId, setDragId] = useState<number | null>(null);
   const [saving, startSaving] = useTransition();
   const [saved, setSaved] = useState(false);
 
-  const commit = (next: ClubItem[]) => {
+  const commit = (next: SortableItem[]) => {
     setList(next);
     setCommitted(next);
     setSaved(false);
     startSaving(async () => {
-      await reorderClubs(next.map((c) => c.id));
+      await reorder(next.map((c) => c.id));
       setSaved(true);
     });
   };
@@ -54,9 +53,9 @@ export default function ClubList({ items }: { items: ClubItem[] }) {
         {saved && !saving && <span className="font-medium text-green-700">Tartib saqlandi ✓</span>}
       </p>
       <ul className="space-y-2.5">
-        {list.map((club, i) => (
+        {list.map((item, i) => (
           <li
-            key={club.id}
+            key={item.id}
             onDragOver={(e) => {
               if (dragId === null) return;
               e.preventDefault();
@@ -73,13 +72,13 @@ export default function ClubList({ items }: { items: ClubItem[] }) {
               setDragId(null);
             }}
             className={`flex items-center gap-3 rounded-xl border bg-white p-3 shadow-sm transition sm:gap-4 sm:p-4 ${
-              dragId === club.id ? "border-blue-400 opacity-60" : "border-slate-200"
+              dragId === item.id ? "border-blue-400 opacity-60" : "border-slate-200"
             }`}
           >
             <span
               draggable
               onDragStart={(e) => {
-                setDragId(club.id);
+                setDragId(item.id);
                 e.dataTransfer.effectAllowed = "move";
               }}
               onDragEnd={() => {
@@ -94,36 +93,31 @@ export default function ClubList({ items }: { items: ClubItem[] }) {
               ⠿
             </span>
             <div className="flex flex-col gap-1">
-              <button type="button" onClick={() => move(i, i - 1)} disabled={i === 0} aria-label={`${club.name}: yuqoriga`} className="grid size-7 place-items-center rounded-md text-slate-500 hover:bg-slate-100 disabled:opacity-30">
+              <button type="button" onClick={() => move(i, i - 1)} disabled={i === 0} aria-label={`${item.name}: yuqoriga`} className="grid size-7 place-items-center rounded-md text-slate-500 hover:bg-slate-100 disabled:opacity-30">
                 ↑
               </button>
-              <button type="button" onClick={() => move(i, i + 1)} disabled={i === list.length - 1} aria-label={`${club.name}: pastga`} className="grid size-7 place-items-center rounded-md text-slate-500 hover:bg-slate-100 disabled:opacity-30">
+              <button type="button" onClick={() => move(i, i + 1)} disabled={i === list.length - 1} aria-label={`${item.name}: pastga`} className="grid size-7 place-items-center rounded-md text-slate-500 hover:bg-slate-100 disabled:opacity-30">
                 ↓
               </button>
             </div>
-            {club.cover ? (
+            {item.cover ? (
               // eslint-disable-next-line @next/next/no-img-element -- admin thumbnail
-              <img src={club.cover} alt="" className="size-14 shrink-0 rounded-lg object-cover sm:size-16" />
+              <img src={item.cover} alt="" className="size-14 shrink-0 rounded-lg object-cover sm:size-16" />
             ) : (
-              <span className={`grid size-14 shrink-0 place-items-center rounded-lg text-xl font-bold sm:size-16 ${tints[club.id % tints.length]}`}>
-                {club.name.charAt(0)}
+              <span className={`grid size-14 shrink-0 place-items-center rounded-lg text-xl font-bold sm:size-16 ${tints[item.id % tints.length]}`}>
+                {item.name.charAt(0)}
               </span>
             )}
-            <Link href={`/admin/clubs/${club.id}`} className="group min-w-0 flex-1">
-              <p className="truncate font-semibold text-slate-900 group-hover:text-blue-700">{club.name}</p>
+            <Link href={item.href} className="group min-w-0 flex-1">
+              <p className="truncate font-semibold text-slate-900 group-hover:text-blue-700">{item.name}</p>
               <p className="mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5 text-sm text-slate-500">
-                {club.grades && <span>{club.grades}</span>}
-                {club.schedule && <span>🕒 {club.schedule}</span>}
-                {club.leader && <span>👤 {club.leader}</span>}
-                {(club.photos > 0 || club.videos > 0) && (
-                  <span>
-                    {club.photos > 0 && `📷 ${club.photos}`} {club.videos > 0 && `🎬 ${club.videos}`}
-                  </span>
-                )}
-                {!club.schedule && !club.leader && <span className="text-amber-700">Vaqti va rahbari kiritilmagan</span>}
+                {item.meta.map((m) => (
+                  <span key={m}>{m}</span>
+                ))}
+                {item.warning && <span className="text-amber-700">{item.warning}</span>}
               </p>
             </Link>
-            <Status published={club.published} />
+            <Status published={item.published} />
           </li>
         ))}
       </ul>
