@@ -332,5 +332,22 @@
     "button": "eMaktab’ga kirish",
     "short": "eMaktab (baholar)",
     "newTab": "yangi oynada ochiladi"
+  },
+  "about": {
+    "name": "14-sonli umumta’lim maktabi",
+    "lead": "{address}da joylashgan umumta’lim maktabi. {from}–{to} o‘quv yilida 1–11-sinflarda ta’lim ikki smenada olib boriladi.",
+    "students": "o‘quvchi",
+    "staff": "xodim",
+    "classes": "sinf",
+    "shifts": "smena: 08:00 va 13:00",
+    "overview": "Umumiy ma’lumot",
+    "quick": "Qisqacha",
+    "founded": "Faoliyati",
+    "leadersKicker": "Rahbariyat",
+    "leadersTitle": "Maktab ma’muriyati",
+    "leadersDesc": "Maktab direktori va uning o‘rinbosarlari.",
+    "bellsTitle": "Dars vaqtlari",
+    "bellsMore": "Qo‘ng‘iroqlar jadvali",
+    "lessonsFrom": "{time} dan, 6 ta dars"
   }
 }

@@ -332,5 +332,22 @@
     "button": "Open eMaktab",
     "short": "eMaktab (grades)",
     "newTab": "opens in a new tab"
+  },
+  "about": {
+    "name": "General Secondary School No. 14",
+    "lead": "A general secondary school in {address}. In the {from}–{to} school year, grades 1–11 study in two shifts.",
+    "students": "students",
+    "staff": "staff",
+    "classes": "classes",
+    "shifts": "shifts: 08:00 and 13:00",
+    "overview": "Overview",
+    "quick": "At a glance",
+    "founded": "Operating",
+    "leadersKicker": "Leadership",
+    "leadersTitle": "School administration",
+    "leadersDesc": "The principal and deputy principals.",
+    "bellsTitle": "Lesson times",
+    "bellsMore": "Bell schedule",
+    "lessonsFrom": "from {time}, 6 lessons"
   }
 }
