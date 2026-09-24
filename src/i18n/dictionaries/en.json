@@ -124,7 +124,15 @@
     "colPosition": "Position",
     "colSubject": "Subject / area",
     "colClass": "Homeroom class",
-    "noMatch": "No one found."
+    "noMatch": "No one found.",
+    "all": "All",
+    "groups": {
+      "leaders": "Leadership",
+      "teachers": "Teachers",
+      "others": "Staff"
+    },
+    "wholeGroup": "all",
+    "filterLabel": "Position or subject"
   },
   "contact": {
     "intro": "Have a question or suggestion? Write to us and we'll get back to you.",

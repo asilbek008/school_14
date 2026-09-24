@@ -124,7 +124,15 @@
     "colPosition": "Lavozim",
     "colSubject": "Fan / yo‘nalish",
     "colClass": "Biriktirilgan sinf",
-    "noMatch": "Hech kim topilmadi."
+    "noMatch": "Hech kim topilmadi.",
+    "all": "Hammasi",
+    "groups": {
+      "leaders": "Rahbariyat",
+      "teachers": "O‘qituvchilar",
+      "others": "Xodimlar"
+    },
+    "wholeGroup": "hammasi",
+    "filterLabel": "Lavozim yoki fan"
   },
   "contact": {
     "intro": "Savol yoki taklifingiz bo‘lsa, bizga yozing — albatta javob beramiz.",
