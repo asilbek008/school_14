@@ -151,7 +151,7 @@ export default function SiteNav({
                   isOpen ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"
                 }`}
               >
-                <div className="rounded-[20px] border border-slate-200 bg-white p-2 shadow-[0_26px_50px_-20px_rgb(22_27_51/0.45)]">
+                <div className="surface rounded-[20px] border border-slate-200 bg-white p-2 shadow-[0_26px_50px_-20px_rgb(22_27_51/0.45)]">
                   {entry.items.map((item) => (
                     <ItemLink
                       key={item.href}
@@ -189,7 +189,7 @@ export default function SiteNav({
               <path d="M6 6l12 12M18 6L6 18" className="hidden group-open:block" />
             </svg>
           </summary>
-          <nav className="fixed inset-x-0 bottom-0 top-16 z-40 animate-fade-in overflow-y-auto overscroll-contain bg-paper px-4 pb-10 pt-4 text-slate-900 [animation-duration:0.25s]">
+          <nav className="surface fixed inset-x-0 bottom-0 top-16 z-40 animate-fade-in overflow-y-auto overscroll-contain bg-paper px-4 pb-10 pt-4 text-slate-900 [animation-duration:0.25s]">
             <div className="mx-auto max-w-xl space-y-2">
               {entries.map((entry) => {
                 if ("href" in entry) {

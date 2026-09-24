@@ -36,6 +36,10 @@
     "year": "{from}–{to} o‘quv yili",
     "close": "Menyuni yopish"
   },
+  "theme": {
+    "dark": "Tungi rejim",
+    "light": "Kunduzgi rejim"
+  },
   "home": {
     "welcome": "14-maktabga xush kelibsiz",
     "intro": "Bilim, tarbiya va kelajak shu yerda boshlanadi.",

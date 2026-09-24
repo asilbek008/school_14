@@ -35,7 +35,7 @@ export default function LiveCard({ t, scheduleHref }: { t: Labels; scheduleHref:
   const active = statuses?.some((s) => s.kind === "lesson" || s.kind === "break");
 
   return (
-    <div className="rounded-2xl bg-white p-5 text-slate-800 shadow-xl">
+    <div className="surface rounded-2xl bg-white p-5 text-slate-800 shadow-xl">
       <div className="flex items-center gap-2">
         <span className={`size-2 rounded-full ${active ? "animate-pulse bg-teal" : "bg-slate-300"}`} />
         <b>{t.title}</b>

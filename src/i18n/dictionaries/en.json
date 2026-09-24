@@ -36,6 +36,10 @@
     "year": "{from}–{to} school year",
     "close": "Close menu"
   },
+  "theme": {
+    "dark": "Dark mode",
+    "light": "Light mode"
+  },
   "home": {
     "welcome": "Welcome to School No. 14",
     "intro": "Knowledge, character and the future start here.",

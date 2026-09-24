@@ -183,3 +183,75 @@ html:has(.mobile-nav[open]) {
     block-size: auto;
   }
 }
+
+/* ---------- Dark mode ----------
+   `html.dark` is set before the first paint by the script in [lang]/layout.tsx (saved choice, else the
+   system setting) and toggled by ThemeToggle. Instead of dark: classes on every element, the light
+   tokens are swapped: the slate scale is inverted, surfaces and the soft accent tints go dark.
+   The navy chrome (header, hero, banners, footer) is dark already and keeps the light-mode slate;
+   `.surface` marks light cards inside it (dropdowns, mobile menu, the live card) that switch too. */
+html.dark {
+  color-scheme: dark;
+  --surface: #161e33;
+  --color-paper: #0e1424;
+  --color-brand-soft: #18264c;
+  --color-teal-soft: #0f2c29;
+  --color-gold-soft: #2e2413;
+}
+html.dark,
+html.dark .surface {
+  --color-slate-50: #121a2e;
+  --color-slate-100: #1a2339;
+  --color-slate-200: #26304b;
+  --color-slate-300: #3a4562;
+  --color-slate-400: #6e778f;
+  --color-slate-500: #8c96b0;
+  --color-slate-600: #a9b2c8;
+  --color-slate-700: #c3cadc;
+  --color-slate-800: #dbe0ec;
+  --color-slate-900: #eef1f9;
+  --color-slate-950: #f8f9fc;
+}
+html.dark :is(.chrome, .site-header):not(.surface) {
+  --color-slate-50: oklch(98.4% 0.003 247.858);
+  --color-slate-100: oklch(96.8% 0.007 247.896);
+  --color-slate-200: oklch(92.9% 0.013 255.508);
+  --color-slate-300: oklch(86.9% 0.022 252.894);
+  --color-slate-400: oklch(70.4% 0.04 256.788);
+  --color-slate-500: oklch(55.4% 0.046 257.417);
+  --color-slate-600: oklch(44.6% 0.043 257.281);
+  --color-slate-700: oklch(37.2% 0.044 257.287);
+  --color-slate-800: oklch(27.9% 0.041 260.031);
+  --color-slate-900: oklch(20.8% 0.042 265.755);
+  --color-slate-950: oklch(12.9% 0.042 264.695);
+}
+html.dark body {
+  color: #eef1f9;
+}
+/* White cards become dark surfaces; white marks with navy text (logo, active pills) stay white. */
+html.dark .bg-white:not(.text-navy) {
+  background-color: var(--surface);
+}
+/* Deep accent text on the (now dark) soft tints needs to be lighter to stay readable. */
+html.dark .text-brand-deep {
+  color: #9db7ff;
+}
+html.dark .text-gold-deep {
+  color: #f0b860;
+}
+html.dark .text-\[\#0c6d62\] {
+  color: #5fd3c2;
+}
+html.dark .text-\[\#c9553f\] {
+  color: #f08c75;
+}
+html.dark .bg-\[\#fae7e2\] {
+  background-color: #33201c;
+}
+/* Navy chips and cells on the dark page would blend in; brand blue keeps them distinct. */
+html.dark :is(main, .surface) .bg-navy {
+  background-color: var(--color-brand);
+}
+html.dark :is(main, .surface) .border-navy {
+  border-color: var(--color-brand);
+}
