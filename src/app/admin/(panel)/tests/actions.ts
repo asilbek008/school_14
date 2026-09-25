@@ -29,6 +29,7 @@ export async function saveTest(id: number | null, _prev: FormState, form: FormDa
     kind,
     grade: grade >= 1 && grade <= 11 ? grade : null,
     time_limit: timeLimit >= 1 && timeLimit <= 300 ? timeLimit : null,
+    source: optional(form, "source")?.slice(0, 300) ?? null,
     is_published: form.get("is_published") === "on",
   };
   const { data, error } = id

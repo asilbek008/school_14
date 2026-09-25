@@ -6,6 +6,7 @@ import { normalizeName } from "@/lib/staff-import";
 import { classLabel } from "@/lib/timetable";
 import { shiftForGrade } from "@/lib/bells";
 import AdminHeader from "@/components/admin/AdminHeader";
+import { school } from "@/lib/school";
 import ClassList, { type ClassItem } from "./ClassList";
 
 type ClassListRow = {
@@ -13,15 +14,16 @@ type ClassListRow = {
   grade: number;
   letter: string;
   is_published: boolean;
+  students: number | null;
   staff: { full_name: string } | null;
 };
 
 export const metadata: Metadata = { title: "Sinflar va dars jadvali" };
 
-export default async function AdminClassesPage() {
+export default async function AdminClassesPage({ searchParams }: PageProps<"/admin/classes">) {
   const { supabase } = await requireAdmin();
   const [{ data }, { data: staff }, lessons] = await Promise.all([
-    supabase.from("school_classes").select("id, grade, letter, is_published, staff(full_name)").order("grade").order("letter"),
+    supabase.from("school_classes").select("id, grade, letter, is_published, students, staff(full_name)").order("grade").order("letter"),
     supabase.from("staff").select("short_name").not("short_name", "is", null),
     allLessons<{ class_id: number; teacher: string | null; alt_teacher: string | null }>(supabase, "class_id, teacher, alt_teacher"),
   ]);
@@ -45,6 +47,7 @@ export default async function AdminClassesPage() {
     shift: shiftForGrade(c.grade).id,
     homeroom: c.staff?.full_name ?? null,
     lessons: stats.get(c.id)?.lessons ?? 0,
+    students: c.students,
     unlinked: [...(stats.get(c.id)?.unlinked ?? [])],
     published: c.is_published,
   }));
@@ -56,11 +59,38 @@ export default async function AdminClassesPage() {
         Sinfni oching — dars jadvali o‘sha yerda to‘ldiriladi. Fanlar ro‘yxati:{" "}
         <Link href="/admin/subjects" className="text-blue-700 hover:underline">Fanlar</Link>.
       </p>
+      {(await searchParams).students === "saved" && (
+        <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-sm font-semibold text-green-900">✓ O‘quvchilar soni saqlandi.</p>
+      )}
+      {items.length > 0 && <StudentsSummary items={items} />}
       {items.length ? (
         <ClassList items={items} />
       ) : (
         <p className="rounded-xl bg-white p-8 text-center text-slate-500 shadow-sm">Hali sinf qo‘shilmagan.</p>
       )}
     </>
+  );
+}
+
+/** Pupils entered per class so far, against the school total confirmed by the owner. */
+function StudentsSummary({ items }: { items: ClassItem[] }) {
+  const counted = items.filter((c) => c.students != null);
+  const total = counted.reduce((a, c) => a + (c.students ?? 0), 0);
+  return (
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white p-4 shadow-sm">
+      <div className="text-sm">
+        <p className="font-semibold text-slate-900">
+          👥 O‘quvchilar: {total} ta · {counted.length} / {items.length} sinfda kiritilgan
+        </p>
+        <p className="text-slate-500">
+          {counted.length === items.length
+            ? "Saytda barcha sinflar yig‘indisi ko‘rsatiladi."
+            : `Hamma sinf kiritilguncha saytda umumiy son — ${school.stats.students} ta ko‘rsatiladi.`}
+        </p>
+      </div>
+      <Link href="/admin/classes/students" className="rounded-lg bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800">
+        Sinflar bo‘yicha o‘quvchilar sonini kiritish
+      </Link>
+    </div>
   );
 }

@@ -7,6 +7,7 @@ export type ClassRow = {
   grade: number;
   letter: string;
   homeroom_teacher_id: number | null;
+  students: number | null;
   is_published: boolean;
 };
 
@@ -32,6 +33,9 @@ export default function ClassForm({ row, staff }: { row?: ClassRow; staff: { id:
             hint={row ? "Masalan: A" : "Bir nechta sinfni birdan qo‘shish mumkin: A, B, D, E"}
           >
             <input name="letter" required defaultValue={row?.letter} className={inputClass} />
+          </Field>
+          <Field label="O‘quvchilar soni" hint="Ixtiyoriy. Hamma sinflarniki kiritilsa, saytdagi umumiy son shundan hisoblanadi.">
+            <input type="number" name="students" min={0} max={60} defaultValue={row?.students ?? ""} className={inputClass} />
           </Field>
         </div>
       </FormSection>

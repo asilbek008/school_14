@@ -930,7 +930,13 @@
       "empty": "The DTM question bank has not been filled yet. Once teachers add questions, the exam can be started.",
       "format": "Format",
       "total": "Total: {n} questions, {points} points, {h} hours",
-      "note": "Points are an approximate DTM-style score. The exam is for practice only."
+      "note": "This is a practice exam: the questions are written by the school's teachers and are not real DTM questions. Points are an approximate DTM-style score."
+    },
+    "source": "Source",
+    "official": {
+      "title": "Official sample tests",
+      "text": "Our questions are practice questions in the DTM format, not real DTM questions. Official samples are on the Knowledge and Skills Assessment Agency website.",
+      "link": "uzbmb.uz — sample tests"
     }
   }
 }

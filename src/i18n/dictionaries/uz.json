@@ -930,7 +930,13 @@
       "empty": "DTM savollar bazasi hali to‘ldirilmagan. O‘qituvchilar savollarni qo‘shgach, sinovni boshlash mumkin bo‘ladi.",
       "format": "Format",
       "total": "Jami: {n} ta savol, {points} ball, {h} soat",
-      "note": "Ball DTM tizimi bo‘yicha taxminiy hisoblanadi. Sinov faqat mashq uchun."
+      "note": "Bu mashq sinovi: savollarni maktab o‘qituvchilari tuzgan, ular haqiqiy DTM savollari emas. Ball DTM tizimi bo‘yicha taxminiy hisoblanadi."
+    },
+    "source": "Manba",
+    "official": {
+      "title": "Rasmiy namunaviy testlar",
+      "text": "Bizdagi savollar — DTM formatidagi mashq savollari, haqiqiy DTM savollari emas. Rasmiy namunaviy testlar Bilim va malakalarni baholash agentligi saytida.",
+      "link": "uzbmb.uz — namunaviy testlar"
     }
   }
 }

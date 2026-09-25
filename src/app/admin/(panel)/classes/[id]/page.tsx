@@ -18,7 +18,7 @@ export default async function EditClassPage({ params, searchParams }: PageProps<
   const id = Number((await params).id);
   const { saved } = await searchParams;
   const [{ data: row }, { data: staff }, { data: subjects }, { data: current }] = await Promise.all([
-    supabase.from("school_classes").select("id, grade, letter, homeroom_teacher_id, is_published").eq("id", id).maybeSingle(),
+    supabase.from("school_classes").select("id, grade, letter, homeroom_teacher_id, students, is_published").eq("id", id).maybeSingle(),
     supabase.from("staff").select("id, full_name, short_name").order("full_name"),
     supabase.from("subjects").select("id, name_uz").order("sort_order").order("name_uz"),
     supabase.from("lessons").select("weekday, period, subject_id, teacher, alt_subject_id, alt_teacher").eq("class_id", id),

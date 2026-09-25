@@ -58,6 +58,14 @@ export default function TestForm({ row }: { row?: TestRow }) {
           barcha DTM savollaridan tasodifiy tanlanadi (majburiy fanlardan 10 tadan, asosiy fanlardan 30 tadan).
         </p>
         <TranslatedField name="description" label="Qisqacha tavsif (ixtiyoriy)" row={row} uzRequired={false} />
+        <Field label="Manba / muallif" hint="Kim tuzgan yoki qayerdan olingan va litsenziyasi. Masalan: «Kimyo o‘qituvchisi A. Karimov» yoki «OpenStax Chemistry 2e, CC BY 4.0 — tarjima». Saytda test ostida ko‘rsatiladi.">
+          <input name="source" maxLength={300} defaultValue={(row?.source as string | null) ?? ""} className={inputClass} />
+        </Field>
+        <p className="rounded-lg bg-slate-50 p-3 text-sm text-slate-600">
+          Faqat o‘qituvchilar o‘zi tuzgan yoki ochiq litsenziyali savollarni joylang. Test kitoblari, pullik saytlar, Telegram kanallari va
+          «sizib chiqqan DTM savollari»ni ko‘chirmang — mualliflik huquqi buziladi va xato javoblar ko‘p uchraydi. Har savolni ikkinchi
+          o‘qituvchi kalitga qaramasdan yechib tekshirsin.
+        </p>
       </FormSection>
       <PublishedCheckbox checked={row?.is_published ?? false} label="Saytda ko‘rsatish (savollar tayyor bo‘lgach belgilang)" />
     </AdminForm>

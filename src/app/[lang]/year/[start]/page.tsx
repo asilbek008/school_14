@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { fill, plural } from "@/i18n/fill";
-import { getAlbums, getEvents, getNews, getSchoolYears, localized } from "@/lib/content";
+import { getAlbums, getEvents, getNews, getSchoolYears, getStudentTotal, localized } from "@/lib/content";
 import { currentSchoolYear, school } from "@/lib/school";
 import { schoolYearOf, yearLabel } from "@/lib/school-years";
 import PageHeader from "@/components/PageHeader";
@@ -47,7 +47,7 @@ export default async function YearPage({ params }: PageProps<"/[lang]/year/[star
   const albums = allAlbums.filter((a) => a.event_date && schoolYearOf(a.event_date) === start && a.gallery_photos.length + a.gallery_videos.length > 0);
 
   // The admin's figures; the current year falls back to the confirmed ones in school.ts.
-  const own = start === current ? school.stats : null;
+  const own = start === current ? { ...school.stats, students: await getStudentTotal() } : null;
   const num = (v: number | null | undefined, fallback?: number | null) => v ?? fallback ?? null;
   const stats = [
     { value: num(row?.students, own?.students), label: t.students },

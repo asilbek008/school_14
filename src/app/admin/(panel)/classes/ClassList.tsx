@@ -11,6 +11,7 @@ export type ClassItem = {
   shift: number;
   homeroom: string | null;
   lessons: number;
+  students: number | null;
   /** Teacher names in the timetable that match no one's eMaktab name. */
   unlinked: string[];
   published: boolean;
@@ -18,6 +19,7 @@ export type ClassItem = {
 
 const gaps = {
   empty: { label: "Jadvali bo‘sh", test: (c: ClassItem) => c.lessons === 0 },
+  students: { label: "O‘quvchi soni kiritilmagan", test: (c: ClassItem) => c.students == null },
   homeroom: { label: "Sinf rahbarisiz", test: (c: ClassItem) => !c.homeroom },
   unlinked: { label: "Profilga bog‘lanmagan o‘qituvchi ismi bor", test: (c: ClassItem) => c.unlinked.length > 0 },
   hidden: { label: "Yashirin", test: (c: ClassItem) => !c.published },
@@ -87,6 +89,9 @@ export default function ClassList({ items }: { items: ClassItem[] }) {
                             {c.homeroom ?? <span className="font-normal text-amber-700">Sinf rahbari tanlanmagan</span>}
                           </p>
                           <p className={c.lessons ? "text-slate-500" : "text-amber-700"}>{c.lessons ? `📅 ${c.lessons} ta dars` : "Jadval bo‘sh"}</p>
+                          <p className={c.students != null ? "text-slate-500" : "text-amber-700"}>
+                            {c.students != null ? `👥 ${c.students} ta o‘quvchi` : "O‘quvchi soni yo‘q"}
+                          </p>
                           {c.unlinked.length > 0 && (
                             <p className="truncate text-amber-700" title={c.unlinked.join(", ")}>
                               Bog‘lanmagan: {c.unlinked.join(", ")}

@@ -5,6 +5,7 @@ import { cache } from "react";
 import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
 import { mediaBaseUrl } from "@/lib/media";
+import { school } from "@/lib/school";
 import type { EventCategory, NewsCategory } from "@/lib/categories";
 import type { PublicQuestion } from "@/lib/tests";
 
@@ -642,6 +643,7 @@ export type TestSummary = {
   kind: "mavzu" | "dtm";
   grade: number | null;
   time_limit: number | null;
+  source: string | null;
   questions: number;
 };
 
@@ -652,7 +654,7 @@ export const getTests = cache(async (): Promise<TestSummary[]> => {
   // Visitors may not read every column of test_questions, so the count embed is not allowed: count the ids.
   const { data, error } = await supabase
     .from("tests")
-    .select("id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, test_questions(id)")
+    .select("id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, source, test_questions(id)")
     .eq("is_published", true)
     .order("sort_order")
     .order("id");
@@ -669,7 +671,7 @@ export async function getTest(id: number): Promise<(TestSummary & { items: Publi
   const { data, error } = await supabase
     .from("tests")
     .select(
-      "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, test_questions(id, question, options, image, sort_order)",
+      "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, source, test_questions(id, question, options, image, sort_order)",
     )
     .eq("id", id)
     .eq("is_published", true)
@@ -682,3 +684,17 @@ export async function getTest(id: number): Promise<(TestSummary & { items: Publi
   const items = (test_questions as (PublicQuestion & { sort_order: number })[]).map(({ id, question, options, image }) => ({ id, question, options, image }));
   return { ...(t as Omit<TestSummary, "questions">), questions: items.length, items };
 }
+
+/**
+ * Pupils in the school: the sum of the admin's per-class numbers once every published class has one,
+ * otherwise the confirmed total in school.ts.
+ */
+export const getStudentTotal = cache(async (): Promise<number> => {
+  const supabase = createPublicClient();
+  if (!supabase) return school.stats.students;
+  const { data, error } = await supabase.from("school_classes").select("students").eq("is_published", true);
+  logError("getStudentTotal", error);
+  const rows = data ?? [];
+  if (!rows.length || rows.some((r) => r.students == null)) return school.stats.students;
+  return rows.reduce((a, r) => a + (r.students ?? 0), 0);
+});

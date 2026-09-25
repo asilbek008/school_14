@@ -4,6 +4,7 @@ import { getTests } from "@/lib/content";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import DtmPlayer from "@/components/DtmPlayer";
+import OfficialSamples from "@/components/OfficialSamples";
 
 export const revalidate = 300;
 
@@ -36,6 +37,7 @@ export default async function DtmPage({ params }: PageProps<"/[lang]/tests/dtm">
         ) : (
           <EmptyState>{t.dtm.empty}</EmptyState>
         )}
+        <OfficialSamples t={t} />
         <p className="mt-8 text-center text-[12.5px] text-slate-500">🔒 {t.privacy}</p>
       </div>
     </>
