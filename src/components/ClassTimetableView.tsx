@@ -15,6 +15,9 @@ export type TimetableCell = {
   /** Subject taught every other week in the same slot. */
   alt: string | null;
   altTeacher: string | null;
+  /** The grade's textbook for the subject (reader link), if the library has one. */
+  book?: string | null;
+  altBook?: string | null;
 };
 
 type Labels = Dictionary["timetable"];
@@ -27,7 +30,10 @@ export default function ClassTimetableView({
   teacherIds,
   lang,
   t,
+  corner,
 }: {
+  /** Shown at the right end of the view switch row (the class's textbooks). */
+  corner?: React.ReactNode;
   shiftId: number;
   cells: TimetableCell[];
   teacherIds: Record<string, number>;
@@ -57,6 +63,7 @@ export default function ClassTimetableView({
 
   return (
     <div>
+      <div className="flex flex-wrap items-center justify-between gap-3">
       <div role="tablist" aria-label={t.weekly} className="inline-flex rounded-full bg-white p-1 shadow-sm ring-1 ring-slate-200">
         {(["daily", "weekly"] as const).map((v) => (
           <button
@@ -72,6 +79,8 @@ export default function ClassTimetableView({
             {v === "daily" ? t.daily : t.weeklyTab}
           </button>
         ))}
+      </div>
+      {corner}
       </div>
 
       {view === "daily" ? (
@@ -139,13 +148,17 @@ export default function ClassTimetableView({
                         <div className="min-w-0">
                           {lesson ? (
                             <>
-                              <p className="font-bold text-slate-900">{lesson.subject}</p>
+                              <p className="font-bold text-slate-900">
+                                {lesson.subject}
+                                {lesson.book && <BookLink href={lesson.book} label={t.book} />}
+                              </p>
                               {lesson.teacher && <Teachers names={lesson.teacher} ids={teacherIds} lang={lang} />}
                               {lesson.alt && (
                                 <>
                                   <p className="mt-1.5 font-bold text-slate-900">
                                     <span className="font-normal text-slate-400">/ </span>
                                     {lesson.alt}
+                                    {lesson.altBook && <BookLink href={lesson.altBook} label={t.book} />}
                                   </p>
                                   {lesson.altTeacher && <Teachers names={lesson.altTeacher} ids={teacherIds} lang={lang} />}
                                   <AltBadge label={t.alternating} />
@@ -217,10 +230,12 @@ export default function ClassTimetableView({
                               <>
                                 <p className="font-bold leading-snug text-slate-900">
                                   {lesson.subject}
+                                  {lesson.book && <BookLink href={lesson.book} label={t.book} />}
                                   {lesson.alt && (
                                     <>
                                       <span className="font-normal text-slate-400"> / </span>
                                       {lesson.alt}
+                                      {lesson.altBook && <BookLink href={lesson.altBook} label={t.book} />}
                                     </>
                                   )}
                                 </p>
@@ -277,5 +292,24 @@ function Teachers({ names, ids, lang }: { names: string; ids: Record<string, num
         );
       })}
     </span>
+  );
+}
+
+/** A small "textbook" link after a subject name: opens the book in the library reader. */
+function BookLink({ href, label }: { href: string; label: string }) {
+  const external = /^https?:\/\//.test(href);
+  return (
+    <Link
+      href={href}
+      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      title={label}
+      aria-label={label}
+      className="ml-1.5 inline-flex translate-y-[-1px] items-center gap-0.5 rounded-md bg-[#fae7e2] px-1.5 py-0.5 align-middle text-[11px] font-bold text-[#c9553f] transition-colors hover:bg-[#c9553f] hover:text-white"
+    >
+      <svg viewBox="0 0 24 24" className="size-3" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM4 20.5A2.5 2.5 0 0 0 6.5 23H20" />
+      </svg>
+      PDF
+    </Link>
   );
 }

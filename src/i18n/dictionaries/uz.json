@@ -479,7 +479,12 @@
       "one": "fan",
       "other": "fan"
     },
-    "statLessons": "haftalik dars"
+    "statLessons": "haftalik dars",
+    "books": "Darsliklar",
+    "openPdf": "PDF ochish",
+    "book": "Darslik",
+    "allBooks": "Kutubxonaga o‘tish",
+    "booksFor": "{n}-sinf darsliklari"
   },
   "emaktab": {
     "title": "eMaktab — baholar va davomat",

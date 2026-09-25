@@ -83,6 +83,8 @@ export type ClassTimetable = SchoolClass & {
     weekday: number;
     period: number;
     teacher: string | null;
+    subject_id: number | null;
+    alt_subject_id: number | null;
     subjects: Subject | null;
     /** Set when the lesson alternates week by week with another subject. */
     alt: Subject | null;
@@ -315,7 +317,7 @@ export async function getClassTimetable(id: number): Promise<ClassTimetable | nu
   const [{ data, error }, { data: teachers, error: teacherError }] = await Promise.all([
     supabase
       .from("school_classes")
-      .select("id, grade, letter, staff(id, full_name), lessons(weekday, period, teacher, alt_teacher, subjects!lessons_subject_id_fkey(name_uz, name_ru, name_en), alt:subjects!lessons_alt_subject_id_fkey(name_uz, name_ru, name_en))")
+      .select("id, grade, letter, staff(id, full_name), lessons(weekday, period, teacher, alt_teacher, subject_id, alt_subject_id, subjects!lessons_subject_id_fkey(name_uz, name_ru, name_en), alt:subjects!lessons_alt_subject_id_fkey(name_uz, name_ru, name_en))")
       .eq("is_published", true)
       .eq("id", id)
       .maybeSingle(),
