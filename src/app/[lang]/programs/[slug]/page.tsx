@@ -3,15 +3,14 @@ import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { getLeagueTables, getNewsMentioning, getProgram, getRoundNewsPhotos, localized, mediaUrl } from "@/lib/content";
 import { formatDate } from "@/lib/format";
-import { plural, fill } from "@/i18n/fill";
 import PageHeader from "@/components/PageHeader";
 import PhotoFrame from "@/components/PhotoFrame";
 import RichText from "@/components/RichText";
 import NewsCard from "@/components/NewsCard";
 import EmptyState from "@/components/EmptyState";
-import Lightbox from "@/components/Lightbox";
 import VideoGrid from "@/components/VideoGrid";
 import LeagueStandings from "@/components/LeagueStandings";
+import RoundGallery from "@/components/RoundGallery";
 
 export const revalidate = 300;
 
@@ -38,6 +37,13 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
   const place = localized(program, "place", lang);
   const photos = program.program_media.filter((m) => m.kind === "photo");
   const videos = program.program_media.filter((m) => m.kind !== "photo");
+  // A round's best three at our school, from the school stage of the league (points of that round only).
+  const school = league.find((x) => x.stage === "school");
+  const roundTop = (round: number) =>
+    (school?.rows ?? [])
+      .flatMap((r) => (r.rounds[round - 1] ? [{ team: r.team, points: r.rounds[round - 1]![0] }] : []))
+      .sort((a, b) => b.points - a.points)
+      .slice(0, 3);
   // The photo gallery: one block per league round (uploaded here + photos of news about that round), newest first,
   // then the general photos.
   const roundNumbers = [...new Set([...photos.map((p) => p.round), ...newsRounds.map((r) => r.round)])].sort((a, b) => (b ?? 0) - (a ?? 0));
@@ -45,11 +51,15 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
     .map((round) => {
       const fromNews = newsRounds.find((r) => r.round === round);
       const paths = [...photos.filter((p) => p.round === round).map((p) => p.path), ...(fromNews?.paths ?? [])];
-      return { round, date: fromNews?.date ?? null, photos: [...new Set(paths)].map((path) => mediaUrl(path)!) };
+      return {
+        round,
+        date: fromNews?.date ? formatDate(fromNews.date, lang) : null,
+        photos: [...new Set(paths)].map((path) => mediaUrl(path)!),
+        top: round ? roundTop(round) : [],
+      };
     })
     .filter((g) => g.photos.length);
   const photoTotal = galleries.reduce((n, g) => n + g.photos.length, 0);
-  const lightboxT = { close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next };
 
   return (
     <>
@@ -114,24 +124,24 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
               {t.gallery} <span className="font-semibold text-slate-400">· {photoTotal}</span>
             </h2>
             <p className="mb-6 mt-1 text-slate-600">{t.galleryIntro}</p>
-            <div className="space-y-6">
-              {galleries.map((g) => (
-                <div key={g.round ?? "general"} id={g.round ? `round-${g.round}` : undefined} className="rounded-3xl border border-slate-200 bg-white p-4 sm:p-6">
-                  <div className="mb-4 flex flex-wrap items-center gap-x-3 gap-y-1">
-                    {g.round ? (
-                      <span className="rounded-full bg-navy px-3.5 py-1 text-sm font-bold text-white">{fill(t.roundGallery, { n: g.round })}</span>
-                    ) : (
-                      <span className="rounded-full bg-slate-100 px-3.5 py-1 text-sm font-bold text-slate-700">{t.generalGallery}</span>
-                    )}
-                    <span className="text-sm text-slate-500">
-                      {plural(t.photoCount, g.photos.length, lang)}
-                      {g.date && ` · ${formatDate(g.date, lang)}`}
-                    </span>
-                  </div>
-                  <Lightbox photos={g.photos} alt={g.round ? `${name} — ${fill(t.roundGallery, { n: g.round })}` : name} t={lightboxT} layout="carousel" />
-                </div>
-              ))}
-            </div>
+            <RoundGallery
+              albums={galleries}
+              alt={name}
+              lang={lang}
+              t={{
+                close: dict.gallery.close,
+                prev: dict.gallery.prev,
+                next: dict.gallery.next,
+                round: t.roundGallery,
+                general: t.generalGallery,
+                photoCount: t.photoCount,
+                results: t.roundResults,
+                points: t.pointsShort,
+                viewAll: t.viewAll,
+                toTable: t.toTable,
+                maxPoints: t.roundMax,
+              }}
+            />
           </section>
         )}
 

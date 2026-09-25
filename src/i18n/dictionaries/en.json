@@ -393,7 +393,12 @@
     "photoCount": {
       "one": "{n} photo",
       "other": "{n} photos"
-    }
+    },
+    "roundResults": "Round results",
+    "pointsShort": "pts",
+    "viewAll": "View all",
+    "toTable": "Full table",
+    "roundMax": "Played at our school · 24 questions per round"
   },
   "gallery": {
     "intro": "Moments from school life: events, lessons and celebrations.",
