@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { fill } from "@/i18n/fill";
-import { districtOf, isOurSchool, type LeagueRow, type LeagueStage } from "@/lib/league";
+import { districtOf, isOurSchool, ROUND_QUESTIONS, type LeagueRow, type LeagueStage } from "@/lib/league";
 
 export type LeagueLabels = {
   title: string;
@@ -30,11 +30,27 @@ export type LeagueLabels = {
   shown: string;
   noMatch: string;
   placeOf: string;
+  lastRound: string;
+  pending: string;
+  up: string;
+  down: string;
+  maxPoints: string;
 };
 
 export type LeagueView = { stage: LeagueStage; title: string | null; asOf: string | null; rows: LeagueRow[] };
 
 const PAGE = 50;
+const medals = ["🥇", "🥈", "🥉"];
+
+/** Places after the rounds before the last one (equal totals share a place), to show who moved up or down. */
+function previousPlaces(rows: LeagueRow[]): Map<LeagueRow, number> {
+  const played = rows[0]?.rounds.length ?? 0;
+  const places = new Map<LeagueRow, number>();
+  if (played < 2) return places;
+  const before = rows.map((r) => ({ r, points: r.rounds.slice(0, -1).reduce((a, rd) => a + (rd?.[0] ?? 0), 0) })).sort((a, b) => b.points - a.points);
+  before.forEach((x, i) => places.set(x.r, i && before[i - 1].points === x.points ? places.get(before[i - 1].r)! : i + 1));
+  return places;
+}
 
 /** Standings by stage (as the staff directory): stage tabs, search, filter; our school's teams stand out. */
 export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t: LeagueLabels }) {
@@ -49,6 +65,10 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
   const local = table.stage === "school";
   const withRating = table.rows.some((r) => r.rating != null);
   const ours = local ? [] : table.rows.filter(isOurSchool);
+  // Games at school run ahead of the league's tables: say how far a league table goes.
+  const latest = Math.max(...tables.map((x) => x.rows[0]?.rounds.length ?? 0));
+  const behind = !local && rounds < latest;
+  const before = local ? previousPlaces(table.rows) : new Map<LeagueRow, number>();
   const districts = [...new Set(table.rows.map(districtOf).filter((d): d is string => !!d))].sort((a, b) => a.localeCompare(b));
 
   const q = query.trim().toLowerCase();
@@ -123,6 +143,8 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
         </div>
       )}
 
+      {behind && <p className="mb-4 rounded-xl bg-gold-soft px-4 py-2.5 text-sm font-medium text-gold-deep">{fill(t.pending, { n: rounds })}</p>}
+
       {local && (
         <p className="mb-4 text-sm text-slate-600">
           {t.schoolNote}
@@ -166,7 +188,9 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
         </select>
       </div>
 
-      {shown.length === 0 ? (
+      {local ? (
+        <SchoolBoard rows={table.rows} before={before} t={t} />
+      ) : shown.length === 0 ? (
         <p className="rounded-2xl border border-dashed border-slate-300 bg-white px-4 py-8 text-center text-slate-500">{t.noMatch}</p>
       ) : (
         <>
@@ -261,5 +285,66 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
         </>
       )}
     </div>
+  );
+}
+
+/**
+ * Our school's own games as a scoreboard: medals, how each team moved since the previous round, points per round
+ * (the latest one stands out) and a bar of the total against the questions played so far.
+ */
+function SchoolBoard({ rows, before, t }: { rows: LeagueRow[]; before: Map<LeagueRow, number>; t: LeagueLabels }) {
+  const played = rows[0]?.rounds.length ?? 0;
+  const max = played * ROUND_QUESTIONS;
+  return (
+    <ol className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+      {rows.map((r) => {
+        const prev = before.get(r);
+        const moved = prev ? prev - r.place : 0;
+        return (
+          <li key={`${r.place}-${r.team}`} className={`flex flex-wrap items-center gap-x-4 gap-y-2 border-b border-slate-100 p-4 last:border-0 sm:flex-nowrap sm:px-5 ${r.place === 1 ? "bg-gold-soft/50" : ""}`}>
+            <span className={`grid size-11 shrink-0 place-items-center rounded-xl font-display text-lg font-bold ${r.place <= 3 ? "bg-white text-2xl shadow-sm" : "bg-slate-100 text-slate-600"}`}>
+              {medals[r.place - 1] ?? r.place}
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="flex items-center gap-2">
+                <b className="truncate text-[16px] text-slate-900">{r.team}</b>
+                {moved !== 0 && (
+                  <span
+                    className={`shrink-0 rounded-full px-1.5 py-0.5 text-[11px] font-bold ${moved > 0 ? "bg-teal-soft text-teal" : "bg-red-50 text-red-700"}`}
+                    title={fill(moved > 0 ? t.up : t.down, { n: Math.abs(moved) })}
+                  >
+                    {moved > 0 ? "▲" : "▼"} {Math.abs(moved)}
+                  </span>
+                )}
+              </span>
+              {max > 0 && (
+                <span className="mt-2 block h-1.5 overflow-hidden rounded-full bg-slate-100" title={`${r.points} / ${max}`}>
+                  <span className="block h-full rounded-full bg-gradient-to-r from-brand to-teal" style={{ width: `${Math.min(100, (r.points / max) * 100)}%` }} />
+                </span>
+              )}
+            </span>
+            <span className="order-last flex w-full gap-1.5 sm:order-none sm:w-auto">
+              {r.rounds.map((rd, i) => {
+                const last = i === played - 1;
+                return (
+                  <span
+                    key={i}
+                    className={`min-w-14 rounded-lg px-2 py-1 text-center ${last ? "bg-navy text-white" : "bg-slate-100 text-slate-700"}`}
+                    title={`${fill(t.round, { n: i + 1 })}${last ? ` · ${t.lastRound}` : ""} · ${fill(t.maxPoints, { n: ROUND_QUESTIONS })}`}
+                  >
+                    <span className={`block text-[10.5px] font-semibold ${last ? "text-white/70" : "text-slate-500"}`}>{fill(t.round, { n: i + 1 })}</span>
+                    <b className="block text-[15px] tabular-nums">{rd ? rd[0] : "—"}</b>
+                  </span>
+                );
+              })}
+            </span>
+            <span className="shrink-0 text-right">
+              <b className="font-display block text-2xl tabular-nums leading-none text-slate-900">{r.points}</b>
+              <span className="text-[11px] font-semibold uppercase tracking-wide text-slate-500">{t.total}</span>
+            </span>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

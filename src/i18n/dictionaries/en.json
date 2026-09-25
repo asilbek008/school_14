@@ -385,7 +385,15 @@
     "statTeams": "our league teams",
     "search": "Project name…",
     "notFound": "No projects match your search.",
-    "place": "{stage}: place {n}"
+    "place": "{stage}: place {n}",
+    "gallery": "Photo gallery",
+    "galleryIntro": "Each round has its own section — tap a photo to enlarge it.",
+    "roundGallery": "Round {n}",
+    "generalGallery": "General",
+    "photoCount": {
+      "one": "{n} photo",
+      "other": "{n} photos"
+    }
   },
   "gallery": {
     "intro": "Moments from school life: events, lessons and celebrations.",
@@ -559,7 +567,14 @@
     "more": "Show {n} more",
     "shown": "{n} of {total}",
     "noMatch": "Nothing found.",
-    "placeOf": "{place} of {total}"
+    "placeOf": "{place} of {total}",
+    "online": "Live table",
+    "live": "Live",
+    "lastRound": "latest round",
+    "pending": "Results up to round {n} so far. Later rounds are added once the league publishes them.",
+    "up": "up {n}",
+    "down": "down {n}",
+    "maxPoints": "of {n} questions"
   },
   "search": {
     "title": "Search the site",

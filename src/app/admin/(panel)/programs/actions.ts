@@ -95,12 +95,13 @@ async function nextMediaOrder(supabase: Awaited<ReturnType<typeof requireAdmin>>
 }
 
 /** Registers photos or video files the browser uploaded into media/programs/<id>/. */
-export async function addProgramMedia(programId: number, kind: "photo" | "video", paths: string[]) {
+export async function addProgramMedia(programId: number, kind: "photo" | "video", paths: string[], round: number | null = null) {
   const { supabase } = await requireAdmin();
   const clean = paths.filter((p) => p.startsWith(`programs/${programId}/`));
   if (!clean.length || (kind !== "photo" && kind !== "video")) return;
+  const r = cleanRound(round);
   const start = await nextMediaOrder(supabase, programId);
-  await supabase.from("program_media").insert(clean.map((path, i) => ({ program_id: programId, kind, path, sort_order: start + i })));
+  await supabase.from("program_media").insert(clean.map((path, i) => ({ program_id: programId, kind, path, round: r, sort_order: start + i })));
   revalidatePublic();
   revalidatePath(`/admin/programs/${programId}`);
 }
@@ -128,12 +129,14 @@ export async function reorderProgramPhotos(programId: number, ids: number[]) {
   revalidatePublic();
 }
 
+const cleanRound = (round: unknown) => (Number.isInteger(round) && (round as number) >= 1 && (round as number) <= 30 ? (round as number) : null);
+
 export async function deleteProgramMedia(programId: number, mediaId: number) {
   const { supabase } = await requireAdmin();
   const { data: item } = await supabase.from("program_media").select("path, kind").eq("id", mediaId).eq("program_id", programId).maybeSingle();
   if (!item) return;
   await supabase.from("program_media").delete().eq("id", mediaId);
-  if (item.kind !== "youtube") await supabase.storage.from("media").remove([item.path]);
+  if (item.kind !== "youtube" && item.path.startsWith("programs/")) await supabase.storage.from("media").remove([item.path]);
   revalidatePublic();
   revalidatePath(`/admin/programs/${programId}`);
 }

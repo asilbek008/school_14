@@ -385,7 +385,15 @@
     "statTeams": "ligadagi jamoalarimiz",
     "search": "Loyiha nomi…",
     "notFound": "Qidiruv bo‘yicha loyiha topilmadi.",
-    "place": "{stage}: {n}-o‘rin"
+    "place": "{stage}: {n}-o‘rin",
+    "gallery": "Foto-galereya",
+    "galleryIntro": "Har tur o‘z bo‘limida — rasmni bosib kattalashtiring.",
+    "roundGallery": "{n}-tur",
+    "generalGallery": "Umumiy lavhalar",
+    "photoCount": {
+      "one": "{n} ta rasm",
+      "other": "{n} ta rasm"
+    }
   },
   "gallery": {
     "intro": "Maktabimizdagi tadbirlar, darslar va bayramlardan lavhalar.",
@@ -559,7 +567,14 @@
     "more": "Yana {n} ta ko‘rsatish",
     "shown": "{n} / {total} ta jamoa",
     "noMatch": "Hech narsa topilmadi.",
-    "placeOf": "{place}-o‘rin · {total} ta jamoadan"
+    "placeOf": "{place}-o‘rin · {total} ta jamoadan",
+    "online": "Online jadval",
+    "live": "Jonli",
+    "lastRound": "oxirgi tur",
+    "pending": "Hozircha {n}-turgacha natijalar. Keyingi turlar liga e’lon qilgach qo‘shiladi.",
+    "up": "{n} pog‘ona ko‘tarildi",
+    "down": "{n} pog‘ona tushdi",
+    "maxPoints": "{n} savoldan"
   },
   "search": {
     "title": "Saytdan qidirish",
