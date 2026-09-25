@@ -177,6 +177,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Saytda `LeagueStandings` (client, xodimlar ro‘yxati uslubida): bosqich yorliqlari, 14-maktab jamoalari kartalari (`isOurSchool` —
   "Qiziriq tumani 14-maktab"), qidiruv, filtr (hammasi / 14-maktab / tuman — `districtOf`), jadval (telefonda kartalar), 50 tadan.
   Viloyat jadvali egasi yuborgan rasmdan ko‘chirilgan (jami = turlar yig‘indisi bilan tekshirilgan).
+  Bitta tur — 24 savol (egasi): ligining Excel'idagi "1-tur", "2-tur" ustunlari aslida 12 savollik qismlar, `parseLeagueSheet` ularni
+  juft-juft bitta turga qo‘shadi (oldidagi savol ustunlari 24 dan kam bo‘lsa, savol ustunsiz varaqda hech kim qismda 12 dan oshmasa).
+  Uchinchi bosqich `school` ("Maktabimizda", birinchi yorliq): maktabda o‘ynalgan turlar — admin formaga har qatorga «Feniks: 12, 13»
+  yozadi (`parseSchoolRounds`, 0–24, «-» o‘ynamagan; o‘rin jami bo‘yicha), reytingsiz; saytda qidiruv/filtr/ajratishsiz jadval, `/programs`
+  kartasidagi 🏆 bu bosqichni hisobga olmaydi. Maktab jamoasi "Benom" 2-turdan "Feniks" nomida (egasi).
   Bir ma’lumot bir bo‘limda (egasining talabi): `getNews()` (yangiliklar sahifasi, bosh sahifa, "Boshqa yangiliklar")
   dasturlar kalit so‘zi uchragan yangiliklarni chiqarmaydi — ular faqat dastur sahifasida; bunday yangilikdagi
   "orqaga" havolasi dastur sahifasiga olib boradi.
