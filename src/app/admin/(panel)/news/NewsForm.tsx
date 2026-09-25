@@ -47,7 +47,10 @@ export default function NewsForm({ row }: { row?: NewsRow }) {
 
       <FormSection title="E’lon qilish">
         <div className="grid gap-4 md:grid-cols-2">
-          <Field label="Sana" hint="Bo‘sh qoldirilsa, e’lon qilingan vaqt qo‘yiladi.">
+          <Field
+            label="Sana va vaqt"
+            hint="Bo‘sh qoldirilsa, hozirgi vaqt qo‘yiladi. Kelajakdagi vaqt tanlansa, yangilik o‘sha paytda saytda o‘zi chiqadi (5 daqiqagacha kechikishi mumkin)."
+          >
             <input type="datetime-local" name="published_at" defaultValue={toTashkentInput(row?.published_at ?? null)} className={inputClass} />
           </Field>
           <Field label="Manzil (slug)" hint="Bo‘sh qoldirilsa, sarlavhadan avtomatik yaratiladi. Masalan: yangi-oquv-yili">

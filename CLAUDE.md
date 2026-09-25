@@ -92,6 +92,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Bucket PDF/Word/Excel'ni ham oladi (50 MB gacha; `FileUpload` brauzerdan to‘g‘ridan-to‘g‘ri yuklaydi, Server Action faylni
   ko‘tarmaydi). Admin ro‘yxati `SortableList` (sudrab/↑↓ — `reorderDocuments`), fayl almashtirilsa eskisi Storage'dan o‘chadi;
   hujjat o‘chirilganda fayli ham. Menyuda "Maktab ▾" ichida, footer va sayt qidiruvida ham.
+- O‘quv yili taqvimi (`/[lang]/calendar`, `calendar_periods`; admin `/admin/calendar`): choraklar, ta’tillar, imtihonlar (`kind`
+  `chorak|tatil|imtihon|boshqa`, `starts_on`/`ends_on` — oddiy sana, `formatDayRange` UTC'da). Davlat bayramlari takrorlanmaydi —
+  `getCalendar(start)` ularni `events` (`bayram`) dan oladi. Faqat joriy o‘quv yili. Sahifa: 4 raqam kartasi, `CalendarNow` (client,
+  Toshkent kuni: hozirgi davr — chorak ichidagi ta’til/imtihon ustun — va keyingisi, necha kun qolgani), md+ da yil chizig‘i
+  (sentabr–avgust, sanaga qarab joylashadi; qisqa bo‘lakda nom yo‘q, `title`da), oylar bo‘yicha kartalar. Sanalar faqat vazirlik
+  buyrug‘idan (egasi kiritadi). Menyuda "Maktab ▾" ichida.
+- Yutuqlar devori (`/[lang]/achievements`, `achievements`; admin `/admin/achievements`): olimpiada/sport/tanlov natijalari —
+  `field` (`achievementFields`), `level` (maktab…xalqaro), `place` 1–3 yoki bo‘sh (`result_*` — sertifikat, ball), g‘olib — `winner`
+  (sinf yoki jamoa). O‘quvchi ismi (`names`) faqat `names_consent` bilan: DB `check` + action ham rad etadi, `getAchievements()` ham
+  roziliksizni tashlab yuboradi. `teacher_id` — tayyorlagan o‘qituvchi (profilga havola). Sahifa: raqam kartalari (o‘qituvchi kartasi 0 da
+  chiqmaydi), medal (oltin/kumush/bronza), bosqich belgisi, turkum tugmalari + qidiruv, `year-scope`/`data-year`. Menyuda "Tadbirlar ▾".
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -347,6 +358,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   RLS: faqat admin), bazaga bucket ichidagi yo‘l (`news/<uuid>.jpg`) yoziladi. Yuklashdan oldin
   `src/lib/resize-image.ts` rasmni 1920px gacha kichraytirib JPEG qiladi (telefon rasmlari 5 MB
   limitdan katta bo‘ladi; HEIC ham shu yo‘l bilan o‘tadi, agar brauzer o‘qiy olsa).
+- Rejalashtirilgan yangilik: e’lon qilingan, lekin `published_at` kelajakda bo‘lsa, RLS (`read published news`) uni vaqti kelguncha
+  yashiradi (rasm/videolari ham — ularning siyosati yangilik ko‘rinishiga bog‘liq); sahifalar 5 daqiqada yangilanadi, cron kerak emas.
+  Admin ro‘yxatida "🕒 Rejalashtirilgan" va chiqish vaqti, holat filtrida alohida.
 - Yangilik galereyasi: yangilikni tahrirlash sahifasida `PhotoUploader` (`news/<id>/` ga yuklaydi) va `PhotoManager`
   (tartib sudrab/←→, `reorderNewsPhotos`; muqova alohida — formadagi `cover_image`, shuning uchun `setCover` berilmaydi); yangi
   yangilik saqlangach tahrirlash sahifasiga o‘tiladi. Ochiq sahifada matndan keyin `Lightbox`, keyin videolar (`news_videos`,
@@ -359,6 +373,15 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   kamchilik filtri qo‘shsangiz, shu ro‘yxatga ham qo‘shing.
 - Admin menyusi (`(panel)/layout.tsx`) sahifa scroll bo‘lganda joyida turadi: kompyuterda `sticky` to‘liq balandlikdagi ustun,
   telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
+- Faoliyat jurnali (`/admin/activity`, `audit_log`): kontent jadvallaridagi (yangilik, tadbir, xodim, to‘garak, albom, dastur, sahifa,
+  hujjat, taqvim, yutuq, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
+  trigger'i yozadi — kim (`auth.uid()` + email), qaysi yozuv (`row_ref`, `label`), qaysi ustunlar o‘zgargani (qiymatlar emas — token
+  jurnalga tushmaydi). Faqat tizimga kirgan foydalanuvchi o‘zgarishlari (Telegram sync yozilmaydi); faqat `sort_order` o‘zgargan
+  (sudrab tartiblash) va bo‘sh update yozilmaydi. RLS: faqat admin o‘qiydi, API orqali yozib/o‘chirib bo‘lmaydi. Yangi kontent jadvali
+  qo‘shsangiz, unga ham `<jadval>_audit` trigger'ini va sahifadagi `sections` xaritasiga yozing.
+- Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
+  npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
+  qutisi ataylab eksport qilinmaydi (maxfiy).
 - Xabarlar admini: client `MessageList` — "Yangi" / "O‘qilgan" / "Hammasi" yorliqlari, mavzu tugmalari, qidiruv (ism, telefon,
   email, matn), "Hammasini o‘qildi deb belgilash" (`markAllRead`); uzun xabar qisqartiriladi, telefon/email — bosiladigan tugmalar.
   Tepada `NotifyCard` — yangi xabar Telegram'ga: `contact_messages` insert trigger'i (`private.notify_contact_message`, pg_net)
@@ -404,8 +427,12 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `programs` (slug, name_*, summary_*, description_*, schedule_*, place_*, keyword, cover, sort_order, is_published);
   `program_media` (program_id, kind `photo`|`video`|`youtube`, path, sort_order); `league_tables` (program_id, stage, title, as_of, rows)
 - `pages` (slug, title_*, body_*) — "Maktab haqida", "Qabul" kabi tahrirlanadigan sahifalar
+- `achievements` (title_*, field, level, place, result_*, winner, names, names_consent, teacher_id, achieved_on, photo,
+  is_published)
+- `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
+- `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,
   is_read); `admission_applications` (child_name, child_birth_date, grade, parent_name, phone, address, previous_school, note,
   status, admin_note)

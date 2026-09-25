@@ -7,6 +7,8 @@ const nav = [
   { href: "/admin/news", label: "Yangiliklar" },
   { href: "/admin/events", label: "Tadbirlar" },
   { href: "/admin/programs", label: "Doimiy tadbirlar" },
+  { href: "/admin/calendar", label: "O‘quv taqvimi" },
+  { href: "/admin/achievements", label: "Yutuqlar" },
   { href: "/admin/telegram", label: "Telegram" },
   { href: "/admin/staff", label: "O‘qituvchilar" },
   { href: "/admin/classes", label: "Dars jadvali" },
@@ -19,6 +21,7 @@ const nav = [
   { href: "/admin/messages", label: "Xabarlar" },
   { href: "/admin/trust", label: "Ishonch qutisi" },
   { href: "/admin/applications", label: "Qabul arizalari" },
+  { href: "/admin/activity", label: "Faoliyat jurnali" },
 ];
 
 export default async function PanelLayout({ children }: LayoutProps<"/admin">) {

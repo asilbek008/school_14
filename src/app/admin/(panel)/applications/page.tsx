@@ -32,7 +32,7 @@ export default async function AdminApplicationsPage() {
 
   return (
     <>
-      <AdminHeader title="Qabul arizalari" />
+      <AdminHeader title="Qabul arizalari" download={items.length ? { href: "/admin/export/applications", label: "⬇ Excel’ga yuklab olish" } : undefined} />
       <p className="mb-4 max-w-3xl text-sm text-slate-600">
         Saytdagi «Onlayn ariza» formasi orqali kelgan arizalar. Bu bolaning shaxsiy ma’lumoti — saytda ko‘rinmaydi, faqat shu yerda.
         Ota-ona bilan bog‘langandan so‘ng holatni o‘zgartiring.

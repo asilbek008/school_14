@@ -23,7 +23,9 @@
     "timetableShort": "Timetable",
     "search": "Search",
     "trust": "Trust box",
-    "documents": "Documents"
+    "documents": "Documents",
+    "calendar": "School calendar",
+    "achievements": "Achievements"
   },
   "navDesc": {
     "about": "History and general information",
@@ -37,7 +39,9 @@
     "past": "Events that took place",
     "gallery": "Moments of school life",
     "programs": "Zakovat and other year-round projects",
-    "documents": "Licence, orders, reports and forms"
+    "documents": "Licence, orders, reports and forms",
+    "calendar": "Terms, holidays and exams",
+    "achievements": "Olympiads, sports and contests"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -694,5 +698,100 @@
     "download": "Download",
     "external": "On another site",
     "hint": "If a document will not open or is out of date, please tell the school."
+  },
+  "calendar": {
+    "kicker": "School year",
+    "title": "School year calendar",
+    "intro": "The {year} school year: terms, holidays, exams and public holidays in one place.",
+    "kinds": {
+      "chorak": "Term",
+      "tatil": "Holiday",
+      "imtihon": "Exams",
+      "boshqa": "Other",
+      "bayram": "Public holiday"
+    },
+    "statQuarters": {
+      "one": "term",
+      "other": "terms"
+    },
+    "statHolidayDays": {
+      "one": "holiday day",
+      "other": "holiday days"
+    },
+    "statExams": {
+      "one": "exam period",
+      "other": "exam periods"
+    },
+    "statBayram": {
+      "one": "public holiday",
+      "other": "public holidays"
+    },
+    "now": "Now",
+    "next": "Next",
+    "study": "School days",
+    "endsIn": {
+      "one": "ends in {n} day",
+      "other": "ends in {n} days"
+    },
+    "endsToday": "Ends today",
+    "startsIn": {
+      "one": "in {n} day",
+      "other": "in {n} days"
+    },
+    "startsTomorrow": "Tomorrow",
+    "days": {
+      "one": "{n} day",
+      "other": "{n} days"
+    },
+    "yearDone": "The school year is over.",
+    "timeline": "Whole year",
+    "byMonth": "By month",
+    "empty": "The calendar has not been filled in yet — dates are published after the ministry's order.",
+    "note": "Dates follow the order of the Ministry of Preschool and School Education. Any change is updated on this page."
+  },
+  "achievements": {
+    "kicker": "Our pride",
+    "title": "Achievements wall",
+    "intro": "How our pupils did at olympiads, sports competitions and contests.",
+    "fields": {
+      "olimpiada": "Olympiad",
+      "sport": "Sport",
+      "tanlov": "Contest",
+      "boshqa": "Other"
+    },
+    "levels": {
+      "maktab": "School stage",
+      "tuman": "District stage",
+      "viloyat": "Regional stage",
+      "respublika": "National stage",
+      "xalqaro": "International"
+    },
+    "place": {
+      "1": "1st place",
+      "2": "2nd place",
+      "3": "3rd place"
+    },
+    "statAll": {
+      "one": "achievement",
+      "other": "achievements"
+    },
+    "statPrizes": {
+      "one": "prize place",
+      "other": "prize places"
+    },
+    "statHigh": {
+      "one": "regional or higher",
+      "other": "regional or higher"
+    },
+    "statTeachers": {
+      "one": "coaching teacher",
+      "other": "coaching teachers"
+    },
+    "teacher": "Coached by",
+    "winner": "Winner",
+    "search": "Search by subject, class or teacher…",
+    "empty": "No achievements have been added yet.",
+    "notFound": "No achievements found in this section.",
+    "privacy": "Pupils' names are shown only with their parents' consent."
   }
 }

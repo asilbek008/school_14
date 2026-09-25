@@ -5,7 +5,7 @@ import { siteUrl } from "@/lib/school";
 
 export const revalidate = 3600;
 
-const pages = ["", "/about", "/admissions", "/timetable", "/schedule", "/staff", "/news", "/events", "/programs", "/clubs", "/gallery", "/faq", "/documents", "/contact"];
+const pages = ["", "/about", "/admissions", "/timetable", "/schedule", "/calendar", "/staff", "/news", "/events", "/programs", "/achievements", "/clubs", "/gallery", "/faq", "/documents", "/contact"];
 
 /**
  * Every public page in the three languages, each naming its translations (hreflang), so search engines

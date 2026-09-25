@@ -549,3 +549,82 @@ export function fileSize(bytes: number | null, lang: Locale): string | null {
   if (mb >= 1) return `${new Intl.NumberFormat(lang === "en" ? "en-GB" : lang === "ru" ? "ru-RU" : "uz-UZ", { maximumFractionDigits: 1 }).format(mb)} MB`;
   return `${Math.max(1, Math.round(bytes / 1024))} KB`;
 }
+
+export type CalendarPeriod = {
+  id: number;
+  kind: "chorak" | "tatil" | "imtihon" | "boshqa";
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  note_uz: string | null;
+  note_ru: string | null;
+  note_en: string | null;
+  starts_on: string;
+  ends_on: string;
+};
+
+/**
+ * One school year's calendar: the admin's periods (quarters, holidays, exams) that touch it, and the
+ * public holidays from events (category 'bayram') dated in it.
+ */
+export async function getCalendar(start: number): Promise<{ periods: CalendarPeriod[]; holidays: SchoolEvent[] }> {
+  const supabase = createPublicClient();
+  if (!supabase) return { periods: [], holidays: [] };
+  const first = `${start}-09-01`;
+  const last = `${start + 1}-08-31`;
+  const [periods, holidays] = await Promise.all([
+    supabase
+      .from("calendar_periods")
+      .select("id, kind, title_uz, title_ru, title_en, note_uz, note_ru, note_en, starts_on, ends_on")
+      .eq("is_published", true)
+      .lte("starts_on", last)
+      .gte("ends_on", first)
+      .order("starts_on"),
+    supabase
+      .from("events")
+      .select(eventColumns)
+      .eq("is_published", true)
+      .eq("category", "bayram")
+      .gte("starts_at", `${first}T00:00:00+05:00`)
+      .lt("starts_at", `${start + 1}-09-01T00:00:00+05:00`)
+      .order("starts_at"),
+  ]);
+  logError("getCalendar periods", periods.error);
+  logError("getCalendar holidays", holidays.error);
+  return { periods: (periods.data ?? []) as CalendarPeriod[], holidays: holidays.data ?? [] };
+}
+
+export type Achievement = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  field: string;
+  level: string;
+  place: number | null;
+  result_uz: string | null;
+  result_ru: string | null;
+  result_en: string | null;
+  winner: string | null;
+  names: string | null;
+  names_consent: boolean;
+  achieved_on: string;
+  photo: string | null;
+  staff: { id: number; full_name: string } | null;
+};
+
+/** Published results, newest first; pupils' names only where consent was given (the DB also enforces it). */
+export async function getAchievements(): Promise<Achievement[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("achievements")
+    .select(
+      "id, title_uz, title_ru, title_en, field, level, place, result_uz, result_ru, result_en, winner, names, names_consent, achieved_on, photo, staff(id, full_name)",
+    )
+    .eq("is_published", true)
+    .order("achieved_on", { ascending: false })
+    .order("id", { ascending: false });
+  logError("getAchievements", error);
+  return ((data ?? []) as unknown as Achievement[]).map((a) => (a.names_consent ? a : { ...a, names: null }));
+}

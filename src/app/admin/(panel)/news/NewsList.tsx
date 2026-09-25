@@ -17,6 +17,8 @@ export type NewsItem = {
   videos: number;
   telegram: boolean;
   published: boolean;
+  /** When a published item dated ahead goes on the site ("25-sentabr, 2026, 10:00"). */
+  scheduled: string | null;
 };
 
 const categories: { key: NewsCategory; label: string; tint: string }[] = [
@@ -36,16 +38,18 @@ const chip = (active: boolean) =>
 export default function NewsList({ items }: { items: NewsItem[] }) {
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState<NewsCategory | null>(null);
-  const [status, setStatus] = useState<"all" | "published" | "draft">("all");
+  const [status, setStatus] = useState<"all" | "published" | "scheduled" | "draft">("all");
 
   const q = query.trim().toLowerCase();
   const shown = items.filter(
     (n) =>
       (!category || n.category === category) &&
-      (status === "all" || n.published === (status === "published")) &&
+      (status === "all" ||
+        (status === "scheduled" ? !!n.scheduled : status === "published" ? n.published && !n.scheduled : !n.published)) &&
       (!q || n.title.toLowerCase().includes(q) || n.slug.includes(q)),
   );
   const drafts = items.filter((n) => !n.published).length;
+  const scheduled = items.filter((n) => n.scheduled).length;
 
   return (
     <div>
@@ -75,6 +79,7 @@ export default function NewsList({ items }: { items: NewsItem[] }) {
           >
             <option value="all">Barcha holatlar</option>
             <option value="published">Saytda</option>
+            {scheduled > 0 && <option value="scheduled">Rejalashtirilgan · {scheduled}</option>}
             <option value="draft">Yashirin · {drafts}</option>
           </select>
         </div>
@@ -100,13 +105,19 @@ export default function NewsList({ items }: { items: NewsItem[] }) {
                   <p className="truncate font-semibold text-slate-900 group-hover:text-blue-700">{n.title}</p>
                   <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500">
                     <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${tintOf[n.category].tint}`}>{tintOf[n.category].label}</span>
-                    <span>{n.date ?? "Sana yo‘q"}</span>
+                    <span>{n.scheduled ? `Chiqadi: ${n.scheduled}` : (n.date ?? "Sana yo‘q")}</span>
                     {n.photos > 0 && <span>📷 {n.photos}</span>}
                     {n.videos > 0 && <span>🎬 {n.videos}</span>}
                     {n.telegram && <span className="text-sky-700">✈ Telegram</span>}
                   </p>
                 </div>
-                <Status published={n.published} />
+                {n.scheduled ? (
+                  <span className="shrink-0 rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-medium text-violet-800" title={`Saytda ${n.scheduled} da chiqadi`}>
+                    🕒 Rejalashtirilgan
+                  </span>
+                ) : (
+                  <Status published={n.published} />
+                )}
               </Link>
             </li>
           ))}
