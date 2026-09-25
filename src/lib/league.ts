@@ -21,6 +21,12 @@ export type LeagueRow = {
 
 export type LeagueTable = { stage: LeagueStage; title: string | null; as_of: string | null; rows: LeagueRow[] };
 
+/** The round a text is about: «2-turi», «1-TUR», «3-turdan» (not «turnir», «turkum»); null when it names none. */
+export function roundOf(text: string): number | null {
+  const n = Number(/(\d{1,2})\s*[-–—]\s*tur(?![nk])/iu.exec(text)?.[1] ?? 0);
+  return n >= 1 && n <= 30 ? n : null;
+}
+
 /** How the league writes our school in team names: "Benom (Qiziriq tumani 14-maktab)". */
 export const OUR_SCHOOL = "qiziriq tumani 14-maktab";
 

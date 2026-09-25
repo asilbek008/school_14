@@ -1,5 +1,5 @@
 import "server-only";
-import { leagueStages, type LeagueTable } from "./league";
+import { leagueStages, roundOf, type LeagueTable } from "./league";
 import type { SchoolYearRow } from "./school-years";
 import { cache } from "react";
 import type { Locale } from "@/i18n/config";
@@ -411,12 +411,14 @@ export async function getPrograms(): Promise<(Program & { media: { count: number
   return data ?? [];
 }
 
-export async function getProgram(slug: string): Promise<(Program & { program_media: ClubMedia[] }) | null> {
+export type ProgramMedia = ClubMedia & { round: number | null };
+
+export async function getProgram(slug: string): Promise<(Program & { program_media: ProgramMedia[] }) | null> {
   const supabase = createPublicClient();
   if (!supabase) return null;
   const { data, error } = await supabase
     .from("programs")
-    .select(`${programColumns}, program_media(id, kind, path)`)
+    .select(`${programColumns}, program_media(id, kind, path, round)`)
     .eq("slug", slug)
     .eq("is_published", true)
     .order("sort_order", { referencedTable: "program_media" })
@@ -452,6 +454,35 @@ export async function getNewsMentioning(keyword: string, limit = 12): Promise<Ne
     .limit(limit);
   logError("getNewsMentioning", error);
   return data ?? [];
+}
+
+/**
+ * Photos of a program's related news that name a league round ("2-tur…" in the title, else in the text), by round:
+ * the cover and the gallery of album posts (a post without a gallery is usually an announcement poster).
+ */
+export async function getRoundNewsPhotos(keyword: string): Promise<{ round: number; date: string | null; paths: string[] }[]> {
+  const supabase = createPublicClient();
+  const kw = cleanKeyword(keyword);
+  if (!supabase || kw.length < 3) return [];
+  const { data, error } = await supabase
+    .from("news")
+    .select("title_uz, body_uz, cover_image, published_at, news_photos(path, sort_order, id)")
+    .eq("is_published", true)
+    .or(`title_uz.ilike."*${kw}*",body_uz.ilike."*${kw}*"`)
+    .order("published_at", { ascending: true, nullsFirst: false })
+    .limit(100);
+  logError("getRoundNewsPhotos", error);
+  type RoundPhotos = { round: number; date: string | null; paths: string[] };
+  const byRound = new Map<number, RoundPhotos>();
+  for (const n of data ?? []) {
+    const round = roundOf(n.title_uz) ?? roundOf(n.body_uz ?? "");
+    if (!round || !n.news_photos.length) continue;
+    const gallery = [...n.news_photos].sort((a, b) => a.sort_order - b.sort_order || a.id - b.id).map((p) => p.path);
+    const entry: RoundPhotos = byRound.get(round) ?? { round, date: n.published_at, paths: [] };
+    for (const path of [n.cover_image, ...gallery]) if (path && !entry.paths.includes(path)) entry.paths.push(path);
+    byRound.set(round, entry);
+  }
+  return [...byRound.values()];
 }
 
 const albumColumns =

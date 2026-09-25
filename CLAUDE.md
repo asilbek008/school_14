@@ -182,6 +182,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Uchinchi bosqich `school` ("Maktabimizda", birinchi yorliq): maktabda o‘ynalgan turlar — admin formaga har qatorga «Feniks: 12, 13»
   yozadi (`parseSchoolRounds`, 0–24, «-» o‘ynamagan; o‘rin jami bo‘yicha), reytingsiz; saytda qidiruv/filtr/ajratishsiz jadval, `/programs`
   kartasidagi 🏆 bu bosqichni hisobga olmaydi. Maktab jamoasi "Benom" 2-turdan "Feniks" nomida (egasi).
+  Tadbir sahifasida tartib: tavsif → "Online jadval · Jonli" (liga; `school` bosqichi — `SchoolBoard`: medallar, oldingi turga nisbatan
+  ▲/▼, har tur ochkosi — oxirgisi ajratilgan, jami/savollar chizig‘i; liga jadvalida turlar maktabdagidan kam bo‘lsa "Hozircha N-turgacha"
+  izohi) → "Foto-galereya" (har tur alohida blok, yangisi tepada, keyin "Umumiy lavhalar") → videolar → yangiliklar. Tur rasmlari:
+  `program_media.round` (admin yuklashda turni tanlaydi, `RoundPhotoUploader`) + `getRoundNewsPhotos()` — kalit so‘z uchragan va
+  sarlavha/matnida «N-tur» (`roundOf`, «turnir» emas) bor albomli yangiliklarning muqova va rasmlari avtomatik (galereyasiz post — odatda
+  e’lon afishasi — olinmaydi). Yangilik rasmlari `program_media` ga ko‘chirilmaydi; `deleteProgramMedia` faqat `programs/` dagi faylni o‘chiradi.
   Bir ma’lumot bir bo‘limda (egasining talabi): `getNews()` (yangiliklar sahifasi, bosh sahifa, "Boshqa yangiliklar")
   dasturlar kalit so‘zi uchragan yangiliklarni chiqarmaydi — ular faqat dastur sahifasida; bunday yangilikdagi
   "orqaga" havolasi dastur sahifasiga olib boradi.

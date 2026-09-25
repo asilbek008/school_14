@@ -5,7 +5,7 @@ import { cleanKeyword } from "@/lib/content";
 import { mediaBaseUrl } from "@/lib/media";
 import AdminHeader from "@/components/admin/AdminHeader";
 import DeleteButton from "@/components/admin/DeleteButton";
-import PhotoUploader from "@/components/admin/PhotoUploader";
+import RoundPhotoUploader from "@/components/admin/RoundPhotoUploader";
 import PhotoManager from "@/components/admin/PhotoManager";
 import VideoUploader from "@/components/admin/VideoUploader";
 import YoutubeForm from "@/components/admin/YoutubeForm";
@@ -23,11 +23,15 @@ export default async function EditProgramPage({ params, searchParams }: PageProp
   const { league, teams } = await searchParams;
   const [{ data: row }, { data: media }, { data: leagueTables }] = await Promise.all([
     supabase.from("programs").select("*").eq("id", id).maybeSingle(),
-    supabase.from("program_media").select("id, kind, path").eq("program_id", id).order("sort_order").order("id"),
+    supabase.from("program_media").select("id, kind, path, round").eq("program_id", id).order("sort_order").order("id"),
     supabase.from("league_tables").select("stage, title, as_of, rows, updated_at").eq("program_id", id),
   ]);
   if (!row) notFound();
   const photos = (media ?? []).filter((m) => m.kind === "photo");
+  // Photos by league round (newest round first), general ones last; rounds offered for upload: played + the next.
+  const played = Math.max(0, ...(leagueTables ?? []).map((t) => t.rows[0]?.rounds.length ?? 0), ...photos.map((p) => p.round ?? 0));
+  const rounds = Array.from({ length: played + 1 }, (_, i) => i + 1);
+  const groups = [...new Set(photos.map((p) => p.round))].sort((a, b) => (b ?? 0) - (a ?? 0));
   const videos = (media ?? []).filter((m) => m.kind !== "photo");
 
   const kw = cleanKeyword(row.keyword ?? "");
@@ -49,13 +53,30 @@ export default async function EditProgramPage({ params, searchParams }: PageProp
 
       <section className="mt-10">
         <h2 className="mb-1 text-lg font-bold">Rasmlar ({photos.length})</h2>
-        <p className="mb-3 text-sm text-slate-500">Tadbir sahifasida tavsifdan keyin galereya bo‘lib chiqadi.</p>
-        <PhotoUploader folder={`programs/${id}`} onUploaded={addProgramMedia.bind(null, id, "photo")} />
-        <PhotoManager
-          items={photos.map((p) => ({ id: p.id, path: p.path, url: `${mediaBaseUrl}/${p.path}` }))}
-          reorder={reorderProgramPhotos.bind(null, id)}
-          remove={deleteProgramMedia.bind(null, id)}
+        <p className="mb-3 text-sm text-slate-500">
+          Tadbir sahifasidagi «Foto-galereya»da har tur alohida bo‘lim bo‘lib chiqadi. Kalit so‘z uchragan va «2-tur» kabi turni
+          aytgan yangiliklarning rasmlari o‘sha turga avtomatik qo‘shiladi — ularni bu yerga qayta yuklash shart emas.
+        </p>
+        <RoundPhotoUploader
+          folder={`programs/${id}`}
+          rounds={rounds}
+          onUploaded={addProgramMedia.bind(null, id, "photo")}
         />
+        {groups.map((round) => {
+          const items = photos.filter((p) => p.round === round);
+          return (
+            <div key={round ?? "general"} className="mt-6">
+              <h3 className="font-semibold text-slate-800">
+                {round ? `${round}-tur` : "Umumiy"} <span className="font-normal text-slate-500">· {items.length} ta rasm</span>
+              </h3>
+              <PhotoManager
+                items={items.map((p) => ({ id: p.id, path: p.path, url: `${mediaBaseUrl}/${p.path}` }))}
+                reorder={reorderProgramPhotos.bind(null, id)}
+                remove={deleteProgramMedia.bind(null, id)}
+              />
+            </div>
+          );
+        })}
       </section>
 
       <section className="mt-10">
