@@ -90,6 +90,8 @@ export default async function VisitsPage({ searchParams }: PageProps<"/admin/vis
       <p className="mb-4 max-w-3xl text-sm text-slate-600">
         Saytga kim qachon va qayerdan kirgani. Tashrifchi anonim: ism, IP yoki telefon raqami saqlanmaydi — faqat qaysi sahifa, taxminiy joy
         (shahar/viloyat), qurilma turi va qaysi saytdan kelgani. «Kuzatmang» sozlamasi yoqilgan brauzerlar hisoblanmaydi.
+        Sizning tashriflaringiz ham hisoblanmaydi: admin panel ochilgan har brauzer (telefon, kompyuter) statistikadan chiqariladi — boshqa
+        qurilmangizni ham chiqarish uchun unda admin panelni bir marta oching.
       </p>
 
       <nav className="mb-4 flex flex-wrap gap-2" aria-label="Davr">

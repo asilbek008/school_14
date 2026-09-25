@@ -1,3 +1,5 @@
+import { cookies } from "next/headers";
+import { createClient } from "@/lib/supabase/server";
 import { createPublicClient } from "@/lib/supabase/public";
 import { requestOrigin } from "@/lib/login-log";
 
@@ -21,6 +23,12 @@ export async function POST(request: Request) {
   const session = typeof body.session === "string" ? body.session : "";
   if (!path.startsWith("/") || path.startsWith("/admin") || !uuid.test(visitor) || !uuid.test(session)) {
     return new Response(null, { status: 400 });
+  }
+
+  // A signed-in admin browsing the site is not a visitor (even if the browser mark was cleared).
+  if ((await cookies()).getAll().some((c) => c.name.startsWith("sb-") && c.name.includes("-auth-token"))) {
+    const { data } = await (await createClient()).auth.getClaims();
+    if (data?.claims) return new Response(null, { status: 204 });
   }
 
   const origin = await requestOrigin();

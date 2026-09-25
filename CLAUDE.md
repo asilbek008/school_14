@@ -396,7 +396,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   3000 dan oshsa jimgina tashlanadi, 1 yildan eskisi o‘chadi. Hisoblar bazada — `public.visit_stats(p_days)` (security invoker,
   faqat `authenticated`ga; API 1000 qatordan ko‘p bermaydi). Sahifa: davr (bugun/7/30/90), 4 karta (hozir saytda — 5 daqiqa),
   kunlik ustunlar, sahifalar, joylar (`src/lib/geo.ts` — `placeName`, `flagOf`), manbalar, qurilmalar, so‘nggi 60 ta tashrif.
-  Admin bosh sahifasida bugungi tashrifchilar.
+  Admin bosh sahifasida bugungi tashrifchilar. Adminning o‘zi hisoblanmaydi (egasining talabi): admin panel ochilgan brauzerda
+  `ExcludeDevice` (`(panel)/layout.tsx`) `localStorage.noTrack` qo‘yadi va shu brauzerning oldingi tashriflarini o‘chiradi
+  (`forgetAdminDevice`, `vid` bo‘yicha); `VisitBeacon` `noTrack` bo‘lsa yubormaydi; `/api/visit` Supabase sessiyasi bor so‘rovni ham yozmaydi.
 - Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
   npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
   qutisi ataylab eksport qilinmaydi (maxfiy).

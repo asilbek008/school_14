@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
 import { signOut } from "../login/actions";
+import ExcludeDevice from "@/components/admin/ExcludeDevice";
 
 const nav = [
   { href: "/admin", label: "Bosh sahifa" },
@@ -44,6 +45,8 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
 
   return (
     <div className="min-h-screen md:flex">
+      {/* The admin's own browsing is left out of the visitor statistics. */}
+      <ExcludeDevice />
       {/* The menu stays in place while the page scrolls: a sticky bar on phones, a full-height column on wider screens. */}
       <aside className="sticky top-0 z-30 border-b border-slate-200 bg-white md:h-screen md:w-60 md:shrink-0 md:overflow-y-auto md:border-r md:border-b-0">
         <div className="flex items-center justify-between px-4 py-3 md:block md:p-4">
