@@ -375,8 +375,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sinf rahbarisiz sinf, eMaktab nomisiz o‘qituvchi, rasmsiz xodim, tarjimasiz fan/sahifa, vaqtsiz to‘garak, bo‘sh albom, Telegram
   xatosi; faqat 0 dan kattalari, har biri bo‘limga havola), yaqin tadbirlar, so‘nggi xabarlar va yangiliklar. Bo‘limga yangi
   kamchilik filtri qo‘shsangiz, shu ro‘yxatga ham qo‘shing.
-- Admin menyusi (`(panel)/layout.tsx`) sahifa scroll bo‘lganda joyida turadi: kompyuterda `sticky` to‘liq balandlikdagi ustun,
-  telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
+- Admin menyusi — client `AdminNav` (`components/admin/AdminNav.tsx`; `(panel)/layout.tsx` faqat nishon sonlarini o‘qiydi): bo‘limlar
+  guruhlarda (Kontent, Maktab, Murojaatlar, Tizim) ikonka bilan, joriy sahifa oltin chiziq bilan ajratiladi, o‘qilmaganlar — oltin nishon.
+  md+ — navy `sticky` yon panel (pastda "Saytni ko‘rish" va chiqish). Telefonda: yuqorida navy qator (logo, sahifa nomi, menyu tugmasi),
+  o‘ngdan chiqadigan to‘liq menyu (`openOn` — ochilgan sahifa; boshqa sahifaga o‘tilsa yopiladi, Esc, orqa fon scroll bo‘lmaydi) va
+  pastki panel (Asosiy, Yangiliklar, Murojaatlar — xabar/ishonch/ariza yig‘indisi bilan, Tashriflar, Menyu); `main` pastdan `pb-28`.
+  Yangi bo‘lim qo‘shsangiz, `groups` ga yozing. Kirish sahifasi navy fonda. Bosh sahifa kartalari telefonda 2 ustun.
 - Faoliyat jurnali (`/admin/activity`, `audit_log`): kontent jadvallaridagi (yangilik, tadbir, xodim, to‘garak, albom, dastur, sahifa,
   hujjat, taqvim, yutuq, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
   trigger'i yozadi — kim (`auth.uid()` + email), qaysi yozuv (`row_ref`, `label`), qaysi ustunlar o‘zgargani (qiymatlar emas — token
