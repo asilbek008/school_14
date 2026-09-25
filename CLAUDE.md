@@ -204,8 +204,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ajratilgan ro‘yxat, `CategoryFilter` `~=` bilan tekshiradi; nom/rahbar/joy bo‘yicha qidiruv) va galereya (`/gallery`, `gallery_albums` +
   `gallery_photos`). Albom rasmlari RLS'da albomning o‘ziga bog‘liq: albom yashirin bo‘lsa, rasmlari
   ham mehmonga ko‘rinmaydi. `Lightbox` — rasmlar to‘ri (`layout="mosaic"`: 1-rasm katta, `mosaicSpan` qatorlarni
-  bo‘shliqsiz yopadi) va to‘liq ekranli ko‘ruvchi (Esc, ←/→, telefonda surish, miniatyuralar; kichik rasm 1.5× dan
-  ortiq kattalashtirilmaydi, orqasida o‘zining xiralashgan nusxasi). `PhotoFrame` — muqovani qirqmasdan, xira
+  bo‘shliqsiz yopadi; `layout="carousel"` — sahifaning o‘zida o‘ngga-chapga suriladigan qator: scroll-snap, sm+ da strelkalar,
+  nuqtalar va «2 / 4»; Zakovat tur galereyalari va to‘garak sahifasi) va to‘liq ekranli ko‘ruvchi (egasining talabi — butun saytda:
+  rasm barmoq/sichqoncha bilan suriladi, qo‘shni rasmlar yonida turadi; ekranning 1/5 qismidan ko‘p yoki tez surilsa keyingisiga
+  o‘tadi, aks holda qaytadi; pastga surilsa yopiladi; Esc, ←/→ va strelkalar ham sirpanadi; `glide()`/`finish()` — reduced
+  motion'da taymer tugatadi; miniatyuralar; kichik rasm 1.5× dan ortiq kattalashtirilmaydi, orqasida o‘zining xiralashgan nusxasi). `PhotoFrame` — muqovani qirqmasdan, xira
   fon ustida ko‘rsatadi (Telegram'ning past sifatli rasmlari ham chiroyli chiqishi uchun).
 - Dars jadvali (`/timetable`, `/timetable/[id]`): `school_classes` (grade + letter, sinf rahbari
   `homeroom_teacher_id` → `staff`), `subjects` (fanlar ro‘yxati, tarjimali) va `lessons` (bitta katak:

@@ -79,7 +79,7 @@ export default async function ClubPage({ params }: PageProps<"/[lang]/clubs/[id]
               <h2 className="font-display mb-4 text-xl font-bold tracking-tight text-slate-900">
                 {t.photos} <span className="font-semibold text-slate-400">· {photos.length}</span>
               </h2>
-              <Lightbox photos={photos} alt={name} t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }} />
+              <Lightbox layout="carousel" photos={photos} alt={name} t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }} />
             </section>
           )}
 

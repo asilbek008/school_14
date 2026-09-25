@@ -128,7 +128,7 @@ export default async function ProgramPage({ params }: PageProps<"/[lang]/program
                       {g.date && ` · ${formatDate(g.date, lang)}`}
                     </span>
                   </div>
-                  <Lightbox photos={g.photos} alt={g.round ? `${name} — ${fill(t.roundGallery, { n: g.round })}` : name} t={lightboxT} />
+                  <Lightbox photos={g.photos} alt={g.round ? `${name} — ${fill(t.roundGallery, { n: g.round })}` : name} t={lightboxT} layout="carousel" />
                 </div>
               ))}
             </div>
