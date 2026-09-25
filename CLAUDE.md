@@ -118,7 +118,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   formasi (A–F, to‘g‘risi radio, rasm `media/tests/`), ko‘plab yuklash — matn (Word ko‘rinishi: `*B)`, `Javob: B` yoki oxirida
   `Javoblar: 1-B, …`) yoki Excel (`Savol, A…D, Javob, Izoh`; namuna — `/admin/export/test-template`) — `src/lib/test-import.ts`,
   test: `node --experimental-strip-types scripts/test-question-import.mts` (CI'da ham). Xato bo‘lsa hech narsa saqlanmaydi. Savollar
-  faqat egasi/o‘qituvchilar kiritadi — to‘qima savol qo‘shmang. Bosh sahifada `TestsCard` (test bo‘lsa), menyuda "Maktab ▾" ichida.
+  egasi/o‘qituvchilar kiritadi. Egasining so‘rovi bilan sayt uchun darslik mavzulari va DTM fan dasturlari asosida original mashq
+  savollari tuzilgan (10 test, 175 savol — 1-sinf Matematika/Musiqa va 8 fan bo‘yicha DTM to‘plamlari): manba — `scripts/seed_tests.py` →
+  `supabase/seed/tests-2026.sql` (bir marta qo‘llangan; qayta ishga tushirsa takrorlanadi), `tests.source` da izoh. Faqat aniq, tekshirilgan
+  faktlar; test kitoblaridan ko‘chirilmaydi. Bosh sahifada `TestsCard` (test bo‘lsa); navbarda alohida "Testlar" (Maktab ▾ ichida emas).
 - O‘quvchilar soni sinf kesimida: `school_classes.students` (0–60, bo‘sh — kiritilmagan). Admin `/admin/classes/students` — barcha
   sinflar bitta formada (`saveStudents`, faqat o‘zgarganlari yoziladi; jami, parallel yig‘indisi va tasdiqlangan son bilan farq),
   sinf formasida ham maydon; ro‘yxatda "O‘quvchi soni kiritilmagan" filtri. Saytda (bosh sahifa, "Maktab haqida", joriy o‘quv yili)
@@ -331,7 +334,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`; navbar `sticky top-0`, eski iPhone Safari uchun `globals.css` da `-webkit-sticky` ham): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
   40px da, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin (lg da ikkala tomon 16px — ruscha sig‘ishi uchun); yuqorida topbar (md+; manzil, telefon, o‘quv yili; eMaktab faqat xl dan kichikda), ostida
-  sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · Xodimlar · Yangiliklar · Tadbirlar ▾ (lg+ da o‘ngga,
+  sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · Testlar · Xodimlar · Yangiliklar · Tadbirlar ▾ (shrift 13.5px, 2xl dan 14.5px;
+  tugmalar `px-2.5`, 2xl dan `px-4`; eMaktab tugmasi `mr-4`, 2xl dan `mr-7` — ruscha 1280px da sig‘ishi uchun, egasining talabi) (lg+ da o‘ngga,
   tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi; xl dan tugmalar yonida "eMaktab ↗" (qisqa nom, to‘liq
   nomi `title`da — ruscha 1280px da sig‘ishi uchun; menyu tugmalari `px-3`, 2xl dan `px-4`); `whitespace-nowrap`, menyuda qisqa `nav.timetableShort` —
   ruscha "Расписание уроков" sig‘maydi). Dropdown'larda
