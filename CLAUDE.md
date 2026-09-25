@@ -373,6 +373,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   kamchilik filtri qo‘shsangiz, shu ro‘yxatga ham qo‘shing.
 - Admin menyusi (`(panel)/layout.tsx`) sahifa scroll bo‘lganda joyida turadi: kompyuterda `sticky` to‘liq balandlikdagi ustun,
   telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
+- Faoliyat jurnali (`/admin/activity`, `audit_log`): kontent jadvallaridagi (yangilik, tadbir, xodim, to‘garak, albom, dastur, sahifa,
+  hujjat, taqvim, yutuq, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
+  trigger'i yozadi — kim (`auth.uid()` + email), qaysi yozuv (`row_ref`, `label`), qaysi ustunlar o‘zgargani (qiymatlar emas — token
+  jurnalga tushmaydi). Faqat tizimga kirgan foydalanuvchi o‘zgarishlari (Telegram sync yozilmaydi); faqat `sort_order` o‘zgargan
+  (sudrab tartiblash) va bo‘sh update yozilmaydi. RLS: faqat admin o‘qiydi, API orqali yozib/o‘chirib bo‘lmaydi. Yangi kontent jadvali
+  qo‘shsangiz, unga ham `<jadval>_audit` trigger'ini va sahifadagi `sections` xaritasiga yozing.
 - Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
   npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
   qutisi ataylab eksport qilinmaydi (maxfiy).
@@ -426,6 +432,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
+- `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,
   is_read); `admission_applications` (child_name, child_birth_date, grade, parent_name, phone, address, previous_school, note,
   status, admin_note)
