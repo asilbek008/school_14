@@ -4,7 +4,8 @@ type Localized = Record<Locale, string>;
 
 // School facts shown across the site. null = not provided yet (pages show "coming soon").
 export const school = {
-  foundedLabel: { uz: "1950-yillardan beri", ru: "С 1950-х годов", en: "Since the 1950s" } as Localized,
+  // Built in 1976 (owner, 2026-09).
+  foundedLabel: { uz: "1976-yildan beri", ru: "С 1976 года", en: "Since 1976" } as Localized,
   address: {
     uz: "Surxondaryo viloyati, Qiziriq tumani",
     ru: "Сурхандарьинская область, Кизирикский район",
@@ -20,9 +21,10 @@ export const school = {
   // The school's pin on Google Maps ("14-umumta'lim maktabi"), and the link the owner shared.
   location: { lat: 37.7435629, lng: 67.2984924 } as { lat: number; lng: number } | null,
   mapUrl: "https://maps.app.goo.gl/Yi3PRuTfUpZwgNKJ7" as string | null,
-  // The home page counts classes from the timetable (school_classes, no individual-study "YT"
-  // classes); this number is only the fallback when the database is not reachable.
-  stats: { students: 1001, staff: 72, classes: 43 },
+  // Confirmed by the owner (2026-09): 973 pupils, 72 teachers. Once the admin has entered pupils for every
+  // class (school_classes.students), the site shows their sum instead (getStudentTotal). The home page counts
+  // classes from the timetable (no individual-study "YT" classes); `classes` is only the offline fallback.
+  stats: { students: 973, staff: 72, classes: 43 },
   // Official electronic journal: grades, attendance and homework, behind each family's own login.
   eMaktabUrl: "https://emaktab.uz",
 };

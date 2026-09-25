@@ -9,6 +9,7 @@ import EmptyState from "@/components/EmptyState";
 import StatTiles from "@/components/StatTiles";
 import CategoryFilter from "@/components/CategoryFilter";
 import TestHistory from "@/components/TestHistory";
+import OfficialSamples from "@/components/OfficialSamples";
 
 export const revalidate = 300;
 
@@ -106,6 +107,7 @@ export default async function TestsPage({ params }: PageProps<"/[lang]/tests">) 
         ) : (
           <EmptyState>{t.empty}</EmptyState>
         )}
+        <OfficialSamples t={t} />
         <p className="mt-8 text-center text-[12.5px] text-slate-500">🔒 {t.privacy}</p>
       </div>
     </>

@@ -119,6 +119,15 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `Javoblar: 1-B, …`) yoki Excel (`Savol, A…D, Javob, Izoh`; namuna — `/admin/export/test-template`) — `src/lib/test-import.ts`,
   test: `node --experimental-strip-types scripts/test-question-import.mts` (CI'da ham). Xato bo‘lsa hech narsa saqlanmaydi. Savollar
   faqat egasi/o‘qituvchilar kiritadi — to‘qima savol qo‘shmang. Bosh sahifada `TestsCard` (test bo‘lsa), menyuda "Maktab ▾" ichida.
+- O‘quvchilar soni sinf kesimida: `school_classes.students` (0–60, bo‘sh — kiritilmagan). Admin `/admin/classes/students` — barcha
+  sinflar bitta formada (`saveStudents`, faqat o‘zgarganlari yoziladi; jami, parallel yig‘indisi va tasdiqlangan son bilan farq),
+  sinf formasida ham maydon; ro‘yxatda "O‘quvchi soni kiritilmagan" filtri. Saytda (bosh sahifa, "Maktab haqida", joriy o‘quv yili)
+  `getStudentTotal()` — hamma e’lon qilingan sinfda son bo‘lsa yig‘indi, aks holda `school.stats.students` (egasi tasdiqlagan 973).
+  Maktab 1976-yilda qurilgan (`foundedLabel`), 72 o‘qituvchi (egasi, 2026-09).
+- Test savollari manbalari (egasining so‘rovi bilan o‘rganilgan): savollarni faqat o‘qituvchilar o‘zi tuzadi yoki ochiq litsenziyali
+  (masalan OpenStax CC BY 4.0 tarjimasi) bo‘ladi; test kitoblari, pullik saytlar, Telegram va "sizib chiqqan DTM" savollari ko‘chirilmaydi
+  (mualliflik huquqi, xato kalitlar). Rasmiy namunalar (uzbmb.uz) faqat havola — `OfficialSamples` (`/tests`, `/tests/dtm`). Har testda
+  `tests.source` (muallif/manba, litsenziya) — saytda test ostida "Manba". Saytda "DTM formatidagi mashq savollari" deyiladi, "haqiqiy DTM" emas.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada

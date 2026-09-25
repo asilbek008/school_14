@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
-import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, getTests, mediaUrl } from "@/lib/content";
+import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, getStudentTotal, getTests, mediaUrl } from "@/lib/content";
 import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
@@ -20,7 +20,7 @@ export const revalidate = 300;
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
-  const [allNews, { upcoming }, albums, classes, clubs, programs, tests] = await Promise.all([
+  const [allNews, { upcoming }, albums, classes, clubs, programs, tests, students] = await Promise.all([
     getNews(),
     getEvents(),
     getAlbums(),
@@ -28,6 +28,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
     getClubs(),
     getPrograms(),
     getTests(),
+    getStudentTotal(),
   ]);
   const news = allNews.slice(0, 3);
   // "School life in numbers": each tile opens its section.
@@ -42,7 +43,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   // September: the year has just begun.
   const started = new Date().getMonth() === 8;
   const stats = [
-    { value: school.stats.students, label: dict.home.statStudents, dot: "bg-[#6e9bff]" },
+    { value: students, label: dict.home.statStudents, dot: "bg-[#6e9bff]" },
     { value: school.stats.staff, label: dict.home.statStaff, dot: "bg-[#3ecfb2]" },
     { value: classes.length || school.stats.classes, label: dict.home.statClasses, dot: "bg-gold" },
   ];

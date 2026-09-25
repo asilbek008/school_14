@@ -65,6 +65,11 @@ export default async function TestPage({ params }: PageProps<"/[lang]/tests/[id]
           minutes={test.time_limit}
           t={t}
         />
+        {test.source && (
+          <p className="mt-8 text-[13px] text-slate-500">
+            {t.source}: {test.source}
+          </p>
+        )}
       </div>
     </>
   );

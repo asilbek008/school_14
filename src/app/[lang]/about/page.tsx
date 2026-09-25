@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { fill } from "@/i18n/fill";
-import { getClasses, getPage, getStaff, localized, mediaUrl } from "@/lib/content";
+import { getClasses, getPage, getStaff, getStudentTotal, localized, mediaUrl } from "@/lib/content";
 import { currentSchoolYear, school, telHref } from "@/lib/school";
 import { shifts } from "@/lib/bells";
 import { avatarGradient, initials, positionGroup, positionLabel } from "@/lib/positions";
@@ -25,13 +25,13 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/about">): 
 export default async function AboutPage({ params }: PageProps<"/[lang]/about">) {
   const { lang, dict } = await resolveLang(params);
   const t = dict.about;
-  const [page, staff, classes] = await Promise.all([getPage("about"), getStaff(), getClasses()]);
+  const [page, staff, classes, students] = await Promise.all([getPage("about"), getStaff(), getClasses(), getStudentTotal()]);
   const body = page ? localized(page, "body", lang) : "";
   const leaders = staff.filter((p) => positionGroup(p.position_uz) === "leaders");
   const year = currentSchoolYear();
 
   const facts = [
-    { value: school.stats.students, label: t.students, bg: "from-[#3e72e8] to-brand-deep" },
+    { value: students, label: t.students, bg: "from-[#3e72e8] to-brand-deep" },
     { value: school.stats.staff, label: t.staff, bg: "from-[#17a090] to-[#0c6d62]" },
     { value: classes.length || school.stats.classes, label: t.classes, bg: "from-[#e0a33e] to-gold-deep" },
     { value: shifts.length, label: t.shifts, bg: "from-[#d2664e] to-[#a63b28]" },

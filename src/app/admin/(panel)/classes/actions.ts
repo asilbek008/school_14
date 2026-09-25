@@ -12,6 +12,13 @@ function readGrade(form: FormData) {
 
 const homeroom = (form: FormData) => Number.parseInt(text(form, "homeroom_teacher_id"), 10) || null;
 
+/** Pupils in a class: 0–60, empty = not entered; undefined = invalid. */
+function readStudents(value: string): number | null | undefined {
+  if (!value.trim()) return null;
+  const n = Number(value);
+  return Number.isInteger(n) && n >= 0 && n <= 60 ? n : undefined;
+}
+
 /** New classes: several letters at once ("A, B, D" → 5-A, 5-B, 5-D). Editing: exactly one letter. */
 export async function saveClass(id: number | null, _prev: FormState, form: FormData): Promise<FormState> {
   const { supabase } = await requireAdmin();
@@ -23,8 +30,12 @@ export async function saveClass(id: number | null, _prev: FormState, form: FormD
   if (id && letters.length > 1) return { error: "Tahrirlashda faqat bitta harf yozing." };
   if (letters.some((l) => l.length > 8)) return { error: "Harf juda uzun (8 belgigacha)." };
 
+  const students = readStudents(text(form, "students"));
+  if (students === undefined) return { error: "O‘quvchilar soni 0 dan 60 gacha butun son bo‘lsin." };
+
   const base = {
     grade,
+    students,
     homeroom_teacher_id: homeroom(form),
     is_published: form.get("is_published") === "on",
   };
@@ -83,4 +94,26 @@ export async function saveTimetable(classId: number, _prev: FormState, form: For
 
   revalidatePublic();
   redirect(`/admin/classes/${classId}?saved=1`);
+}
+
+/** Saves pupils per class from the bulk page (inputs named students_<class id>). */
+export async function saveStudents(_prev: FormState, form: FormData): Promise<FormState> {
+  const { supabase } = await requireAdmin();
+  const rows: { id: number; students: number | null }[] = [];
+  for (const [key, value] of form.entries()) {
+    const m = /^students_(\d+)$/.exec(key);
+    if (!m) continue;
+    const students = readStudents(String(value));
+    if (students === undefined) return { error: "Har bir sinfda o‘quvchilar soni 0 dan 60 gacha butun son bo‘lsin." };
+    rows.push({ id: Number(m[1]), students });
+  }
+  const { data: current } = await supabase.from("school_classes").select("id, students");
+  const before = new Map((current ?? []).map((c) => [c.id, c.students]));
+  const changed = rows.filter((r) => before.has(r.id) && before.get(r.id) !== r.students);
+  for (const r of changed) {
+    const { error } = await supabase.from("school_classes").update({ students: r.students }).eq("id", r.id);
+    if (error) return { error: `Saqlab bo‘lmadi: ${error.message}` };
+  }
+  revalidatePublic();
+  redirect("/admin/classes?students=saved");
 }
