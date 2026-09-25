@@ -1,0 +1,233 @@
+"""Generates supabase/seed/tests-2026.sql: original practice tests written for the site from the school
+curriculum topics (the uploaded 1st-grade textbooks and the DTM subject specifications). Each question
+lists the right answer first here; options are shuffled (seeded) so the admin list is not all "A".
+Run: python3 scripts/seed_tests.py > supabase/seed/tests-2026.sql
+"""
+import random
+
+SOURCE = "14-maktab: darslik mavzulari va DTM fan dasturlari asosida sayt uchun tuzilgan mashq savollari (2026). O‘qituvchilar tekshirib, to‘ldirib boradi."
+
+# (title, subject, kind, grade, time_limit, description, [(question, [right, wrong, wrong, wrong], explanation)])
+TESTS = [
+("Matematika | 1-sinf: sonlar, qo‘shish va ayirish", "matematika", "mavzu", 1, 15,
+ "«Matematika | 1-sinf» darsligi mavzulari: 20 gacha sonlar, qo‘shish va ayirish, geometrik shakllar.", [
+ ("3 + 4 = ?", ["7", "6", "8", "5"], "3 ga 4 ni qo‘shsak, 7 bo‘ladi."),
+ ("9 − 5 = ?", ["4", "3", "5", "14"], "9 dan 5 ni ayirsak, 4 qoladi."),
+ ("Qaysi son 7 dan katta?", ["8", "5", "6", "7"], None),
+ ("10 dan oldin keladigan son qaysi?", ["9", "11", "8", "1"], None),
+ ("6 + 6 = ?", ["12", "11", "13", "10"], None),
+ ("Uchburchakning nechta burchagi bor?", ["3 ta", "2 ta", "4 ta", "5 ta"], "Nomi ham shuni aytadi: uch burchak."),
+ ("Kvadratning nechta tomoni bor?", ["4 ta", "3 ta", "5 ta", "6 ta"], "Kvadratning 4 ta tomoni bor va ular teng."),
+ ("15 − 5 = ?", ["10", "5", "20", "15"], None),
+ ("Qaysi tenglik to‘g‘ri?", ["5 + 3 = 8", "5 + 3 = 7", "5 + 3 = 9", "5 + 3 = 53"], None),
+ ("2, 4, 6, … Keyingi son qaysi?", ["8", "7", "10", "9"], "Sonlar 2 tadan ortib boryapti: 6 + 2 = 8."),
+ ("8 + 0 = ?", ["8", "0", "80", "9"], "Songa 0 qo‘shilsa, son o‘zgarmaydi."),
+ ("Bir haftada necha kun bor?", ["7", "5", "6", "10"], None),
+ ("12 soni nechta o‘nlik va nechta birlikdan iborat?", ["1 o‘nlik va 2 birlik", "2 o‘nlik va 1 birlik", "12 o‘nlik", "1 o‘nlik va 0 birlik"], None),
+ ("Qaysi son eng kichik?", ["9", "14", "11", "20"], None),
+ ("Alida 5 ta olma bor edi. U 2 tasini yedi. Nechta olma qoldi?", ["3 ta", "7 ta", "2 ta", "5 ta"], "5 − 2 = 3."),
+ ("7 + 3 = 10 bo‘lsa, 10 − 3 = ?", ["7", "3", "10", "13"], "Qo‘shish va ayirish bir-biriga teskari amallar."),
+ ("Doiraning nechta burchagi bor?", ["Burchagi yo‘q", "1 ta", "2 ta", "4 ta"], None),
+ ("Qaysi qatorda sonlar kichigidan kattasiga qarab yozilgan?", ["3, 5, 8, 12", "12, 8, 5, 3", "5, 3, 8, 12", "3, 8, 5, 12"], None),
+]),
+("Musiqa | 1-sinf: notalar va cholg‘ular", "boshqa", "mavzu", 1, 10,
+ "«Musiqa | 1-sinf» darsligi mavzulari: notalar, o‘zbek xalq cholg‘ulari, Davlat madhiyasi.", [
+ ("Nechta asosiy nota bor?", ["7 ta", "5 ta", "6 ta", "8 ta"], "Do, re, mi, fa, sol, lya, si — 7 ta nota."),
+ ("«Do, re, mi …» — keyingi nota qaysi?", ["Fa", "Sol", "Lya", "Si"], None),
+ ("Doira qanday cholg‘u?", ["Urma cholg‘u", "Torli cholg‘u", "Puflama cholg‘u", "Klavishli cholg‘u"], None),
+ ("Dutorning nechta tori bor?", ["2 ta", "1 ta", "3 ta", "4 ta"], "«Du» — ikki, «tor» — tor: ikki torli cholg‘u."),
+ ("Karnay qanday cholg‘u?", ["Puflama cholg‘u", "Torli cholg‘u", "Urma cholg‘u", "Klavishli cholg‘u"], None),
+ ("Qaysi biri torli cholg‘u?", ["Rubob", "Doira", "Nog‘ora", "Karnay"], None),
+ ("Fortepiano qanday cholg‘u?", ["Klavishli cholg‘u", "Puflama cholg‘u", "Urma cholg‘u", "Xalq cholg‘usi — doira"], None),
+ ("O‘zbekiston Respublikasi Davlat madhiyasi musiqasini kim yaratgan?", ["Mutal Burhonov", "Yunus Rajabiy", "Muxtor Ashrafiy", "Abdulla Oripov"], None),
+ ("Davlat madhiyasi so‘zlarining muallifi kim?", ["Abdulla Oripov", "Erkin Vohidov", "G‘afur G‘ulom", "Hamid Olimjon"], None),
+ ("Davlat madhiyasi yangraganda nima qilish kerak?", ["O‘rnidan turib, hurmat bilan tinglash", "O‘tirgan joyida gaplashish", "Xonadan chiqib ketish", "Qo‘shiqqa raqs tushish"], None),
+]),
+
+("DTM mashq: Matematika (1-to‘plam)", "matematika", "dtm", None, None, "DTM formatidagi mashq savollari: algebra, geometriya, progressiyalar.", [
+ ("2⁵ ning qiymati nechaga teng?", ["32", "16", "25", "64"], "2·2·2·2·2 = 32."),
+ ("√144 = ?", ["12", "11", "14", "72"], None),
+ ("80 ning 15 foizi nechaga teng?", ["12", "10", "15", "8"], "80 · 0,15 = 12."),
+ ("3x − 7 = 11 tenglamaning ildizi?", ["6", "4", "5", "7"], "3x = 18, x = 6."),
+ ("x² − 5x + 6 = 0 tenglamaning ildizlari?", ["2 va 3", "−2 va −3", "1 va 6", "−1 va 6"], "Viyet teoremasi: yig‘indi 5, ko‘paytma 6."),
+ ("log₂ 8 = ?", ["3", "2", "4", "8"], "2³ = 8."),
+ ("Arifmetik progressiyada a₁ = 3, d = 4. a₁₀ ni toping.", ["39", "40", "43", "36"], "a₁₀ = a₁ + 9d = 3 + 36 = 39."),
+ ("Geometrik progressiyada b₁ = 2, q = 3. b₄ ni toping.", ["54", "18", "162", "24"], "b₄ = b₁·q³ = 2·27 = 54."),
+ ("sin 30° = ?", ["1/2", "√3/2", "√2/2", "1"], None),
+ ("Uchburchak ichki burchaklarining yig‘indisi nechaga teng?", ["180°", "90°", "270°", "360°"], None),
+ ("To‘g‘ri burchakli uchburchakning katetlari 6 va 8 ga teng. Gipotenuzasini toping.", ["10", "12", "14", "48"], "Pifagor teoremasi: √(36 + 64) = 10."),
+ ("Radiusi 5 ga teng doiraning yuzi?", ["25π", "10π", "5π", "50π"], "S = πr² = 25π."),
+ ("(a + b)² ifoda nimaga teng?", ["a² + 2ab + b²", "a² + b²", "a² − 2ab + b²", "2a + 2b"], None),
+ ("7! / 5! = ?", ["42", "35", "2", "49"], "7!/5! = 7·6 = 42."),
+ ("|−7| + |3| = ?", ["10", "4", "−4", "−10"], None),
+ ("f(x) = 2x + 1 bo‘lsa, f(3) = ?", ["7", "6", "5", "9"], None),
+ ("0,25 ni oddiy kasr ko‘rinishida yozing.", ["1/4", "1/2", "2/5", "1/25"], None),
+ ("Kvadratning perimetri 20 sm. Uning yuzi qancha?", ["25 sm²", "20 sm²", "16 sm²", "100 sm²"], "Tomoni 20 : 4 = 5 sm, yuzi 5² = 25 sm²."),
+ ("3/4 + 1/8 = ?", ["7/8", "4/12", "1/2", "5/8"], "6/8 + 1/8 = 7/8."),
+ ("y = x³ funksiyaning hosilasi?", ["3x²", "x²", "3x", "x⁴/4"], None),
+ ("Qirrasi 3 sm bo‘lgan kubning hajmi?", ["27 sm³", "9 sm³", "18 sm³", "54 sm³"], None),
+ ("48 va 36 sonlarining EKUBi?", ["12", "6", "4", "144"], None),
+]),
+("DTM mashq: Fizika (1-to‘plam)", "fizika", "dtm", None, None, "DTM formatidagi mashq savollari: mexanika, elektr, issiqlik, optika.", [
+ ("Xalqaro birliklar tizimida (SI) tezlik birligi?", ["m/s", "km/soat", "m/s²", "N"], None),
+ ("Kuch birligi qaysi?", ["Nyuton", "Joul", "Vatt", "Paskal"], None),
+ ("Massasi 2 kg bo‘lgan jism 3 m/s² tezlanish bilan harakatlanmoqda. Unga ta’sir etuvchi kuch?", ["6 N", "5 N", "1,5 N", "9 N"], "F = m·a = 2·3 = 6 N."),
+ ("Erkin tushish tezlanishi taxminan nechaga teng?", ["9,8 m/s²", "1 m/s²", "98 m/s²", "0,98 m/s²"], None),
+ ("Ish birligi qaysi?", ["Joul", "Nyuton", "Vatt", "Kulon"], None),
+ ("Quvvat formulasi qaysi?", ["P = A / t", "P = F · t", "P = m · a", "P = U / I"], None),
+ ("Zanjir qismi uchun Om qonuni?", ["I = U / R", "I = U · R", "I = R / U", "U = I / R"], None),
+ ("Kuchlanish 12 V, qarshilik 4 Om. Tok kuchi?", ["3 A", "48 A", "0,33 A", "16 A"], "I = U / R = 12 / 4 = 3 A."),
+ ("Yorug‘likning vakuumdagi tezligi taxminan?", ["3·10⁸ m/s", "3·10⁵ m/s", "340 m/s", "3·10⁶ m/s"], None),
+ ("Tovushning havodagi tezligi taxminan?", ["340 m/s", "3·10⁸ m/s", "1500 m/s", "34 m/s"], None),
+ ("Massasi 2 kg, tezligi 3 m/s bo‘lgan jismning kinetik energiyasi?", ["9 J", "6 J", "18 J", "3 J"], "E = mv²/2 = 2·9/2 = 9 J."),
+ ("Massasi 1 kg jism 10 m balandlikda turibdi (g = 10 m/s²). Potensial energiyasi?", ["100 J", "10 J", "1000 J", "50 J"], "E = mgh = 1·10·10 = 100 J."),
+ ("Bosim birligi qaysi?", ["Paskal", "Nyuton", "Joul", "Vatt"], None),
+ ("Normal atmosfera bosimida suv necha gradusda qaynaydi?", ["100 °C", "90 °C", "0 °C", "273 °C"], None),
+ ("Absolyut nol harorati taxminan?", ["−273 °C", "0 °C", "−100 °C", "−373 °C"], None),
+ ("Elektr zaryadi birligi?", ["Kulon", "Amper", "Volt", "Om"], None),
+ ("Jism 20 m/s tezlik bilan 5 s tekis harakatlandi. Bosib o‘tgan yo‘li?", ["100 m", "4 m", "25 m", "15 m"], "s = v·t = 100 m."),
+ ("Zichlik formulasi?", ["ρ = m / V", "ρ = m · V", "ρ = V / m", "ρ = F / S"], None),
+ ("Nyutonning uchinchi qonuni nima deydi?", ["Ta’sir kuchi aks ta’sir kuchiga teng va qarama-qarshi yo‘nalgan", "F = m · a", "Jism tinch holatini yoki to‘g‘ri chiziqli tekis harakatini saqlaydi", "Energiya yo‘qolmaydi va yo‘qdan paydo bo‘lmaydi"], None),
+ ("Linzaning optik kuchi birligi?", ["Dioptriya", "Lyuks", "Kandela", "Metr"], None),
+ ("Chastota birligi?", ["Gers", "Vatt", "Tesla", "Veber"], None),
+]),
+("DTM mashq: Kimyo (1-to‘plam)", "kimyo", "dtm", None, None, "DTM formatidagi mashq savollari: elementlar, formulalar, mol, reaksiyalar.", [
+ ("Suvning kimyoviy formulasi?", ["H₂O", "H₂O₂", "HO", "OH"], None),
+ ("Osh tuzining formulasi?", ["NaCl", "KCl", "NaOH", "Na₂CO₃"], None),
+ ("Kislorodning kimyoviy belgisi?", ["O", "Ok", "K", "Os"], None),
+ ("Temirning kimyoviy belgisi?", ["Fe", "Te", "Ti", "F"], None),
+ ("Natriyning tartib raqami?", ["11", "12", "23", "10"], None),
+ ("Uglerodning tartib raqami?", ["6", "12", "14", "8"], None),
+ ("Suvning (H₂O) molyar massasi?", ["18 g/mol", "16 g/mol", "20 g/mol", "10 g/mol"], "2·1 + 16 = 18."),
+ ("Karbonat angidridning (CO₂) molyar massasi?", ["44 g/mol", "28 g/mol", "32 g/mol", "22 g/mol"], "12 + 2·16 = 44."),
+ ("pH = 7 bo‘lgan eritma muhiti?", ["Neytral", "Kislotali", "Ishqoriy", "Kuchli kislotali"], None),
+ ("Normal sharoitda 1 mol gaz qancha hajmni egallaydi?", ["22,4 l", "11,2 l", "1 l", "44,8 l"], None),
+ ("Avogadro soni taxminan?", ["6,02·10²³", "3·10⁸", "1,6·10⁻¹⁹", "9,8"], None),
+ ("Qaysi element inert (nodir) gaz?", ["Neon", "Azot", "Kislorod", "Xlor"], None),
+ ("Metanning formulasi?", ["CH₄", "C₂H₆", "CO", "C₂H₂"], None),
+ ("Sulfat kislotaning formulasi?", ["H₂SO₄", "HCl", "HNO₃", "H₂CO₃"], None),
+ ("Kimyoviy elementlar davriy jadvalini kim yaratgan?", ["D. I. Mendeleyev", "M. V. Lomonosov", "A. Lavuaze", "J. Dalton"], None),
+ ("Kislorod atomida nechta elektron bor?", ["8", "6", "16", "2"], "Tartib raqami 8 — elektronlari ham 8 ta."),
+ ("NaOH qaysi moddalar sinfiga kiradi?", ["Asos (ishqor)", "Kislota", "Tuz", "Oksid"], None),
+ ("Havo tarkibida qaysi gaz eng ko‘p?", ["Azot", "Kislorod", "Karbonat angidrid", "Argon"], "Azot havoning taxminan 78 foizini tashkil qiladi."),
+ ("Olmos va grafit qaysi elementning allotropik shakllari?", ["Uglerod", "Kremniy", "Oltingugurt", "Fosfor"], None),
+ ("2H₂ + O₂ → 2H₂O reaksiyasi qaysi turga kiradi?", ["Birikish", "Parchalanish", "Almashinish", "O‘rin olish"], None),
+ ("Kaliyning kimyoviy belgisi?", ["K", "Ka", "P", "Ca"], None),
+]),
+("DTM mashq: Biologiya (1-to‘plam)", "biologiya", "dtm", None, None, "DTM formatidagi mashq savollari: hujayra, genetika, odam, hayvonlar.", [
+ ("Hujayraning «energiya stansiyasi» qaysi organoid?", ["Mitoxondriya", "Ribosoma", "Yadro", "Lizosoma"], None),
+ ("Fotosintez hujayraning qaysi qismida boradi?", ["Xloroplast", "Mitoxondriya", "Ribosoma", "Vakuola"], None),
+ ("Odamning somatik hujayralarida nechta xromosoma bor?", ["46", "23", "44", "48"], None),
+ ("RNKda timin o‘rniga qaysi azotli asos bo‘ladi?", ["Urasil", "Adenin", "Guanin", "Sitozin"], None),
+ ("Odam yuragi necha kamerali?", ["4", "3", "2", "5"], None),
+ ("AB0 tizimida nechta qon guruhi bor?", ["4", "3", "2", "8"], None),
+ ("Oqsil sintezi hujayraning qaysi qismida boradi?", ["Ribosoma", "Golji majmuasi", "Lizosoma", "Yadrocha"], None),
+ ("Irsiyat qonunlarini kim kashf etgan?", ["Gregor Mendel", "Charlz Darvin", "Ivan Pavlov", "Lui Paster"], None),
+ ("Tabiiy tanlanish nazariyasini kim yaratgan?", ["Charlz Darvin", "Gregor Mendel", "Jan Batist Lamark", "Karl Linney"], None),
+ ("Odam organizmidagi eng yirik bez?", ["Jigar", "Oshqozon osti bezi", "Qalqonsimon bez", "Buyrak usti bezi"], None),
+ ("Eritrotsitlarning asosiy vazifasi?", ["Kislorod tashish", "Organizmni mikroblardan himoya qilish", "Qon ivishi", "Gormon ishlab chiqarish"], None),
+ ("Qon ivishida qaysi qon hujayralari qatnashadi?", ["Trombotsitlar", "Eritrotsitlar", "Leykotsitlar", "Limfotsitlar"], None),
+ ("Insulin gormonini qaysi bez ishlab chiqaradi?", ["Oshqozon osti bezi", "Qalqonsimon bez", "Buyrak usti bezi", "Gipofiz"], None),
+ ("Hasharotlarning nechta oyog‘i bor?", ["6", "8", "4", "10"], None),
+ ("O‘rgimchakning nechta oyog‘i bor?", ["8", "6", "10", "4"], None),
+ ("Qaysi hayvon sutemizuvchi?", ["Kit", "Akula", "Timsoh", "Pingvin"], None),
+ ("Mitoz natijasida bitta hujayradan nechta hujayra hosil bo‘ladi?", ["2 ta bir xil hujayra", "4 ta gaploid hujayra", "2 ta har xil gaploid hujayra", "1 ta hujayra"], None),
+ ("Jinsiy hujayralarda (gametalarda) xromosomalar to‘plami qanday?", ["Gaploid (n)", "Diploid (2n)", "Triploid (3n)", "Tetraploid (4n)"], None),
+ ("Viruslar haqidagi to‘g‘ri fikr?", ["Hujayraviy tuzilishga ega emas", "Bakteriyalarning bir turi", "Yadroli hujayralardan iborat", "Fotosintez qiladi"], None),
+ ("Katta yoshli odam skeletida taxminan nechta suyak bor?", ["206", "180", "300", "256"], None),
+]),
+("DTM mashq: Ingliz tili (1-to‘plam)", "ingliz", "dtm", None, None, "DTM formatidagi mashq savollari: grammatika va so‘z boyligi.", [
+ ("She ___ a student.", ["is", "are", "am", "be"], None),
+ ("They ___ football every Sunday.", ["play", "plays", "playing", "is play"], None),
+ ("Choose the past form of «go».", ["went", "goed", "gone", "going"], None),
+ ("Choose the plural of «child».", ["children", "childs", "childes", "child"], None),
+ ("I have lived here ___ 2015.", ["since", "for", "from", "at"], "«Since» + a point in time; «for» + a period."),
+ ("Choose the opposite of «big».", ["small", "tall", "long", "wide"], None),
+ ("Look! He ___ TV now.", ["is watching", "watches", "watched", "watch"], "«Now» → Present Continuous."),
+ ("«Kitob» in English is …", ["book", "pen", "desk", "bag"], None),
+ ("Choose the comparative of «good».", ["better", "gooder", "best", "more good"], None),
+ ("There ___ many apples on the table.", ["are", "is", "am", "be"], None),
+ ("If it rains, we ___ at home.", ["will stay", "stayed", "would stayed", "staying"], "First conditional: if + Present Simple, will + verb."),
+ ("___ you speak English?", ["Can", "Does", "Are", "Is"], None),
+ ("Choose the superlative of «beautiful».", ["the most beautiful", "beautifuller", "the beautifulest", "more beautiful"], None),
+ ("She has ___ apple.", ["an", "a", "much", "two"], "«Apple» begins with a vowel sound → «an»."),
+ ("Choose the past participle of «write».", ["written", "wrote", "writed", "writing"], None),
+ ("«How old are you?» — the best answer:", ["I am fifteen.", "I am fine.", "I am a pupil.", "I am from Uzbekistan."], None),
+ ("The letter ___ yesterday.", ["was written", "wrote", "is writing", "has write"], "Passive voice, Past Simple: was/were + V3."),
+ ("I was born ___ May.", ["in", "on", "at", "by"], "Months take «in»."),
+ ("Every day he ___ to school by bus.", ["goes", "go", "going", "gone"], None),
+ ("Choose the synonym of «happy».", ["glad", "sad", "angry", "tired"], None),
+]),
+("DTM mashq: Ona tili va adabiyot (1-to‘plam)", "ona_tili", "dtm", None, None, "DTM formatidagi mashq savollari: so‘z turkumlari, gap bo‘laklari, adabiyot.", [
+ ("Ot so‘z turkumi qaysi so‘roqlarga javob beradi?", ["kim? nima? qayer?", "qanday? qanaqa?", "nima qildi?", "qancha? nechta?"], None),
+ ("Sifat qaysi so‘roqlarga javob beradi?", ["qanday? qanaqa? qaysi?", "kim? nima?", "nima qildi?", "qachon? qayerda?"], None),
+ ("Fe’l qaysi so‘roqlarga javob beradi?", ["nima qildi? nima qilyapti?", "kim? nima?", "qanday? qanaqa?", "nechta? qancha?"], None),
+ ("«Kitob» so‘zi qaysi so‘z turkumiga kiradi?", ["Ot", "Sifat", "Fe’l", "Ravish"], None),
+ ("«Chiroyli» so‘zi qaysi so‘z turkumiga kiradi?", ["Sifat", "Ot", "Fe’l", "Son"], None),
+ ("«Yugurdi» so‘zi qaysi so‘z turkumiga kiradi?", ["Fe’l", "Ot", "Sifat", "Ravish"], None),
+ ("O‘zbek tilida nechta unli tovush bor?", ["6 ta", "5 ta", "8 ta", "10 ta"], "a, e, i, o, u, o‘."),
+ ("«Uch», «o‘n» so‘zlari qaysi so‘z turkumiga kiradi?", ["Son", "Sifat", "Olmosh", "Ravish"], None),
+ ("«Men, sen, u» so‘zlari qaysi so‘z turkumiga kiradi?", ["Olmosh", "Ot", "Son", "Fe’l"], None),
+ ("Gapning bosh bo‘laklari?", ["Ega va kesim", "To‘ldiruvchi va aniqlovchi", "Hol va kesim", "Ega va aniqlovchi"], None),
+ ("«Tez yurdi» birikmasida «tez» qaysi so‘z turkumi?", ["Ravish", "Sifat", "Ot", "Fe’l"], None),
+ ("Ko‘plik qo‘shimchasi qaysi?", ["-lar", "-ning", "-da", "-ni"], None),
+ ("Qaratqich kelishigi qo‘shimchasi qaysi?", ["-ning", "-ni", "-ga", "-dan"], None),
+ ("«O‘tkan kunlar» romanining muallifi?", ["Abdulla Qodiriy", "Cho‘lpon", "Oybek", "G‘afur G‘ulom"], None),
+ ("«Xamsa» asarining muallifi?", ["Alisher Navoiy", "Zahiriddin Muhammad Bobur", "Lutfiy", "Ogahiy"], None),
+ ("«Boburnoma» asarining muallifi?", ["Zahiriddin Muhammad Bobur", "Alisher Navoiy", "Boborahim Mashrab", "Zokirjon Furqat"], None),
+ ("«Kecha va kunduz» romanining muallifi?", ["Cho‘lpon", "Abdulla Qodiriy", "Oybek", "Hamza Hakimzoda Niyoziy"], None),
+]),
+("DTM mashq: O‘zbekiston tarixi (1-to‘plam)", "tarix", "dtm", None, None, "DTM formatidagi mashq savollari: qadimgi davr, Temuriylar, mustaqillik yillari.", [
+ ("O‘zbekiston Respublikasi Oliy Kengashi davlat mustaqilligini qachon e’lon qildi?", ["1991-yil 31-avgust", "1991-yil 25-dekabr", "1992-yil 8-dekabr", "1990-yil 20-iyun"], None),
+ ("O‘zbekiston Respublikasining birinchi Konstitutsiyasi qachon qabul qilingan?", ["1992-yil 8-dekabr", "1991-yil 31-avgust", "1994-yil 1-iyul", "1992-yil 2-mart"], None),
+ ("Amir Temur qaysi yili tug‘ilgan?", ["1336-yil", "1370-yil", "1405-yil", "1320-yil"], None),
+ ("Amir Temur davlatining poytaxti?", ["Samarqand", "Buxoro", "Hirot", "Shahrisabz"], None),
+ ("Mirzo Ulug‘bek rasadxonasi qaysi shaharda qurilgan?", ["Samarqand", "Buxoro", "Xiva", "Toshkent"], None),
+ ("Zahiriddin Muhammad Bobur Hindistonda qaysi sulolaga asos solgan?", ["Boburiylar", "Temuriylar", "Shayboniylar", "Ashtarxoniylar"], None),
+ ("Algebra faniga asos solgan olim?", ["Muhammad al-Xorazmiy", "Abu Rayhon Beruniy", "Abu Ali ibn Sino", "Ahmad al-Farg‘oniy"], None),
+ ("«Tib qonunlari» asarining muallifi?", ["Abu Ali ibn Sino", "Muhammad al-Xorazmiy", "Abu Rayhon Beruniy", "Mirzo Ulug‘bek"], None),
+ ("O‘zbekiston milliy valyutasi — so‘m to‘liq muomalaga qachon kiritilgan?", ["1994-yil 1-iyul", "1991-yil 31-avgust", "1992-yil 8-dekabr", "2000-yil 1-yanvar"], None),
+ ("O‘zbekiston Birlashgan Millatlar Tashkilotiga qachon a’zo bo‘ldi?", ["1992-yil 2-mart", "1991-yil 1-sentabr", "1995-yil 1-iyun", "1993-yil 8-dekabr"], None),
+ ("Amir Temur maqbarasi qanday nomlanadi?", ["Go‘ri Amir", "Registon", "Shohi Zinda", "Bibixonim"], None),
+ ("Jaloliddin Manguberdi qaysi bosqinchilarga qarshi kurashgan?", ["Mo‘g‘ullar", "Arablar", "Yunon-makedonlar", "Ruslar"], None),
+ ("Aleksandr Makedonskiyga qarshi kurash olib borgan So‘g‘d qahramoni?", ["Spitamen", "Shiroq", "To‘maris", "Muqanna"], None),
+ ("Buyuk Ipak yo‘li qaysi hududlarni bog‘lagan?", ["Xitoyni O‘rta yer dengizi mamlakatlari bilan", "Hindistonni Afrika bilan", "Rossiyani Yaponiya bilan", "Arabistonni Amerika bilan"], None),
+]),
+("DTM mashq: Geografiya (1-to‘plam)", "geografiya", "dtm", None, None, "DTM formatidagi mashq savollari: O‘zbekiston va dunyo geografiyasi.", [
+ ("O‘zbekiston tarkibida Qoraqalpog‘iston Respublikasidan tashqari nechta viloyat bor?", ["12 ta", "13 ta", "14 ta", "11 ta"], None),
+ ("Surxondaryo viloyatining markazi?", ["Termiz", "Qarshi", "Denov", "Sherobod"], None),
+ ("O‘zbekistonning eng baland nuqtasi?", ["Hazrat Sulton cho‘qqisi", "Katta Chimyon", "Adelung cho‘qqisi", "Bobotog‘"], "Hisor tizmasida, 4643 m."),
+ ("O‘zbekiston nechta davlat bilan chegaradosh?", ["5 ta", "4 ta", "6 ta", "3 ta"], "Qozog‘iston, Qirg‘iziston, Tojikiston, Afg‘oniston, Turkmaniston."),
+ ("Orol dengiziga qaysi daryolar quyiladi?", ["Amudaryo va Sirdaryo", "Zarafshon va Qashqadaryo", "Chirchiq va Ohangaron", "Surxondaryo va Sherobod"], None),
+ ("Qizilqum cho‘li qaysi daryolar oralig‘ida joylashgan?", ["Amudaryo va Sirdaryo", "Zarafshon va Chirchiq", "Surxondaryo va Kofirnihon", "Norin va Qoradaryo"], None),
+ ("Yer yuzidagi eng katta okean?", ["Tinch okeani", "Atlantika okeani", "Hind okeani", "Shimoliy Muz okeani"], None),
+ ("Eng katta materik?", ["Yevrosiyo", "Afrika", "Shimoliy Amerika", "Antarktida"], None),
+ ("Ekvatorning uzunligi taxminan?", ["40 000 km", "20 000 km", "6 400 km", "12 000 km"], None),
+ ("O‘zbekiston iqlimi qanday?", ["Keskin kontinental", "Mo‘tadil dengiz", "Tropik nam", "Subarktik"], None),
+ ("Yer o‘z o‘qi atrofida qancha vaqtda bir marta aylanadi?", ["Taxminan 24 soatda", "365 kunda", "12 soatda", "30 kunda"], None),
+ ("O‘zbekistonning poytaxti?", ["Toshkent", "Samarqand", "Buxoro", "Namangan"], None),
+]),
+]
+
+def q(s):
+    return "null" if s is None else "'" + s.replace("'", "''") + "'"
+
+rng = random.Random(14)
+out = ["-- Practice tests written for the site (scripts/seed_tests.py). Applied once; re-running adds duplicates.",
+       "-- Source is stored in tests.source and shown under each test.", "begin;"]
+for order, (title, subject, kind, grade, minutes, desc, items) in enumerate(TESTS, 1):
+    out.append(f"with t as (insert into public.tests (title_uz, description_uz, subject, kind, grade, time_limit, source, sort_order, is_published)")
+    out.append(f"  values ({q(title)}, {q(desc)}, {q(subject)}, {q(kind)}, {grade if grade else 'null'}, {minutes if minutes else 'null'}, {q(SOURCE)}, {order * 10}, true) returning id)")
+    rows = []
+    for i, (question, options, expl) in enumerate(items, 1):
+        assert len(options) == len(set(options)), (title, question)
+        order_ix = list(range(len(options)))
+        rng.shuffle(order_ix)
+        shuffled = [options[k] for k in order_ix]
+        correct = order_ix.index(0)
+        arr = "array[" + ", ".join(q(o) for o in shuffled) + "]"
+        rows.append(f"  ((select id from t), {q(question)}, {arr}, {correct}, {q(expl)}, {i})")
+    out.append("insert into public.test_questions (test_id, question, options, correct, explanation, sort_order) values")
+    out.append(",\n".join(rows) + ";")
+out.append("commit;")
+print("\n".join(out))

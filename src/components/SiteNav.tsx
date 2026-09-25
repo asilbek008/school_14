@@ -113,13 +113,13 @@ export default function SiteNav({
     };
   }, [openKey]);
 
-  const pill = "rounded-full px-3 py-2 transition-colors duration-200 2xl:px-4";
+  const pill = "rounded-full px-2.5 py-2 transition-colors duration-200 2xl:px-4";
   const pillState = (active: boolean) => (active ? "bg-white text-navy" : "text-[#c2cbe4] hover:bg-white/10 hover:text-white");
 
   return (
     <>
       {/* Nudged right, towards the buttons (owner's request). */}
-      <nav ref={navRef} className="hidden items-center gap-0.5 whitespace-nowrap text-[14.5px] font-semibold lg:ml-auto lg:mr-1 lg:flex xl:mr-4">
+      <nav ref={navRef} className="hidden items-center gap-0.5 whitespace-nowrap text-[13.5px] font-semibold lg:ml-auto 2xl:text-[14.5px] lg:mr-1 lg:flex xl:mr-4">
         {entries.map((entry) => {
           if ("href" in entry) {
             const active = isActive(entry.href);

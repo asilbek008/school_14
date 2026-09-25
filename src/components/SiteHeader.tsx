@@ -29,7 +29,6 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
         { href: href("/admissions"), label: dict.nav.admissions, desc: d.admissions, icon: "door", color: "green" },
         { href: href("/schedule"), label: dict.nav.schedule, desc: d.schedule, icon: "bell", color: "amber" },
         { href: href("/calendar"), label: dict.nav.calendar, desc: d.calendar, icon: "calendar", color: "blue" },
-        { href: href("/tests"), label: dict.nav.tests, desc: d.tests, icon: "test", color: "green" },
         { href: href("/library"), label: dict.nav.library, desc: d.library, icon: "book", color: "coral" },
         { href: href("/clubs"), label: dict.nav.clubs, desc: d.clubs, icon: "star", color: "coral" },
         { href: href("/faq"), label: dict.nav.faq, desc: d.faq, icon: "question", color: "blue" },
@@ -39,6 +38,8 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
     },
     // Short label in the bar: the Russian "Расписание уроков" does not fit next to the buttons.
     { href: href("/timetable"), label: dict.nav.timetableShort },
+    // Tests stand on their own in the bar (owner's request), not inside "School".
+    { href: href("/tests"), label: dict.nav.tests },
     { href: href("/staff"), label: dict.nav.staff },
     { href: href("/news"), label: dict.nav.news },
     {
@@ -114,7 +115,7 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
               rel="noopener noreferrer"
               title={dict.emaktab.short}
               // Just the name here, so the Russian bar still fits at 1280px; the full label is the tooltip.
-              className="press mr-7 hidden h-10 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.07] pl-3 pr-3.5 text-[12.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white xl:inline-flex"
+              className="press mr-4 hidden h-10 2xl:mr-7 shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-white/10 bg-white/[0.07] pl-3 pr-3.5 text-[12.5px] font-semibold text-[#bee6dc] transition-colors hover:bg-white/15 hover:text-white xl:inline-flex"
             >
               <span className="size-1.5 rounded-full bg-[#3ecfb2]" />
               eMaktab ↗<span className="sr-only"> — {dict.emaktab.short} ({dict.emaktab.newTab})</span>
