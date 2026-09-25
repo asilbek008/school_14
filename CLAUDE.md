@@ -288,7 +288,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   klasslar ishlatilmaydi — `globals.css` da tokenlar almashtiriladi: slate shkalasi teskari, `bg-white` (text-navy
   bo‘lmasa) → `--surface`, `-soft` ranglar to‘q, `-deep` matnlar ochroq, `main` ichidagi `bg-navy` → brand. Navy
   bloklar (`.chrome`, `.site-header`) light-mode slate'ni saqlaydi; ular ichidagi oq kartalarga `surface` klassini
-  bering (dropdown, mobil menyu, `LiveCard`). Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
+  bering (dropdown, mobil menyu, `LiveCard`). Til almashganda React `<html>` klassini qayta yozib `dark` ni o‘chiradi —
+  `ThemeSync` (layout'da, `useLayoutEffect` + `MutationObserver`) saqlangan rejimni chizishdan oldin qaytaradi. Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
   Forma maydonlari: `focus:bg-white` va brauzer autofill'i tungi rejimda `--surface` bo‘ladi (aks holda oq fonda och matn o‘qilmaydi).
   Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`; navbar `sticky top-0`, eski iPhone Safari uchun `globals.css` da `-webkit-sticky` ham): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
