@@ -128,11 +128,13 @@ async function load(supabase: Supabase) {
 
 export default async function AdminHome() {
   const { supabase, email } = await requireAdmin();
-  const [{ stats, attention, nextEvents, messages, latestNews }, { data: myLogins }] = await Promise.all([
+  const [{ stats, attention, nextEvents, messages, latestNews }, { data: myLogins }, { data: visitsToday }] = await Promise.all([
     load(supabase),
     // This admin's sign-ins: [0] is the current one, [1] the one before it.
     supabase.from("admin_logins").select("at, city, country, device").eq("event", "login").eq("email", email).order("at", { ascending: false }).limit(2),
+    supabase.rpc("visit_stats", { p_days: 1 }),
   ]);
+  const today = visitsToday as { visitors: number; views: number; online: number } | null;
   const previous = myLogins?.[1];
 
   return (
@@ -141,6 +143,13 @@ export default async function AdminHome() {
         <div>
           <h1 className="text-2xl font-bold">Xush kelibsiz!</h1>
           <p className="mt-1 text-sm text-slate-500">{formatDateFull(new Date().toISOString(), "uz")}</p>
+          {today && (
+            <p className="mt-1 text-sm">
+              <Link href="/admin/visits" className="text-blue-700 hover:underline">
+                Bugun saytga {today.visitors} kishi kirdi ({today.views} sahifa ko‘rildi), hozir saytda — {today.online}
+              </Link>
+            </p>
+          )}
           {previous && (
             <p className="mt-1 text-xs text-slate-500">
               Oldingi kirishingiz: {formatDateTime(previous.at, "uz")}

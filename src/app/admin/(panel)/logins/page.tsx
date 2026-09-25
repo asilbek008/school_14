@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { requireAdmin } from "@/lib/admin";
 import { formatDate, formatDateTime, formatTime } from "@/lib/format";
+import { flagOf, placeName } from "@/lib/geo";
 import AdminHeader from "@/components/admin/AdminHeader";
 import LoginList, { type LoginItem } from "./LoginList";
 import { setLoginNotify } from "./actions";
@@ -16,26 +17,6 @@ const reasons: Record<string, string> = {
   email_not_confirmed: "email tasdiqlanmagan",
   over_request_rate_limit: "juda ko‘p urinish",
   user_banned: "hisob bloklangan",
-};
-
-// Vercel gives the region as an ISO 3166-2 code ("QA"); Uzbekistan's are spelled out, others left out.
-const uzRegions: Record<string, string> = {
-  AN: "Andijon", BU: "Buxoro", FA: "Farg‘ona", JI: "Jizzax", NG: "Namangan", NW: "Navoiy", QA: "Qashqadaryo",
-  QR: "Qoraqalpog‘iston", SA: "Samarqand", SI: "Sirdaryo", SU: "Surxondaryo", TK: "Toshkent shahri", TO: "Toshkent viloyati", XO: "Xorazm",
-};
-const regionName = (country: string | null, region: string | null) => (country === "UZ" && region ? (uzRegions[region] ?? null) : null);
-
-const countryNames = new Intl.DisplayNames(["uz", "ru", "en"], { type: "region" });
-/** 🇺🇿 from "UZ". */
-const flagOf = (code: string | null) =>
-  code && /^[A-Z]{2}$/.test(code) ? String.fromCodePoint(...[...code].map((c) => 0x1f1e6 + c.charCodeAt(0) - 65)) : "📍";
-const countryName = (code: string | null) => {
-  if (!code) return null;
-  try {
-    return countryNames.of(code) ?? code;
-  } catch {
-    return code;
-  }
 };
 
 async function load(supabase: Supabase) {
@@ -69,7 +50,7 @@ async function load(supabase: Supabase) {
     event: r.event as LoginItem["event"],
     email: r.email ?? "",
     reason: r.event === "failed" ? (reasons[r.reason ?? ""] ?? r.reason) : null,
-    place: [r.city, regionName(r.country, r.region), countryName(r.country)].filter((v, i, a) => v && a.indexOf(v) === i).join(", ") || null,
+    place: placeName(r.city, r.region, r.country),
     flag: flagOf(r.country),
     ip: r.ip,
     device: r.device,

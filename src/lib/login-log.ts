@@ -40,7 +40,7 @@ export function describeDevice(ua: string): string | null {
 }
 
 /** Where the request came from: Vercel's edge adds the visitor's IP and approximate place. */
-async function origin() {
+export async function requestOrigin() {
   const h = await headers();
   const decode = (v: string | null) => {
     if (!v) return null;
@@ -71,7 +71,7 @@ export async function logAdminLogin(
 ) {
   try {
     const row = {
-      ...(await origin()),
+      ...(await requestOrigin()),
       event: entry.event,
       email: entry.email.slice(0, 320) || null,
       user_id: entry.event === "failed" ? null : entry.userId,

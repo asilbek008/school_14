@@ -389,6 +389,14 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   har kirishda va bir email'ga 15 daqiqada 5/10-noto‘g‘ri urinishda Telegram (`telegram_settings.notify_logins`, sahifadagi tugma).
   Sahifada: 4 karta, qidiruv, hisob/tur filtri, "Yangi qurilma" belgisi. Bosh sahifada "Oldingi kirishingiz" va 24 soatdagi
   noto‘g‘ri urinishlar "E’tibor talab qiladi"da.
+- Tashriflar (`/admin/visits`, `site_visits`): ochiq saytdagi sahifa ko‘rishlar. `VisitBeacon` (`[lang]/layout.tsx`, client) har sahifada
+  `/api/visit` ga yuboradi: yo‘l, anonim brauzer id (`localStorage.vid`), tashrif id (`sessionStorage.sid`), tashrifning 1-sahifasida
+  kelgan sayt hosti. DNT/GPC yoqilgan bo‘lsa yubormaydi. Route handler botlarni o‘tkazib yuboradi, joy (Vercel geo) va qurilmani
+  (`requestOrigin`, `login-log.ts`) qo‘shadi; IP, ism, cookie saqlanmaydi. Trigger: server vaqti, bir tashrifga daqiqada 60, soatiga jami
+  3000 dan oshsa jimgina tashlanadi, 1 yildan eskisi o‘chadi. Hisoblar bazada — `public.visit_stats(p_days)` (security invoker,
+  faqat `authenticated`ga; API 1000 qatordan ko‘p bermaydi). Sahifa: davr (bugun/7/30/90), 4 karta (hozir saytda — 5 daqiqa),
+  kunlik ustunlar, sahifalar, joylar (`src/lib/geo.ts` — `placeName`, `flagOf`), manbalar, qurilmalar, so‘nggi 60 ta tashrif.
+  Admin bosh sahifasida bugungi tashrifchilar.
 - Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
   npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
   qutisi ataylab eksport qilinmaydi (maxfiy).
@@ -442,6 +450,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
+- `site_visits` (at, path, lang, visitor, session, referrer, city, region, country, device, mobile)
 - `admin_logins` (at, event `login`|`failed`|`logout`, user_id, email, reason, ip, city, region, country, device, user_agent)
 - `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,

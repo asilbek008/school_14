@@ -4,6 +4,7 @@ import { signOut } from "../login/actions";
 
 const nav = [
   { href: "/admin", label: "Bosh sahifa" },
+  { href: "/admin/visits", label: "Tashriflar" },
   { href: "/admin/news", label: "Yangiliklar" },
   { href: "/admin/events", label: "Tadbirlar" },
   { href: "/admin/programs", label: "Doimiy tadbirlar" },
