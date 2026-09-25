@@ -234,6 +234,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   qo‘shimcha ma’lumot. Ranglar umumiy (`positions.ts`: `groupBadge`, `avatarGradient(id)` — xodimga bog‘liq, filtrda
   o‘zgarmaydi; `initials`) — ro‘yxat, profil va "Maktab haqida"dagi rahbariyat bir xil. Bo‘sh maydonlar ko‘rsatilmaydi. Rus tilidagi
   sonlar uchun `plural()` (`src/i18n/fill.ts`, `Intl.PluralRules`).
+- `supabase/seed/calendar-2026-2027.sql` — egasi yuborgan rasmiy kalendardagi choraklar va ta’tillar (qo‘llangan).
 - `supabase/seed/2026-2027.sql`, `supabase/seed/clubs.sql` va `supabase/seed/subjects.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
   tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).
 - eMaktab (`school.eMaktabUrl`, https://emaktab.uz): baholar va davomat faqat u yerda — ochiq saytda
