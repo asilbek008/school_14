@@ -7,6 +7,7 @@ import { currentSchoolYear, siteUrl } from "@/lib/school";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { Analytics } from "@vercel/analytics/next";
+import VisitBeacon from "@/components/VisitBeacon";
 import "../globals.css";
 
 const inter = Inter({
@@ -71,6 +72,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <SiteFooter lang={lang} dict={dict} />
         {/* Vercel Web Analytics: page views without cookies (switched on in the Vercel project's Analytics tab). */}
         <Analytics />
+        {/* Our own anonymous page-view count, shown in the admin panel ("Tashriflar"). */}
+        <VisitBeacon />
       </body>
     </html>
   );
