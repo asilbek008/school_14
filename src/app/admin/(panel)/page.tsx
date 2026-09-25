@@ -29,6 +29,7 @@ async function load(supabase: Supabase) {
     { data: subjects },
     { data: pages },
     { data: documents },
+    { count: failedLoginsCount },
     { data: telegram },
     { data: nextEvents },
     { data: messages },
@@ -50,6 +51,7 @@ async function load(supabase: Supabase) {
     supabase.from("subjects").select("name_ru, name_en"),
     supabase.from("pages").select("slug, title_uz, body_uz, body_ru, body_en"),
     supabase.from("documents").select("title_ru, title_en"),
+    head("admin_logins").eq("event", "failed").gte("at", new Date(Date.now() - 86_400_000).toISOString()),
     supabase.from("telegram_settings").select("enabled, channel, last_synced_at, last_status").eq("id", 1).maybeSingle(),
     supabase.from("events").select("id, title_uz, starts_at, all_day, is_published").gte("starts_at", now).order("starts_at").limit(5),
     supabase.from("contact_messages").select("id, name, message, is_read, created_at").order("created_at", { ascending: false }).limit(4),
@@ -77,6 +79,7 @@ async function load(supabase: Supabase) {
   const teachers = (staff ?? []).filter((s) => positionGroup(s.position_uz) === "teachers");
   const attention = [
     { n: unread, text: "ta o‘qilmagan xabar", href: "/admin/messages" },
+    { n: failedLoginsCount ?? 0, text: "ta noto‘g‘ri parol bilan kirish urinishi (24 soat)", href: "/admin/logins" },
     { n: unreadTrust, text: "ta o‘qilmagan maxfiy murojaat (ishonch qutisi)", href: "/admin/trust" },
     { n: newApplications, text: "ta yangi qabul arizasi — ota-ona bilan bog‘laning", href: "/admin/applications" },
     { n: hiddenNews, text: "ta yashirin yangilik (Telegram’dan kelgan bo‘lsa — tekshirib yoqing)", href: "/admin/news" },
@@ -124,8 +127,13 @@ async function load(supabase: Supabase) {
 }
 
 export default async function AdminHome() {
-  const { supabase } = await requireAdmin();
-  const { stats, attention, nextEvents, messages, latestNews } = await load(supabase);
+  const { supabase, email } = await requireAdmin();
+  const [{ stats, attention, nextEvents, messages, latestNews }, { data: myLogins }] = await Promise.all([
+    load(supabase),
+    // This admin's sign-ins: [0] is the current one, [1] the one before it.
+    supabase.from("admin_logins").select("at, city, country, device").eq("event", "login").eq("email", email).order("at", { ascending: false }).limit(2),
+  ]);
+  const previous = myLogins?.[1];
 
   return (
     <>
@@ -133,6 +141,16 @@ export default async function AdminHome() {
         <div>
           <h1 className="text-2xl font-bold">Xush kelibsiz!</h1>
           <p className="mt-1 text-sm text-slate-500">{formatDateFull(new Date().toISOString(), "uz")}</p>
+          {previous && (
+            <p className="mt-1 text-xs text-slate-500">
+              Oldingi kirishingiz: {formatDateTime(previous.at, "uz")}
+              {previous.city ? `, ${previous.city}` : ""}
+              {previous.device ? ` · ${previous.device}` : ""} —{" "}
+              <Link href="/admin/logins" className="text-blue-700 hover:underline">
+                kirishlar jurnali
+              </Link>
+            </p>
+          )}
         </div>
         <div className="flex flex-wrap gap-2">
           <Link href="/admin/news/new" className="rounded-lg bg-blue-700 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-800">
