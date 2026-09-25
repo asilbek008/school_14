@@ -26,3 +26,4 @@ jobs:
       # No Supabase keys here: pages build with their empty states (the public client returns null without env).
       - run: npm run build
       - run: node --experimental-strip-types scripts/test-telegram-parse.mts
+      - run: node --experimental-strip-types scripts/test-question-import.mts

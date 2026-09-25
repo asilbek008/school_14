@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
-import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, mediaUrl } from "@/lib/content";
+import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, getTests, mediaUrl } from "@/lib/content";
 import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
@@ -11,6 +11,7 @@ import EventCard from "@/components/EventCard";
 import SectionHead from "@/components/SectionHead";
 import EmptyState from "@/components/EmptyState";
 import EMaktabCard from "@/components/EMaktabCard";
+import TestsCard from "@/components/TestsCard";
 import LiveCard from "@/components/LiveCard";
 import StatTiles from "@/components/StatTiles";
 import MyClassCard from "@/components/MyClassCard";
@@ -19,13 +20,14 @@ export const revalidate = 300;
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
-  const [allNews, { upcoming }, albums, classes, clubs, programs] = await Promise.all([
+  const [allNews, { upcoming }, albums, classes, clubs, programs, tests] = await Promise.all([
     getNews(),
     getEvents(),
     getAlbums(),
     getClasses(),
     getClubs(),
     getPrograms(),
+    getTests(),
   ]);
   const news = allNews.slice(0, 3);
   // "School life in numbers": each tile opens its section.
@@ -138,6 +140,11 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         <div className="mt-4">
           <EMaktabCard t={dict.emaktab} />
         </div>
+        {tests.length > 0 && (
+          <div className="mt-4">
+            <TestsCard lang={lang} t={dict.tests} />
+          </div>
+        )}
       </section>
 
       {/* Sections are divided by a hairline, as in the design mockup. */}
