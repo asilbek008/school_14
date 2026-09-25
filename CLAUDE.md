@@ -17,6 +17,8 @@ qo‘shadi, o‘qituvchilar va sahifalarni tahrirlaydi. Maktab haqidagi batafsil
 - Next.js 16 (App Router) + React 19 + TypeScript + Tailwind CSS v4
 - Supabase: Postgres, Auth (admin kirishi), Storage (rasmlar). Loyiha: `school-14`
   (ref `cieusvxrfpshlpjelvkt`, "School 14" tashkiloti, Frankfurt `eu-central-1`)
+- Ish tartibi (egasining talabi): har vazifa tugagach so‘ramasdan PR ochib `main` ga squash-birlashtiring, branchni `main` dan
+  qayta boshlang, Vercel deployi tayyor bo‘lgach natijani saytda tekshirib, egasiga havolasini ko‘rsating.
 - Vercel'ga joylanadi (faqat `main`; `vercel.json` `claude/*` branchlarini deploy qilmaydi — bepul tarifning kunlik
   deploy limiti tejaladi)
 
