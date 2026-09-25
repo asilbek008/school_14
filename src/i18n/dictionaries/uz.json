@@ -25,7 +25,8 @@
     "trust": "Ishonch qutisi",
     "documents": "Hujjatlar",
     "calendar": "O‘quv yili taqvimi",
-    "achievements": "Yutuqlar"
+    "achievements": "Yutuqlar",
+    "tests": "Testlar"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -41,7 +42,8 @@
     "programs": "Zakovat va boshqa muntazam loyihalar",
     "documents": "Litsenziya, buyruq, hisobot va shakllar",
     "calendar": "Choraklar, ta’tillar va imtihonlar",
-    "achievements": "Olimpiada, sport va tanlov natijalari"
+    "achievements": "Olimpiada, sport va tanlov natijalari",
+    "tests": "Fan testlari va DTMga tayyorgarlik"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -793,5 +795,142 @@
     "empty": "Yutuqlar hali qo‘shilmagan.",
     "notFound": "Bu bo‘limda yutuq topilmadi.",
     "privacy": "O‘quvchilarning ismlari faqat ota-onalari roziligi bilan ko‘rsatiladi."
+  },
+  "tests": {
+    "kicker": "O‘quvchilar uchun",
+    "title": "Testlar va DTMga tayyorgarlik",
+    "intro": "Fanlar bo‘yicha testlar va DTM formatidagi sinov imtihoni. Ro‘yxatdan o‘tish shart emas.",
+    "subjects": {
+      "ona_tili": "Ona tili va adabiyot",
+      "matematika": "Matematika",
+      "tarix": "Tarix",
+      "fizika": "Fizika",
+      "kimyo": "Kimyo",
+      "biologiya": "Biologiya",
+      "geografiya": "Geografiya",
+      "ingliz": "Ingliz tili",
+      "rus": "Rus tili",
+      "informatika": "Informatika",
+      "huquq": "Huquq",
+      "boshqa": "Boshqa"
+    },
+    "kinds": {
+      "mavzu": "Fan testi",
+      "dtm": "DTM"
+    },
+    "statTests": {
+      "one": "test",
+      "other": "test"
+    },
+    "statQuestions": {
+      "one": "savol",
+      "other": "savol"
+    },
+    "statSubjects": {
+      "one": "fan",
+      "other": "fan"
+    },
+    "statDtm": {
+      "one": "DTM savoli",
+      "other": "DTM savoli"
+    },
+    "questions": {
+      "one": "{n} ta savol",
+      "other": "{n} ta savol"
+    },
+    "minutes": "{n} daqiqa",
+    "noLimit": "Vaqt cheklanmagan",
+    "grade": "{n}-sinf",
+    "search": "Test nomi bo‘yicha qidirish…",
+    "notFound": "Bunday test topilmadi.",
+    "empty": "Testlar hali qo‘shilmagan. O‘qituvchilar ularni tez orada joylaydi.",
+    "privacy": "Ro‘yxatdan o‘tish shart emas. Natijalaringiz faqat shu qurilmada saqlanadi — ularni hech kim ko‘rmaydi.",
+    "start": "Boshlash",
+    "open": "Testni ochish",
+    "dtmCard": {
+      "kicker": "Bitiruvchilar uchun",
+      "title": "DTM sinov imtihoni",
+      "text": "90 ta savol, 3 soat, 189 ball — DTM formatida. Ikki asosiy faningizni tanlang va o‘zingizni sinab ko‘ring.",
+      "button": "Sinovni boshlash"
+    },
+    "homeTitle": "Testlar va DTMga tayyorgarlik",
+    "homeText": "Fanlar bo‘yicha testlar va DTM formatidagi sinov imtihoni — ro‘yxatdan o‘tmasdan, telefondan ham.",
+    "homeButton": "Testlarni ochish",
+    "history": {
+      "title": "Oxirgi natijalaringiz",
+      "clear": "Tozalash",
+      "score": "{score} / {max} ball"
+    },
+    "mode": {
+      "title": "Qanday ishlaysiz?",
+      "practice": "Mashq",
+      "practiceHint": "Har savoldan keyin to‘g‘ri javob va izoh chiqadi",
+      "exam": "Imtihon",
+      "examHint": "Javoblar oxirida tekshiriladi, vaqt hisoblanadi"
+    },
+    "runner": {
+      "question": "{n}-savol",
+      "of": "{n} / {total}",
+      "check": "Tekshirish",
+      "next": "Keyingi",
+      "prev": "Oldingi",
+      "finish": "Yakunlash",
+      "confirmFinish": "{n} ta savolga javob berilmagan. Baribir yakunlaysizmi?",
+      "timeLeft": "Qolgan vaqt",
+      "timeUp": "Vaqt tugadi — javoblaringiz tekshirildi.",
+      "correct": "To‘g‘ri!",
+      "wrong": "Noto‘g‘ri. To‘g‘ri javob: {a}",
+      "explanation": "Izoh",
+      "checking": "Tekshirilmoqda…",
+      "error": "Javoblarni tekshirib bo‘lmadi. Internetni tekshirib, qayta urining.",
+      "retry": "Qayta urinish",
+      "resume": "Tugallanmagan sinovingiz bor.",
+      "resumeYes": "Davom etish",
+      "resumeNo": "Boshidan boshlash",
+      "map": "Savollar",
+      "answered": "{n} / {total} javob berildi",
+      "quit": "Chiqish",
+      "confirmQuit": "Sinovdan chiqasizmi? Javoblaringiz saqlanmaydi."
+    },
+    "result": {
+      "title": "Natija",
+      "correct": "To‘g‘ri javob",
+      "score": "Ball",
+      "again": "Qayta ishlash",
+      "back": "Testlarga qaytish",
+      "all": "Hammasi",
+      "wrongOnly": "Faqat xatolar",
+      "yourAnswer": "Sizning javobingiz",
+      "noAnswer": "Javob berilmagan",
+      "rightAnswer": "To‘g‘ri javob",
+      "great": "A’lo natija!",
+      "good": "Yaxshi natija",
+      "ok": "Yomon emas — yana mashq qiling",
+      "low": "Mavzuni qayta takrorlang",
+      "bySection": "Fanlar bo‘yicha",
+      "time": "Sarflangan vaqt"
+    },
+    "dtm": {
+      "kicker": "Bitiruvchilar uchun",
+      "title": "DTM sinov imtihoni",
+      "intro": "Haqiqiy DTM testi tartibida: 3 ta majburiy fan va siz tanlagan 2 ta asosiy fan. Savollar har safar bazadan tasodifiy tanlanadi.",
+      "first": "1-asosiy fan",
+      "second": "2-asosiy fan",
+      "compulsory": "Majburiy fanlar",
+      "presets": "Mashhur yo‘nalishlar",
+      "choose": "Fanni tanlang",
+      "same": "Ikki xil fan tanlang.",
+      "start": "Sinovni boshlash",
+      "loading": "Savollar tayyorlanmoqda…",
+      "points": "{points} ball",
+      "each": "har biri {p} ball",
+      "pool": "bazada {n} ta",
+      "noPool": "savol yo‘q",
+      "notEnough": "Ba’zi fanlarda savollar hali kam — sinov bor savollar bilan o‘tadi.",
+      "empty": "DTM savollar bazasi hali to‘ldirilmagan. O‘qituvchilar savollarni qo‘shgach, sinovni boshlash mumkin bo‘ladi.",
+      "format": "Format",
+      "total": "Jami: {n} ta savol, {points} ball, {h} soat",
+      "note": "Ball DTM tizimi bo‘yicha taxminiy hisoblanadi. Sinov faqat mashq uchun."
+    }
   }
 }

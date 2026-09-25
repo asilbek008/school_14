@@ -18,6 +18,7 @@ const sections: Record<string, { name: string; href: (ref: string) => string }> 
   documents: { name: "Hujjat", href: (r) => `/admin/documents/${r}` },
   calendar_periods: { name: "Taqvim", href: (r) => `/admin/calendar/${r}` },
   achievements: { name: "Yutuq", href: (r) => `/admin/achievements/${r}` },
+  tests: { name: "Test", href: (r) => `/admin/tests/${r}` },
   school_classes: { name: "Sinf", href: (r) => `/admin/classes/${r}` },
   subjects: { name: "Fan", href: (r) => `/admin/subjects/${r}` },
   school_years: { name: "O‘quv yili", href: (r) => `/admin/years/${r}` },

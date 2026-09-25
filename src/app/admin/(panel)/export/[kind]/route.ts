@@ -65,12 +65,21 @@ export async function GET(_request: Request, { params }: RouteContext<"/admin/ex
         r.is_read ? "ha" : "yo‘q",
       ]),
     ];
+  } else if (kind === "test-template") {
+    // A blank question sheet for the tests import, with one sample row (skipped on import: it starts with "Namuna:").
+    sheet = "Savollar";
+    widths = [60, 22, 22, 22, 22, 9, 45];
+    data = [
+      header(["Savol", "A", "B", "C", "D", "Javob", "Izoh"]),
+      ["Namuna: 2 + 2 nechaga teng? (bu qator yuklanmaydi — o‘chirib, o‘z savollaringizni yozing)", "3", "4", "5", "22", "B", "2 ga 2 ni qo‘shsak, 4 bo‘ladi."],
+    ];
   } else {
     return new Response("Topilmadi", { status: 404 });
   }
 
   const buffer = await writeExcelFile(data, { sheet, columns: widths.map((width) => ({ width })), stickyRowsCount: 1 }).toBuffer();
-  const name = `${kind === "applications" ? "qabul-arizalari" : "xabarlar"}-${stamp(new Date().toISOString()).slice(0, 10)}.xlsx`;
+  const name =
+    kind === "test-template" ? "test-namuna.xlsx" : `${kind === "applications" ? "qabul-arizalari" : "xabarlar"}-${stamp(new Date().toISOString()).slice(0, 10)}.xlsx`;
   return new Response(new Uint8Array(buffer), {
     headers: {
       "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",

@@ -25,7 +25,8 @@
     "trust": "Trust box",
     "documents": "Documents",
     "calendar": "School calendar",
-    "achievements": "Achievements"
+    "achievements": "Achievements",
+    "tests": "Tests"
   },
   "navDesc": {
     "about": "History and general information",
@@ -41,7 +42,8 @@
     "programs": "Zakovat and other year-round projects",
     "documents": "Licence, orders, reports and forms",
     "calendar": "Terms, holidays and exams",
-    "achievements": "Olympiads, sports and contests"
+    "achievements": "Olympiads, sports and contests",
+    "tests": "Subject tests and DTM exam practice"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -793,5 +795,142 @@
     "empty": "No achievements have been added yet.",
     "notFound": "No achievements found in this section.",
     "privacy": "Pupils' names are shown only with their parents' consent."
+  },
+  "tests": {
+    "kicker": "For pupils",
+    "title": "Tests and DTM preparation",
+    "intro": "Subject tests and a mock exam in the DTM format. No sign-up needed.",
+    "subjects": {
+      "ona_tili": "Uzbek language and literature",
+      "matematika": "Mathematics",
+      "tarix": "History",
+      "fizika": "Physics",
+      "kimyo": "Chemistry",
+      "biologiya": "Biology",
+      "geografiya": "Geography",
+      "ingliz": "English",
+      "rus": "Russian",
+      "informatika": "Computer science",
+      "huquq": "Law",
+      "boshqa": "Other"
+    },
+    "kinds": {
+      "mavzu": "Subject test",
+      "dtm": "DTM"
+    },
+    "statTests": {
+      "one": "test",
+      "other": "tests"
+    },
+    "statQuestions": {
+      "one": "question",
+      "other": "questions"
+    },
+    "statSubjects": {
+      "one": "subject",
+      "other": "subjects"
+    },
+    "statDtm": {
+      "one": "DTM question",
+      "other": "DTM questions"
+    },
+    "questions": {
+      "one": "{n} question",
+      "other": "{n} questions"
+    },
+    "minutes": "{n} min",
+    "noLimit": "No time limit",
+    "grade": "Grade {n}",
+    "search": "Search tests by name…",
+    "notFound": "No such test found.",
+    "empty": "No tests have been added yet. Teachers will post them soon.",
+    "privacy": "No sign-up needed. Your results are kept only on this device — nobody else sees them.",
+    "start": "Start",
+    "open": "Open test",
+    "dtmCard": {
+      "kicker": "For graduates",
+      "title": "DTM mock exam",
+      "text": "90 questions, 3 hours, 189 points — in the DTM format. Pick your two main subjects and test yourself.",
+      "button": "Start the exam"
+    },
+    "homeTitle": "Tests and DTM preparation",
+    "homeText": "Subject tests and a DTM-format mock exam — no sign-up, works on a phone too.",
+    "homeButton": "Open tests",
+    "history": {
+      "title": "Your recent results",
+      "clear": "Clear",
+      "score": "{score} / {max} points"
+    },
+    "mode": {
+      "title": "How do you want to work?",
+      "practice": "Practice",
+      "practiceHint": "The right answer and an explanation after each question",
+      "exam": "Exam",
+      "examHint": "Answers are checked at the end, the clock runs"
+    },
+    "runner": {
+      "question": "Question {n}",
+      "of": "{n} / {total}",
+      "check": "Check",
+      "next": "Next",
+      "prev": "Previous",
+      "finish": "Finish",
+      "confirmFinish": "{n} questions are unanswered. Finish anyway?",
+      "timeLeft": "Time left",
+      "timeUp": "Time is up — your answers have been checked.",
+      "correct": "Correct!",
+      "wrong": "Wrong. The right answer: {a}",
+      "explanation": "Explanation",
+      "checking": "Checking…",
+      "error": "Could not check the answers. Check your connection and try again.",
+      "retry": "Try again",
+      "resume": "You have an unfinished test.",
+      "resumeYes": "Continue",
+      "resumeNo": "Start over",
+      "map": "Questions",
+      "answered": "{n} of {total} answered",
+      "quit": "Quit",
+      "confirmQuit": "Quit the test? Your answers will not be kept."
+    },
+    "result": {
+      "title": "Result",
+      "correct": "Correct answers",
+      "score": "Points",
+      "again": "Try again",
+      "back": "Back to tests",
+      "all": "All",
+      "wrongOnly": "Mistakes only",
+      "yourAnswer": "Your answer",
+      "noAnswer": "No answer",
+      "rightAnswer": "Right answer",
+      "great": "Excellent result!",
+      "good": "Good result",
+      "ok": "Not bad — keep practising",
+      "low": "Review the topic again",
+      "bySection": "By subject",
+      "time": "Time spent"
+    },
+    "dtm": {
+      "kicker": "For graduates",
+      "title": "DTM mock exam",
+      "intro": "Just like the real DTM test: 3 compulsory subjects and 2 main subjects of your choice. Questions are drawn from the bank at random every time.",
+      "first": "1st main subject",
+      "second": "2nd main subject",
+      "compulsory": "Compulsory subjects",
+      "presets": "Popular combinations",
+      "choose": "Choose a subject",
+      "same": "Choose two different subjects.",
+      "start": "Start the exam",
+      "loading": "Preparing the questions…",
+      "points": "{points} points",
+      "each": "{p} points each",
+      "pool": "{n} in the bank",
+      "noPool": "no questions",
+      "notEnough": "Some subjects have few questions so far — the exam will use the ones there are.",
+      "empty": "The DTM question bank has not been filled yet. Once teachers add questions, the exam can be started.",
+      "format": "Format",
+      "total": "Total: {n} questions, {points} points, {h} hours",
+      "note": "Points are an approximate DTM-style score. The exam is for practice only."
+    }
   }
 }

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { resolveLang } from "@/i18n/server";
-import { getAlbums, getClubs, getEvents, getNews, getPrograms, getStaff, localized } from "@/lib/content";
+import { getAlbums, getClubs, getEvents, getNews, getPrograms, getStaff, getTests, localized } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { positionLabel } from "@/lib/positions";
 import PageHeader from "@/components/PageHeader";
@@ -21,13 +21,14 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/search">):
 export default async function SearchPage({ params }: PageProps<"/[lang]/search">) {
   const { lang, dict } = await resolveLang(params);
   const href = (path: string) => `/${lang}${path}`;
-  const [news, { upcoming, past }, staff, clubs, programs, albums] = await Promise.all([
+  const [news, { upcoming, past }, staff, clubs, programs, albums, tests] = await Promise.all([
     getNews(),
     getEvents(),
     getStaff(),
     getClubs(),
     getPrograms(),
     getAlbums(),
+    getTests(),
   ]);
   const d = dict.navDesc;
   const pages: [string, string, string][] = [
@@ -41,6 +42,8 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
     ["/events", dict.nav.events, dict.events.intro],
     ["/programs", dict.nav.programs, d.programs],
     ["/achievements", dict.achievements.title, d.achievements],
+    ["/tests", dict.tests.title, dict.tests.intro],
+    ["/tests/dtm", dict.tests.dtm.title, dict.tests.dtm.intro],
     ["/clubs", dict.nav.clubs, d.clubs],
     ["/gallery", dict.gallery.title, d.gallery],
     ["/faq", dict.nav.faq, d.faq],
@@ -90,6 +93,12 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
       text: localized(a, "description", lang),
       meta: a.event_date ? formatDate(a.event_date, lang) : undefined,
       href: href(`/gallery/${a.id}`),
+    })),
+    ...tests.map((x) => ({
+      type: "page" as const,
+      title: localized(x, "title", lang),
+      text: [dict.tests.subjects[x.subject as keyof typeof dict.tests.subjects], localized(x, "description", lang)].filter(Boolean).join(" · "),
+      href: href(`/tests/${x.id}`),
     })),
   ];
 

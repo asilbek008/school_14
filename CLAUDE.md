@@ -105,6 +105,20 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (sinf yoki jamoa). O‘quvchi ismi (`names`) faqat `names_consent` bilan: DB `check` + action ham rad etadi, `getAchievements()` ham
   roziliksizni tashlab yuboradi. `teacher_id` — tayyorlagan o‘qituvchi (profilga havola). Sahifa: raqam kartalari (o‘qituvchi kartasi 0 da
   chiqmaydi), medal (oltin/kumush/bronza), bosqich belgisi, turkum tugmalari + qidiruv, `year-scope`/`data-year`. Menyuda "Tadbirlar ▾".
+- Testlar va DTM (`/[lang]/tests`, `/tests/[id]`, `/tests/dtm`; `tests` + `test_questions`; admin `/admin/tests`): fan/mavzu testlari
+  (`kind='mavzu'`) va DTM savollar banki (`kind='dtm'`). Fanlar — `src/lib/tests.ts` `testSubjects` (DB `check` bilan bir xil; nomlari
+  lug‘atda `tests.subjects`), DTM formati `dtm` (majburiy ona tili/matematika/tarix 10×1.1, 1-fan 30×3.1, 2-fan 30×2.1 = 189 ball, 180 daqiqa).
+  To‘g‘ri javob va izoh mehmonga ko‘rinmaydi: anon'ga `test_questions` ning faqat boshqa ustunlari `grant` qilingan (shuning uchun
+  `select *`/`(count)` embed ishlamaydi — ustunlarni aniq yozing, sonni id'lardan hisoblang), javob — javob berilgandan keyin
+  `rpc('test_answers', ids)` (public invoker → `private.test_answers` definer, faqat e’lon qilingan testlar, 200 tagacha). DTM sinovi —
+  `rpc('random_test_questions', subject, n)` bilan har fandan tasodifiy (brauzerda). O‘quvchi ro‘yxatdan o‘tmaydi: urinish
+  `localStorage.testRun:<key>` da (qayta yuklansa davom ettiriladi, vaqt `startedAt` dan), natijalar — `localStorage.testResults`
+  (`TestHistory`), serverga hech narsa yuborilmaydi. `TestRunner` (mashq: har savoldan keyin tekshirish; imtihon: savollar xaritasi,
+  vaqt tugasa avtomatik yakun; variantlar aralashtiriladi), `TestPlayer`, `DtmPlayer`. Admin: test formasi, savollar ro‘yxati, savol
+  formasi (A–F, to‘g‘risi radio, rasm `media/tests/`), ko‘plab yuklash — matn (Word ko‘rinishi: `*B)`, `Javob: B` yoki oxirida
+  `Javoblar: 1-B, …`) yoki Excel (`Savol, A…D, Javob, Izoh`; namuna — `/admin/export/test-template`) — `src/lib/test-import.ts`,
+  test: `node --experimental-strip-types scripts/test-question-import.mts` (CI'da ham). Xato bo‘lsa hech narsa saqlanmaydi. Savollar
+  faqat egasi/o‘qituvchilar kiritadi — to‘qima savol qo‘shmang. Bosh sahifada `TestsCard` (test bo‘lsa), menyuda "Maktab ▾" ichida.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -382,7 +396,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   pastki panel (Asosiy, Yangiliklar, Murojaatlar — xabar/ishonch/ariza yig‘indisi bilan, Tashriflar, Menyu); `main` pastdan `pb-28`.
   Yangi bo‘lim qo‘shsangiz, `groups` ga yozing. Kirish sahifasi navy fonda. Bosh sahifa kartalari telefonda 2 ustun.
 - Faoliyat jurnali (`/admin/activity`, `audit_log`): kontent jadvallaridagi (yangilik, tadbir, xodim, to‘garak, albom, dastur, sahifa,
-  hujjat, taqvim, yutuq, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
+  hujjat, taqvim, yutuq, test, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
   trigger'i yozadi — kim (`auth.uid()` + email), qaysi yozuv (`row_ref`, `label`), qaysi ustunlar o‘zgargani (qiymatlar emas — token
   jurnalga tushmaydi). Faqat tizimga kirgan foydalanuvchi o‘zgarishlari (Telegram sync yozilmaydi); faqat `sort_order` o‘zgargan
   (sudrab tartiblash) va bo‘sh update yozilmaydi. RLS: faqat admin o‘qiydi, API orqali yozib/o‘chirib bo‘lmaydi. Yangi kontent jadvali
@@ -457,6 +471,8 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `achievements` (title_*, field, level, place, result_*, winner, names, names_consent, teacher_id, achieved_on, photo,
   is_published)
 - `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
+- `tests` (title_*, description_*, subject, kind `mavzu`|`dtm`, grade, time_limit, sort_order, is_published); `test_questions` (test_id,
+  question, options text[], correct — 0 dan, explanation, image, sort_order) — `correct`/`explanation` anon'ga yopiq
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
 - `site_visits` (at, path, lang, visitor, session, referrer, city, region, country, device, mobile)

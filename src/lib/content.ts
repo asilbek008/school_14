@@ -6,6 +6,7 @@ import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
 import { mediaBaseUrl } from "@/lib/media";
 import type { EventCategory, NewsCategory } from "@/lib/categories";
+import type { PublicQuestion } from "@/lib/tests";
 
 export type News = {
   id: number;
@@ -627,4 +628,57 @@ export async function getAchievements(): Promise<Achievement[]> {
     .order("id", { ascending: false });
   logError("getAchievements", error);
   return ((data ?? []) as unknown as Achievement[]).map((a) => (a.names_consent ? a : { ...a, names: null }));
+}
+
+export type TestSummary = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  description_uz: string | null;
+  description_ru: string | null;
+  description_en: string | null;
+  subject: string;
+  kind: "mavzu" | "dtm";
+  grade: number | null;
+  time_limit: number | null;
+  questions: number;
+};
+
+/** Published tests in the admin's order, with their question counts. */
+export const getTests = cache(async (): Promise<TestSummary[]> => {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  // Visitors may not read every column of test_questions, so the count embed is not allowed: count the ids.
+  const { data, error } = await supabase
+    .from("tests")
+    .select("id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, test_questions(id)")
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("id");
+  logError("getTests", error);
+  return (data ?? [])
+    .map(({ test_questions, ...t }) => ({ ...t, questions: (test_questions as { id: number }[]).length }) as TestSummary)
+    .filter((t) => t.questions > 0);
+});
+
+/** One published test and its questions (without answers). */
+export async function getTest(id: number): Promise<(TestSummary & { items: PublicQuestion[] }) | null> {
+  const supabase = createPublicClient();
+  if (!supabase || !Number.isSafeInteger(id)) return null;
+  const { data, error } = await supabase
+    .from("tests")
+    .select(
+      "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, test_questions(id, question, options, image, sort_order)",
+    )
+    .eq("id", id)
+    .eq("is_published", true)
+    .order("sort_order", { referencedTable: "test_questions" })
+    .order("id", { referencedTable: "test_questions" })
+    .maybeSingle();
+  logError("getTest", error);
+  if (!data) return null;
+  const { test_questions, ...t } = data;
+  const items = (test_questions as (PublicQuestion & { sort_order: number })[]).map(({ id, question, options, image }) => ({ id, question, options, image }));
+  return { ...(t as Omit<TestSummary, "questions">), questions: items.length, items };
 }
