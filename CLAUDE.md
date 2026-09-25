@@ -379,6 +379,15 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   jurnalga tushmaydi). Faqat tizimga kirgan foydalanuvchi o‘zgarishlari (Telegram sync yozilmaydi); faqat `sort_order` o‘zgargan
   (sudrab tartiblash) va bo‘sh update yozilmaydi. RLS: faqat admin o‘qiydi, API orqali yozib/o‘chirib bo‘lmaydi. Yangi kontent jadvali
   qo‘shsangiz, unga ham `<jadval>_audit` trigger'ini va sahifadagi `sections` xaritasiga yozing.
+- Kirishlar jurnali (`/admin/logins`, `admin_logins`): har kirish, noto‘g‘ri urinish va chiqish — email, vaqt, IP, joy (Vercel
+  `x-vercel-ip-city`/`-country-region`/`-country` sarlavhalari; O‘zbekiston viloyat kodlari nomga aylantiriladi), qurilma
+  (`describeDevice`, `src/lib/login-log.ts`). `login/actions.ts` yozadi (`logAdminLogin`, xato bo‘lsa ham kirishni to‘xtatmaydi);
+  `admins` da yo‘q hisob kirsa — `not_admin` deb yoziladi va darhol chiqariladi. Insert siyosati: `failed` ni hamma yoza oladi,
+  `login`/`logout` ni faqat o‘sha adminning o‘z sessiyasi (uid + jwt email + `is_admin`) — soxta kirish yozib bo‘lmaydi. Trigger
+  vaqtni server vaqti qiladi, `failed` ni 10 daqiqada 30 tagacha cheklaydi, 1 yildan eskisini o‘chiradi; `private.notify_admin_login` —
+  har kirishda va bir email'ga 15 daqiqada 5/10-noto‘g‘ri urinishda Telegram (`telegram_settings.notify_logins`, sahifadagi tugma).
+  Sahifada: 4 karta, qidiruv, hisob/tur filtri, "Yangi qurilma" belgisi. Bosh sahifada "Oldingi kirishingiz" va 24 soatdagi
+  noto‘g‘ri urinishlar "E’tibor talab qiladi"da.
 - Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
   npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
   qutisi ataylab eksport qilinmaydi (maxfiy).
@@ -432,6 +441,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
+- `admin_logins` (at, event `login`|`failed`|`logout`, user_id, email, reason, ip, city, region, country, device, user_agent)
 - `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi
 - `contact_messages` (name, email, phone, topic, message, is_read, created_at); `trust_messages` (topic, message, contact,
   is_read); `admission_applications` (child_name, child_birth_date, grade, parent_name, phone, address, previous_school, note,

@@ -22,6 +22,7 @@ const nav = [
   { href: "/admin/trust", label: "Ishonch qutisi" },
   { href: "/admin/applications", label: "Qabul arizalari" },
   { href: "/admin/activity", label: "Faoliyat jurnali" },
+  { href: "/admin/logins", label: "Kirishlar jurnali" },
 ];
 
 export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
