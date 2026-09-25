@@ -16,7 +16,7 @@ function storedId(storage: Storage, key: string) {
 /**
  * Counts a page view for the admin's "Tashriflar" page: the path, an anonymous browser id and visit id,
  * and — on the first page of a visit — the site the visitor came from. Skipped when the browser asks
- * not to be tracked. Renders nothing.
+ * not to be tracked and in a browser the admin panel was opened in. Renders nothing.
  */
 export default function VisitBeacon() {
   const pathname = usePathname();
@@ -24,7 +24,8 @@ export default function VisitBeacon() {
   useEffect(() => {
     try {
       const nav = navigator as Navigator & { globalPrivacyControl?: boolean };
-      if (nav.doNotTrack === "1" || nav.globalPrivacyControl) return;
+      // Not counted: browsers asking not to be tracked, and the admin's own (marked by ExcludeDevice).
+      if (nav.doNotTrack === "1" || nav.globalPrivacyControl || localStorage.getItem("noTrack")) return;
       const firstPage = !sessionStorage.getItem("sid");
       const session = storedId(sessionStorage, "sid");
       const visitor = storedId(localStorage, "vid");
