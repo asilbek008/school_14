@@ -479,7 +479,12 @@
       "one": "subject",
       "other": "subjects"
     },
-    "statLessons": "lessons a week"
+    "statLessons": "lessons a week",
+    "books": "Textbooks",
+    "openPdf": "Open PDF",
+    "book": "Textbook",
+    "allBooks": "Go to the library",
+    "booksFor": "Grade {n} textbooks"
   },
   "emaktab": {
     "title": "eMaktab — grades and attendance",
