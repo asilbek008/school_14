@@ -537,6 +537,8 @@
   "league": {
     "title": "Students’ League",
     "intro": "Standings of the Zakovat club Students’ League. School No. 14 teams are highlighted.",
+    "school": "At our school",
+    "schoolNote": "Results of the rounds played at our school (24 questions per round). The national and regional tables are updated once the league publishes them.",
     "republic": "National stage",
     "region": "Regional stage",
     "teams": "{n} teams",

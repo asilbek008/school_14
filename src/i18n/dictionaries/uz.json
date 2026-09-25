@@ -536,7 +536,9 @@
   },
   "league": {
     "title": "O‘quvchilar ligasi",
-    "intro": "«Zakovat» klubi O‘quvchilar ligasining reytingi. 14-maktab jamoalari ajratib ko‘rsatilgan.",
+    "intro": "«Zakovat» klubi O‘quvchilar ligasining reytingi (bitta turda 24 ta savol). 14-maktab jamoalari ajratib ko‘rsatilgan.",
+    "school": "Maktabimizda",
+    "schoolNote": "Maktabda o‘ynalgan turlar natijasi (bitta turda 24 ta savol). Respublika va viloyat jadvali liga e’lon qilgach yangilanadi.",
     "republic": "Respublika bosqichi",
     "region": "Viloyat bosqichi",
     "teams": "{n} ta jamoa",

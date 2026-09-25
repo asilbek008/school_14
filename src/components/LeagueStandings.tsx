@@ -7,6 +7,8 @@ import { districtOf, isOurSchool, type LeagueRow, type LeagueStage } from "@/lib
 export type LeagueLabels = {
   title: string;
   intro: string;
+  school: string;
+  schoolNote: string;
   republic: string;
   region: string;
   teams: string;
@@ -43,12 +45,16 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
 
   const table = tables.find((x) => x.stage === stage) ?? tables[0];
   const rounds = table.rows[0]?.rounds.length ?? 0;
-  const ours = table.rows.filter(isOurSchool);
+  // Games at our school: every team is ours, so no highlighting, search or filter — just the table.
+  const local = table.stage === "school";
+  const withRating = table.rows.some((r) => r.rating != null);
+  const ours = local ? [] : table.rows.filter(isOurSchool);
   const districts = [...new Set(table.rows.map(districtOf).filter((d): d is string => !!d))].sort((a, b) => a.localeCompare(b));
 
   const q = query.trim().toLowerCase();
   const shown = table.rows.filter(
     (r) =>
+      local ||
       (!filter || (filter === "ours" ? isOurSchool(r) : districtOf(r) === filter.slice(2))) &&
       (!q || r.team.toLowerCase().includes(q) || (r.school ?? "").toLowerCase().includes(q)),
   );
@@ -60,7 +66,7 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
 
   return (
     <div>
-      {/* Stages: republic, region. */}
+      {/* Stages: our school, republic, region. */}
       <div className="-mx-4 mb-5 overflow-x-auto px-4 [scrollbar-width:none]">
         <div role="group" aria-label={t.title} className="flex w-max gap-2">
           {tables.map((x) => {
@@ -117,7 +123,14 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
         </div>
       )}
 
-      <div className="mb-4 flex flex-col gap-2.5 sm:flex-row">
+      {local && (
+        <p className="mb-4 text-sm text-slate-600">
+          {t.schoolNote}
+          {table.asOf ? ` · ${fill(t.asOf, { date: table.asOf })}` : ""}
+        </p>
+      )}
+
+      <div className={`mb-4 flex flex-col gap-2.5 sm:flex-row ${local ? "hidden" : ""}`}>
         <label className="relative flex-1">
           <span className="sr-only">{t.search}</span>
           <svg viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 size-[18px] -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
@@ -160,7 +173,7 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
           {/* Phones: cards. */}
           <ul className="space-y-2.5 md:hidden">
             {visible.map((r) => {
-              const mine = isOurSchool(r);
+              const mine = !local && isOurSchool(r);
               return (
                 <li key={`${r.place}-${r.team}-${r.school}`} className={`flex items-center gap-3 rounded-2xl border p-3.5 ${mine ? "border-brand/40 bg-brand-soft/60" : "border-slate-200 bg-white"}`}>
                   <span className={`grid size-11 shrink-0 place-items-center rounded-xl text-sm font-bold ${mine ? "bg-brand text-white" : "bg-slate-100 text-slate-700"}`}>{r.place}</span>
@@ -173,7 +186,7 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
                   </span>
                   <span className="shrink-0 text-right">
                     <b className="font-display block text-lg text-slate-900">{r.points}</b>
-                    <span className="text-xs text-slate-500">{r.rating ?? "—"}</span>
+                    {withRating && <span className="text-xs text-slate-500">{r.rating ?? "—"}</span>}
                   </span>
                 </li>
               );
@@ -188,7 +201,7 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
                   <th scope="col" className="w-16 px-4 py-3.5 text-center">{t.place}</th>
                   <th scope="col" className="px-4 py-3.5">{t.team}</th>
                   <th scope="col" className="px-4 py-3.5 text-right">{t.points}</th>
-                  <th scope="col" className="px-4 py-3.5 text-right">{t.rating}</th>
+                  {withRating && <th scope="col" className="px-4 py-3.5 text-right">{t.rating}</th>}
                   {Array.from({ length: rounds }, (_, i) => (
                     <th key={i} scope="col" className="px-4 py-3.5 text-right">
                       {fill(t.round, { n: i + 1 })}
@@ -198,7 +211,7 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
               </thead>
               <tbody>
                 {visible.map((r) => {
-                  const mine = isOurSchool(r);
+                  const mine = !local && isOurSchool(r);
                   return (
                     <tr
                       key={`${r.place}-${r.team}-${r.school}`}
@@ -217,7 +230,7 @@ export default function LeagueStandings({ tables, t }: { tables: LeagueView[]; t
                         {r.school && <span className="block text-[13px] font-normal text-slate-500">{r.school}</span>}
                       </td>
                       <td className="px-4 py-3 text-right font-display text-base font-bold tabular-nums text-slate-900">{r.points}</td>
-                      <td className="px-4 py-3 text-right tabular-nums text-slate-600">{r.rating ?? "—"}</td>
+                      {withRating && <td className="px-4 py-3 text-right tabular-nums text-slate-600">{r.rating ?? "—"}</td>}
                       {r.rounds.map((rd, i) => (
                         <td key={i} className="px-4 py-3 text-right tabular-nums">
                           {rd ? (

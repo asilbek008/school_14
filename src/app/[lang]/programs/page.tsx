@@ -29,7 +29,8 @@ export default async function ProgramsPage({ params }: PageProps<"/[lang]/progra
   // Our school's best place in each league stage, for the card; and our distinct teams, for the tile.
   const bestPlaces = leagues.map((tables) =>
     tables.flatMap((table) => {
-      const ours = table.rows.filter(isOurSchool);
+      // At our school's own games every team is ours — a place there says nothing.
+      const ours = table.stage === "school" ? [] : table.rows.filter(isOurSchool);
       return ours.length ? [{ stage: table.stage, place: Math.min(...ours.map((r) => r.place)) }] : [];
     }),
   );
