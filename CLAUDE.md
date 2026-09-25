@@ -184,7 +184,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   kartasidagi 🏆 bu bosqichni hisobga olmaydi. Maktab jamoasi "Benom" 2-turdan "Feniks" nomida (egasi).
   Tadbir sahifasida tartib: tavsif → "Online jadval · Jonli" (liga; `school` bosqichi — `SchoolBoard`: medallar, oldingi turga nisbatan
   ▲/▼, har tur ochkosi — oxirgisi ajratilgan, jami/savollar chizig‘i; liga jadvalida turlar maktabdagidan kam bo‘lsa "Hozircha N-turgacha"
-  izohi) → "Foto-galereya" (har tur alohida blok, yangisi tepada, keyin "Umumiy lavhalar") → videolar → yangiliklar. Tur rasmlari:
+  izohi) → "Foto-galereya" (`RoundGallery`, client: tur tugmalari — yangisi birinchi, "Umumiy lavhalar" oxirida; tanlangan turda katta
+  bosh rasm — ustida tur nomi, sana, "Barchasini ko‘rish"; yonida "Tur natijasi" — `school` bosqichidagi o‘sha tur ochkosi bo‘yicha top-3;
+  qolgan rasmlar `Carousel size="sm"` qatorida; ko‘ruvchi — `Lightbox` dan eksport qilingan `PhotoViewer`) → videolar → yangiliklar. Tur rasmlari:
   `program_media.round` (admin yuklashda turni tanlaydi, `RoundPhotoUploader`) + `getRoundNewsPhotos()` — kalit so‘z uchragan va
   sarlavha/matnida «N-tur» (`roundOf`, «turnir» emas) bor albomli yangiliklarning muqova va rasmlari avtomatik (galereyasiz post — odatda
   e’lon afishasi — olinmaydi). Yangilik rasmlari `program_media` ga ko‘chirilmaydi; `deleteProgramMedia` faqat `programs/` dagi faylni o‘chiradi.

@@ -393,7 +393,12 @@
     "photoCount": {
       "one": "{n} ta rasm",
       "other": "{n} ta rasm"
-    }
+    },
+    "roundResults": "Tur natijasi",
+    "pointsShort": "ochko",
+    "viewAll": "Barchasini ko‘rish",
+    "toTable": "To‘liq jadval",
+    "roundMax": "Maktabdagi o‘yin · bitta turda 24 ta savol"
   },
   "gallery": {
     "intro": "Maktabimizdagi tadbirlar, darslar va bayramlardan lavhalar.",

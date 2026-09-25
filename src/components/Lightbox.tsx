@@ -1,9 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type Dispatch, type SetStateAction } from "react";
 import Image from "next/image";
 
-type Labels = { close: string; prev: string; next: string };
+export type Labels = { close: string; prev: string; next: string };
 
 /**
  * Photo grid; clicking a photo opens a full-screen viewer: Esc closes, ←/→ move between photos, and the photo
@@ -28,63 +28,7 @@ export default function Lightbox({
   gridClassName?: string;
 }) {
   const [open, setOpen] = useState<number | null>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
-  const thumbsRef = useRef<HTMLDivElement>(null);
-  const swipe = useRef<{ x: number; y: number; t: number; moved: boolean } | null>(null);
-  // How far the photo is dragged (px), and where it is gliding to after the finger lifts (±1 = the neighbour).
-  const [drag, setDrag] = useState({ x: 0, y: 0 });
-  const [settle, setSettle] = useState<-1 | 0 | 1 | null>(null);
-  const many = photos.length > 1;
-  const move = useCallback(
-    (step: number) => setOpen((i) => (i === null ? i : (i + step + photos.length) % photos.length)),
-    [photos.length],
-  );
-  const settleTimer = useRef<number | undefined>(undefined);
-  const finish = useCallback(
-    (to: -1 | 0 | 1) => {
-      window.clearTimeout(settleTimer.current);
-      if (to) move(to);
-      setSettle(null);
-      setDrag({ x: 0, y: 0 });
-    },
-    [move],
-  );
-  // Glide to a neighbour (±1) or back (0). The timer finishes it when there is no transition (reduced motion).
-  const glide = useCallback(
-    (to: -1 | 0 | 1) => {
-      setSettle(to);
-      window.clearTimeout(settleTimer.current);
-      settleTimer.current = window.setTimeout(() => finish(to), 380);
-    },
-    [finish],
-  );
-
-  useEffect(() => {
-    if (open === null) return;
-    closeRef.current?.focus();
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(null);
-      if (e.key === "ArrowLeft" && many) glide(-1);
-      if (e.key === "ArrowRight" && many) glide(1);
-    };
-    document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [open, many, glide]);
-
-  // Keep the current thumbnail in view.
-  useEffect(() => {
-    if (open === null) return;
-    thumbsRef.current?.children[open]?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
-  }, [open]);
-
   const mosaic = layout === "mosaic" && photos.length >= 3;
-  // Round glass buttons, as in the design mockup.
-  const navBtn =
-    "grid size-[46px] shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition hover:scale-105 hover:bg-white/25";
 
   return (
     <>
@@ -125,121 +69,197 @@ export default function Lightbox({
         </div>
       )}
 
-      {open !== null && (
-        <div
-          role="dialog"
-          aria-modal="true"
-          aria-label={alt}
-          className="fixed inset-0 z-50 flex animate-fade-in flex-col bg-black [animation-duration:0.25s]"
-          onClick={() => setOpen(null)}
-        >
-          {/* Blurred copy of the photo fills the screen behind it. */}
-          <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-            <Image key={`bg-${open}`} src={photos[open]} alt="" fill sizes="64px" className="scale-125 object-cover opacity-50 blur-3xl" />
-          </div>
+      {open !== null && <PhotoViewer photos={photos} alt={alt} t={t} open={open} setOpen={setOpen} />}
+    </>
+  );
+}
 
-          <div className="relative flex items-center justify-between gap-3 p-4 text-white">
-            <span className="flex min-w-0 items-center gap-3">
-              <span className="shrink-0 rounded-full bg-black/30 px-3 py-1 text-sm font-semibold tabular-nums backdrop-blur">
-                {open + 1} / {photos.length}
-              </span>
-              <span className="truncate text-sm font-semibold text-[#d6dcee]">{alt}</span>
+// Round glass buttons, as in the design mockup.
+const navBtn =
+  "grid size-[46px] shrink-0 place-items-center rounded-full border border-white/20 bg-white/10 text-white backdrop-blur-md transition hover:scale-105 hover:bg-white/25";
+
+/**
+ * The full-screen viewer, also for galleries with their own layout (RoundGallery): the photo follows a finger or a
+ * mouse drag, the neighbours wait beside it; swipe down closes.
+ */
+export function PhotoViewer({
+  photos,
+  alt,
+  t,
+  open,
+  setOpen,
+}: {
+  photos: string[];
+  alt: string;
+  t: Labels;
+  open: number;
+  setOpen: Dispatch<SetStateAction<number | null>>;
+}) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const thumbsRef = useRef<HTMLDivElement>(null);
+  const swipe = useRef<{ x: number; y: number; t: number; moved: boolean } | null>(null);
+  // How far the photo is dragged (px), and where it is gliding to after the finger lifts (±1 = the neighbour).
+  const [drag, setDrag] = useState({ x: 0, y: 0 });
+  const [settle, setSettle] = useState<-1 | 0 | 1 | null>(null);
+  const many = photos.length > 1;
+  const move = useCallback(
+    (step: number) => setOpen((i) => (i === null ? i : (i + step + photos.length) % photos.length)),
+    [photos.length, setOpen],
+  );
+  const settleTimer = useRef<number | undefined>(undefined);
+  const finish = useCallback(
+    (to: -1 | 0 | 1) => {
+      window.clearTimeout(settleTimer.current);
+      if (to) move(to);
+      setSettle(null);
+      setDrag({ x: 0, y: 0 });
+    },
+    [move],
+  );
+  // Glide to a neighbour (±1) or back (0). The timer finishes it when there is no transition (reduced motion).
+  const glide = useCallback(
+    (to: -1 | 0 | 1) => {
+      setSettle(to);
+      window.clearTimeout(settleTimer.current);
+      settleTimer.current = window.setTimeout(() => finish(to), 380);
+    },
+    [finish],
+  );
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(null);
+      if (e.key === "ArrowLeft" && many) glide(-1);
+      if (e.key === "ArrowRight" && many) glide(1);
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [open, many, glide, setOpen]);
+
+  // Keep the current thumbnail in view.
+  useEffect(() => {
+    thumbsRef.current?.children[open]?.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+  }, [open]);
+
+
+  return (
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={alt}
+        className="fixed inset-0 z-50 flex animate-fade-in flex-col bg-black [animation-duration:0.25s]"
+        onClick={() => setOpen(null)}
+      >
+        {/* Blurred copy of the photo fills the screen behind it. */}
+        <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+          <Image key={`bg-${open}`} src={photos[open]} alt="" fill sizes="64px" className="scale-125 object-cover opacity-50 blur-3xl" />
+        </div>
+
+        <div className="relative flex items-center justify-between gap-3 p-4 text-white">
+          <span className="flex min-w-0 items-center gap-3">
+            <span className="shrink-0 rounded-full bg-black/30 px-3 py-1 text-sm font-semibold tabular-nums backdrop-blur">
+              {open + 1} / {photos.length}
             </span>
-            <button ref={closeRef} type="button" aria-label={t.close} onClick={() => setOpen(null)} className={navBtn}>
-              <Icon d="M6 6l12 12M18 6L6 18" />
-            </button>
-          </div>
+            <span className="truncate text-sm font-semibold text-[#d6dcee]">{alt}</span>
+          </span>
+          <button ref={closeRef} type="button" aria-label={t.close} onClick={() => setOpen(null)} className={navBtn}>
+            <Icon d="M6 6l12 12M18 6L6 18" />
+          </button>
+        </div>
 
+        <div
+          // touch-none: the browser must not turn a sideways swipe into scrolling or zooming.
+          className="relative min-h-0 flex-1 touch-none select-none overflow-hidden"
+          onPointerDown={(e) => {
+            if (settle !== null || e.button !== 0) return;
+            swipe.current = { x: e.clientX, y: e.clientY, t: e.timeStamp, moved: false };
+            e.currentTarget.setPointerCapture(e.pointerId);
+          }}
+          onPointerMove={(e) => {
+            const start = swipe.current;
+            if (!start) return;
+            const dx = e.clientX - start.x;
+            const dy = e.clientY - start.y;
+            if (Math.abs(dx) > 6 || Math.abs(dy) > 6) start.moved = true;
+            // Sideways follows the finger (only with a neighbour to show); downwards pulls the photo away to close.
+            setDrag(Math.abs(dx) >= Math.abs(dy) ? { x: many ? dx : dx / 4, y: 0 } : { x: 0, y: Math.max(0, dy) });
+          }}
+          onPointerCancel={() => {
+            swipe.current = null;
+            glide(0);
+          }}
+          onPointerUp={(e) => {
+            const start = swipe.current;
+            swipe.current = null;
+            if (!start?.moved) return finish(0);
+            const width = e.currentTarget.clientWidth;
+            const dx = e.clientX - start.x;
+            const fast = Math.abs(dx) / Math.max(1, e.timeStamp - start.t) > 0.5; // a flick, px per ms
+            if (drag.y > 120) return setOpen(null), finish(0);
+            glide(many && drag.x !== 0 && (Math.abs(dx) > width / 5 || (fast && Math.abs(dx) > 30)) ? (dx < 0 ? 1 : -1) : 0);
+          }}
+          onClickCapture={(e) => {
+            // The click that ends a drag must not close the viewer.
+            if (drag.x || drag.y || settle !== null) e.stopPropagation();
+          }}
+        >
+          {/* The open photo between its neighbours; the strip moves with the finger, then glides. */}
           <div
-            // touch-none: the browser must not turn a sideways swipe into scrolling or zooming.
-            className="relative min-h-0 flex-1 touch-none select-none overflow-hidden"
-            onPointerDown={(e) => {
-              if (settle !== null || e.button !== 0) return;
-              swipe.current = { x: e.clientX, y: e.clientY, t: e.timeStamp, moved: false };
-              e.currentTarget.setPointerCapture(e.pointerId);
+            className={`absolute inset-0 ${settle !== null ? "transition-transform duration-300 ease-out motion-reduce:transition-none" : ""}`}
+            style={{
+              transform:
+                settle !== null
+                  ? `translate3d(${-settle * 100}%, 0, 0)`
+                  : `translate3d(${drag.x}px, ${drag.y}px, 0) scale(${1 - Math.min(drag.y, 400) / 1600})`,
+              opacity: drag.y ? 1 - Math.min(drag.y, 400) / 600 : undefined,
             }}
-            onPointerMove={(e) => {
-              const start = swipe.current;
-              if (!start) return;
-              const dx = e.clientX - start.x;
-              const dy = e.clientY - start.y;
-              if (Math.abs(dx) > 6 || Math.abs(dy) > 6) start.moved = true;
-              // Sideways follows the finger (only with a neighbour to show); downwards pulls the photo away to close.
-              setDrag(Math.abs(dx) >= Math.abs(dy) ? { x: many ? dx : dx / 4, y: 0 } : { x: 0, y: Math.max(0, dy) });
-            }}
-            onPointerCancel={() => {
-              swipe.current = null;
-              glide(0);
-            }}
-            onPointerUp={(e) => {
-              const start = swipe.current;
-              swipe.current = null;
-              if (!start?.moved) return finish(0);
-              const width = e.currentTarget.clientWidth;
-              const dx = e.clientX - start.x;
-              const fast = Math.abs(dx) / Math.max(1, e.timeStamp - start.t) > 0.5; // a flick, px per ms
-              if (drag.y > 120) return setOpen(null), finish(0);
-              glide(many && drag.x !== 0 && (Math.abs(dx) > width / 5 || (fast && Math.abs(dx) > 30)) ? (dx < 0 ? 1 : -1) : 0);
-            }}
-            onClickCapture={(e) => {
-              // The click that ends a drag must not close the viewer.
-              if (drag.x || drag.y || settle !== null) e.stopPropagation();
-            }}
+            onTransitionEnd={(e) => e.target === e.currentTarget && settle !== null && finish(settle)}
           >
-            {/* The open photo between its neighbours; the strip moves with the finger, then glides. */}
-            <div
-              className={`absolute inset-0 ${settle !== null ? "transition-transform duration-300 ease-out motion-reduce:transition-none" : ""}`}
-              style={{
-                transform:
-                  settle !== null
-                    ? `translate3d(${-settle * 100}%, 0, 0)`
-                    : `translate3d(${drag.x}px, ${drag.y}px, 0) scale(${1 - Math.min(drag.y, 400) / 1600})`,
-                opacity: drag.y ? 1 - Math.min(drag.y, 400) / 600 : undefined,
-              }}
-              onTransitionEnd={(e) => e.target === e.currentTarget && settle !== null && finish(settle)}
-            >
-              {(many ? [-1, 0, 1] : [0]).map((d) => {
-                const i = (open + d + photos.length) % photos.length;
-                return (
-                  <div key={`${d}-${i}`} className="absolute inset-0 flex items-center justify-center px-2 sm:px-20" style={{ left: `${d * 100}%` }}>
-                    <Photo src={photos[i]} alt={`${alt} — ${i + 1}`} priority={d === 0} />
-                  </div>
-                );
-              })}
-            </div>
-            {many && (
-              <>
-                <button type="button" aria-label={t.prev} onClick={(e) => { e.stopPropagation(); glide(-1); }} className={`${navBtn} absolute left-[18px] top-1/2 hidden -translate-y-1/2 sm:grid`}>
-                  <Icon d="M15 6l-6 6 6 6" />
-                </button>
-                <button type="button" aria-label={t.next} onClick={(e) => { e.stopPropagation(); glide(1); }} className={`${navBtn} absolute right-[18px] top-1/2 hidden -translate-y-1/2 sm:grid`}>
-                  <Icon d="M9 6l6 6-6 6" />
-                </button>
-              </>
-            )}
+            {(many ? [-1, 0, 1] : [0]).map((d) => {
+              const i = (open + d + photos.length) % photos.length;
+              return (
+                <div key={`${d}-${i}`} className="absolute inset-0 flex items-center justify-center px-2 sm:px-20" style={{ left: `${d * 100}%` }}>
+                  <Photo src={photos[i]} alt={`${alt} — ${i + 1}`} priority={d === 0} />
+                </div>
+              );
+            })}
           </div>
-
-          {photos.length > 1 && (
-            <div ref={thumbsRef} className="relative flex shrink-0 gap-2 overflow-x-auto px-4 py-4 [scrollbar-width:none]" onClick={(e) => e.stopPropagation()}>
-              {photos.map((src, i) => (
-                <button
-                  key={src}
-                  type="button"
-                  aria-label={`${i + 1}`}
-                  aria-current={i === open}
-                  onClick={() => setOpen(i)}
-                  className={`relative size-14 shrink-0 overflow-hidden rounded-lg transition sm:size-16 ${
-                    i === open ? "ring-2 ring-white" : "opacity-50 hover:opacity-90"
-                  }`}
-                >
-                  <Image src={src} alt="" fill sizes="64px" className="object-cover" />
-                </button>
-              ))}
-            </div>
+          {many && (
+            <>
+              <button type="button" aria-label={t.prev} onClick={(e) => { e.stopPropagation(); glide(-1); }} className={`${navBtn} absolute left-[18px] top-1/2 hidden -translate-y-1/2 sm:grid`}>
+                <Icon d="M15 6l-6 6 6 6" />
+              </button>
+              <button type="button" aria-label={t.next} onClick={(e) => { e.stopPropagation(); glide(1); }} className={`${navBtn} absolute right-[18px] top-1/2 hidden -translate-y-1/2 sm:grid`}>
+                <Icon d="M9 6l6 6-6 6" />
+              </button>
+            </>
           )}
         </div>
-      )}
-    </>
+
+        {photos.length > 1 && (
+          <div ref={thumbsRef} className="relative flex shrink-0 gap-2 overflow-x-auto px-4 py-4 [scrollbar-width:none]" onClick={(e) => e.stopPropagation()}>
+            {photos.map((src, i) => (
+              <button
+                key={src}
+                type="button"
+                aria-label={`${i + 1}`}
+                aria-current={i === open}
+                onClick={() => setOpen(i)}
+                className={`relative size-14 shrink-0 overflow-hidden rounded-lg transition sm:size-16 ${
+                  i === open ? "ring-2 ring-white" : "opacity-50 hover:opacity-90"
+                }`}
+              >
+                <Image src={src} alt="" fill sizes="64px" className="object-cover" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
   );
 }
 
@@ -300,7 +320,20 @@ function Photo({ src, alt, priority }: { src: string; alt: string; priority?: bo
  * Photos in a row to swipe through on the page (native scrolling with snap points, so it feels like the phone's own
  * gallery); arrows on wider screens, a counter and dots below. A tap opens the full-screen viewer.
  */
-function Carousel({ photos, alt, t, onOpen }: { photos: string[]; alt: string; t: Labels; onOpen: (i: number) => void }) {
+export function Carousel({
+  photos,
+  alt,
+  t,
+  onOpen,
+  size = "md",
+}: {
+  photos: string[];
+  alt: string;
+  t: Labels;
+  onOpen: (i: number) => void;
+  /** `sm`: a thumbnail strip (about five in a row on wide screens). */
+  size?: "md" | "sm";
+}) {
   const strip = useRef<HTMLDivElement>(null);
   const [at, setAt] = useState({ index: 0, start: true, end: photos.length <= 1 });
   const slide = (i: number) => strip.current?.children[i] as HTMLElement | undefined;
@@ -333,13 +366,17 @@ function Carousel({ photos, alt, t, onOpen }: { photos: string[]; alt: string; t
             key={src}
             type="button"
             onClick={() => onOpen(i)}
-            className="group relative aspect-[4/3] w-[86%] shrink-0 cursor-zoom-in snap-center overflow-hidden rounded-2xl border border-slate-200 bg-brand-soft focus-visible:outline-3 focus-visible:outline-brand sm:w-[calc(50%-6px)] sm:snap-start lg:w-[calc((100%-24px)/3)]"
+            className={`group relative aspect-[4/3] shrink-0 cursor-zoom-in overflow-hidden rounded-2xl border border-slate-200 bg-brand-soft focus-visible:outline-3 focus-visible:outline-brand ${
+              size === "sm"
+                ? "w-[44%] snap-start sm:w-[calc((100%-36px)/4)] lg:w-[calc((100%-48px)/5)]"
+                : "w-[86%] snap-center sm:w-[calc(50%-6px)] sm:snap-start lg:w-[calc((100%-24px)/3)]"
+            }`}
           >
             <Image
               src={src}
               alt={`${alt} — ${i + 1}`}
               fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 86vw"
+              sizes={size === "sm" ? "(min-width: 1024px) 20vw, (min-width: 640px) 25vw, 44vw" : "(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 86vw"}
               draggable={false}
               className="object-cover transition duration-500 ease-(--ease-spring) group-hover:scale-105"
             />
