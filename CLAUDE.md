@@ -128,6 +128,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (masalan OpenStax CC BY 4.0 tarjimasi) bo‘ladi; test kitoblari, pullik saytlar, Telegram va "sizib chiqqan DTM" savollari ko‘chirilmaydi
   (mualliflik huquqi, xato kalitlar). Rasmiy namunalar (uzbmb.uz) faqat havola — `OfficialSamples` (`/tests`, `/tests/dtm`). Har testda
   `tests.source` (muallif/manba, litsenziya) — saytda test ostida "Manba". Saytda "DTM formatidagi mashq savollari" deyiladi, "haqiqiy DTM" emas.
+- Elektron kutubxona (`/[lang]/library`, `/library/[id]`; `textbooks`; admin `/admin/library`): darsliklar va o‘quv kitoblari PDF —
+  `grade` (bo‘sh = umumiy), `subject_id` (`subjects` jadvali), `language`, muallif, nashr, `source`; `kind` `file` (media `library/`, 50 MB
+  gacha) yoki `link` (katta fayl, boshqa sayt). Ochiq sahifa — client `LibraryBrowser`: sinf tugmalari ("Mening sinfim" sinfi oldindan
+  tanlanadi ⭐), fan/til `select`, qidiruv, sinf bo‘yicha guruhlar; kartada muqova (yo‘q bo‘lsa fan rangidagi plitka), "O‘qish" va yuklab
+  olish (`?download=<nom>.pdf` — bucket boshqa domen, `download` atributi ishlamaydi). O‘qish — `PdfReader` (PDF.js, `src/lib/pdf.ts`;
+  **legacy build** — oddiy build eski telefonlarda yo‘q `Map.getOrInsertComputed` ni talab qiladi; pdfjs-dist 6+ — 5.x da zaiflik):
+  sahifalar ko‘rinishga yaqinlashganda chiziladi (±3 sahifa mount), sahifa raqami maydoni, ↑↓, zoom, to‘liq ekran, klaviatura, range
+  so‘rovlar (`disableAutoFetch`); oxirgi sahifa `localStorage.bookProgress` da (`src/lib/book-progress.ts`) — "N-sahifadan davom etish".
+  Admin: `BookFileField` — PDF brauzerdan yuklanadi, 1-sahifadan muqova (JPEG, `library/covers/`) chiziladi va sahifalar sanaladi;
+  muqovani boshqa rasm bilan almashtirish mumkin; har sinf ichida `SortableList`. Almashtirilgan/o‘chirilgan fayl va muqova Storage'dan
+  o‘chadi. Faqat tarqatishga ruxsat berilgan kitoblar joylanadi (`source`). Menyuda "Maktab ▾" ichida, footer, sitemap, qidiruvda.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada
@@ -405,7 +416,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   pastki panel (Asosiy, Yangiliklar, Murojaatlar — xabar/ishonch/ariza yig‘indisi bilan, Tashriflar, Menyu); `main` pastdan `pb-28`.
   Yangi bo‘lim qo‘shsangiz, `groups` ga yozing. Kirish sahifasi navy fonda. Bosh sahifa kartalari telefonda 2 ustun.
 - Faoliyat jurnali (`/admin/activity`, `audit_log`): kontent jadvallaridagi (yangilik, tadbir, xodim, to‘garak, albom, dastur, sahifa,
-  hujjat, taqvim, yutuq, test, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
+  hujjat, taqvim, yutuq, test, kitob, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
   trigger'i yozadi — kim (`auth.uid()` + email), qaysi yozuv (`row_ref`, `label`), qaysi ustunlar o‘zgargani (qiymatlar emas — token
   jurnalga tushmaydi). Faqat tizimga kirgan foydalanuvchi o‘zgarishlari (Telegram sync yozilmaydi); faqat `sort_order` o‘zgargan
   (sudrab tartiblash) va bo‘sh update yozilmaydi. RLS: faqat admin o‘qiydi, API orqali yozib/o‘chirib bo‘lmaydi. Yangi kontent jadvali
@@ -482,6 +493,8 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `calendar_periods` (kind, title_*, note_*, starts_on, ends_on, is_published)
 - `tests` (title_*, description_*, subject, kind `mavzu`|`dtm`, grade, time_limit, sort_order, is_published); `test_questions` (test_id,
   question, options text[], correct — 0 dan, explanation, image, sort_order) — `correct`/`explanation` anon'ga yopiq
+- `textbooks` (title_*, description_*, grade, subject_id, language, author, edition, source, kind `file`|`link`, path, url, file_size,
+  pages, cover, sort_order, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
 - `site_visits` (at, path, lang, visitor, session, referrer, city, region, country, device, mobile)

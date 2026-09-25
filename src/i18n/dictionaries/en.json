@@ -26,7 +26,8 @@
     "documents": "Documents",
     "calendar": "School calendar",
     "achievements": "Achievements",
-    "tests": "Tests"
+    "tests": "Tests",
+    "library": "Library"
   },
   "navDesc": {
     "about": "History and general information",
@@ -43,7 +44,8 @@
     "documents": "Licence, orders, reports and forms",
     "calendar": "Terms, holidays and exams",
     "achievements": "Olympiads, sports and contests",
-    "tests": "Subject tests and DTM exam practice"
+    "tests": "Subject tests and DTM exam practice",
+    "library": "Textbooks and study books (PDF)"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -938,5 +940,75 @@
       "text": "Our questions are practice questions in the DTM format, not real DTM questions. Official samples are on the Knowledge and Skills Assessment Agency website.",
       "link": "uzbmb.uz — sample tests"
     }
+  },
+  "library": {
+    "kicker": "For pupils",
+    "title": "E-library",
+    "intro": "Textbooks and study books as PDF — find them by grade and subject, read right on the site or download.",
+    "statBooks": {
+      "one": "book",
+      "other": "books"
+    },
+    "statSubjects": {
+      "one": "subject",
+      "other": "subjects"
+    },
+    "statGrades": {
+      "one": "grade",
+      "other": "grades"
+    },
+    "statPages": {
+      "one": "page",
+      "other": "pages"
+    },
+    "grade": "Grade {n}",
+    "allGrades": "All grades",
+    "general": "General",
+    "allSubjects": "All subjects",
+    "subject": "Subject",
+    "allLanguages": "All languages",
+    "languages": {
+      "uz": "Uzbek",
+      "ru": "Russian",
+      "en": "English"
+    },
+    "search": "Book title or author…",
+    "notFound": "No such book found.",
+    "empty": "The library is not filled yet. Books will be added soon.",
+    "read": "Read",
+    "download": "Download",
+    "open": "Open ↗",
+    "external": "Opens on another site",
+    "pages": {
+      "one": "{n} page",
+      "other": "{n} pages"
+    },
+    "continue": "Continue from page {n}",
+    "myClass": "Your class: {c}",
+    "author": "Author",
+    "edition": "Edition",
+    "source": "Source",
+    "language": "Language",
+    "size": "Size",
+    "about": "About the book",
+    "reader": {
+      "page": "Page",
+      "of": "/ {n}",
+      "prev": "Previous page",
+      "next": "Next page",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "fit": "Fit width",
+      "fullscreen": "Full screen",
+      "exitFullscreen": "Exit full screen",
+      "loading": "Loading the book…",
+      "progress": "{n}% loaded",
+      "error": "The book could not be opened here. Download it to read.",
+      "resume": "Last time you stopped at page {n}.",
+      "resumeGo": "Go to that page",
+      "back": "Back to the library",
+      "goTo": "Go to page"
+    },
+    "class": "Grade"
   }
 }

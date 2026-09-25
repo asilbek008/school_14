@@ -26,7 +26,8 @@
     "documents": "Hujjatlar",
     "calendar": "O‘quv yili taqvimi",
     "achievements": "Yutuqlar",
-    "tests": "Testlar"
+    "tests": "Testlar",
+    "library": "Kutubxona"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -43,7 +44,8 @@
     "documents": "Litsenziya, buyruq, hisobot va shakllar",
     "calendar": "Choraklar, ta’tillar va imtihonlar",
     "achievements": "Olimpiada, sport va tanlov natijalari",
-    "tests": "Fan testlari va DTMga tayyorgarlik"
+    "tests": "Fan testlari va DTMga tayyorgarlik",
+    "library": "Darsliklar va o‘quv kitoblari (PDF)"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -938,5 +940,75 @@
       "text": "Bizdagi savollar — DTM formatidagi mashq savollari, haqiqiy DTM savollari emas. Rasmiy namunaviy testlar Bilim va malakalarni baholash agentligi saytida.",
       "link": "uzbmb.uz — namunaviy testlar"
     }
+  },
+  "library": {
+    "kicker": "O‘quvchilar uchun",
+    "title": "Elektron kutubxona",
+    "intro": "Darsliklar va o‘quv kitoblari PDF shaklida — sinf va fan bo‘yicha toping, saytning o‘zida o‘qing yoki yuklab oling.",
+    "statBooks": {
+      "one": "kitob",
+      "other": "kitob"
+    },
+    "statSubjects": {
+      "one": "fan",
+      "other": "fan"
+    },
+    "statGrades": {
+      "one": "sinf",
+      "other": "sinf"
+    },
+    "statPages": {
+      "one": "sahifa",
+      "other": "sahifa"
+    },
+    "grade": "{n}-sinf",
+    "allGrades": "Barcha sinflar",
+    "general": "Umumiy",
+    "allSubjects": "Barcha fanlar",
+    "subject": "Fan",
+    "allLanguages": "Barcha tillar",
+    "languages": {
+      "uz": "O‘zbekcha",
+      "ru": "Ruscha",
+      "en": "Inglizcha"
+    },
+    "search": "Kitob nomi yoki muallif…",
+    "notFound": "Bunday kitob topilmadi.",
+    "empty": "Kutubxona hali to‘ldirilmagan. Kitoblar tez orada qo‘shiladi.",
+    "read": "O‘qish",
+    "download": "Yuklab olish",
+    "open": "Ochish ↗",
+    "external": "Boshqa saytda ochiladi",
+    "pages": {
+      "one": "{n} sahifa",
+      "other": "{n} sahifa"
+    },
+    "continue": "{n}-sahifadan davom etish",
+    "myClass": "Sizning sinfingiz: {c}",
+    "author": "Muallif",
+    "edition": "Nashr",
+    "source": "Manba",
+    "language": "Tili",
+    "size": "Hajmi",
+    "about": "Kitob haqida",
+    "reader": {
+      "page": "Sahifa",
+      "of": "/ {n}",
+      "prev": "Oldingi sahifa",
+      "next": "Keyingi sahifa",
+      "zoomIn": "Kattalashtirish",
+      "zoomOut": "Kichraytirish",
+      "fit": "Ekran kengligi",
+      "fullscreen": "To‘liq ekran",
+      "exitFullscreen": "To‘liq ekrandan chiqish",
+      "loading": "Kitob yuklanmoqda…",
+      "progress": "{n}% yuklandi",
+      "error": "Kitobni bu yerda ochib bo‘lmadi. Uni yuklab olib o‘qing.",
+      "resume": "Oxirgi marta {n}-sahifada to‘xtagansiz.",
+      "resumeGo": "O‘sha sahifaga o‘tish",
+      "back": "Kutubxonaga qaytish",
+      "goTo": "Sahifaga o‘tish"
+    },
+    "class": "Sinf"
   }
 }

@@ -698,3 +698,56 @@ export const getStudentTotal = cache(async (): Promise<number> => {
   if (!rows.length || rows.some((r) => r.students == null)) return school.stats.students;
   return rows.reduce((a, r) => a + (r.students ?? 0), 0);
 });
+
+export type Textbook = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  description_uz: string | null;
+  description_ru: string | null;
+  description_en: string | null;
+  grade: number | null;
+  language: "uz" | "ru" | "en";
+  author: string | null;
+  edition: string | null;
+  source: string | null;
+  kind: "file" | "link";
+  path: string | null;
+  url: string | null;
+  file_size: number | null;
+  pages: number | null;
+  cover: string | null;
+  subjects: { id: number; name_uz: string; name_ru: string | null; name_en: string | null } | null;
+};
+
+const textbookColumns =
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, grade, language, author, edition, source, kind, path, url, file_size, pages, cover, subjects(id, name_uz, name_ru, name_en)";
+
+/** The e-library: published books by grade (general ones last), then the admin's order. */
+export const getTextbooks = cache(async (): Promise<Textbook[]> => {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("textbooks")
+    .select(textbookColumns)
+    .eq("is_published", true)
+    .order("grade", { nullsFirst: false })
+    .order("sort_order")
+    .order("id");
+  logError("getTextbooks", error);
+  return (data ?? []) as unknown as Textbook[];
+});
+
+export async function getTextbook(id: number): Promise<Textbook | null> {
+  const supabase = createPublicClient();
+  if (!supabase || !Number.isSafeInteger(id)) return null;
+  const { data, error } = await supabase.from("textbooks").select(textbookColumns).eq("id", id).eq("is_published", true).maybeSingle();
+  logError("getTextbook", error);
+  return data as unknown as Textbook | null;
+}
+
+/** Where a book's PDF is: the media bucket file, or the admin's link. */
+export function textbookHref(b: Pick<Textbook, "kind" | "path" | "url">): string | null {
+  return b.kind === "file" ? mediaUrl(b.path) : b.url;
+}

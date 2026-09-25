@@ -37,6 +37,7 @@ const groups: { title: string | null; items: Item[] }[] = [
       { href: "/admin/subjects", label: "Fanlar", icon: "book" },
       { href: "/admin/clubs", label: "To‘garaklar", icon: "star" },
       { href: "/admin/tests", label: "Testlar", icon: "test" },
+      { href: "/admin/library", label: "Kutubxona", icon: "book" },
       { href: "/admin/calendar", label: "O‘quv taqvimi", icon: "calendar" },
       { href: "/admin/years", label: "O‘quv yillari", icon: "history" },
     ],
