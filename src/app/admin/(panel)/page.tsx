@@ -174,15 +174,15 @@ export default async function AdminHome() {
         </div>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
         {stats.map(({ href, label, value, highlight, sub }) => (
           <Link
             key={href}
             href={href}
-            className={`rounded-xl p-4 shadow-sm transition hover:shadow-md ${highlight ? "bg-blue-700 text-white" : "bg-white"}`}
+            className={`min-w-0 rounded-xl p-3.5 shadow-sm transition hover:shadow-md sm:p-4 ${highlight ? "bg-blue-700 text-white" : "bg-white"}`}
           >
-            <p className={`text-sm ${highlight ? "text-blue-100" : "text-slate-500"}`}>{label}</p>
-            <p className="mt-1 text-2xl font-bold">{value}</p>
+            <p className={`truncate text-[13px] sm:text-sm ${highlight ? "text-blue-100" : "text-slate-500"}`}>{label}</p>
+            <p className="mt-1 truncate text-xl font-bold sm:text-2xl">{value}</p>
             {sub && <p className={`mt-0.5 truncate text-xs ${highlight ? "text-blue-100" : "text-slate-500"}`}>{sub}</p>}
           </Link>
         ))}
@@ -239,7 +239,7 @@ export default async function AdminHome() {
 
 function Panel({ title, href, children }: { title: string; href: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-xl bg-white p-5 shadow-sm">
+    <section className="min-w-0 rounded-xl bg-white p-5 shadow-sm">
       <div className="mb-2 flex items-baseline justify-between gap-2">
         <h2 className="font-bold">{title}</h2>
         <Link href={href} className="text-sm text-blue-700 hover:underline">

@@ -1,4 +1,4 @@
-# 14-maktab — rasmiy veb-sayt
+# 14-Sonli umumta'lim maktabi — rasmiy veb-sayt
 
 Next.js 16 + TypeScript + Tailwind CSS. Uch tilli: o‘zbek (standart), rus, ingliz.
 

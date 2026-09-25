@@ -8,6 +8,7 @@ import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import { Analytics } from "@vercel/analytics/next";
 import VisitBeacon from "@/components/VisitBeacon";
+import ThemeSync from "@/components/ThemeSync";
 import "../globals.css";
 
 const inter = Inter({
@@ -66,6 +67,8 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
       <body className="flex min-h-full flex-col bg-paper">
+        {/* Re-applies the saved theme when React rewrites <html> (e.g. on a language switch). */}
+        <ThemeSync />
         <SiteHeader lang={lang} dict={dict} />
         <YearBanner lang={lang} current={currentSchoolYear().from} t={dict.year} />
         <main className="flex-1">{children}</main>

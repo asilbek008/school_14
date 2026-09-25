@@ -288,7 +288,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   klasslar ishlatilmaydi — `globals.css` da tokenlar almashtiriladi: slate shkalasi teskari, `bg-white` (text-navy
   bo‘lmasa) → `--surface`, `-soft` ranglar to‘q, `-deep` matnlar ochroq, `main` ichidagi `bg-navy` → brand. Navy
   bloklar (`.chrome`, `.site-header`) light-mode slate'ni saqlaydi; ular ichidagi oq kartalarga `surface` klassini
-  bering (dropdown, mobil menyu, `LiveCard`). Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
+  bering (dropdown, mobil menyu, `LiveCard`). Til almashganda React `<html>` klassini qayta yozib `dark` ni o‘chiradi —
+  `ThemeSync` (layout'da, `useLayoutEffect` + `MutationObserver`) saqlangan rejimni chizishdan oldin qaytaradi. Yangi rang (arbitrary `bg-[#…]`) qo‘shsangiz, tungi rejimda tekshiring.
   Forma maydonlari: `focus:bg-white` va brauzer autofill'i tungi rejimda `--surface` bo‘ladi (aks holda oq fonda och matn o‘qilmaydi).
   Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`; navbar `sticky top-0`, eski iPhone Safari uchun `globals.css` da `-webkit-sticky` ham): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
@@ -374,8 +375,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sinf rahbarisiz sinf, eMaktab nomisiz o‘qituvchi, rasmsiz xodim, tarjimasiz fan/sahifa, vaqtsiz to‘garak, bo‘sh albom, Telegram
   xatosi; faqat 0 dan kattalari, har biri bo‘limga havola), yaqin tadbirlar, so‘nggi xabarlar va yangiliklar. Bo‘limga yangi
   kamchilik filtri qo‘shsangiz, shu ro‘yxatga ham qo‘shing.
-- Admin menyusi (`(panel)/layout.tsx`) sahifa scroll bo‘lganda joyida turadi: kompyuterda `sticky` to‘liq balandlikdagi ustun,
-  telefonda yuqoridagi `sticky` qator. "Xabarlar" yonida yangi (o‘qilmagan) xabarlar soni.
+- Admin menyusi — client `AdminNav` (`components/admin/AdminNav.tsx`; `(panel)/layout.tsx` faqat nishon sonlarini o‘qiydi): bo‘limlar
+  guruhlarda (Kontent, Maktab, Murojaatlar, Tizim) ikonka bilan, joriy sahifa oltin chiziq bilan ajratiladi, o‘qilmaganlar — oltin nishon.
+  md+ — navy `sticky` yon panel (pastda "Saytni ko‘rish" va chiqish). Telefonda: yuqorida navy qator (logo, sahifa nomi, menyu tugmasi),
+  o‘ngdan chiqadigan to‘liq menyu (`openOn` — ochilgan sahifa; boshqa sahifaga o‘tilsa yopiladi, Esc, orqa fon scroll bo‘lmaydi) va
+  pastki panel (Asosiy, Yangiliklar, Murojaatlar — xabar/ishonch/ariza yig‘indisi bilan, Tashriflar, Menyu); `main` pastdan `pb-28`.
+  Yangi bo‘lim qo‘shsangiz, `groups` ga yozing. Kirish sahifasi navy fonda. Bosh sahifa kartalari telefonda 2 ustun.
 - Faoliyat jurnali (`/admin/activity`, `audit_log`): kontent jadvallaridagi (yangilik, tadbir, xodim, to‘garak, albom, dastur, sahifa,
   hujjat, taqvim, yutuq, sinf, fan, o‘quv yili, qabul arizasi, Telegram sozlamalari) har insert/update/delete'ni `private.log_change()`
   trigger'i yozadi — kim (`auth.uid()` + email), qaysi yozuv (`row_ref`, `label`), qaysi ustunlar o‘zgargani (qiymatlar emas — token
