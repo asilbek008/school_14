@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { fill, plural } from "@/i18n/fill";
-import { getAlbums, getEvents, getNews, getSchoolYears, getStudentTotal, localized } from "@/lib/content";
+import { getAchievements, getAlbums, getEvents, getNews, getSchoolYears, getStudentTotal, localized } from "@/lib/content";
 import { currentSchoolYear, school } from "@/lib/school";
-import { schoolYearOf, yearLabel } from "@/lib/school-years";
+import { itemYear, schoolYearOf, yearLabel } from "@/lib/school-years";
 import PageHeader from "@/components/PageHeader";
 import StatTiles from "@/components/StatTiles";
 import SectionHead from "@/components/SectionHead";
@@ -42,9 +42,10 @@ export default async function YearPage({ params }: PageProps<"/[lang]/year/[star
   const row = years.find((y) => y.start_year === start);
   if (!row && start !== current) notFound();
 
-  const [allNews, { upcoming, past }, allAlbums] = await Promise.all([getNews(), getEvents(), getAlbums()]);
-  const news = allNews.filter((n) => n.published_at && schoolYearOf(n.published_at) === start);
-  const events = [...past.slice().reverse(), ...upcoming].filter((e) => schoolYearOf(e.starts_at) === start);
+  const [allNews, { upcoming, past }, allAlbums, allAchievements] = await Promise.all([getNews(), getEvents(), getAlbums(), getAchievements()]);
+  const news = allNews.filter((n) => itemYear(n.school_year, n.published_at) === start);
+  const events = [...past.slice().reverse(), ...upcoming].filter((e) => itemYear(e.school_year, e.starts_at) === start);
+  const achievements = allAchievements.filter((a) => itemYear(a.school_year, `${a.achieved_on}T12:00:00+05:00`) === start);
   const albums = allAlbums.filter((a) => a.event_date && schoolYearOf(a.event_date) === start && a.gallery_photos.length + a.gallery_videos.length > 0);
 
   // The admin's figures; the current year falls back to the confirmed ones in school.ts.
@@ -57,7 +58,7 @@ export default async function YearPage({ params }: PageProps<"/[lang]/year/[star
     { value: num(row?.graduates), label: t.graduates },
   ].filter((s): s is { value: number; label: string } => s.value != null);
   const summary = row ? localized(row, "summary", lang) : "";
-  const nothing = !stats.length && !summary && !news.length && !events.length && !albums.length;
+  const nothing = !stats.length && !summary && !news.length && !events.length && !albums.length && !achievements.length;
   const others = [...new Set([current, ...years.map((y) => y.start_year)])].filter((y) => y !== start).sort((a, b) => b - a);
 
   return (
@@ -111,6 +112,32 @@ export default async function YearPage({ params }: PageProps<"/[lang]/year/[star
                 <EventItem key={e.id} event={e} lang={lang} dict={dict} past={past.includes(e)} />
               ))}
             </div>
+          </section>
+        )}
+        {achievements.length > 0 && (
+          <section className="mb-12">
+            <SectionHead
+              kicker={plural(dict.search.found, achievements.length, lang)}
+              title={t.achievements}
+              action={{ href: `/${lang}/achievements`, label: dict.common.all }}
+            />
+            <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {achievements.map((a) => (
+                <li key={a.id} className="flex items-start gap-3 rounded-[14px] border border-slate-200 bg-white p-4">
+                  <span aria-hidden className="text-2xl leading-none">
+                    {a.place ? ["🥇", "🥈", "🥉"][a.place - 1] : "🏅"}
+                  </span>
+                  <span className="min-w-0">
+                    <b className="block text-[15px] leading-snug text-slate-900">{localized(a, "title", lang)}</b>
+                    <span className="mt-1 block text-[13px] text-slate-500">
+                      {[dict.achievements.levels[a.level as keyof typeof dict.achievements.levels], a.winner, localized(a, "result", lang)]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  </span>
+                </li>
+              ))}
+            </ul>
           </section>
         )}
         {albums.length > 0 && (

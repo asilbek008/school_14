@@ -21,6 +21,8 @@ export type News = {
   cover_image: string | null;
   published_at: string | null;
   category: NewsCategory;
+  /** Chosen school year (null = by date). */
+  school_year: number | null;
   /** Gallery size, for the photo badge on cards (list queries only). */
   news_photos?: { count: number }[];
 };
@@ -43,6 +45,7 @@ export type SchoolEvent = {
   ends_at: string | null;
   category: EventCategory;
   all_day: boolean;
+  school_year: number | null;
 };
 
 export type Staff = {
@@ -175,7 +178,7 @@ export async function getNews(limit?: number): Promise<News[]> {
   if (!supabase) return [];
   let query = supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(count)")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, school_year, news_photos(count)")
     .eq("is_published", true)
     .order("published_at", { ascending: false, nullsFirst: false });
   for (const kw of await programKeywords()) {
@@ -192,7 +195,7 @@ export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
   if (!supabase) return null;
   const { data, error } = await supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(path), news_videos(id, kind, path)")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, school_year, news_photos(path), news_videos(id, kind, path)")
     .eq("is_published", true)
     .eq("slug", slug)
     .order("sort_order", { referencedTable: "news_photos" })
@@ -205,7 +208,7 @@ export async function getNewsBySlug(slug: string): Promise<NewsArticle | null> {
 }
 
 const eventColumns =
-  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, location, starts_at, ends_at, category, all_day";
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, location, starts_at, ends_at, category, all_day, school_year";
 
 /** Upcoming events (soonest first) and past events (most recent first). */
 export async function getEvents(): Promise<{ upcoming: SchoolEvent[]; past: SchoolEvent[] }> {
@@ -447,7 +450,7 @@ export async function getNewsMentioning(keyword: string, limit = 12): Promise<Ne
   if (!supabase || kw.length < 3) return [];
   const { data, error } = await supabase
     .from("news")
-    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, news_photos(count)")
+    .select("id, slug, title_uz, title_ru, title_en, body_uz, body_ru, body_en, cover_image, published_at, category, school_year, news_photos(count)")
     .eq("is_published", true)
     .or(`title_uz.ilike."*${kw}*",body_uz.ilike."*${kw}*"`)
     .order("published_at", { ascending: false, nullsFirst: false })
@@ -644,6 +647,7 @@ export type Achievement = {
   names: string | null;
   names_consent: boolean;
   achieved_on: string;
+  school_year: number | null;
   photo: string | null;
   staff: { id: number; full_name: string } | null;
 };
@@ -655,7 +659,7 @@ export async function getAchievements(): Promise<Achievement[]> {
   const { data, error } = await supabase
     .from("achievements")
     .select(
-      "id, title_uz, title_ru, title_en, field, level, place, result_uz, result_ru, result_en, winner, names, names_consent, achieved_on, photo, staff(id, full_name)",
+      "id, title_uz, title_ru, title_en, field, level, place, result_uz, result_ru, result_en, winner, names, names_consent, achieved_on, school_year, photo, staff(id, full_name)",
     )
     .eq("is_published", true)
     .order("achieved_on", { ascending: false })

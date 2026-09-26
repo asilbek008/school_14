@@ -5,7 +5,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { localized, mediaUrl, type News } from "@/lib/content";
 import { newsColors } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
-import { schoolYearOf } from "@/lib/school-years";
+import { itemYear } from "@/lib/school-years";
 
 export default function NewsCard({
   item,
@@ -36,7 +36,7 @@ export default function NewsCard({
     <Link
       href={`/${lang}/news/${item.slug}`}
       data-cat={item.category}
-      data-year={item.published_at ? schoolYearOf(item.published_at) : undefined}
+      data-year={itemYear(item.school_year, item.published_at) ?? undefined}
       data-q={title.toLowerCase()}
       className={`reveal lift group flex overflow-hidden rounded-2xl border border-slate-200 bg-white hover:shadow-xl hover:shadow-navy/10 ${
         row ? "flex-row" : "flex-col"

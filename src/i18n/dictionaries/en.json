@@ -640,7 +640,8 @@
     "banner": "Showing the {y} school year",
     "bannerHint": "news, events and gallery for that year",
     "back": "Back to the current year",
-    "page": "Year page"
+    "page": "Year page",
+    "achievements": "Achievements"
   },
   "trust": {
     "title": "Trust box",

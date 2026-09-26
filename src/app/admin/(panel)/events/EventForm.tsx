@@ -2,6 +2,7 @@ import AdminForm from "@/components/admin/AdminForm";
 import { Field, FormSection, PublishedCheckbox, TranslatedField, inputClass } from "@/components/admin/fields";
 import { toTashkentInput } from "@/lib/format";
 import { saveEvent } from "./actions";
+import SchoolYearField from "@/components/admin/SchoolYearField";
 import { eventCategories, type EventCategory } from "@/lib/categories";
 
 const categoryLabels: Record<EventCategory, string> = { bayram: "Bayram", maktab: "Maktab tadbiri", olimpiada: "Olimpiada", sport: "Sport" };
@@ -20,6 +21,7 @@ export type EventRow = {
   is_published: boolean;
   category: EventCategory;
   all_day: boolean;
+  school_year: number | null;
 };
 
 const dateOf = (iso: string | null | undefined) => toTashkentInput(iso ?? null).slice(0, 10);
@@ -70,6 +72,7 @@ export default function EventForm({ row }: { row?: EventRow }) {
               </Field>
             </div>
           </div>
+          <SchoolYearField value={row?.school_year} />
           <Field label="Joy" hint="Masalan: Majlislar zali">
             <input name="location" defaultValue={row?.location ?? ""} className={`${inputClass} md:max-w-xl`} />
           </Field>

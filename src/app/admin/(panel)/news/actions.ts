@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { optional, requireAdmin, revalidatePublic, slugify, text, type FormState } from "@/lib/admin";
+import { optional, requireAdmin, revalidatePublic, schoolYear, slugify, text, type FormState } from "@/lib/admin";
 import { fromTashkentInput } from "@/lib/format";
 import { newsCategories, type NewsCategory } from "@/lib/categories";
 import { youtubeId } from "@/lib/media";
@@ -33,6 +33,7 @@ export async function saveNews(id: number | null, _prev: FormState, form: FormDa
     cover_image: optional(form, "cover_image"),
     is_published,
     published_at,
+    school_year: schoolYear(form),
   };
 
   const { data, error } = id

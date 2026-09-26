@@ -4,6 +4,7 @@ import { Field, FormSection, PublishedCheckbox, TranslatedField, inputClass } fr
 import { mediaBaseUrl } from "@/lib/media";
 import { toTashkentInput } from "@/lib/format";
 import { saveNews } from "./actions";
+import SchoolYearField from "@/components/admin/SchoolYearField";
 import { newsCategories, type NewsCategory } from "@/lib/categories";
 
 const categoryLabels: Record<NewsCategory, string> = { yangilik: "Yangilik", elon: "E’lon", tadbir: "Tadbir", yutuq: "Yutuq" };
@@ -21,6 +22,7 @@ export type NewsRow = {
   is_published: boolean;
   published_at: string | null;
   category: NewsCategory;
+  school_year: number | null;
 };
 
 export default function NewsForm({ row }: { row?: NewsRow }) {
@@ -57,6 +59,7 @@ export default function NewsForm({ row }: { row?: NewsRow }) {
             <input name="slug" defaultValue={row?.slug} pattern="[a-z0-9\-]*" className={inputClass} />
           </Field>
         </div>
+        <SchoolYearField value={row?.school_year} />
         <PublishedCheckbox checked={row?.is_published ?? false} label="E’lon qilish (saytda ko‘rsatish)" />
       </FormSection>
     </AdminForm>
