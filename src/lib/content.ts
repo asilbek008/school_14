@@ -745,6 +745,28 @@ export const getTests = cache(async (): Promise<TestSummary[]> => {
     .filter((t) => t.questions > 0);
 });
 
+export type BankSubject = { subject: string; total: number; topics: { topic: string; questions: number }[] };
+
+/** The question bank by subject: how many questions (every published test) and which topics. */
+export const getQuestionBank = cache(async (): Promise<BankSubject[]> => {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.rpc("question_bank_stats");
+  logError("getQuestionBank", error);
+  const bank = new Map<string, BankSubject>();
+  for (const r of (data ?? []) as { subject: string; topic: string | null; questions: number }[]) {
+    const s = bank.get(r.subject) ?? { subject: r.subject, total: 0, topics: [] };
+    s.total += Number(r.questions);
+    if (r.topic) {
+      const t = s.topics.find((x) => x.topic === r.topic);
+      if (t) t.questions += Number(r.questions);
+      else s.topics.push({ topic: r.topic, questions: Number(r.questions) });
+    }
+    bank.set(r.subject, s);
+  }
+  return [...bank.values()].map((s) => ({ ...s, topics: s.topics.sort((a, b) => b.questions - a.questions) }));
+});
+
 /** One published test and its questions (without answers). */
 export async function getTest(id: number): Promise<(TestSummary & { items: PublicQuestion[] }) | null> {
   const supabase = createPublicClient();

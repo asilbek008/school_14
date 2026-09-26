@@ -1000,6 +1000,25 @@
       "average": "Average",
       "best": "Best",
       "empty": "No results yet. Take the test in exam mode and add your result to your class's standing."
+    },
+    "practice": {
+      "kicker": "Question bank",
+      "title": "Practice by subject",
+      "text": "Random questions from the chosen subject (or a single topic) — a new set every time.",
+      "button": "Start practice",
+      "intro": "Choose a subject and a topic: questions are drawn at random from all tests and DTM sets.",
+      "subject": "Subject",
+      "topic": "Topic",
+      "allTopics": "All topics",
+      "count": "Number of questions",
+      "mode": "Mode",
+      "start": "Start",
+      "loading": "Picking questions…",
+      "bankTitle": "Question bank",
+      "bankText": "{n} questions in {s} subjects. Tap a subject to practise it.",
+      "topics": "{n} topics",
+      "runTitle": "Practice",
+      "pickSubject": "Choose a subject first"
     }
   },
   "library": {

@@ -6,6 +6,7 @@ import { mediaBaseUrl } from "@/lib/media";
 import AdminHeader from "@/components/admin/AdminHeader";
 import DeleteButton from "@/components/admin/DeleteButton";
 import TestForm, { type TestRow } from "../TestForm";
+import { difficultyLabels } from "@/lib/tests";
 import QuestionImport from "../QuestionImport";
 import { deleteTest } from "../actions";
 
@@ -18,7 +19,7 @@ export default async function EditTestPage({ params }: PageProps<"/admin/tests/[
   const id = Number((await params).id);
   const [{ data: row }, { data: questions }] = await Promise.all([
     supabase.from("tests").select("*").eq("id", id).maybeSingle(),
-    supabase.from("test_questions").select("id, question, options, correct, explanation, image").eq("test_id", id).order("sort_order").order("id"),
+    supabase.from("test_questions").select("id, question, options, correct, explanation, image, topic, difficulty").eq("test_id", id).order("sort_order").order("id"),
   ]);
   if (!row) notFound();
   const list = questions ?? [];
@@ -61,8 +62,12 @@ export default async function EditTestPage({ params }: PageProps<"/admin/tests/[
                         </li>
                       ))}
                     </ul>
-                    {(q.explanation || q.image) && (
-                      <p className="mt-1 text-xs text-slate-400">{[q.explanation && "💬 izoh bor", q.image && "🖼 rasm bor"].filter(Boolean).join(" · ")}</p>
+                    {(q.explanation || q.image || q.topic || q.difficulty) && (
+                      <p className="mt-1 text-xs text-slate-400">
+                        {[q.topic && `📚 ${q.topic}`, q.difficulty && `⚡ ${difficultyLabels[q.difficulty]}`, q.explanation && "💬 izoh bor", q.image && "🖼 rasm bor"]
+                          .filter(Boolean)
+                          .join(" · ")}
+                      </p>
                     )}
                   </div>
                   {q.image && (

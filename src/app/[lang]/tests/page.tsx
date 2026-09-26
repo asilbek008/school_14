@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { fill, plural } from "@/i18n/fill";
-import { getTests, localized } from "@/lib/content";
+import { getQuestionBank, getTests, localized } from "@/lib/content";
 import { isTestSubject, subjectColors, testSubjects, type TestSubject } from "@/lib/tests";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
@@ -24,7 +24,8 @@ const subjectOf = (v: string): TestSubject => (isTestSubject(v) ? v : "boshqa");
 export default async function TestsPage({ params }: PageProps<"/[lang]/tests">) {
   const { lang, dict } = await resolveLang(params);
   const t = dict.tests;
-  const tests = await getTests();
+  const [tests, bank] = await Promise.all([getTests(), getQuestionBank()]);
+  const bankSubjects = bank.sort((a, b) => testSubjects.indexOf(a.subject as TestSubject) - testSubjects.indexOf(b.subject as TestSubject));
 
   const questions = tests.reduce((a, x) => a + x.questions, 0);
   const subjects = testSubjects.filter((s) => tests.some((x) => subjectOf(x.subject) === s));
@@ -45,28 +46,75 @@ export default async function TestsPage({ params }: PageProps<"/[lang]/tests">) 
         {tests.length ? (
           <>
             <StatTiles stats={stats} />
-            <div className="reveal chrome mb-10 flex flex-col gap-5 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
-              <div className="relative flex items-start gap-4">
-                <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-2xl bg-gold text-2xl">
-                  🎓
-                </span>
-                <div>
-                  <p className="text-[12px] font-bold uppercase tracking-wider text-gold">{t.dtmCard.kicker}</p>
-                  <h2 className="text-xl font-bold">{t.dtmCard.title}</h2>
-                  <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-300">{t.dtmCard.text}</p>
+            <div className="mb-10 grid gap-4 lg:grid-cols-2">
+              <div className="reveal chrome flex flex-col justify-between gap-5 rounded-2xl p-6 sm:p-7">
+                <div className="relative flex items-start gap-4">
+                  <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-2xl bg-gold text-2xl">
+                    🎓
+                  </span>
+                  <div>
+                    <p className="text-[12px] font-bold uppercase tracking-wider text-gold">{t.dtmCard.kicker}</p>
+                    <h2 className="text-xl font-bold">{t.dtmCard.title}</h2>
+                    <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-300">{t.dtmCard.text}</p>
+                  </div>
                 </div>
+                <Link
+                  href={`/${lang}/tests/dtm`}
+                  className="press group relative inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-gold px-6 py-3 font-bold text-[#241703] shadow-lg shadow-gold/30 hover:bg-[#eba53c]"
+                >
+                  {t.dtmCard.button}
+                  <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
               </div>
-              <Link
-                href={`/${lang}/tests/dtm`}
-                className="press group relative inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-gold px-6 py-3 font-bold text-[#241703] shadow-lg shadow-gold/30 hover:bg-[#eba53c] sm:self-center"
-              >
-                {t.dtmCard.button}
-                <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
-                  →
-                </span>
-              </Link>
+              <div className="reveal flex flex-col justify-between gap-5 rounded-2xl border border-brand/25 bg-brand-soft p-6 sm:p-7">
+                <div className="flex items-start gap-4">
+                  <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-2xl bg-brand text-2xl">
+                    📚
+                  </span>
+                  <div>
+                    <p className="text-[12px] font-bold uppercase tracking-wider text-brand-deep">{t.practice.kicker}</p>
+                    <h2 className="text-xl font-bold text-slate-900">{t.practice.title}</h2>
+                    <p className="mt-1 max-w-xl text-sm leading-relaxed text-slate-600">{t.practice.text}</p>
+                  </div>
+                </div>
+                <Link
+                  href={`/${lang}/tests/practice`}
+                  className="press group inline-flex shrink-0 items-center justify-center gap-2 self-start rounded-full bg-brand px-6 py-3 font-bold text-white shadow-lg shadow-brand/25 hover:bg-brand-deep"
+                >
+                  {t.practice.button}
+                  <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                    →
+                  </span>
+                </Link>
+              </div>
             </div>
-
+            {bankSubjects.length > 0 && (
+              <section className="mb-10">
+                <h2 className="font-display text-xl font-bold tracking-tight text-slate-900">{t.practice.bankTitle}</h2>
+                <p className="mt-1 text-sm text-slate-600">{fill(t.practice.bankText, { n: bankSubjects.reduce((a, b) => a + b.total, 0), s: bankSubjects.length })}</p>
+                <ul className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
+                  {bankSubjects.map((b) => {
+                    const subject = subjectOf(b.subject);
+                    return (
+                      <li key={b.subject}>
+                        <Link
+                          href={`/${lang}/tests/practice#${b.subject}`}
+                          className="lift relative block overflow-hidden rounded-xl border border-slate-200 bg-white px-3.5 pb-3 pt-4 hover:border-slate-300"
+                        >
+                          <span className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${subjectColors[subject].tile}`} />
+                          <b className="block truncate text-[14px] text-slate-900">{t.subjects[subject]}</b>
+                          <span className="text-[12.5px] text-slate-500">
+                            {plural(t.questions, b.total, lang)} · {fill(t.practice.topics, { n: b.topics.length })}
+                          </span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </section>
+            )}
             <CategoryFilter allLabel={`${dict.common.all} · ${tests.length}`} searchLabel={t.search} emptyLabel={t.notFound} options={options}>
               <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {tests.map((x, i) => {

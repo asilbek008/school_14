@@ -70,6 +70,9 @@ export type PublicQuestion = { id: number; question: string; options: string[]; 
 /** A block of questions scored the same way (a DTM subject, or the whole of an ordinary test). */
 export type TestSection = { label: string; subject?: TestSubject; points: number; questions: PublicQuestion[] };
 
+/** The question bank's difficulty levels (test_questions.difficulty), for the admin panel. */
+export const difficultyLabels: Record<number, string> = { 1: "Oson", 2: "O‘rta", 3: "Qiyin" };
+
 /** Letters for the options. */
 export const optionLetters = ["A", "B", "C", "D", "E", "F"];
 

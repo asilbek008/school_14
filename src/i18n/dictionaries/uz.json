@@ -1000,6 +1000,25 @@
       "average": "O‘rtacha",
       "best": "Eng yaxshi",
       "empty": "Hali natija yo‘q. Testni «Imtihon» rejimida ishlang va natijangizni sinfingiz reytingiga qo‘shing."
+    },
+    "practice": {
+      "kicker": "Savollar bazasi",
+      "title": "Fan bo‘yicha mashq",
+      "text": "Tanlangan fandan (xohlasangiz, bitta mavzudan) tasodifiy savollar — har safar yangi to‘plam.",
+      "button": "Mashqni boshlash",
+      "intro": "Fan va mavzuni tanlang: savollar barcha testlar va DTM to‘plamlaridan tasodifiy olinadi.",
+      "subject": "Fan",
+      "topic": "Mavzu",
+      "allTopics": "Barcha mavzular",
+      "count": "Savollar soni",
+      "mode": "Rejim",
+      "start": "Boshlash",
+      "loading": "Savollar tanlanmoqda…",
+      "bankTitle": "Savollar bazasi",
+      "bankText": "{n} ta savol, {s} ta fan. Fanni bosing — shu fandan mashq boshlanadi.",
+      "topics": "{n} ta mavzu",
+      "runTitle": "Mashq",
+      "pickSubject": "Avval fanni tanlang"
     }
   },
   "library": {

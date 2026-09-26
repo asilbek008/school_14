@@ -8,6 +8,7 @@
 //   *C) to‘g‘ri variant   ← or "Javob: C" under the options, or a key at the end: "Javoblar: 1-C, 2-A …"
 //   D) variant
 //   Izoh: tushuntirish (ixtiyoriy)
+//   Mavzu: Kasrlar      Qiyinlik: oson | o‘rta | qiyin (1–3)   ← both optional (Excel: «Mavzu», «Qiyinlik» columns)
 
 import readXlsxFile from "read-excel-file/universal";
 
@@ -18,12 +19,24 @@ export type ParsedQuestion = {
   options: string[];
   correct: number;
   explanation: string | null;
+  /** The question bank's topic and difficulty (1 easy, 2 medium, 3 hard), when given. */
+  topic?: string | null;
+  difficulty?: number | null;
 };
 
 export type ParsedQuestions = { questions: ParsedQuestion[]; errors: string[] };
 
 const LATIN = "ABCDEF";
 const CYRILLIC = "АБВГДЕ";
+
+/** "oson" / "1" / "easy" → 1, "o‘rta" → 2, "qiyin" → 3; anything else → null. */
+export function difficultyOf(value: string): number | null {
+  const v = value.trim().toLowerCase().replace(/[‘’`ʻʼ']/g, "");
+  if (/^(1|oson|easy|легк|лёгк)/.test(v)) return 1;
+  if (/^(2|orta|medium|средн)/.test(v)) return 2;
+  if (/^(3|qiyin|hard|сложн|трудн)/.test(v)) return 3;
+  return null;
+}
 
 /** "B" / "b" / "Б" → 1; anything else → -1. */
 export function letterIndex(letter: string): number {
@@ -38,6 +51,8 @@ const OPTION = /^([*+])?\s*([A-Fa-fА-Еа-е])\s*[).:]\s*(.*?)\s*([*+])?$/u;
 const NUMBERED = /^(\d{1,4})\s*[.)]\s*(.+)$/;
 const ANSWER = /^(?:to['‘’`ʻ]?g['‘’`ʻ]?ri\s+javob|javob|answer|correct|правильный\s+ответ|ответ)\s*[:\-–—]\s*([A-Fa-fА-Еа-е])\b/iu;
 const EXPLAIN = /^(?:izoh|tushuntirish|explanation|пояснение|объяснение)\s*[:\-–—]\s*(.*)$/iu;
+const TOPIC = /^(?:mavzu|topic|тема)\s*[:\-–—]\s*(.+)$/iu;
+const LEVEL = /^(?:qiyinlik|daraja|difficulty|сложность)\s*[:\-–—]\s*(.+)$/iu;
 const KEY = /^(?:javoblar|kalit|to['‘’`ʻ]?g['‘’`ʻ]?ri\s+javoblar|answers|ответы|ключ)\s*[:\-–—]\s*(.*)$/iu;
 
 type Draft = {
@@ -47,6 +62,8 @@ type Draft = {
   options: string[];
   correct: number | null;
   explanation: string[] | null;
+  topic?: string;
+  difficulty?: number | null;
   /** A blank line ends the explanation. */
   closed?: boolean;
 };
@@ -84,6 +101,16 @@ export function parseQuestionText(input: string): ParsedQuestions {
     const answer = ANSWER.exec(s);
     if (answer && c) {
       c.correct = letterIndex(answer[1]);
+      return;
+    }
+    const topic = TOPIC.exec(s);
+    if (topic && c && c.options.length) {
+      c.topic = topic[1].slice(0, 80);
+      return;
+    }
+    const level = LEVEL.exec(s);
+    if (level && c && c.options.length) {
+      c.difficulty = difficultyOf(level[1]);
       return;
     }
     const explain = EXPLAIN.exec(s);
@@ -131,6 +158,8 @@ export function parseQuestionText(input: string): ParsedQuestions {
         options: d.options.map((o) => o.slice(0, 1000)),
         correct,
         explanation: d.explanation?.join("\n").trim().slice(0, 4000) || null,
+        topic: d.topic || null,
+        difficulty: d.difficulty ?? null,
       });
     }
   });
@@ -165,6 +194,8 @@ export function parseQuestionRows(data: unknown[][]): ParsedQuestions {
   const qCol = col("savol");
   const aCol = col("javob", "to'g'ri javob");
   const eCol = col("izoh", "tushuntirish");
+  const tCol = col("mavzu", "topic");
+  const dCol = col("qiyinlik", "daraja", "difficulty");
   const optCols = [...LATIN].map((l) => col(l.toLowerCase())).filter((i) => i >= 0);
 
   const questions: ParsedQuestion[] = [];
@@ -181,7 +212,16 @@ export function parseQuestionRows(data: unknown[][]): ParsedQuestions {
     else if (correct < 0) errors.push(`${where}: «Javob» ustuniga to‘g‘ri variant harfini yozing (A, B, C yoki D).`);
     else if (correct >= options.length) errors.push(`${where}: to‘g‘ri javob — ${answer}, lekin bunday variant yo‘q.`);
     else if (question.length > 4000) errors.push(`${where}: savol juda uzun.`);
-    else questions.push({ line, question, options: options.map((o) => o.slice(0, 1000)), correct, explanation: (eCol >= 0 && cell(row[eCol]).slice(0, 4000)) || null });
+    else
+      questions.push({
+        line,
+        question,
+        options: options.map((o) => o.slice(0, 1000)),
+        correct,
+        explanation: (eCol >= 0 && cell(row[eCol]).slice(0, 4000)) || null,
+        topic: (tCol >= 0 && cell(row[tCol]).slice(0, 80)) || null,
+        difficulty: dCol >= 0 ? difficultyOf(cell(row[dCol])) : null,
+      });
   });
   if (!questions.length && !errors.length) errors.push("Faylda savol topilmadi.");
   return { questions, errors };
