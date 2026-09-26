@@ -1161,7 +1161,13 @@
       "back": "Kutubxonaga qaytish",
       "goTo": "Sahifaga o‘tish"
     },
-    "class": "Sinf"
+    "class": "Sinf",
+    "catalogTitle": "Barcha sinflar darsliklari",
+    "catalogText": "Vazirlik tasdiqlagan maktab darsliklari (PDF) — har sinf uchun barcha fanlar. Tashqi saytda ochiladi.",
+    "catalogGrade": "{n}-sinf",
+    "catalogBooks": "barcha fanlar",
+    "catalogNote": "Kitoblar {site} saytida joylashgan; biz faqat havola beramiz.",
+    "catalogClass": "{n}-sinfning barcha darsliklari"
   },
   "alumni": {
     "noCount": "soni kiritilmagan",

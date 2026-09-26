@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import { resolveLang } from "@/i18n/server";
-import { plural } from "@/i18n/fill";
 import { getTextbooks } from "@/lib/content";
 import { bookView } from "@/lib/library";
 import PageHeader from "@/components/PageHeader";
-import EmptyState from "@/components/EmptyState";
+import SectionHead from "@/components/SectionHead";
+import { tileColors } from "@/components/StatTiles";
+import { school } from "@/lib/school";
+import { fill, plural } from "@/i18n/fill";
 import StatTiles from "@/components/StatTiles";
 import LibraryBrowser from "@/components/LibraryBrowser";
 
@@ -35,14 +37,37 @@ export default async function LibraryPage({ params }: PageProps<"/[lang]/library
     <>
       <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} kicker={t.kicker} title={t.title} intro={t.intro} />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
-        {books.length ? (
+        {books.length > 0 && (
           <>
             <StatTiles stats={pages ? stats : stats.slice(0, 3)} />
             <LibraryBrowser books={books} lang={lang} t={t} allLabel={t.allGrades} />
           </>
-        ) : (
-          <EmptyState>{t.empty}</EmptyState>
         )}
+
+        {/* Every grade's full set of textbooks on the external catalogue (linked, not copied). */}
+        <section className={books.length ? "mt-12 border-t border-slate-200 pt-10" : ""}>
+          <SectionHead kicker={school.textbookCatalog.name} title={t.catalogTitle} desc={t.catalogText} />
+          <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {Array.from({ length: 11 }, (_, i) => i + 1).map((g, i) => (
+              <li key={g}>
+                <a
+                  href={school.textbookCatalog.url(g)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`reveal lift group relative flex items-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-br p-4 text-white ${tileColors[i % tileColors.length]}`}
+                >
+                  <span className="font-display text-4xl font-extrabold leading-none">{g}</span>
+                  <span className="min-w-0 flex-1">
+                    <b className="block text-[15px]">{fill(t.catalogGrade, { n: g })}</b>
+                    <span className="block text-[12.5px] opacity-90">{t.catalogBooks}</span>
+                  </span>
+                  <span aria-hidden className="text-lg font-bold opacity-80 transition-transform duration-300 group-hover:translate-x-1">↗</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-[12.5px] text-slate-500">{fill(t.catalogNote, { site: school.textbookCatalog.name })}</p>
+        </section>
       </div>
     </>
   );

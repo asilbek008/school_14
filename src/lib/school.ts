@@ -4,6 +4,9 @@ type Localized = Record<Locale, string>;
 
 // School facts shown across the site. null = not provided yet (pages show "coming soon").
 export const school = {
+  // Ministry-approved school textbooks for every grade, on infoedu.uz (owner's request). Linked, not copied: the scans'
+  // copyright is the publishers', and the site only hosts books cleared for distribution.
+  textbookCatalog: { name: "infoedu.uz", url: (grade: number) => `https://infoedu.uz/darsliklar/${grade}` },
   // The documents section is hidden for now (owner's request): off the menus, footer, search and sitemap, and its page
   // is a 404. The admin section keeps working; set true to show it again.
   showDocuments: false,
