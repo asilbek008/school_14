@@ -546,6 +546,21 @@ export const getSchoolYears = cache(async (): Promise<SchoolYearRow[]> => {
   return (data ?? []) as SchoolYearRow[];
 });
 
+export type ClassStanding = { classId: number; results: number; average: number; best: number };
+
+/** A test's class leaderboard: exam results per class (average and best percent), best average first. */
+export async function getTestLeaderboard(testId: number): Promise<ClassStanding[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("test_results").select("class_id, correct, total").eq("test_id", testId).limit(5000);
+  logError("getTestLeaderboard", error);
+  const byClass = new Map<number, number[]>();
+  for (const r of data ?? []) byClass.set(r.class_id, [...(byClass.get(r.class_id) ?? []), (r.correct / r.total) * 100]);
+  return [...byClass.entries()]
+    .map(([classId, p]) => ({ classId, results: p.length, average: Math.round(p.reduce((a, x) => a + x, 0) / p.length), best: Math.round(Math.max(...p)) }))
+    .sort((a, b) => b.average - a.average || b.results - a.results);
+}
+
 export type Alumnus = {
   id: number;
   full_name: string;
