@@ -2,9 +2,20 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { createPortal } from "react-dom";
 import { siteYearSnapshot, subscribeSiteYear } from "@/lib/site-year";
 
-type Props = { lang: string; years: number[]; current: number; format: string; label: string; currentLabel: string; variant?: "hero" | "menu" };
+type Props = {
+  lang: string;
+  years: number[];
+  current: number;
+  /** The year the page is about (a year page); otherwise the year picked for this visit, or the current one. */
+  shown?: number;
+  format: string;
+  label: string;
+  currentLabel: string;
+  variant?: "hero" | "menu";
+};
 
 const name = (format: string, y: number) => format.replace("{from}", String(y)).replace("{to}", String(y + 1));
 
@@ -13,23 +24,38 @@ const name = (format: string, y: number) => format.replace("{from}", String(y)).
  * makes news, events and gallery show that year for the rest of the visit. In the mobile menu (variant
  * "menu") the years are a row of chips.
  */
-export default function YearSwitcher({ lang, years, current, format, label, currentLabel, variant = "hero" }: Props) {
-  const picked = Number(useSyncExternalStore(subscribeSiteYear, siteYearSnapshot, () => "")) || current;
-  const [open, setOpen] = useState(false);
+export default function YearSwitcher({ lang, years, current, shown, format, label, currentLabel, variant = "hero" }: Props) {
+  const visit = Number(useSyncExternalStore(subscribeSiteYear, siteYearSnapshot, () => "")) || current;
+  const picked = shown ?? visit;
+  // Where the list opens (under the button). It is drawn on top of the page (a portal), because the dark banners
+  // around the button clip whatever sticks out of them.
+  const [open, setOpen] = useState<{ top: number; left: number } | null>(null);
   const box = useRef<HTMLDivElement>(null);
+  const list = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!open) return;
     const close = (e: Event) => {
-      if (e instanceof KeyboardEvent ? e.key === "Escape" : !box.current?.contains(e.target as Node)) setOpen(false);
+      const inside = box.current?.contains(e.target as Node) || list.current?.contains(e.target as Node);
+      if (e instanceof KeyboardEvent ? e.key === "Escape" : !inside) setOpen(null);
     };
+    const away = () => setOpen(null);
     document.addEventListener("pointerdown", close);
     document.addEventListener("keydown", close);
+    window.addEventListener("scroll", away, { passive: true });
+    window.addEventListener("resize", away);
     return () => {
       document.removeEventListener("pointerdown", close);
       document.removeEventListener("keydown", close);
+      window.removeEventListener("scroll", away);
+      window.removeEventListener("resize", away);
     };
   }, [open]);
+  const toggle = () => {
+    if (open) return setOpen(null);
+    const r = box.current!.getBoundingClientRect();
+    setOpen({ top: r.bottom + 8, left: Math.max(8, Math.min(r.left, window.innerWidth - 248)) });
+  };
 
   if (variant === "menu") {
     return (
@@ -55,9 +81,9 @@ export default function YearSwitcher({ lang, years, current, format, label, curr
     <div ref={box} className="relative">
       <button
         type="button"
-        aria-expanded={open}
+        aria-expanded={!!open}
         aria-haspopup="true"
-        onClick={() => setOpen(!open)}
+        onClick={toggle}
         aria-label={`${label}: ${name(format, picked)}`}
         className={`font-display inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-bold transition-colors xl:px-3.5 xl:text-sm ${
           picked !== current ? "border-gold/40 bg-gold/20 text-[#f4c779]" : "border-white/15 bg-white/10 text-white hover:bg-white/20"
@@ -68,23 +94,29 @@ export default function YearSwitcher({ lang, years, current, format, label, curr
           <path d="M6 9l6 6 6-6" />
         </svg>
       </button>
-      {open && (
-        <div className="surface absolute left-0 top-full z-50 mt-2 w-60 font-sans animate-fade-in rounded-2xl bg-white p-2 text-slate-900 shadow-xl [animation-duration:0.15s]">
-          <p className="px-3 pb-1.5 pt-1 text-xs font-bold text-slate-500">{label}</p>
-          {years.map((y) => (
-            <Link
-              key={y}
-              href={`/${lang}/year/${y}`}
-              onClick={() => setOpen(false)}
-              aria-current={y === picked ? "true" : undefined}
-              className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-paper ${y === picked ? "text-brand" : ""}`}
-            >
-              {name(format, y)}
-              {y === current && <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[11px] font-bold text-brand-deep">{currentLabel}</span>}
-            </Link>
-          ))}
-        </div>
-      )}
+      {open &&
+        createPortal(
+          <div
+            ref={list}
+            style={{ top: open.top, left: open.left }}
+            className="surface fixed z-50 w-60 font-sans animate-fade-in rounded-2xl bg-white p-2 text-slate-900 shadow-xl [animation-duration:0.15s]"
+          >
+            <p className="px-3 pb-1.5 pt-1 text-xs font-bold text-slate-500">{label}</p>
+            {years.map((y) => (
+              <Link
+                key={y}
+                href={`/${lang}/year/${y}`}
+                onClick={() => setOpen(null)}
+                aria-current={y === picked ? "true" : undefined}
+                className={`flex items-center justify-between rounded-xl px-3 py-2 text-sm font-semibold transition-colors hover:bg-paper ${y === picked ? "text-brand" : ""}`}
+              >
+                {name(format, y)}
+                {y === current && <span className="rounded-full bg-brand-soft px-2 py-0.5 text-[11px] font-bold text-brand-deep">{currentLabel}</span>}
+              </Link>
+            ))}
+          </div>,
+          document.body,
+        )}
     </div>
   );
 }

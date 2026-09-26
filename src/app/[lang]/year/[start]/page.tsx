@@ -15,6 +15,7 @@ import NewsCard from "@/components/NewsCard";
 import EventItem from "@/components/EventItem";
 import AlbumCard from "@/components/AlbumCard";
 import SetSiteYear from "@/components/SetSiteYear";
+import YearSwitcher from "@/components/YearSwitcher";
 
 export const revalidate = 300;
 
@@ -64,7 +65,21 @@ export default async function YearPage({ params }: PageProps<"/[lang]/year/[star
       <SetSiteYear start={start} current={current} />
       <PageHeader
         crumbs={[{ href: `/${lang}`, label: dict.nav.home }]}
-        kicker={start === current ? t.current : t.kicker}
+        kicker={
+          // A working year switcher (owner's request): back to the current year or to another past one.
+          <span className="flex flex-wrap items-center gap-2.5 text-[13.5px] font-semibold text-[#b9c4e2]">
+            <YearSwitcher
+              lang={lang}
+              years={[...new Set([current, ...years.map((y) => y.start_year)])].sort((a, b) => b - a)}
+              current={current}
+              shown={start}
+              format={dict.topbar.year}
+              label={t.choose}
+              currentLabel={t.current}
+            />
+            {start === current ? t.current : t.kicker}
+          </span>
+        }
         title={fill(t.title, { y: yearLabel(start) })}
         intro={t.intro}
       />
