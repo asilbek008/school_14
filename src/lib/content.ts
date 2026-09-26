@@ -765,7 +765,8 @@ export const getTests = cache(async (): Promise<TestSummary[]> => {
     .filter((t) => t.questions > 0);
 });
 
-export type BankSubject = { subject: string; total: number; topics: { topic: string; questions: number }[] };
+export type BankTopic = { topic: string; questions: number; /** Average difficulty 1–3 (null = not set). */ difficulty: number | null };
+export type BankSubject = { subject: string; total: number; topics: BankTopic[] };
 
 /** The question bank by subject: how many questions (every published test) and which topics. */
 export const getQuestionBank = cache(async (): Promise<BankSubject[]> => {
@@ -774,17 +775,33 @@ export const getQuestionBank = cache(async (): Promise<BankSubject[]> => {
   const { data, error } = await supabase.rpc("question_bank_stats");
   logError("getQuestionBank", error);
   const bank = new Map<string, BankSubject>();
-  for (const r of (data ?? []) as { subject: string; topic: string | null; questions: number }[]) {
+  for (const r of (data ?? []) as { subject: string; topic: string | null; questions: number; difficulty: number | null }[]) {
     const s = bank.get(r.subject) ?? { subject: r.subject, total: 0, topics: [] };
-    s.total += Number(r.questions);
+    const n = Number(r.questions);
+    const d = r.difficulty == null ? null : Number(r.difficulty);
+    s.total += n;
     if (r.topic) {
       const t = s.topics.find((x) => x.topic === r.topic);
-      if (t) t.questions += Number(r.questions);
-      else s.topics.push({ topic: r.topic, questions: Number(r.questions) });
+      // The same topic in regular and DTM tests: the difficulty averaged by question count.
+      if (t) {
+        t.difficulty = d == null ? t.difficulty : t.difficulty == null ? d : (t.difficulty * t.questions + d * n) / (t.questions + n);
+        t.questions += n;
+      } else s.topics.push({ topic: r.topic, questions: n, difficulty: d });
     }
     bank.set(r.subject, s);
   }
   return [...bank.values()].map((s) => ({ ...s, topics: s.topics.sort((a, b) => b.questions - a.questions) }));
+});
+
+export type StudyNote = { subject: string; topic: string; body_uz: string; body_ru: string | null; body_en: string | null };
+
+/** The short topic lessons of the learning path. */
+export const getStudyNotes = cache(async (): Promise<StudyNote[]> => {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("study_notes").select("subject, topic, body_uz, body_ru, body_en").eq("is_published", true);
+  logError("getStudyNotes", error);
+  return data ?? [];
 });
 
 /** One published test and its questions (without answers). */
@@ -794,7 +811,7 @@ export async function getTest(id: number): Promise<(TestSummary & { items: Publi
   const { data, error } = await supabase
     .from("tests")
     .select(
-      "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, source, test_questions(id, question, options, image, sort_order)",
+      "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, subject, kind, grade, time_limit, source, test_questions(id, question, options, image, topic, sort_order)",
     )
     .eq("id", id)
     .eq("is_published", true)
@@ -804,7 +821,7 @@ export async function getTest(id: number): Promise<(TestSummary & { items: Publi
   logError("getTest", error);
   if (!data) return null;
   const { test_questions, ...t } = data;
-  const items = (test_questions as (PublicQuestion & { sort_order: number })[]).map(({ id, question, options, image }) => ({ id, question, options, image }));
+  const items = (test_questions as (PublicQuestion & { sort_order: number })[]).map(({ id, question, options, image, topic }) => ({ id, question, options, image, topic }));
   return { ...(t as Omit<TestSummary, "questions">), questions: items.length, items };
 }
 

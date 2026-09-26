@@ -451,7 +451,17 @@
     "noLessons": "No lessons",
     "notFilled": "The timetable for this class hasn’t been entered yet.",
     "homeroom": "Homeroom teacher",
-    "pupils": { "boy": "boy", "girl": "girl", "title": "Pupils of the class", "boys": "boys", "girls": "girls", "loading": "Loading…", "empty": "The class list has not been added yet.", "note": "Names are shown in short form.", "open": "Tap to see the list" },
+    "pupils": {
+      "boy": "boy",
+      "girl": "girl",
+      "title": "Pupils of the class",
+      "boys": "boys",
+      "girls": "girls",
+      "loading": "Loading…",
+      "empty": "The class list has not been added yet.",
+      "note": "Names are shown in short form.",
+      "open": "Tap to see the list"
+    },
     "parallel": "Other classes",
     "back": "All classes",
     "bells": "Bell schedule",
@@ -1021,6 +1031,66 @@
       "topics": "{n} topics",
       "runTitle": "Practice",
       "pickSubject": "Choose a subject first"
+    },
+    "path": {
+      "kicker": "Learning path",
+      "title": "From zero to your goal",
+      "intro": "Pick a subject: topics go from easy to hard. Each has a short lesson, practice and your result, with a mock exam at the end.",
+      "card": "Learning path — from zero",
+      "cardText": "Go through topics from easy to hard: a short lesson, practice and a personal plan. Your results stay on this device.",
+      "cardButton": "Start the path",
+      "steps": [
+        {
+          "title": "Lesson",
+          "text": "The topic's rule and an example"
+        },
+        {
+          "title": "Practice",
+          "text": "10–30 questions on the topic"
+        },
+        {
+          "title": "Review",
+          "text": "Weak topics are found"
+        },
+        {
+          "title": "Mock",
+          "text": "A mock exam in DTM format"
+        }
+      ],
+      "pick": "Choose a subject",
+      "progress": "Mastery",
+      "topicsOf": "{s} · {n} topics",
+      "mastered": "Mastered",
+      "ok": "Good",
+      "weak": "Weak",
+      "new": "Not started",
+      "plan": "Personal plan",
+      "planText": "Weak topics first, then new ones — practise in this order.",
+      "weakWhy": "Score {p}% — needs review",
+      "newWhy": "Not practised yet",
+      "okWhy": "Good — to consolidate",
+      "allDone": "Every topic mastered! Now take the mock exam.",
+      "roadTitle": "{s}: topics from easy to hard",
+      "lesson": "Short lesson",
+      "noLesson": "A short lesson is coming soon — start with practice for now.",
+      "practice": "Practice",
+      "questions": {
+        "one": "{n} question",
+        "other": "{n} questions"
+      },
+      "levels": [
+        "easy",
+        "medium",
+        "hard"
+      ],
+      "accuracy": "{c}/{n} right",
+      "mock": "Mock exam",
+      "mockText": "Mixed questions from every topic, or the full DTM format.",
+      "mixed": "Mixed practice",
+      "dtm": "DTM mock",
+      "reset": "Clear my results",
+      "resetConfirm": "Delete your results for every topic?",
+      "privacy": "Results are kept only in this browser — no sign-up needed."
     }
   },
   "library": {

@@ -451,7 +451,17 @@
     "noLessons": "Dars yo‘q",
     "notFilled": "Bu sinf uchun dars jadvali hali kiritilmagan.",
     "homeroom": "Sinf rahbari",
-    "pupils": { "boy": "o‘g‘il bola", "girl": "qiz bola", "title": "Sinf o‘quvchilari", "boys": "o‘g‘il bola", "girls": "qiz bola", "loading": "Yuklanmoqda…", "empty": "O‘quvchilar ro‘yxati hali kiritilmagan.", "note": "Ismlar qisqartirilgan holda ko‘rsatiladi.", "open": "Ro‘yxatni ko‘rish uchun bosing" },
+    "pupils": {
+      "boy": "o‘g‘il bola",
+      "girl": "qiz bola",
+      "title": "Sinf o‘quvchilari",
+      "boys": "o‘g‘il bola",
+      "girls": "qiz bola",
+      "loading": "Yuklanmoqda…",
+      "empty": "O‘quvchilar ro‘yxati hali kiritilmagan.",
+      "note": "Ismlar qisqartirilgan holda ko‘rsatiladi.",
+      "open": "Ro‘yxatni ko‘rish uchun bosing"
+    },
     "parallel": "Parallel sinflar",
     "back": "Barcha sinflar",
     "bells": "Qo‘ng‘iroqlar jadvali",
@@ -1021,6 +1031,66 @@
       "topics": "{n} ta mavzu",
       "runTitle": "Mashq",
       "pickSubject": "Avval fanni tanlang"
+    },
+    "path": {
+      "kicker": "O‘quv yo‘li",
+      "title": "0 dan maqsadgacha",
+      "intro": "Fanni tanlang: mavzular osondan qiyinga tartiblangan. Har mavzuda qisqa dars, mashq va natijangiz — oxirida sinov imtihoni.",
+      "card": "O‘quv yo‘li — 0 dan",
+      "cardText": "Mavzularni osondan qiyinga o‘ting: qisqa dars, mashq va shaxsiy reja. Natijangiz shu qurilmada saqlanadi.",
+      "cardButton": "Yo‘lni boshlash",
+      "steps": [
+        {
+          "title": "Dars",
+          "text": "Mavzuning qoidasi va misoli"
+        },
+        {
+          "title": "Mashq",
+          "text": "Shu mavzudan 10–30 savol"
+        },
+        {
+          "title": "Tahlil",
+          "text": "Zaif mavzular aniqlanadi"
+        },
+        {
+          "title": "Sinov",
+          "text": "DTM formatidagi mock imtihon"
+        }
+      ],
+      "pick": "Fanni tanlang",
+      "progress": "O‘zlashtirish",
+      "topicsOf": "{s} · {n} ta mavzu",
+      "mastered": "O‘zlashtirildi",
+      "ok": "Yaxshi",
+      "weak": "Zaif",
+      "new": "Boshlanmagan",
+      "plan": "Shaxsiy reja",
+      "planText": "Avval zaif mavzular, keyin yangilari — shu tartibda mashq qiling.",
+      "weakWhy": "Natija {p}% — takrorlash kerak",
+      "newWhy": "Hali mashq qilinmagan",
+      "okWhy": "Yaxshi — mustahkamlash uchun",
+      "allDone": "Barcha mavzular o‘zlashtirildi! Endi sinov imtihonini topshiring.",
+      "roadTitle": "{s}: mavzular osondan qiyinga",
+      "lesson": "Qisqa dars",
+      "noLesson": "Qisqa dars tez orada qo‘shiladi — hozircha mashqdan boshlang.",
+      "practice": "Mashq",
+      "questions": {
+        "one": "{n} ta savol",
+        "other": "{n} ta savol"
+      },
+      "levels": [
+        "oson",
+        "o‘rta",
+        "qiyin"
+      ],
+      "accuracy": "{c}/{n} to‘g‘ri",
+      "mock": "Sinov imtihoni",
+      "mockText": "Hamma mavzulardan aralash savollar yoki to‘liq DTM formati.",
+      "mixed": "Aralash mashq",
+      "dtm": "DTM sinovi",
+      "reset": "Natijalarimni tozalash",
+      "resetConfirm": "Barcha mavzular bo‘yicha natijalar o‘chirilsinmi?",
+      "privacy": "Natijalar faqat shu brauzerda saqlanadi — ro‘yxatdan o‘tish shart emas."
     }
   },
   "library": {

@@ -65,7 +65,7 @@ export const dtmPresets: [TestSubject, TestSubject][] = [
 ];
 
 /** A question as visitors get it: no answer, no explanation. */
-export type PublicQuestion = { id: number; question: string; options: string[]; image: string | null };
+export type PublicQuestion = { id: number; question: string; options: string[]; image: string | null; topic?: string | null };
 
 /** A block of questions scored the same way (a DTM subject, or the whole of an ordinary test). */
 export type TestSection = { label: string; subject?: TestSubject; points: number; questions: PublicQuestion[] };

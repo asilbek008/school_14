@@ -1,7 +1,7 @@
 // Tests for supabase/functions/parent-bot/bot.ts (the parts without a database):
 //   node --experimental-strip-types scripts/test-parent-bot.mts
 import assert from "node:assert/strict";
-import { dayLabel, parseClass, pickDay, tashkentDay } from "../supabase/functions/parent-bot/bot.ts";
+import { dayLabel, parseClass, pickDay, quizParams, tashkentDay } from "../supabase/functions/parent-bot/bot.ts";
 
 // Class names as parents type them.
 assert.deepEqual(parseClass("8-A"), { grade: 8, letter: "A" });
@@ -31,3 +31,13 @@ assert.equal(pickDay(satMorning, "tomorrow").day.date, "2026-09-28");
 assert.equal(pickDay(new Date("2026-09-29T04:00:00Z"), "tomorrow").day.date, "2026-09-30");
 
 console.log("parent-bot: ok");
+
+// Quiz polls: fits Telegram's limits or is skipped.
+const q = { question: "2 + 2 = ?", options: ["3", "4"], correct: 1, explanation: "Ikki qo‘shish ikki.", image: null };
+assert.equal(quizParams(q, "Matematika")?.correct_option_id, 1);
+assert.equal(quizParams(q, "Matematika")?.question, "🧠 Matematika: 2 + 2 = ?");
+assert.equal(quizParams({ ...q, image: "tests/a.jpg" }, null), null);
+assert.equal(quizParams({ ...q, options: ["x".repeat(101), "4"] }, null), null);
+assert.equal(quizParams({ ...q, correct: 5 }, null), null);
+assert.equal("explanation" in quizParams({ ...q, explanation: "x".repeat(201) }, null)!, false);
+console.log("quiz ok");

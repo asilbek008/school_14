@@ -30,8 +30,10 @@ export default function PracticePlayer({ bank, t, lang, href, backHref }: { bank
   const saved = parseRun(useSyncExternalStore(subscribeNothing, savedRunSnapshot(key), () => null));
   const fromHash = useSyncExternalStore(subscribeHash, hashSnapshot, () => "");
   const [picked, setPicked] = useState<string | null>(null);
-  const subject = picked ?? (bank.some((b) => b.subject === fromHash) ? fromHash : "");
-  const [topic, setTopic] = useState("");
+  // "#fizika" or "#fizika/Mexanika" (the learning path links a topic).
+  const [hashSubject, hashTopic] = fromHash.split("/");
+  const subject = picked ?? (bank.some((b) => b.subject === hashSubject) ? hashSubject : "");
+  const [pickedTopic, setTopic] = useState<string | null>(null);
   const [count, setCount] = useState<(typeof counts)[number]>(10);
   const [mode, setMode] = useState<RunMode>("practice");
   const [run, setRun] = useState<{ state: RunState; title: string; n: number } | null>(null);
@@ -41,6 +43,7 @@ export default function PracticePlayer({ bank, t, lang, href, backHref }: { bank
 
   const label = (s: string) => (isTestSubject(s) ? t.subjects[s] : s);
   const current = bank.find((b) => b.subject === subject);
+  const topic = pickedTopic ?? (picked == null && current?.topics.some((x) => x.topic === hashTopic) ? hashTopic : "");
 
   if (run) {
     return <TestRunner key={run.n} storageKey={key} title={run.title} href={href} backHref={backHref} initial={run.state} t={t} onRestart={() => setRun(null)} />;
