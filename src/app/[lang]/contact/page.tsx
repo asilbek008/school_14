@@ -5,6 +5,7 @@ import { resolveLang } from "@/i18n/server";
 import { mapEmbedUrl, school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
 import { tileColors } from "@/components/StatTiles";
+import { getParentBot } from "@/lib/content";
 import ContactForm from "./ContactForm";
 
 export async function generateMetadata({ params }: PageProps<"/[lang]/contact">): Promise<Metadata> {
@@ -22,6 +23,7 @@ const icons: Record<string, ReactNode> = {
 export default async function ContactPage({ params }: PageProps<"/[lang]/contact">) {
   const { lang, dict } = await resolveLang(params);
   const t = dict.contact;
+  const bot = await getParentBot();
   const cards = [
     { icon: "phone", label: t.phone, value: school.phone, href: school.phone && telHref(school.phone) },
     { icon: "mail", label: t.email, value: school.email, href: school.email && `mailto:${school.email}` },
@@ -87,6 +89,20 @@ export default async function ContactPage({ params }: PageProps<"/[lang]/contact
                 {dict.trust.intro}
               </span>
             </Link>
+            {bot && (
+              <a
+                href={`https://t.me/${bot}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="lift group reveal flex items-start gap-3 rounded-[14px] border border-brand/30 bg-brand-soft px-5 py-4 text-[13.5px] leading-relaxed text-slate-800"
+              >
+                <span aria-hidden className="text-lg">✈️</span>
+                <span>
+                  <b className="block text-slate-900 group-hover:text-brand">{dict.parentBot.title}</b>
+                  {dict.parentBot.text} <span className="whitespace-nowrap font-semibold text-brand">@{bot} ↗</span>
+                </span>
+              </a>
+            )}
             {school.phone && (
               <div className="reveal rounded-[14px] bg-gold-soft px-5 py-4 text-[13.5px] leading-relaxed text-slate-800 shadow-[inset_4px_0_0_var(--color-gold)]">
                 <b className="block text-slate-900">{t.quickTitle}</b>

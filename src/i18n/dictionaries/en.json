@@ -1110,5 +1110,11 @@
     "ios": "On iPhone: in Safari tap Share → Add to Home Screen, then open the site from that icon and press this button.",
     "error": "Could not turn them on. Please try again a bit later.",
     "short": "Notifications"
+  },
+  "parentBot": {
+    "title": "Telegram bot for parents",
+    "text": "Your child’s class lessons for today and tomorrow, and school news — in Telegram (in Uzbek).",
+    "open": "Open the bot",
+    "short": "Telegram bot"
   }
 }

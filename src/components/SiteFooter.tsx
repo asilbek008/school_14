@@ -8,7 +8,7 @@ import ToTop from "./ToTop";
 
 const links = ["about", "timetable", "staff", "news", "events", "programs", "achievements", "tests", "library", "alumni", "gallery", "schedule", "calendar", "clubs", "faq", "documents", "contact", "trust", "search"] as const;
 
-export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Dictionary }) {
+export default function SiteFooter({ lang, dict, bot }: { lang: Locale; dict: Dictionary; bot: string | null }) {
   const year = currentSchoolYear();
   const link = "inline-block transition duration-200 hover:translate-x-0.5 hover:text-white";
 
@@ -34,6 +34,16 @@ export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Diction
           >
             {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
           </a>
+          {bot && (
+            <a
+              href={`https://t.me/${bot}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="press ml-2 inline-flex items-center gap-2 rounded-full bg-[#2aabee] px-4 py-2 text-[13px] font-bold text-white transition-colors hover:bg-[#229ed9]"
+            >
+              <span aria-hidden>✈</span> {dict.parentBot.short}
+            </a>
+          )}
           <PushToggle t={dict.push} lang={lang} variant="footer" />
         </div>
         <div>

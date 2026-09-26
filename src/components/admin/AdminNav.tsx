@@ -57,6 +57,7 @@ const groups: { title: string | null; items: Item[] }[] = [
     items: [
       { href: "/admin/telegram", label: "Telegram", icon: "send" },
       { href: "/admin/push", label: "Bildirishnomalar", icon: "bell" },
+      { href: "/admin/parent-bot", label: "Ota-onalar boti", icon: "send" },
       { href: "/admin/activity", label: "Faoliyat jurnali", icon: "list" },
       { href: "/admin/logins", label: "Kirishlar jurnali", icon: "key" },
       { href: "/admin/backups", label: "Zaxira nusxalar", icon: "archive" },
