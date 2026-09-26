@@ -12,6 +12,7 @@ import ShiftBadge from "@/components/ShiftBadge";
 import MyClassButton from "@/components/MyClassButton";
 import ClassTimetableView, { type TimetableCell } from "@/components/ClassTimetableView";
 import ClassBooks, { type ClassBook } from "@/components/ClassBooks";
+import ClassPupils from "@/components/ClassPupils";
 
 export const revalidate = 300;
 
@@ -121,6 +122,8 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
             ))}
           </nav>
         )}
+
+        <ClassPupils classId={cls.id} t={t.pupils} />
 
         <div className="mt-8">
           {cells.length ? (

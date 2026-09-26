@@ -31,6 +31,7 @@
     "alumni": "Alumni"
   },
   "navDesc": {
+    "timetable": "Your class's weekly lessons",
     "about": "History and general information",
     "admissions": "Enrolment in grade 1 and above",
     "schedule": "Lesson times for both shifts",
@@ -450,6 +451,7 @@
     "noLessons": "No lessons",
     "notFilled": "The timetable for this class hasn’t been entered yet.",
     "homeroom": "Homeroom teacher",
+    "pupils": { "boy": "boy", "girl": "girl", "title": "Pupils of the class", "boys": "boys", "girls": "girls", "loading": "Loading…", "empty": "The class list has not been added yet.", "note": "Names are shown in short form.", "show": "Show all ({n})", "hide": "Show less" },
     "parallel": "Other classes",
     "back": "All classes",
     "bells": "Bell schedule",

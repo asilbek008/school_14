@@ -32,9 +32,9 @@ export default async function TestsPage({ params }: PageProps<"/[lang]/tests">) 
   const dtmQuestions = tests.filter((x) => x.kind === "dtm").reduce((a, x) => a + x.questions, 0);
   const stats = [
     { value: tests.length, label: plural(t.statTests, tests.length, lang) },
-    { value: questions, label: plural(t.statQuestions, questions, lang) },
-    { value: subjects.length, label: plural(t.statSubjects, subjects.length, lang) },
-    { value: dtmQuestions, label: plural(t.statDtm, dtmQuestions, lang) },
+    { value: questions, label: plural(t.statQuestions, questions, lang), href: `/${lang}/tests/practice` },
+    { value: subjects.length, label: plural(t.statSubjects, subjects.length, lang), href: `/${lang}/tests/practice` },
+    { value: dtmQuestions, label: plural(t.statDtm, dtmQuestions, lang), href: `/${lang}/tests/dtm` },
   ];
   const options = subjects.map((s) => ({ value: s, label: `${t.subjects[s]} · ${tests.filter((x) => subjectOf(x.subject) === s).length}` }));
 

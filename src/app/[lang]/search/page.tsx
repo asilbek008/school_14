@@ -5,6 +5,7 @@ import { fill } from "@/i18n/fill";
 import { getAlbums, getClubs, getEvents, getNews, getPrograms, getStaff, getTests, getTextbooks, localized } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { positionLabel } from "@/lib/positions";
+import { school } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
 import SiteSearch, { type SearchItem } from "@/components/SiteSearch";
 
@@ -52,7 +53,7 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
     ["/clubs", dict.nav.clubs, d.clubs],
     ["/gallery", dict.gallery.title, d.gallery],
     ["/faq", dict.nav.faq, d.faq],
-    ["/documents", dict.documents.title, dict.documents.intro],
+    ...(school.showDocuments ? [["/documents", dict.documents.title, dict.documents.intro] as [string, string, string]] : []),
     ["/contact", dict.nav.contact, d.contact],
     ["/admissions/apply", dict.apply.title, dict.apply.lead],
   ];

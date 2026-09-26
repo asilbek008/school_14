@@ -35,7 +35,7 @@ export default async function TimetablePage({ params }: PageProps<"/[lang]/timet
     .filter((shift) => shift.grades.length);
   const stats = [
     { value: classes.length, label: plural(t.statClasses, classes.length, lang) },
-    { value: pickerShifts.length, label: t.statShifts },
+    { value: pickerShifts.length, label: t.statShifts, href: `/${lang}/schedule` },
     { value: totals.subjects, label: plural(t.statSubjects, totals.subjects, lang) },
     { value: totals.lessons, label: t.statLessons },
   ];

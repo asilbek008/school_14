@@ -139,6 +139,14 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (bir marta qo‘llangan; eski 175 savolga mavzu/qiyinlik + 15 test, 371 savol: 8 fanga DTM 2-to‘plam, Rus tili, Informatika, Huquq, 5-sinf
   matematika, 8-sinf algebra, 7–9 geometriya, 5-sinf ingliz tili). Jami 25 test, 546 savol; har DTM fanida ≥30. Client ro‘yxatlarda
   `localeCompare("uz")` ishlatmang — server va brauzer boshqacha tartiblaydi (hydration xatosi), oddiy `.sort()`.
+- Sinf o‘quvchilari (`20261103090000_pupils.sql`, `pupils`; egasining talabi va tanlovi): eMaktab'ning «Список учеников» (.xlsx) fayli
+  admin `/admin/classes/pupils` da yuklanadi (`src/lib/pupil-import.ts` — brauzerda ko‘rib chiqish, action'da qayta o‘qish; maktabdan
+  chiqqanlar olinmaydi; saytda yo‘q sinf bo‘lsa hech narsa saqlanmaydi) → `rpc('replace_pupils')` butun ro‘yxatni bitta tranzaksiyada
+  almashtiradi va sinflardagi `students` sonini yozadi. Bolalarning shaxsiy ma’lumoti: `full_name`, `birth_date` faqat admin panelda (sinf
+  sahifasidagi jadval); anon'ga faqat `id, class_id, display_name, gender` ustunlari `grant` qilingan. `display_name` — «Aliyev A.»
+  (`pupilDisplayName`: familiya + ismning bosh harfi, Sh/Ch/O‘/G‘ butun). Saytda `/timetable/[id]` da «Parallel sinflar» ostida `ClassPupils`
+  (client, brauzerda o‘qiladi — ismlar sahifa HTML'ida yo‘q): soni, o‘g‘il/qiz chizig‘i, 12 tadan keyin «Hammasini ko‘rsatish». Audit
+  trigger'i yo‘q (import 1000 qator yozadi). Ro‘yxatni men (Claude) bazaga yozmayman — fayl egasi tomonidan admin paneldan yuklanadi.
 - O‘quvchilar soni sinf kesimida: `school_classes.students` (0–60, bo‘sh — kiritilmagan). Admin `/admin/classes/students` — barcha
   sinflar bitta formada (`saveStudents`, faqat o‘zgarganlari yoziladi; jami, parallel yig‘indisi va tasdiqlangan son bilan farq),
   sinf formasida ham maydon; ro‘yxatda "O‘quvchi soni kiritilmagan" filtri. Saytda (bosh sahifa, "Maktab haqida", joriy o‘quv yili)
@@ -290,7 +298,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin sahifasi: tepada 4 karta (holat, oxirgi tekshiruv va natijasi, yangilik + tadbirlar soni / o‘tkazilganlar, asl sifatli
   rasmlar); sozlamalar formasi bo‘limlarda; "Kanaldan olingan postlar" — client `PostList` (oxirgi 200 ta; turi bo‘yicha filtr,
   "Tekshirish kutilmoqda" — `auto_publish` o‘chiq bo‘lganda yashirin qo‘shilganlar, qidiruv, muqova, Telegram havolasi).
-- Ro‘yxat sahifalari tepasidagi rangli raqam kartalari — umumiy `StatTiles` (`{ value, label }[]`, ranglar navbat bilan; 3 ta bo‘lsa bir qatorda):
+- Ro‘yxat sahifalari tepasidagi rangli raqam kartalari — umumiy `StatTiles` (`{ value, label, href? }[]`; egasining talabi — manbasi bor
+  raqam o‘sha bo‘limga olib boradi: masalan yangiliklardagi rasmlar → galereya, yutuqlar → yutuqlar, smenalar → qo‘ng‘iroqlar, sinf rahbarlari
+  → dars jadvali, rahbariyat → «Maktab haqida»dagi `#leaders`; «Maktab haqida» kartalari ham havola; ranglar navbat bilan; 3 ta bo‘lsa bir qatorda):
   galereya, yangiliklar, tadbirlar, to‘garaklar, doimiy tadbirlar, xodimlar (jami, rahbariyat, o‘qituvchilar, sinf rahbarlari), dars jadvali
   (sinf, smena, fan va haftalik dars — `getTimetableTotals()`: darslar `count` bilan, fanlar — darsda asosiy fan sifatida uchraganlari).
 - Xodimlar ro‘yxati (`/staff`, maketdagidek): "Jamoa" kicker, "O‘qituvchilar va xodimlar", ro‘yxatdagi soni; client
@@ -313,7 +323,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - `supabase/seed/2026-2027.sql`, `supabase/seed/clubs.sql` va `supabase/seed/subjects.sql` — bir marta qo‘llangan boshlang‘ich kontent (davlat bayramlari;
   tasdiqlanmagan maktab tadbirlari va bitta yangilik qoralama holida).
 - eMaktab (`school.eMaktabUrl`, https://emaktab.uz): baholar va davomat faqat u yerda — ochiq saytda
-  o‘quvchilarning shaxsiy ma’lumoti (baho, davomat, ism) ko‘rsatilmaydi. Saytda faqat havola:
+  o‘quvchilarning shaxsiy ma’lumoti (baho, davomat, to‘liq ism, tug‘ilgan sana) ko‘rsatilmaydi (yagona istisno — sinf ro‘yxatidagi qisqa ism, pastda). Saytda faqat havola:
   `EMaktabCard` (bosh sahifa), header (xl), mobil menyu va footer.
 - Faqat egasi tasdiqlagan ma’lumotni qo‘ying. Eski artifact maketidagi dars jadvallari, sinf
   bo‘yicha o‘quvchi sonlari va xodim ismlari to‘qima — ularni saytga ko‘chirmang.
@@ -376,8 +386,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`; navbar `sticky top-0`, eski iPhone Safari uchun `globals.css` da `-webkit-sticky` ham): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
   40px da, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin (lg da ikkala tomon 16px — ruscha sig‘ishi uchun); topbar yo‘q (egasining talabi — manzil/telefon footer va aloqa sahifasida,
-  o‘quv yili bosh sahifa hero'sida), sahifa tepasida faqat sticky navbar (balandligi 64px, lg dan 68px): Bosh sahifa · Maktab ▾ · Dars jadvali ·
-  Testlar · Xodimlar · Yangiliklar · Tadbirlar ▾ (shrift 13px, 2xl dan 14px;
+  o‘quv yili bosh sahifa hero'sida), sahifa tepasida faqat sticky navbar (balandligi 64px, lg dan 68px): Bosh sahifa · Maktab ▾ · Dars jadvali ▾ (dars jadvali va
+  o‘quv yili taqvimi — egasining talabi) · Testlar · Xodimlar · Yangiliklar · Tadbirlar ▾ (Bitiruvchilar «Maktab ▾» da yo‘q — egasining talabi,
+  sahifa footer'da; Hujjatlar vaqtincha yashirin — `school.showDocuments = false`: menyu, footer, qidiruv, sitemap'da yo‘q, sahifa 404, admin ishlaydi) (shrift 13px, 2xl dan 14px;
   tugmalar `px-2.5`, 2xl dan `px-4`; eMaktab tugmasi `mr-4`, 2xl dan `mr-7` — ruscha 1280px da sig‘ishi uchun, egasining talabi) (lg+ da o‘ngga,
   tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi; xl dan tugmalar yonida "eMaktab ↗" (qisqa nom, to‘liq
   nomi `title`da — ruscha 1280px da sig‘ishi uchun; menyu tugmalari `px-3`, 2xl dan `px-4`); `whitespace-nowrap`, menyuda qisqa `nav.timetableShort` —
@@ -597,6 +608,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
   sort_order, is_published)
 - `push_subscriptions` (endpoint, p256dh, auth, lang); `news.pushed_at`
 - `parent_bot_chats` (chat_id, class_id, subscribed, last_seen_at); `news.bot_sent_at`
+- `pupils` (class_id, full_name, display_name, gender `m`|`f`, birth_date) — anon faqat display_name/gender
 - `site_visits` (at, path, lang, visitor, session, referrer, city, region, country, device, mobile)
 - `admin_logins` (at, event `login`|`failed`|`logout`, user_id, email, reason, ip, city, region, country, device, user_agent)
 - `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi

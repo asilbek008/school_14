@@ -41,8 +41,8 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
   const stats = [
     { value: n.total, label: plural(t.statTotal, n.total, lang) },
     { value: n.month, label: t.statMonth },
-    { value: n.photos, label: plural(t.statPhotos, n.photos, lang) },
-    { value: n.wins, label: plural(t.statWins, n.wins, lang) },
+    { value: n.photos, label: plural(t.statPhotos, n.photos, lang), href: `/${lang}/gallery` },
+    { value: n.wins, label: plural(t.statWins, n.wins, lang), href: `/${lang}/achievements` },
   ];
 
   return (

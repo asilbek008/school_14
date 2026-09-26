@@ -31,6 +31,7 @@
     "alumni": "Bitiruvchilar"
   },
   "navDesc": {
+    "timetable": "Sinfingizning haftalik darslari",
     "about": "Maktab tarixi va umumiy ma’lumot",
     "admissions": "1-sinfga va boshqa sinflarga qabul",
     "schedule": "1- va 2-smena dars vaqtlari",
@@ -450,6 +451,7 @@
     "noLessons": "Dars yo‘q",
     "notFilled": "Bu sinf uchun dars jadvali hali kiritilmagan.",
     "homeroom": "Sinf rahbari",
+    "pupils": { "boy": "o‘g‘il bola", "girl": "qiz bola", "title": "Sinf o‘quvchilari", "boys": "o‘g‘il bola", "girls": "qiz bola", "loading": "Yuklanmoqda…", "empty": "O‘quvchilar ro‘yxati hali kiritilmagan.", "note": "Ismlar qisqartirilgan holda ko‘rsatiladi.", "show": "Hammasini ko‘rsatish ({n})", "hide": "Yig‘ish" },
     "parallel": "Parallel sinflar",
     "back": "Barcha sinflar",
     "bells": "Qo‘ng‘iroqlar jadvali",

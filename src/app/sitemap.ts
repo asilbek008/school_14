@@ -1,11 +1,11 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
 import { getAlbums, getClasses, getClubs, getNews, getPrograms, getSchoolYears, getStaff, getTests, getTextbooks } from "@/lib/content";
-import { siteUrl } from "@/lib/school";
+import { school, siteUrl } from "@/lib/school";
 
 export const revalidate = 3600;
 
-const pages = ["", "/about", "/admissions", "/timetable", "/schedule", "/calendar", "/staff", "/news", "/events", "/programs", "/achievements", "/tests", "/tests/dtm", "/tests/practice", "/library", "/alumni", "/clubs", "/gallery", "/faq", "/documents", "/contact"];
+const pages = ["", "/about", "/admissions", "/timetable", "/schedule", "/calendar", "/staff", "/news", "/events", "/programs", "/achievements", "/tests", "/tests/dtm", "/tests/practice", "/library", "/alumni", "/clubs", "/gallery", "/faq", ...(school.showDocuments ? ["/documents"] : []), "/contact"];
 
 /**
  * Every public page in the three languages, each naming its translations (hreflang), so search engines

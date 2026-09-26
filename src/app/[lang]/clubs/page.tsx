@@ -41,7 +41,7 @@ export default async function ClubsPage({ params }: PageProps<"/[lang]/clubs">) 
   const media = clubs.reduce((n, c) => n + c.club_media.length, 0);
   const stats = [
     { value: clubs.length, label: plural(t.statClubs, clubs.length, lang) },
-    { value: leaders, label: plural(t.statLeaders, leaders, lang) },
+    { value: leaders, label: plural(t.statLeaders, leaders, lang), href: `/${lang}/staff` },
     { value: sessions, label: t.statSessions },
     { value: media, label: t.statMedia },
   ];

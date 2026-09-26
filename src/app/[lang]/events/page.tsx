@@ -35,10 +35,10 @@ export default async function EventsPage({ params }: PageProps<"/[lang]/events">
   const t = dict.events;
   const holidays = all.filter((e) => e.category === "bayram").length;
   const stats = [
-    { value: upcoming.length, label: t.statUpcoming },
-    { value: thisMonth(all), label: t.statMonth },
-    { value: past.length, label: t.statPast },
-    { value: holidays, label: plural(t.statHolidays, holidays, lang) },
+    { value: upcoming.length, label: t.statUpcoming, href: "#upcoming" },
+    { value: thisMonth(all), label: t.statMonth, href: "#upcoming" },
+    { value: past.length, label: t.statPast, href: "#past" },
+    { value: holidays, label: plural(t.statHolidays, holidays, lang), href: `/${lang}/calendar` },
   ];
   // Count pill that follows the chosen category, and a note for a category with nothing in the group
   // (CategoryFilter shows the data-cat-only one of the chosen chip; "__all" hides while one is chosen).

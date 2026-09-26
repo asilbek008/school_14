@@ -31,10 +31,11 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
   const year = currentSchoolYear();
 
   const facts = [
-    { value: students, label: t.students, bg: "from-[#3e72e8] to-brand-deep" },
-    { value: school.stats.staff, label: t.staff, bg: "from-[#17a090] to-[#0c6d62]" },
-    { value: classes.length || school.stats.classes, label: t.classes, bg: "from-[#e0a33e] to-gold-deep" },
-    { value: shifts.length, label: t.shifts, bg: "from-[#d2664e] to-[#a63b28]" },
+    // Each number opens where it comes from (owner's request).
+    { value: students, label: t.students, bg: "from-[#3e72e8] to-brand-deep", href: `/${lang}/timetable` },
+    { value: school.stats.staff, label: t.staff, bg: "from-[#17a090] to-[#0c6d62]", href: `/${lang}/staff` },
+    { value: classes.length || school.stats.classes, label: t.classes, bg: "from-[#e0a33e] to-gold-deep", href: `/${lang}/timetable` },
+    { value: shifts.length, label: t.shifts, bg: "from-[#d2664e] to-[#a63b28]", href: `/${lang}/schedule` },
   ];
   const quick = [
     { label: t.founded, value: school.foundedLabel[lang] },
@@ -55,15 +56,19 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
         {/* Key numbers, as colored tiles. */}
         <div className="grid grid-cols-2 gap-3.5 lg:grid-cols-4">
-          {facts.map(({ value, label, bg }, i) => (
-            <div
+          {facts.map(({ value, label, bg, href }, i) => (
+            <Link
               key={label}
+              href={href}
               style={{ animationDelay: `${i * 60}ms` }}
-              className={`reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-5 py-5 text-white after:absolute after:-right-8 after:-top-10 after:size-[120px] after:rounded-full after:bg-white/15 sm:py-6 ${bg}`}
+              className={`reveal lift group relative overflow-hidden rounded-[14px] bg-gradient-to-br px-5 py-5 text-white after:absolute after:-right-8 after:-top-10 after:size-[120px] after:rounded-full after:bg-white/15 sm:py-6 ${bg}`}
             >
               <b className="font-display block text-[28px] font-extrabold leading-none tracking-tight sm:text-[33px]">{value}</b>
               <span className="mt-1.5 block text-[13px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
-            </div>
+              <span aria-hidden className="absolute bottom-4 right-4 text-lg font-bold opacity-70 transition-transform duration-300 group-hover:translate-x-1 group-hover:opacity-100">
+                →
+              </span>
+            </Link>
           ))}
         </div>
 
@@ -98,7 +103,7 @@ export default async function AboutPage({ params }: PageProps<"/[lang]/about">) 
       </div>
 
       {leaders.length > 0 && (
-        <section className="border-t border-slate-200">
+        <section id="leaders" className="scroll-mt-24 border-t border-slate-200">
           <div className="mx-auto max-w-6xl px-4 py-12 sm:py-14">
             <SectionHead kicker={t.leadersKicker} title={t.leadersTitle} desc={t.leadersDesc} />
             <div className="grid gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
