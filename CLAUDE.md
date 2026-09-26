@@ -307,8 +307,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `/timetable` da `MyClassShortcut`.
 - O‘quv yillari (egasining talabi): `school_years` (start_year — 2025 = 2025–2026, students/staff/classes/graduates — faqat tasdiqlangan
   sonlar, bo‘sh bo‘lishi mumkin; summary_* — yil yakuni; is_published), admin `/admin/years`. Yil 1-sentabr – 31-avgust (`src/lib/school-years.ts`:
-  `schoolYearOf`, `yearRange`, `yearLabel`). Topbar'dagi o‘quv yili — `YearSwitcher` (joriy yil + e’lon qilingan yillar; telefonda menyu
-  panelining oxirida chiplar). Yil tanlansa `/[lang]/year/[start]` ochiladi: raqamlar (`StatTiles`; joriy yilda bo‘sh bo‘lsa `school.stats`),
+  `schoolYearOf`, `yearRange`, `yearLabel`). O‘quv yili tanlash — `YearSwitcher` bosh sahifa hero sarlavhasi (h1) tepasidagi «2026–2027 ▾» tugmasi
+  (egasining talabi; topbar olib tashlangan; joriy yil + e’lon qilingan yillar; eyebrow `div` + `relative z-10` — ro‘yxat h1 ustida chiqishi
+  uchun; telefonda menyu panelining oxirida ham chiplar). Yil tanlansa `/[lang]/year/[start]` ochiladi: raqamlar (`StatTiles`; joriy yilda bo‘sh bo‘lsa `school.stats`),
   yil yakuni, o‘sha yilgi yangiliklar, tadbirlar, albomlar, boshqa yillar. O‘tgan yil tanlanganda (`SetSiteYear` → `sessionStorage.siteYear`,
   faqat shu tashrif) header ostida `YearBanner` chiqadi va yangiliklar/tadbirlar/galereya (`year-scope` o‘rami, elementlarda `data-year`)
   shu yil bo‘yicha CSS bilan filtrlanadi, umumiy raqamlar (`year-hide`) yashiriladi — sahifa keshi buzilmaydi.
@@ -349,8 +350,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Forma maydonlari: `focus:bg-white` va brauzer autofill'i tungi rejimda `--surface` bo‘ladi (aks holda oq fonda och matn o‘qilmaydi).
   Admin panelga ta’sir qilmaydi.
 - Header (`SiteHeader` + client `SiteNav`; navbar `sticky top-0`, eski iPhone Safari uchun `globals.css` da `-webkit-sticky` ham): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
-  40px da, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin (lg da ikkala tomon 16px — ruscha sig‘ishi uchun); yuqorida topbar (md+; manzil, telefon, o‘quv yili; eMaktab faqat xl dan kichikda), ostida
-  sticky navbar: Bosh sahifa · Maktab ▾ · Dars jadvali · Testlar · Xodimlar · Yangiliklar · Tadbirlar ▾ (shrift 13.5px, 2xl dan 14.5px;
+  40px da, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin (lg da ikkala tomon 16px — ruscha sig‘ishi uchun); topbar yo‘q (egasining talabi — manzil/telefon footer va aloqa sahifasida,
+  o‘quv yili bosh sahifa hero'sida), sahifa tepasida faqat sticky navbar (balandligi 64px, lg dan 68px): Bosh sahifa · Maktab ▾ · Dars jadvali ·
+  Testlar · Xodimlar · Yangiliklar · Tadbirlar ▾ (shrift 13px, 2xl dan 14px;
   tugmalar `px-2.5`, 2xl dan `px-4`; eMaktab tugmasi `mr-4`, 2xl dan `mr-7` — ruscha 1280px da sig‘ishi uchun, egasining talabi) (lg+ da o‘ngga,
   tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi; xl dan tugmalar yonida "eMaktab ↗" (qisqa nom, to‘liq
   nomi `title`da — ruscha 1280px da sig‘ishi uchun; menyu tugmalari `px-3`, 2xl dan `px-4`); `whitespace-nowrap`, menyuda qisqa `nav.timetableShort` —
