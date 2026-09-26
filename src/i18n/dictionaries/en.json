@@ -1097,5 +1097,18 @@
     "notFound": "No one found.",
     "invite": "Are you a graduate of our school too? Send us your story — with your consent we will add it to the site.",
     "write": "Write to us"
+  },
+  "push": {
+    "title": "Stay up to date",
+    "lead": "When the school posts news or an announcement, you get a notification on your phone or computer. No name or number needed.",
+    "turnOn": "Turn on notifications",
+    "turnOff": "Turn off",
+    "on": "Notifications are on",
+    "busy": "Please wait…",
+    "denied": "Notifications for this site are blocked in your browser. Allow them in the browser settings.",
+    "unsupported": "This browser does not support notifications.",
+    "ios": "On iPhone: in Safari tap Share → Add to Home Screen, then open the site from that icon and press this button.",
+    "error": "Could not turn them on. Please try again a bit later.",
+    "short": "Notifications"
   }
 }

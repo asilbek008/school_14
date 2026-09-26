@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fill } from "@/i18n/fill";
 import { currentSchoolYear, school, telHref } from "@/lib/school";
+import PushToggle from "./PushToggle";
 import ToTop from "./ToTop";
 
 const links = ["about", "timetable", "staff", "news", "events", "programs", "achievements", "tests", "library", "alumni", "gallery", "schedule", "calendar", "clubs", "faq", "documents", "contact", "trust", "search"] as const;
@@ -33,6 +34,7 @@ export default function SiteFooter({ lang, dict }: { lang: Locale; dict: Diction
           >
             {dict.emaktab.short} ↗<span className="sr-only"> ({dict.emaktab.newTab})</span>
           </a>
+          <PushToggle t={dict.push} lang={lang} variant="footer" />
         </div>
         <div>
           <h2 className="mb-3.5 text-[14.5px] font-bold text-white">{dict.footer.links}</h2>
