@@ -30,6 +30,12 @@ const nextConfig: NextConfig = {
           }
         : { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/**" },
     ],
+    // Fewer transformations on Vercel's free plan: uploaded files never change (a new version gets a new name —
+    // uuids, Telegram "-hd" copies), so a resized copy is kept for a month, and only a handful of widths are
+    // made (phone, tablet, desktop, full screen; small ones for thumbnails and avatars).
+    minimumCacheTTL: 60 * 60 * 24 * 31,
+    deviceSizes: [640, 828, 1200, 1920],
+    imageSizes: [64, 128, 256, 384],
     // Only for a local Supabase stack (http://localhost:54321); never true in production.
     dangerouslyAllowLocalIP: supabaseUrl?.hostname === "localhost",
   },
