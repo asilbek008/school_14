@@ -780,6 +780,15 @@ export const getStudentTotal = cache(async (): Promise<number> => {
   return rows.reduce((a, r) => a + (r.students ?? 0), 0);
 });
 
+/** The parents' Telegram bot's @username, once an admin has connected it (null before). */
+export const getParentBot = cache(async (): Promise<string | null> => {
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase.rpc("parent_bot_username");
+  logError("getParentBot", error);
+  return typeof data === "string" && data ? data : null;
+});
+
 export type Textbook = {
   id: number;
   title_uz: string;

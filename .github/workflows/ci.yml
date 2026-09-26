@@ -27,3 +27,6 @@ jobs:
       - run: npm run build
       - run: node --experimental-strip-types scripts/test-telegram-parse.mts
       - run: node --experimental-strip-types scripts/test-question-import.mts
+      - run: node --experimental-strip-types scripts/test-parent-bot.mts
+      # The parent-bot Edge Function carries a copy of the bell schedule (its first line is a note).
+      - run: tail -n +2 supabase/functions/parent-bot/bells.ts | cmp - src/lib/bells.ts

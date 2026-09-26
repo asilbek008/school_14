@@ -6,6 +6,7 @@ import YearBanner from "@/components/YearBanner";
 import { currentSchoolYear, siteUrl } from "@/lib/school";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
+import { getParentBot } from "@/lib/content";
 import { Analytics } from "@vercel/analytics/next";
 import VisitBeacon from "@/components/VisitBeacon";
 import ThemeSync from "@/components/ThemeSync";
@@ -72,7 +73,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <SiteHeader lang={lang} dict={dict} />
         <YearBanner lang={lang} current={currentSchoolYear().from} t={dict.year} />
         <main className="flex-1">{children}</main>
-        <SiteFooter lang={lang} dict={dict} />
+        <SiteFooter lang={lang} dict={dict} bot={await getParentBot()} />
         {/* Vercel Web Analytics: page views without cookies (switched on in the Vercel project's Analytics tab). */}
         <Analytics />
         {/* Our own anonymous page-view count, shown in the admin panel ("Tashriflar"). */}

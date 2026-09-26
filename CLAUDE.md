@@ -410,6 +410,18 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   oladi (secret'ni baza tekshiradi), har obunachiga o‘z tilida yuboradi, 404/410 larni `push_forget` bilan o‘chiradi. iPhone'da faqat
   «Bosh ekranga qo‘shish» dan keyin (iOS 16.4+). Admin sahifasida obunachilar soni, yuborilganlar va o‘z brauzeriga sinov.
 
+- Ota-onalar Telegram boti (`20261101090000_parent_bot.sql`; admin `/admin/parent-bot`): kanal botidan **alohida** bot (kanal boti
+  `getUpdates` ishlatadi, bu esa webhook — bittasida ikkalasi bo‘lmaydi). Admin @BotFather tokenini kiritadi, server `setWebhook`
+  (`${SUPABASE_URL}/functions/v1/parent-bot`, `secret_token` — `telegram_settings.parent_bot_secret`), `setMyCommands`, tavsifni o‘rnatadi;
+  kanal boti tokeni rad etiladi. Edge Function `supabase/functions/parent-bot` (`verify_jwt: false`; `bot.ts` — mantiq, importsiz, Node
+  testi `scripts/test-parent-bot.mts`; `bells.ts` — `src/lib/bells.ts` nusxasi, CI `cmp` bilan tekshiradi): /start, /darslar [8-A], /ertaga
+  (Toshkent kuni; yakshanba → dushanba; `calendar_periods` ta’tilida "darslar yo‘q"), /sinf (inline tugmalar: sinf → harf), /yangiliklar,
+  /tadbirlar, /obuna (inline yoqish/o‘chirish), /aloqa; "8-A" yozilsa ham, kirillcha harf ham. Guruhlarda faqat buyruqlar. `parent_bot_chats`
+  (chat_id, class_id, subscribed — ism/username saqlanmaydi; shaxsiy chat birinchi murojaatda obuna). Yangiliklar: pg_cron `parent-bot-news`
+  (5 daqiqa) → `private.parent_bot_kick()` kutayotgan yangilik (`news.bot_sent_at` bo‘sh, 3 kun ichida) va obunachi bo‘lsa funksiyani
+  `x-bot-secret` bilan chaqiradi; funksiya yangilikni band qilib, ~25 xabar/soniya yuboradi (muqova bo‘lsa `sendPhoto`), 403 — chat o‘chiriladi.
+  Saytda havola (`getParentBot()` → `rpc('parent_bot_username')`): footer va "Aloqa" sahifasidagi karta. Funksiyani o‘zgartirsangiz, qayta deploy qiling.
+
 ### Statistika va ilova
 - Vercel Web Analytics (`@vercel/analytics`, `[lang]/layout.tsx` da `<Analytics />`; cookie'siz) — Vercel loyihasining Analytics
   bo‘limida yoqilganda ishlaydi.
@@ -562,6 +574,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
 - `push_subscriptions` (endpoint, p256dh, auth, lang); `news.pushed_at`
+- `parent_bot_chats` (chat_id, class_id, subscribed, last_seen_at); `news.bot_sent_at`
 - `site_visits` (at, path, lang, visitor, session, referrer, city, region, country, device, mobile)
 - `admin_logins` (at, event `login`|`failed`|`logout`, user_id, email, reason, ip, city, region, country, device, user_agent)
 - `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi

@@ -1110,5 +1110,11 @@
     "ios": "iPhone’da: Safari’da «Ulashish» → «Bosh ekranga qo‘shish», so‘ng saytni o‘sha belgidan ochib, shu tugmani bosing.",
     "error": "Yoqib bo‘lmadi. Birozdan keyin qayta urinib ko‘ring.",
     "short": "Bildirishnomalar"
+  },
+  "parentBot": {
+    "title": "Ota-onalar uchun Telegram bot",
+    "text": "Farzandingiz sinfining bugungi va ertangi darslari, maktab yangiliklari — Telegram’da.",
+    "open": "Botni ochish",
+    "short": "Telegram bot"
   }
 }
