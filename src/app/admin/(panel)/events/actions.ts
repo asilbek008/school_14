@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { optional, requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
+import { optional, requireAdmin, revalidatePublic, schoolYear, text, type FormState } from "@/lib/admin";
 import { fromTashkentInput } from "@/lib/format";
 import { eventCategories, type EventCategory } from "@/lib/categories";
 
@@ -38,6 +38,7 @@ export async function saveEvent(id: number | null, _prev: FormState, form: FormD
     all_day,
     starts_at,
     ends_at,
+    school_year: schoolYear(form),
     is_published: form.get("is_published") === "on",
   };
 

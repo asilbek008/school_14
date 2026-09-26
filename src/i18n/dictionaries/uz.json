@@ -640,7 +640,8 @@
     "banner": "{y} o‘quv yili ko‘rsatilmoqda",
     "bannerHint": "yangiliklar, tadbirlar va galereya shu yil bo‘yicha",
     "back": "Joriy yilga qaytish",
-    "page": "Yil sahifasi"
+    "page": "Yil sahifasi",
+    "achievements": "Yutuqlar"
   },
   "trust": {
     "title": "Ishonch qutisi",

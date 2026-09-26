@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { optional, requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
+import { optional, requireAdmin, revalidatePublic, schoolYear, text, type FormState } from "@/lib/admin";
 import { achievementFields, achievementLevels } from "@/lib/categories";
 
 export async function saveAchievement(id: number | null, _prev: FormState, form: FormData): Promise<FormState> {
@@ -38,6 +38,7 @@ export async function saveAchievement(id: number | null, _prev: FormState, form:
     names_consent: !!names && names_consent,
     teacher_id: teacherId > 0 ? teacherId : null,
     achieved_on,
+    school_year: schoolYear(form),
     photo: optional(form, "photo"),
     is_published: form.get("is_published") === "on",
   };

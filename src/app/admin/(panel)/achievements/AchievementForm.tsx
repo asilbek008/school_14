@@ -3,6 +3,7 @@ import ImageUpload from "@/components/admin/ImageUpload";
 import { Field, FormSection, PublishedCheckbox, TranslatedField, inputClass } from "@/components/admin/fields";
 import { mediaBaseUrl } from "@/lib/media";
 import { saveAchievement } from "./actions";
+import SchoolYearField from "@/components/admin/SchoolYearField";
 
 export type AchievementRow = Record<string, unknown> & {
   id: number;
@@ -14,6 +15,7 @@ export type AchievementRow = Record<string, unknown> & {
   names_consent: boolean;
   teacher_id: number | null;
   achieved_on: string;
+  school_year: number | null;
   photo: string | null;
   is_published: boolean;
 };
@@ -63,6 +65,7 @@ export default function AchievementForm({ row, staff }: { row?: AchievementRow; 
             <input type="date" name="achieved_on" required defaultValue={row?.achieved_on ?? ""} className={inputClass} />
           </Field>
         </div>
+        <SchoolYearField value={row?.school_year} />
         <TranslatedField name="result" label="Qo‘shimcha (masalan: Faxriy yorliq, 87 ball)" row={row} uzRequired={false} />
       </FormSection>
 

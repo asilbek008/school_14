@@ -40,6 +40,12 @@ export function optional(form: FormData, name: string): string | null {
   return text(form, name) || null;
 }
 
+/** The "O‘quv yili" select: a start year, or null for "by date". */
+export function schoolYear(form: FormData): number | null {
+  const y = Number(text(form, "school_year"));
+  return Number.isInteger(y) && y >= 2000 && y <= 2100 ? y : null;
+}
+
 /** Turns "Yangi o‘quv yili!" into "yangi-oquv-yili". */
 export function slugify(value: string): string {
   return value

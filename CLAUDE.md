@@ -314,6 +314,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   yil yakuni, o‘sha yilgi yangiliklar, tadbirlar, albomlar, boshqa yillar. O‘tgan yil tanlanganda (`SetSiteYear` → `sessionStorage.siteYear`,
   faqat shu tashrif) header ostida `YearBanner` chiqadi va yangiliklar/tadbirlar/galereya (`year-scope` o‘rami, elementlarda `data-year`)
   shu yil bo‘yicha CSS bilan filtrlanadi, umumiy raqamlar (`year-hide`) yashiriladi — sahifa keshi buzilmaydi.
+  Yangilik, tadbir va yutuqning o‘quv yili (egasining talabi): `school_year` ustuni (bo‘sh = sana bo‘yicha); admin formalarida
+  `SchoolYearField` («Sana bo‘yicha (avtomatik)» + joriy va oldingi 5 yil, `yearChoices`), action'da `schoolYear(form)` (`lib/admin.ts`).
+  Saytda hamma joyda `itemYear(school_year, sana)` (`school-years.ts`) — `data-year`, yil sahifasi (yangiliklar, tadbirlar, yutuqlar, albomlar).
 - Sayt bo‘yicha qidiruv (`/[lang]/search`): sahifa statik — server hamma qidiriladigan narsani (sahifalar, yangiliklar, tadbirlar,
   xodimlar, to‘garaklar, doimiy tadbirlar, savol-javob, albomlar) yig‘adi, client `SiteSearch` brauzerda filtrlaydi (hamma so‘z uchrashi
   kerak, sarlavhadagisi oldinda; apostrof va ё farqsiz), turlar bo‘yicha tugmalar, `?q=` manzilda (`useSearchParams`, `Suspense` ichida).

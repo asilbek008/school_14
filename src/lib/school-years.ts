@@ -21,5 +21,15 @@ export function schoolYearOf(iso: string): number {
   return d.getUTCMonth() >= 8 ? d.getUTCFullYear() : d.getUTCFullYear() - 1;
 }
 
+/** The school year of a news item, event or achievement: the one the admin chose, otherwise by its date. */
+export const itemYear = (chosen: number | null | undefined, iso: string | null | undefined): number | null =>
+  chosen ?? (iso ? schoolYearOf(iso) : null);
+
+/** Years offered in admin forms: the current one and the five before it, plus a stored one if older. */
+export function yearChoices(current: number, stored?: number | null): number[] {
+  const years = Array.from({ length: 6 }, (_, i) => current - i);
+  return stored && !years.includes(stored) ? [...years, stored].sort((a, b) => b - a) : years;
+}
+
 /** ISO bounds of a school year, for date filters: [1 September start, 1 September next) in Tashkent time. */
 export const yearRange = (start: number) => ({ from: `${start}-09-01T00:00:00+05:00`, to: `${start + 1}-09-01T00:00:00+05:00` });

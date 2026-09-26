@@ -5,7 +5,7 @@ import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
 import { getAchievements, localized, mediaUrl } from "@/lib/content";
 import { formatDate } from "@/lib/format";
-import { schoolYearOf } from "@/lib/school-years";
+import { itemYear } from "@/lib/school-years";
 import { achievementFields, achievementLevels, type AchievementField, type AchievementLevel } from "@/lib/categories";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
@@ -77,7 +77,7 @@ export default async function AchievementsPage({ params }: PageProps<"/[lang]/ac
                       key={a.id}
                       data-cat={field}
                       data-q={q}
-                      data-year={schoolYearOf(`${a.achieved_on}T12:00:00+05:00`)}
+                      data-year={itemYear(a.school_year, `${a.achieved_on}T12:00:00+05:00`) ?? undefined}
                       style={{ animationDelay: `${(i % 6) * 60}ms` }}
                       className="reveal lift group flex flex-col overflow-hidden rounded-[14px] border border-slate-200 bg-white hover:border-slate-300"
                     >
