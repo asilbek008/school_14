@@ -3,7 +3,7 @@ import AdminNav from "@/components/admin/AdminNav";
 import ExcludeDevice from "@/components/admin/ExcludeDevice";
 
 export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
-  const { email, supabase } = await requireAdmin();
+  const { email, supabase, role } = await requireAdmin();
   // Unread counts shown next to their menu entries.
   const unreadIn = (table: string) => supabase.from(table).select("id", { count: "exact", head: true }).eq("is_read", false);
   const [{ count: unread }, { count: unreadTrust }, { count: newApplications }] = await Promise.all([
@@ -22,7 +22,7 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
     <>
       {/* The admin's own browsing is left out of the visitor statistics. */}
       <ExcludeDevice />
-      <AdminNav email={email} badges={badges}>
+      <AdminNav email={email} badges={badges} role={role}>
         {children}
       </AdminNav>
     </>

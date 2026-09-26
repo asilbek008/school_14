@@ -426,6 +426,14 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sessiyasizlarni `/admin/login` ga yuboradi; **har bir** admin sahifa va Server Action
   `requireAdmin()` (`src/lib/admin.ts`) ni chaqiradi — u foydalanuvchining `admins`
   jadvalidagi o‘z qatorini o‘qiydi (RLS faqat o‘z qatorini ko‘rsatadi). Yangi admin action yozsangiz, birinchi qatorda `requireAdmin()` bo‘lsin.
+- Rollar va ikki bosqichli kirish (`20261030090000_roles_mfa.sql`): `admins.role` — `admin` (hammasi) yoki `editor` (muharrir: yangilik,
+  tadbir, galereya, yutuqlar, dasturlar, testlar, kutubxona — `src/lib/roles.ts` `editorPaths`/`editorMay`). `private.staff_role()` rolni faqat
+  JWT `aal2` bo‘lsa yoki foydalanuvchida tasdiqlangan TOTP yo‘q bo‘lsa qaytaradi; `is_admin()` = admin, `is_editor()` = admin yoki muharrir (shu
+  jadvallar va `storage.objects` siyosatlari), `is_staff()` — faqat a’zolik (kirishni yozish uchun). `requireAdmin()` rolni qaytaradi, 2FA
+  yoqilgan-u sessiya aal1 bo‘lsa `/admin/login/mfa` ga, muharrir ruxsatsiz bo‘limga kirsa `/admin?denied=1` ga yuboradi (yo‘l — proxy qo‘ygan
+  `x-admin-path` sarlavhasi). `/admin/security` — o‘z 2FA'sini yoqish/o‘chirish (QR + kod), `/admin/team` — jamoa (`rpc admin_team`), rolni
+  o‘zgartirish (`set_admin_role`, o‘zinikini emas) va telefonini yo‘qotganning 2FA'sini o‘chirish (`reset_mfa`). `AdminNav` muharrirga faqat
+  ruxsatli bo‘limlarni ko‘rsatadi, bosh sahifasi — `EditorHome`. Yangi admin bo‘limi qo‘shsangiz, muharrirga ochiqmi — `editorPaths` da hal qiling.
 - Har bo‘lim: `actions.ts` (`save*(id | null, prev, form)`, `delete*(id)`), `*Form.tsx`,
   `page.tsx` (ro‘yxat), `new/`, `[id]/`. Saqlashdan keyin `revalidatePublic()` butun ochiq
   saytni yangilaydi, keyin `redirect`.
@@ -509,7 +517,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
   (`toTashkentInput` / `fromTashkentInput`).
 - Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:
-  `insert into public.admins (user_id) values ('<uuid>');`. Dashboard'da ochiq ro‘yxatdan
+  `insert into public.admins (user_id, role) values ('<uuid>', 'editor');` (rol — `admin` yoki `editor`). Dashboard'da ochiq ro‘yxatdan
   o‘tishni (signups) o‘chirib qo‘ying — RLS baribir himoya qiladi, lekin keraksiz hisoblar ochilmaydi.
 - Rasm optimallashtirish (Vercel bepul tarifi cheklovi): `next.config.ts` `images` — `minimumCacheTTL` 31 kun (yuklangan fayl nomi
   o‘zgarmaydi: uuid, Telegram asl nusxasi `-hd` bilan alohida), `deviceSizes` 640/828/1200/1920, `imageSizes` 64/128/256/384.

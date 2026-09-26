@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/app/admin/login/actions";
+import { editorMay, type StaffRole } from "@/lib/roles";
 
 type Icon = keyof typeof icons;
 type Item = { href: string; label: string; icon: Icon };
@@ -58,10 +59,24 @@ const groups: { title: string | null; items: Item[] }[] = [
       { href: "/admin/activity", label: "Faoliyat jurnali", icon: "list" },
       { href: "/admin/logins", label: "Kirishlar jurnali", icon: "key" },
       { href: "/admin/backups", label: "Zaxira nusxalar", icon: "archive" },
+      { href: "/admin/team", label: "Jamoa va ruxsatlar", icon: "people" },
+      { href: "/admin/security", label: "Ikki bosqichli kirish", icon: "lock" },
     ],
   },
 ];
 const allItems = groups.flatMap((g) => g.items);
+
+// An editor sees only the sections open to them.
+const groupsFor = (role: StaffRole) =>
+  role === "admin" ? groups : groups.map((g) => ({ ...g, items: g.items.filter((i) => editorMay(i.href)) })).filter((g) => g.items.length);
+
+// The phone's bottom bar for an editor: content sections.
+const editorTabs: Item[] = [
+  { href: "/admin", label: "Asosiy", icon: "home" },
+  { href: "/admin/news", label: "Yangiliklar", icon: "news" },
+  { href: "/admin/events", label: "Tadbirlar", icon: "calendar" },
+  { href: "/admin/gallery", label: "Galereya", icon: "photo" },
+];
 
 // The phone's bottom bar: the sections used most, plus the full menu.
 const tabs: Item[] = [
@@ -132,10 +147,10 @@ function Brand() {
 }
 
 /** The grouped menu — the desktop sidebar and the phone drawer share it. */
-function Menu({ pathname, badges, onNavigate }: { pathname: string; badges: Record<string, number>; onNavigate?: () => void }) {
+function Menu({ pathname, badges, role, onNavigate }: { pathname: string; badges: Record<string, number>; role: StaffRole; onNavigate?: () => void }) {
   return (
     <nav className="space-y-5" aria-label="Admin menyusi">
-      {groups.map((g) => (
+      {groupsFor(role).map((g) => (
         <div key={g.title ?? "main"}>
           {g.title && <p className="mb-1.5 px-3 text-[11px] font-bold uppercase tracking-wider text-[#6f7ca3]">{g.title}</p>}
           <ul className="space-y-0.5">
@@ -189,7 +204,17 @@ function Account({ email }: { email: string }) {
  * The admin panel's frame. Wide screens: a navy sidebar with the grouped menu. Phones: a top bar with
  * the page name and a menu button (a full-height drawer), and a bottom bar with the most-used sections.
  */
-export default function AdminNav({ email, badges, children }: { email: string; badges: Record<string, number>; children: React.ReactNode }) {
+export default function AdminNav({
+  email,
+  badges,
+  role,
+  children,
+}: {
+  email: string;
+  badges: Record<string, number>;
+  role: StaffRole;
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   // The drawer remembers the page it was opened on, so moving to another page closes it.
   const [openOn, setOpenOn] = useState<string | null>(null);
@@ -218,7 +243,7 @@ export default function AdminNav({ email, badges, children }: { email: string; b
           <Brand />
         </div>
         <div className="-mx-1 flex-1 overflow-y-auto px-1 [scrollbar-width:thin]">
-          <Menu pathname={pathname} badges={badges} />
+          <Menu pathname={pathname} badges={badges} role={role} />
         </div>
         <div className="pt-4">
           <Account email={email} />
@@ -253,7 +278,7 @@ export default function AdminNav({ email, badges, children }: { email: string; b
               </button>
             </div>
             <div className="flex-1 overflow-y-auto overscroll-contain">
-              <Menu pathname={pathname} badges={badges} onNavigate={() => setOpen(false)} />
+              <Menu pathname={pathname} badges={badges} role={role} onNavigate={() => setOpen(false)} />
             </div>
             <div className="pt-4">
               <Account email={email} />
@@ -271,7 +296,7 @@ export default function AdminNav({ email, badges, children }: { email: string; b
         aria-label="Tezkor bo‘limlar"
         className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-5 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur md:hidden"
       >
-        {tabs.map((t) => {
+        {(role === "admin" ? tabs : editorTabs).map((t) => {
           const active = t.href === "/admin/messages" ? ["/admin/messages", "/admin/trust", "/admin/applications"].some((h) => isActive(pathname, h)) : isActive(pathname, t.href);
           const n = t.href === "/admin/messages" ? inbox : 0;
           return (
