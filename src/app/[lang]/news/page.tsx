@@ -8,6 +8,7 @@ import NewsCard from "@/components/NewsCard";
 import EmptyState from "@/components/EmptyState";
 import StatTiles from "@/components/StatTiles";
 import CategoryFilter from "@/components/CategoryFilter";
+import PushToggle from "@/components/PushToggle";
 
 export const revalidate = 300;
 
@@ -56,6 +57,7 @@ export default async function NewsPage({ params }: PageProps<"/[lang]/news">) {
         {news.length ? (
           <>
             <StatTiles stats={stats} />
+            <PushToggle t={dict.push} lang={lang} />
             <CategoryFilter
               allLabel={`${dict.common.all} · ${news.length}`}
               searchLabel={t.search}

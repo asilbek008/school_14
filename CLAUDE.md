@@ -400,6 +400,16 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Layout: `metadataBase`, Open Graph (sayt nomi, tavsif, locale); ulashish rasmi — `[lang]/opengraph-image.tsx` (1200×630, faqat lotin
   matni — standart shriftda kirill yo‘q). Layout'da `alternates.languages` yo‘q (har sahifani bosh sahifaga bog‘lab qo‘yardi) — hreflang sitemap'da.
 
+- Push bildirishnomalar (`20261031090000_web_push.sql`): `PushToggle` (`/news` tepasida karta, footer'da tugma) — brauzer obunasi
+  `rpc('push_subscribe')` bilan `push_subscriptions` ga (faqat endpoint + kalitlar va til; ism yo‘q; anon o‘qiy olmaydi), `public/sw.js`
+  (faqat push, offline kesh yo‘q; `no-store` sarlavhasi). VAPID juftligi Vercel env'da emas: admin `/admin/push` da «Ishga tushirish» bosadi,
+  server `web-push` bilan yaratib `private.push_settings` ga bir marta yozadi (almashtirilmaydi — obunachilar uzilib qoladi); ochiq kalit
+  `rpc('push_public_key')`, yo‘q bo‘lsa tugma chiqmaydi. Yuborish: pg_cron `web-push` (5 daqiqa) → `private.push_kick()` faqat kutayotgan
+  yangilik (e’lon qilingan, 3 kun ichida, `news.pushed_at` bo‘sh; `epoch` — hech qachon yuborilmagan eski) va obunachi bo‘lsa
+  `/api/push` ga `x-push-secret` bilan; route `rpc('push_pending', secret)` — 3 tagacha yangilikni band qiladi va obunachilar + kalitlarni
+  oladi (secret'ni baza tekshiradi), har obunachiga o‘z tilida yuboradi, 404/410 larni `push_forget` bilan o‘chiradi. iPhone'da faqat
+  «Bosh ekranga qo‘shish» dan keyin (iOS 16.4+). Admin sahifasida obunachilar soni, yuborilganlar va o‘z brauzeriga sinov.
+
 ### Statistika va ilova
 - Vercel Web Analytics (`@vercel/analytics`, `[lang]/layout.tsx` da `<Analytics />`; cookie'siz) — Vercel loyihasining Analytics
   bo‘limida yoqilganda ishlaydi.
@@ -551,6 +561,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
   pages, cover, sort_order, is_published)
 - `documents` (title_*, description_*, category, kind `file`|`link`, path, url, file_type, file_size, doc_date,
   sort_order, is_published)
+- `push_subscriptions` (endpoint, p256dh, auth, lang); `news.pushed_at`
 - `site_visits` (at, path, lang, visitor, session, referrer, city, region, country, device, mobile)
 - `admin_logins` (at, event `login`|`failed`|`logout`, user_id, email, reason, ip, city, region, country, device, user_agent)
 - `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi

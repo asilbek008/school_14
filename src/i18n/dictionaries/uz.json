@@ -1097,5 +1097,18 @@
     "notFound": "Hech kim topilmadi.",
     "invite": "Siz ham shu maktab bitiruvchisimisiz? Hikoyangizni yuboring — roziligingiz bilan saytga qo‘shamiz.",
     "write": "Yozish"
+  },
+  "push": {
+    "title": "Yangiliklardan xabardor bo‘ling",
+    "lead": "Maktabda yangi yangilik yoki e’lon chiqqanda telefoningiz yoki kompyuteringizga bildirishnoma keladi. Ism yoki raqam so‘ralmaydi.",
+    "turnOn": "Bildirishnomani yoqish",
+    "turnOff": "O‘chirish",
+    "on": "Bildirishnomalar yoqilgan",
+    "busy": "Kuting…",
+    "denied": "Brauzerda bu sayt uchun bildirishnomalar taqiqlangan. Uni brauzer sozlamalaridan yoqing.",
+    "unsupported": "Bu brauzer bildirishnomalarni qo‘llab-quvvatlamaydi.",
+    "ios": "iPhone’da: Safari’da «Ulashish» → «Bosh ekranga qo‘shish», so‘ng saytni o‘sha belgidan ochib, shu tugmani bosing.",
+    "error": "Yoqib bo‘lmadi. Birozdan keyin qayta urinib ko‘ring.",
+    "short": "Bildirishnomalar"
   }
 }
