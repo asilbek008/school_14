@@ -590,6 +590,26 @@ export async function getAlumni(): Promise<Alumnus[]> {
   return data ?? [];
 }
 
+/** Graduate lists per year (only the counts here — the names load in the browser); the current 11th grades too. */
+export async function getGraduateCounts(): Promise<{ years: Record<number, number>; eleventh: number }> {
+  const supabase = createPublicClient();
+  if (!supabase) return { years: {}, eleventh: 0 };
+  const { count, error: pupilError } = await supabase
+    .from("pupils")
+    .select("id, school_classes!inner(grade)", { count: "exact", head: true })
+    .eq("school_classes.grade", 11);
+  logError("getGraduateCounts", pupilError);
+  // The API returns at most 1000 rows a request, so the years are read in pages.
+  const years: Record<number, number> = {};
+  for (let from = 0; ; from += 1000) {
+    const { data, error } = await supabase.from("graduates").select("grad_year").order("id").range(from, from + 999);
+    logError("getGraduateCounts", error);
+    for (const r of data ?? []) years[r.grad_year] = (years[r.grad_year] ?? 0) + 1;
+    if (!data || data.length < 1000) break;
+  }
+  return { years, eleventh: count ?? 0 };
+}
+
 export type SchoolDocument = {
   id: number;
   title_uz: string;

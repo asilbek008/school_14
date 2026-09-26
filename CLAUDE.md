@@ -145,7 +145,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   almashtiradi va sinflardagi `students` sonini yozadi. Bolalarning shaxsiy ma’lumoti: `full_name`, `birth_date` faqat admin panelda (sinf
   sahifasidagi jadval); anon'ga faqat `id, class_id, display_name, gender` ustunlari `grant` qilingan. `display_name` — «Aliyev A.»
   (`pupilDisplayName`: familiya + ismning bosh harfi, Sh/Ch/O‘/G‘ butun). Saytda `/timetable/[id]` da «Parallel sinflar» ostida `ClassPupils`
-  (client, brauzerda o‘qiladi — ismlar sahifa HTML'ida yo‘q): soni, o‘g‘il/qiz chizig‘i, 12 tadan keyin «Hammasini ko‘rsatish». Audit
+  (client, brauzerda o‘qiladi — ismlar sahifa HTML'ida yo‘q): akkordeon (`details.acc`, egasining talabi) — yopiq holda soni, o‘g‘il/qiz chizig‘i va
+  pastga qaragan strelka, ochilganda to‘liq ro‘yxat. Ismlar faqat lotinda (egasining talabi — eMaktab kirill/lotin aralash beradi): import
+  `latinName`/`toLatin` bilan o‘giradi; bazadagi eski ro‘yxat `20261104090000_pupils_latin.sql` bilan o‘girilgan (bir martalik). Audit
   trigger'i yo‘q (import 1000 qator yozadi). Ro‘yxatni men (Claude) bazaga yozmayman — fayl egasi tomonidan admin paneldan yuklanadi.
 - O‘quvchilar soni sinf kesimida: `school_classes.students` (0–60, bo‘sh — kiritilmagan). Admin `/admin/classes/students` — barcha
   sinflar bitta formada (`saveStudents`, faqat o‘zgarganlari yoziladi; jami, parallel yig‘indisi va tasdiqlangan son bilan farq),
@@ -347,7 +349,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Bitiruvchilar (`/[lang]/alumni`, `alumni`; admin `/admin/alumni`; egasining talabi): taniqli bitiruvchilar — ism, bitirgan yili, sinfi,
   kasbi va hikoya (tarjimali), rasm; faqat o‘z roziligi bilan (`consent`; DB `check`: e’lon qilingan ⇒ rozilik, action ham rad etadi). Yillar
   bo‘yicha bitiruvchilar soni — `school_years.graduates` (o‘quv yili 2025 → "2026-yil bitiruvchilari"). Sahifa: raqam kartalari, bitiruvchi
-  kartalari (6 tadan ko‘p bo‘lsa qidiruv), yillar ro‘yxati, "Hikoyangizni yuboring" → aloqa. Menyuda "Maktab ▾" (`cap` ikonka), footer, sitemap, qidiruv.
+  kartalari (6 tadan ko‘p bo‘lsa qidiruv), "Yillar bo‘yicha" — `GraduateYears` (client; egasining talabi): har bitiruv yili 3 ustunli tugma,
+  bosilganda ostida ro‘yxat paneli (sarlavha, soni, o‘g‘il/qiz chizig‘i, sinf tugmalari, qisqa ismlar). Ro‘yxat — `graduates`
+  (`20261105090000_graduates.sql`; grad_year, class_label, full_name, display_name, gender, birth_date; anon'ga faqat qisqa ism, jins, sinf),
+  admin `/admin/alumni/graduates` da yil tanlab eMaktab «Список учеников» faylidan yuklanadi (`importGraduates`; faylda 11-sinflar bo‘lsa
+  faqat ular — `graduatingRows`; `rpc('replace_graduates', year, rows)` yilni almashtiradi, bo‘sh ro‘yxat — o‘chiradi). Joriy o‘quv yili
+  bitiruvchilari ro‘yxati yuklanmagan bo‘lsa, hozirgi 11-sinf o‘quvchilari ko‘rsatiladi (`getGraduateCounts().eleventh`). "Hikoyangizni
+  yuboring" → aloqa. Menyuda "Tadbirlar ▾" ichida (egasining talabi; `cap` ikonka), footer, sitemap, qidiruv.
 - Sayt bo‘yicha qidiruv (`/[lang]/search`): sahifa statik — server hamma qidiriladigan narsani (sahifalar, yangiliklar, tadbirlar,
   xodimlar, to‘garaklar, doimiy tadbirlar, savol-javob, albomlar) yig‘adi, client `SiteSearch` brauzerda filtrlaydi (hamma so‘z uchrashi
   kerak, sarlavhadagisi oldinda; apostrof va ё farqsiz), turlar bo‘yicha tugmalar, `?q=` manzilda (`useSearchParams`, `Suspense` ichida).
@@ -387,8 +395,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Header (`SiteHeader` + client `SiteNav`; navbar `sticky top-0`, eski iPhone Safari uchun `globals.css` da `-webkit-sticky` ham): qatorlar chetlari `edges` (egasining talabi): xl dan logo chap chetdan
   40px da, o‘ng tomoni 100rem ustungacha — menyu va tugmalar o‘ng chetga yaqin (lg da ikkala tomon 16px — ruscha sig‘ishi uchun); topbar yo‘q (egasining talabi — manzil/telefon footer va aloqa sahifasida,
   o‘quv yili bosh sahifa hero'sida), sahifa tepasida faqat sticky navbar (balandligi 64px, lg dan 68px): Bosh sahifa · Maktab ▾ · Dars jadvali ▾ (dars jadvali va
-  o‘quv yili taqvimi — egasining talabi) · Testlar · Xodimlar · Yangiliklar · Tadbirlar ▾ (Bitiruvchilar «Maktab ▾» da yo‘q — egasining talabi,
-  sahifa footer'da; Hujjatlar vaqtincha yashirin — `school.showDocuments = false`: menyu, footer, qidiruv, sitemap'da yo‘q, sahifa 404, admin ishlaydi) (shrift 13px, 2xl dan 14px;
+  o‘quv yili taqvimi — egasining talabi) · Testlar · Xodimlar · Yangiliklar · Tadbirlar ▾ (Bitiruvchilar «Tadbirlar ▾» ichida — egasining talabi;
+  Hujjatlar vaqtincha yashirin — `school.showDocuments = false`: menyu, footer, qidiruv, sitemap'da yo‘q, sahifa 404, admin ishlaydi) (shrift 13px, 2xl dan 14px;
   tugmalar `px-2.5`, 2xl dan `px-4`; eMaktab tugmasi `mr-4`, 2xl dan `mr-7` — ruscha 1280px da sig‘ishi uchun, egasining talabi) (lg+ da o‘ngga,
   tugmalar yoniga surilgan — `lg:ml-auto`, egasining talabi; xl dan tugmalar yonida "eMaktab ↗" (qisqa nom, to‘liq
   nomi `title`da — ruscha 1280px da sig‘ishi uchun; menyu tugmalari `px-3`, 2xl dan `px-4`); `whitespace-nowrap`, menyuda qisqa `nav.timetableShort` —
@@ -609,6 +617,7 @@ Tarjima qilinadigan maydonlar har bir til uchun alohida ustunda: `title_uz`, `ti
 - `push_subscriptions` (endpoint, p256dh, auth, lang); `news.pushed_at`
 - `parent_bot_chats` (chat_id, class_id, subscribed, last_seen_at); `news.bot_sent_at`
 - `pupils` (class_id, full_name, display_name, gender `m`|`f`, birth_date) — anon faqat display_name/gender
+- `graduates` (grad_year, class_label, full_name, display_name, gender, birth_date) — anon faqat display_name/gender/class_label
 - `site_visits` (at, path, lang, visitor, session, referrer, city, region, country, device, mobile)
 - `admin_logins` (at, event `login`|`failed`|`logout`, user_id, email, reason, ip, city, region, country, device, user_agent)
 - `audit_log` (at, user_id, email, table_name, row_ref, action, label, changed) — faqat trigger yozadi

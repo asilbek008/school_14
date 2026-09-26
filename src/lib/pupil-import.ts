@@ -30,6 +30,32 @@ function word(w: string): string {
     .join("-");
 }
 
+// Uzbek Cyrillic → Latin (eMaktab lists mix both scripts, even within a name).
+const CYR: Record<string, string> = {
+  а: "a", б: "b", в: "v", г: "g", д: "d", ё: "yo", ж: "j", з: "z", и: "i", й: "y", к: "k", л: "l", м: "m", н: "n", о: "o",
+  п: "p", р: "r", с: "s", т: "t", у: "u", ф: "f", х: "x", ц: "ts", ч: "ch", ш: "sh", щ: "sh", ъ: "’", ы: "i", ь: "", э: "e",
+  ю: "yu", я: "ya", ў: "o‘", қ: "q", ғ: "g‘", ҳ: "h",
+};
+
+/** Lowercase Latin: "ШАРИПОВ Ergash" → "sharipov ergash". "е" is "ye" at a word's start and after a vowel. */
+export function toLatin(value: string): string {
+  const s = value.toLowerCase();
+  let out = "";
+  for (let i = 0; i < s.length; i++) {
+    const c = s[i];
+    if (c === "е") {
+      const prev = s[i - 1];
+      out += !prev || !/\p{L}/u.test(prev) || /[аеёиоуўэюяъьaeiou]/.test(prev) ? "ye" : "e";
+    } else out += CYR[c] ?? c;
+  }
+  return out;
+}
+
+/** A name in Latin title case: "ШАРИПОВ ergash" → "Sharipov Ergash". */
+export function latinName(value: string): string {
+  return value.split(/\s+/).filter(Boolean).map((w) => word(toLatin(w))).join(" ");
+}
+
 /** "ALIYEV ANVAR KARIMOVICH" → "Aliyev A."; "TOSHEV SHAHZOD" → "Toshev Sh." */
 export function pupilDisplayName(full: string): string {
   const [surname, name] = full.split(/\s+/).filter(Boolean);
@@ -70,11 +96,11 @@ export function parsePupilSheet(data: unknown[][]): ParsedPupils {
   const errors: string[] = [];
   data.slice(h + 1).forEach((row, i) => {
     const line = h + i + 2;
-    const full_name = String(row[cName] ?? "").replace(/\s+/g, " ").trim().slice(0, 120);
+    const full_name = latinName(String(row[cName] ?? "")).slice(0, 120);
     if (!full_name) return;
     // Pupils who have left the school (a reason or an end date) are not on the list.
     if ((cLeft >= 0 && String(row[cLeft] ?? "").trim()) || (cEnd >= 0 && row[cEnd])) return;
-    const cls = classKey(String(row[cCls] ?? ""));
+    const cls = classKey(toLatin(String(row[cCls] ?? "")));
     if (!cls) {
       errors.push(`${line}-qator: sinf «${String(row[cCls] ?? "")}» tushunarsiz`);
       return;
@@ -102,4 +128,10 @@ export async function readPupilFile(file: Blob): Promise<ParsedPupils> {
   }
   const sheet = sheets.find((s) => findHeader(s.data) >= 0) ?? sheets[0];
   return sheet ? parsePupilSheet(sheet.data) : { rows: [], errors: ["Fayl bo‘sh."] };
+}
+
+/** A year's graduates from a pupil list: the 11th grades when the file has any (a whole-school list), else every row. */
+export function graduatingRows(rows: PupilRow[]): PupilRow[] {
+  const eleventh = rows.filter((r) => r.cls.startsWith("11-"));
+  return eleventh.length ? eleventh : rows;
 }

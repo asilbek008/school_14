@@ -25,7 +25,11 @@ export default async function AdminAlumniPage() {
         <Link href="/admin/years" className="font-semibold text-blue-700 hover:underline">
           O‘quv yillari
         </Link>{" "}
-        bo‘limidagi «Bitiruvchilar» sonidan olinadi.
+        bo‘limidagi «Bitiruvchilar» sonidan olinadi. Har yil bitiruvchilari ro‘yxati (yil tugmasi bosilganda ochiladi):{" "}
+        <Link href="/admin/alumni/graduates" className="font-semibold text-blue-700 hover:underline">
+          Excel&apos;dan yuklash
+        </Link>
+        .
       </p>
       {rows.length ? (
         <ul className="divide-y divide-slate-100 overflow-hidden rounded-xl bg-white shadow-sm">
