@@ -46,6 +46,7 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
     ["/achievements", dict.achievements.title, d.achievements],
     ["/tests", dict.tests.title, dict.tests.intro],
     ["/tests/dtm", dict.tests.dtm.title, dict.tests.dtm.intro],
+    ["/tests/practice", dict.tests.practice.title, dict.tests.practice.intro],
     ["/library", dict.library.title, dict.library.intro],
     ["/alumni", dict.alumni.title, dict.alumni.intro],
     ["/clubs", dict.nav.clubs, d.clubs],

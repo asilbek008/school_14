@@ -23,6 +23,17 @@ export default async function AdminTestsPage() {
   return (
     <>
       <AdminHeader title="Testlar" action={{ href: "/admin/tests/new", label: "+ Test qo‘shish" }} />
+      <Link
+        href="/admin/tests/bank"
+        className="mb-4 flex items-center gap-3 rounded-2xl bg-white p-4 text-sm hover:ring-2 hover:ring-blue-300"
+      >
+        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-blue-100 text-lg">📚</span>
+        <span className="flex-1">
+          <b className="block text-slate-900">Savollar bazasi</b>
+          <span className="text-slate-500">Barcha savollar fan, mavzu va qiyinlik bo‘yicha; DTM uchun yetarlimi — bir qarashda</span>
+        </span>
+        <span aria-hidden className="text-slate-400">→</span>
+      </Link>
       <p className="mb-4 max-w-3xl text-sm text-slate-600">
         O‘quvchilar saytda ro‘yxatdan o‘tmasdan test ishlaydi, natijalari faqat o‘z qurilmasida qoladi. To‘g‘ri javoblar sahifa kodida
         ko‘rinmaydi — faqat javob berilgandan keyin keladi. Savollarni birma-bir yoki Word/Excel’dan nusxalab yuklash mumkin.

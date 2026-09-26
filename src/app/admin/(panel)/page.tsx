@@ -154,13 +154,13 @@ const greeting = () => {
 /** The light banner at the top of the dashboard (light in both themes, like the owner's mockup). */
 function Hero({ sub, children }: { sub: React.ReactNode; children?: React.ReactNode }) {
   return (
-    <section className="relative overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#eef4ff_0%,#dfe9ff_55%,#f3f7ff_100%)] p-5 text-[#0f1f4d] shadow-[0_20px_50px_-30px_rgb(44_92_224/0.7)] sm:p-7">
+    <section className="@container relative overflow-hidden rounded-2xl bg-[linear-gradient(120deg,#eef4ff_0%,#dfe9ff_55%,#f3f7ff_100%)] p-5 text-[#0f1f4d] shadow-[0_20px_50px_-30px_rgb(44_92_224/0.7)] sm:p-7">
       <svg aria-hidden className="pointer-events-none absolute -right-10 -top-16 size-72 text-[#2c5ce0]/10" viewBox="0 0 200 200">
         <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" strokeWidth="18" />
         <circle cx="100" cy="100" r="56" fill="none" stroke="currentColor" strokeWidth="10" />
       </svg>
-      <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center">
-        <Crest className="size-20 drop-shadow-[0_10px_20px_rgb(15_31_77/0.25)] sm:size-28" />
+      <div className="relative flex flex-col gap-5 @lg:flex-row @lg:items-center">
+        <Crest className="size-20 drop-shadow-[0_10px_20px_rgb(15_31_77/0.25)] @lg:size-28" />
         <div className="min-w-0 flex-1">
           <p className="text-[13px] font-semibold text-[#2c5ce0]">{greeting()}!</p>
           <h1 className="mt-0.5 text-[26px] font-extrabold leading-tight tracking-tight sm:text-[32px]">14-maktab admin paneli</h1>
@@ -168,7 +168,7 @@ function Hero({ sub, children }: { sub: React.ReactNode; children?: React.ReactN
           <div className="mt-3 text-[13.5px] leading-relaxed text-[#4a5680]">{sub}</div>
           {children}
         </div>
-        <div className="relative hidden shrink-0 flex-col items-center lg:flex">
+        <div className="relative hidden shrink-0 flex-col items-center @3xl:flex">
           <span className="grid size-16 place-items-center rounded-full bg-[#2c5ce0] text-white shadow-[0_14px_30px_-12px_rgb(44_92_224/0.9)]">
             <Svg name="cap" className="size-8" />
           </span>
@@ -195,7 +195,7 @@ function StatCard({ href, icon, tone, label, value, note, up }: { href: string; 
       <span className={`grid size-11 place-items-center rounded-full text-white sm:size-12 ${tones[tone]}`}>
         <Svg name={icon} className="size-[22px]" />
       </span>
-      <p className="mt-3 truncate text-[13.5px] text-slate-600 sm:text-[14.5px]">{label}</p>
+      <p className="mt-3 text-[13.5px] leading-snug text-slate-600 sm:text-[14.5px]">{label}</p>
       <p className="mt-0.5 truncate text-[26px] font-extrabold tabular-nums tracking-tight text-slate-900 sm:text-[30px]">{value}</p>
       {note && (
         <p className={`line-clamp-2 text-[12.5px] leading-snug ${up === true ? "text-green-700" : up === false ? "text-red-700" : "text-slate-500"}`}>
@@ -218,9 +218,9 @@ const quickActions: { href: string; label: string; icon: Icon; editor: boolean }
 
 function QuickActions({ editor = false }: { editor?: boolean }) {
   return (
-    <section className="rounded-2xl bg-white p-5">
+    <section className="@container rounded-2xl bg-white p-5">
       <h2 className="text-[17px] font-bold text-slate-900">Tezkor amallar</h2>
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
+      <div className="mt-4 grid grid-cols-1 gap-2.5 @xs:grid-cols-2">
         {quickActions
           .filter((a) => !editor || a.editor)
           .map((a) => (
@@ -286,7 +286,7 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
   const previous = myLogins?.[1];
 
   return (
-    <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_360px]">
+    <div className="grid gap-5 min-[1360px]:grid-cols-[minmax(0,1fr)_340px]">
       <div className="min-w-0 space-y-5">
         <Hero
           sub={
@@ -308,7 +308,8 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
           }
         />
 
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="@container">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 @2xl:grid-cols-4">
           <StatCard
             href="/admin/visits"
             icon="people"
@@ -343,6 +344,7 @@ export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
             value={counts.upcoming}
             note={counts.nextEventAt ? `Eng yaqini: ${formatDate(counts.nextEventAt, "uz")}` : null}
           />
+        </div>
         </div>
 
         <VisitsChart days={daily} />

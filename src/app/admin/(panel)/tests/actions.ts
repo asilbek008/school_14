@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { optional, requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
 import { isTestSubject } from "@/lib/tests";
-import { parseQuestionText, readQuestionFile, type ParsedQuestion } from "@/lib/test-import";
+import { difficultyOf, parseQuestionText, readQuestionFile, type ParsedQuestion } from "@/lib/test-import";
 
 const isStoragePath = (p: string | null | undefined): p is string => !!p && !/^https?:\/\//.test(p);
 
@@ -68,6 +68,8 @@ function questionRow(form: FormData): { row?: Omit<ParsedQuestion, "line"> & { i
       correct,
       explanation: optional(form, "explanation")?.slice(0, 4000) ?? null,
       image: optional(form, "image"),
+      topic: optional(form, "topic")?.slice(0, 80) ?? null,
+      difficulty: difficultyOf(text(form, "difficulty")),
     },
   };
 }
@@ -129,12 +131,16 @@ export async function importQuestions(testId: number, form: FormData): Promise<I
     const { data: last } = await supabase.from("test_questions").select("sort_order").eq("test_id", testId).order("sort_order", { ascending: false }).limit(1).maybeSingle();
     start = last?.sort_order ?? 0;
   }
+  // A topic typed above the import applies to the questions that name none.
+  const topic = String(form.get("topic") ?? "").trim().slice(0, 80) || null;
   const rows = parsed.questions.map((q, i) => ({
     test_id: testId,
     question: q.question,
     options: q.options,
     correct: q.correct,
     explanation: q.explanation,
+    topic: q.topic ?? topic,
+    difficulty: q.difficulty ?? null,
     sort_order: start + i + 1,
   }));
   const { error } = await supabase.from("test_questions").insert(rows);

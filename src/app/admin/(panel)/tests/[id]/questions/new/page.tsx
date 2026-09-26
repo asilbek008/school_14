@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
+import { subjectTopics } from "../../../topics";
 import AdminHeader from "@/components/admin/AdminHeader";
 import QuestionForm from "../../../QuestionForm";
 
@@ -10,10 +11,11 @@ export default async function NewQuestionPage({ params, searchParams }: PageProp
   const { supabase } = await requireAdmin();
   const id = Number((await params).id);
   const [{ data: test }, { count }] = await Promise.all([
-    supabase.from("tests").select("title_uz").eq("id", id).maybeSingle(),
+    supabase.from("tests").select("title_uz, subject").eq("id", id).maybeSingle(),
     supabase.from("test_questions").select("id", { count: "exact", head: true }).eq("test_id", id),
   ]);
   if (!test) notFound();
+  const topics = await subjectTopics(supabase, test.subject);
   const saved = (await searchParams).saved;
 
   return (
@@ -21,7 +23,7 @@ export default async function NewQuestionPage({ params, searchParams }: PageProp
       <AdminHeader title={`${(count ?? 0) + 1}-savol`} back={`/admin/tests/${id}#questions`} />
       <p className="mb-4 text-sm text-slate-600">{test.title_uz}</p>
       {saved && <p className="mb-4 rounded-lg bg-green-50 p-3 text-sm font-semibold text-green-900">✓ Oldingi savol saqlandi.</p>}
-      <QuestionForm key={count ?? 0} testId={id} />
+      <QuestionForm key={count ?? 0} testId={id} topics={topics} />
     </>
   );
 }

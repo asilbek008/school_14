@@ -128,6 +128,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   savollari tuzilgan (10 test, 175 savol — 1-sinf Matematika/Musiqa va 8 fan bo‘yicha DTM to‘plamlari): manba — `scripts/seed_tests.py` →
   `supabase/seed/tests-2026.sql` (bir marta qo‘llangan; qayta ishga tushirsa takrorlanadi), `tests.source` da izoh. Faqat aniq, tekshirilgan
   faktlar; test kitoblaridan ko‘chirilmaydi. Bosh sahifada `TestsCard` (test bo‘lsa); navbarda alohida "Testlar" (Maktab ▾ ichida emas).
+- Savollar bazasi (`20261102090000_question_bank.sql`; egasining so‘rovi): `test_questions.topic` (mavzu, 80 belgigacha) va `difficulty`
+  (1 oson, 2 o‘rta, 3 qiyin — `difficultyLabels`), anon'ga ham ochiq. `rpc('random_bank_questions', subject, n, topic?)` — fanning barcha
+  e’lon qilingan testlaridan tasodifiy (50 tagacha, javobsiz), `rpc('question_bank_stats')` — fan/tur/mavzu bo‘yicha sonlar (`getQuestionBank()`).
+  Saytda `/[lang]/tests/practice` — `PracticePlayer` (fan kartasi — `/tests` dagi "Savollar bazasi" plitkasidan `#fan` hash bilan tanlanadi,
+  mavzu chiplari, 10/20/30 savol, mashq/imtihon — 1,5 daqiqa × savol; `TestRunner` `storageKey="practice"`). Admin `/admin/tests/bank`: fanlar
+  jadvali (DTM uchun kerakli 30 taga nisbatan, mavzusiz/izohsiz), `BankList` (fan, mavzu, qiyinlik, "Mavzusiz"/"Izohsiz", qidiruv; 50 tadan).
+  Savol formasida mavzu (fandagi mavzular `datalist`) va qiyinlik; import — matnda `Mavzu:`/`Qiyinlik:` qatorlari (variantlardan keyin),
+  Excel'da `Mavzu`, `Qiyinlik` ustunlari, formada standart mavzu. 2-qism savollari: `scripts/seed_tests_2.py` → `supabase/seed/tests-2026-2.sql`
+  (bir marta qo‘llangan; eski 175 savolga mavzu/qiyinlik + 15 test, 371 savol: 8 fanga DTM 2-to‘plam, Rus tili, Informatika, Huquq, 5-sinf
+  matematika, 8-sinf algebra, 7–9 geometriya, 5-sinf ingliz tili). Jami 25 test, 546 savol; har DTM fanida ≥30. Client ro‘yxatlarda
+  `localeCompare("uz")` ishlatmang — server va brauzer boshqacha tartiblaydi (hydration xatosi), oddiy `.sort()`.
 - O‘quvchilar soni sinf kesimida: `school_classes.students` (0–60, bo‘sh — kiritilmagan). Admin `/admin/classes/students` — barcha
   sinflar bitta formada (`saveStudents`, faqat o‘zgarganlari yoziladi; jami, parallel yig‘indisi va tasdiqlangan son bilan farq),
   sinf formasida ham maydon; ro‘yxatda "O‘quvchi soni kiritilmagan" filtri. Saytda (bosh sahifa, "Maktab haqida", joriy o‘quv yili)
@@ -487,6 +498,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `--font-script`), 4 rangli-ikonkali karta (bugungi tashrif + kechagidan %, murojaatlar, yangiliklar + shu hafta, yaqin tadbirlar), `VisitsChart`
   (`visit_stats(90).daily`, 7/30/90 kun, hover tooltip, sr-only jadval), so‘nggi xabarlar, tezkor amallar, "E’tibor talab qiladi", o‘ng ustunda
   `BotStatusCard`/`BotPreview` (`lib/parent-bot.ts` `parentBotStatus` — getWebhookInfo; token faqat nuqtalar) va "Maktab raqamlarda".
+  Bosh sahifa `@container` so‘rovlari bilan (yon panel yig‘ilgan/ochiq kengligiga moslashadi); o‘ng ustun faqat 1360px dan.
+  Repoda prettier sozlamasi yo‘q — `npx prettier` ishga tushirmang (80 ustunga qayta formatlaydi).
 - Admin menyusi — client `AdminNav` (`components/admin/AdminNav.tsx`; `(panel)/layout.tsx` faqat nishon sonlarini o‘qiydi): bo‘limlar
   guruhlarda (Kontent, Maktab, Murojaatlar, Tizim) ikonka bilan, joriy sahifa oltin chiziq bilan ajratiladi, o‘qilmaganlar — oltin nishon.
   md+ — navy `sticky` yon panel (pastda "Saytni ko‘rish" va chiqish). Telefonda: yuqorida navy qator (logo, sahifa nomi, menyu tugmasi),

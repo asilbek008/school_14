@@ -77,4 +77,16 @@ assert.deepEqual(r.questions[0].options, ["6", "9", "12"]);
 assert.equal(r.questions[1].correct, 1);
 assert.equal(r.errors.length, 1);
 
+// Topic and difficulty (text and Excel).
+{
+  const t = parseQuestionText("1. 2 + 2 = ?\nA) 3\n*B) 4\nMavzu: Qo‘shish\nQiyinlik: oson\n2. 3 · 3 = ?\nA) 9\nB) 6\nJavob: A");
+  assert.equal(t.errors.length, 0);
+  assert.equal(t.questions[0].topic, "Qo‘shish");
+  assert.equal(t.questions[0].difficulty, 1);
+  assert.equal(t.questions[1].topic, null);
+  const x = parseQuestionRows([["Savol", "A", "B", "Javob", "Mavzu", "Qiyinlik"], ["1 + 1", "2", "3", "A", "Sonlar", "o‘rta"]]);
+  assert.equal(x.questions[0].topic, "Sonlar");
+  assert.equal(x.questions[0].difficulty, 2);
+}
+
 console.log("test-question-import: ok");

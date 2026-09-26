@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { requireAdmin } from "@/lib/admin";
+import { subjectTopics } from "../../../topics";
 import AdminHeader from "@/components/admin/AdminHeader";
 import DeleteButton from "@/components/admin/DeleteButton";
 import QuestionForm, { type QuestionRow } from "../../../QuestionForm";
@@ -14,16 +15,17 @@ export default async function EditQuestionPage({ params }: PageProps<"/admin/tes
   const id = Number(p.id);
   const qid = Number(p.qid);
   const [{ data: test }, { data: row }] = await Promise.all([
-    supabase.from("tests").select("title_uz").eq("id", id).maybeSingle(),
-    supabase.from("test_questions").select("id, question, options, correct, explanation, image").eq("id", qid).eq("test_id", id).maybeSingle(),
+    supabase.from("tests").select("title_uz, subject").eq("id", id).maybeSingle(),
+    supabase.from("test_questions").select("id, question, options, correct, explanation, image, topic, difficulty").eq("id", qid).eq("test_id", id).maybeSingle(),
   ]);
   if (!test || !row) notFound();
+  const topics = await subjectTopics(supabase, test.subject);
 
   return (
     <>
       <AdminHeader title="Savolni tahrirlash" back={`/admin/tests/${id}#questions`} />
       <p className="mb-4 text-sm text-slate-600">{test.title_uz}</p>
-      <QuestionForm testId={id} row={row as QuestionRow} />
+      <QuestionForm testId={id} row={row as QuestionRow} topics={topics} />
       <div className="mt-8 border-t border-slate-200 pt-4 text-right">
         <DeleteButton action={deleteQuestion.bind(null, id, qid)} confirmText="Bu savolni o‘chirasizmi?" />
       </div>

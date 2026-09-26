@@ -29,6 +29,7 @@ export default function QuestionImport({ testId, existing }: { testId: number; e
   const [file, setFile] = useState<File | null>(null);
   const [parsed, setParsed] = useState<ParsedQuestions | null>(null);
   const [replace, setReplace] = useState(false);
+  const [topic, setTopic] = useState("");
   const [result, setResult] = useState<ImportResult | null>(null);
   const [saving, startSaving] = useTransition();
 
@@ -39,6 +40,7 @@ export default function QuestionImport({ testId, existing }: { testId: number; e
     if (tab === "file" && file) form.set("file", file);
     else form.set("text", text);
     if (replace) form.set("replace", "on");
+    if (topic.trim()) form.set("topic", topic.trim());
     startSaving(async () => {
       const r = await importQuestions(testId, form);
       setResult(r);
@@ -167,6 +169,16 @@ export default function QuestionImport({ testId, existing }: { testId: number; e
         </div>
       )}
 
+      <label className="mt-4 block max-w-md text-sm font-medium text-slate-700">
+        Mavzu (ixtiyoriy — o‘zida «Mavzu:» yozilmagan savollarga)
+        <input
+          value={topic}
+          onChange={(e) => setTopic(e.target.value)}
+          maxLength={80}
+          placeholder="Masalan: Kasrlar"
+          className="mt-1 block w-full rounded-lg border border-slate-300 px-3 py-2 text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200"
+        />
+      </label>
       <div className="mt-4 flex flex-wrap items-center gap-4">
         <button
           type="button"
