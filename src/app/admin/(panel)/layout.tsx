@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { requireAdmin } from "@/lib/admin";
 import AdminNav from "@/components/admin/AdminNav";
 import ExcludeDevice from "@/components/admin/ExcludeDevice";
@@ -12,6 +13,7 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
     // Applications have no "read" flag: the ones still waiting are those left at their initial status.
     supabase.from("admission_applications").select("id", { count: "exact", head: true }).eq("status", "new"),
   ]);
+  const light = (await cookies()).get("admin_theme")?.value === "light";
   const badges = {
     "/admin/messages": unread ?? 0,
     "/admin/trust": unreadTrust ?? 0,
@@ -22,7 +24,7 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
     <>
       {/* The admin's own browsing is left out of the visitor statistics. */}
       <ExcludeDevice />
-      <AdminNav email={email} badges={badges} role={role}>
+      <AdminNav email={email} badges={badges} role={role} light={light}>
         {children}
       </AdminNav>
     </>
