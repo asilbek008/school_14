@@ -184,6 +184,9 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin: `BookFileField` — PDF brauzerdan yuklanadi, 1-sahifadan muqova (JPEG, `library/covers/`) chiziladi va sahifalar sanaladi;
   muqovani boshqa rasm bilan almashtirish mumkin; har sinf ichida `SortableList`. Almashtirilgan/o‘chirilgan fayl va muqova Storage'dan
   o‘chadi. Faqat tarqatishga ruxsat berilgan kitoblar joylanadi (`source`). Menyuda "Maktab ▾" ichida, footer, sitemap, qidiruvda.
+  Barcha sinflar darsliklari (egasining talabi): `/library` pastida 11 ta rangli sinf plitkasi → `school.textbookCatalog` (infoedu.uz,
+  `/darsliklar/<sinf>`), sinf jadvali sahifasida ham «N-sinfning barcha darsliklari ↗». Faqat havola — skanlarni o‘z bucket'imizga
+  ko‘chirmaymiz (nashriyot mualliflik huquqi; konteynerdan infoedu.uz ga ulanish ham yopiq). Ruxsatli kitoblar admin kutubxonasi orqali yuklanadi.
   Dars jadvalida (egasining talabi): `/timetable/[id]` da ko‘rinish tugmalari qatorining o‘ng burchagida `ClassBooks` — "Darsliklar (N)"
   tugmasi, ochilganda shu sinf (+ umumiy) kitoblari va har birida "PDF ochish"; darsdagi fan uchun shu sinf kitobi bo‘lsa, fan nomi
   yonida kichik "PDF" belgisi (`BookLink`, `lessons.subject_id`/`alt_subject_id` bo‘yicha). Kitob bo‘lmasa hech narsa chiqmaydi.

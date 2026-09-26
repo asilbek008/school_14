@@ -1161,7 +1161,13 @@
       "back": "Back to the library",
       "goTo": "Go to page"
     },
-    "class": "Grade"
+    "class": "Grade",
+    "catalogTitle": "Textbooks for every grade",
+    "catalogText": "Ministry-approved school textbooks (PDF) — every subject for each grade. Opens on an external site.",
+    "catalogGrade": "Grade {n}",
+    "catalogBooks": "all subjects",
+    "catalogNote": "The books are on {site}; we only link to them.",
+    "catalogClass": "All grade {n} textbooks"
   },
   "alumni": {
     "noCount": "number not entered",

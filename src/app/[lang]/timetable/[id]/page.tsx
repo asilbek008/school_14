@@ -5,6 +5,7 @@ import { resolveLang } from "@/i18n/server";
 import { getClasses, getClassTimetable, getTextbooks, localized, mediaUrl, textbookHref } from "@/lib/content";
 import { fill } from "@/i18n/fill";
 import { shiftForGrade } from "@/lib/bells";
+import { school } from "@/lib/school";
 import { classLabel } from "@/lib/timetable";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
@@ -95,6 +96,14 @@ export default async function ClassTimetablePage({ params }: PageProps<"/[lang]/
         <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-3 text-sm">
           <ShiftBadge shift={shift} label={t.shift} />
           <MyClassButton cls={{ id: cls.id, label: classLabel(cls), grade: cls.grade }} t={dict.myClass} />
+          <a
+            href={school.textbookCatalog.url(cls.grade)}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="press inline-flex items-center gap-1.5 rounded-full bg-gold-soft px-3.5 py-1.5 font-semibold text-gold-deep hover:bg-gold hover:text-[#241703]"
+          >
+            📚 {fill(dict.library.catalogClass, { n: cls.grade })} ↗
+          </a>
           {cls.staff && (
             <span className="text-slate-600">
               {t.homeroom}:{" "}
