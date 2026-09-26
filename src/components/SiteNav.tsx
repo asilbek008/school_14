@@ -119,7 +119,7 @@ export default function SiteNav({
   return (
     <>
       {/* Nudged right, towards the buttons (owner's request). */}
-      <nav ref={navRef} className="hidden items-center gap-0.5 whitespace-nowrap text-[13.5px] font-semibold lg:ml-auto 2xl:text-[14.5px] lg:mr-1 lg:flex xl:mr-4">
+      <nav ref={navRef} className="hidden items-center gap-0.5 whitespace-nowrap text-[13px] font-semibold lg:ml-auto 2xl:text-[14px] lg:mr-1 lg:flex xl:mr-4">
         {entries.map((entry) => {
           if ("href" in entry) {
             const active = isActive(entry.href);

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
-import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, getStudentTotal, getTests, mediaUrl } from "@/lib/content";
+import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, getSchoolYears, getStudentTotal, getTests, mediaUrl } from "@/lib/content";
 import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
@@ -15,12 +15,13 @@ import TestsCard from "@/components/TestsCard";
 import LiveCard from "@/components/LiveCard";
 import StatTiles from "@/components/StatTiles";
 import MyClassCard from "@/components/MyClassCard";
+import YearSwitcher from "@/components/YearSwitcher";
 
 export const revalidate = 300;
 
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   const { lang, dict } = await resolveLang(params);
-  const [allNews, { upcoming }, albums, classes, clubs, programs, tests, students] = await Promise.all([
+  const [allNews, { upcoming }, albums, classes, clubs, programs, tests, students, schoolYears] = await Promise.all([
     getNews(),
     getEvents(),
     getAlbums(),
@@ -29,6 +30,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
     getPrograms(),
     getTests(),
     getStudentTotal(),
+    getSchoolYears(),
   ]);
   const news = allNews.slice(0, 3);
   // "School life in numbers": each tile opens its section.
@@ -40,6 +42,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   ];
   const recentPhotos = albums.flatMap((a) => a.gallery_photos.map((p) => mediaUrl(p.path)!)).slice(0, 4);
   const year = currentSchoolYear();
+  // The school years to switch between (the current one and every published past one, newest first).
+  const years = [...new Set([year.from, ...schoolYears.map((y) => y.start_year)])].sort((a, b) => b - a);
   // September: the year has just begun.
   const started = new Date().getMonth() === 8;
   const stats = [
@@ -60,12 +64,18 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <section className="chrome tricolor-rule">
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.3fr_0.7fr] 2xl:max-w-7xl 2xl:gap-14">
           <div>
-            <p className="flex animate-fade-up flex-wrap items-center gap-2.5 text-[13.5px] font-semibold text-[#b9c4e2] xl:text-base">
-              <span className="font-display rounded-full border border-white/15 bg-white/10 px-3 py-1 text-xs font-bold text-white xl:px-3.5 xl:text-sm">
-                {year.from}–{year.to}
-              </span>
+            <div className="relative z-10 flex animate-fade-up flex-wrap items-center gap-2.5 text-[13.5px] font-semibold text-[#b9c4e2] xl:text-base">
+              <YearSwitcher
+                variant="hero"
+                lang={lang}
+                years={years}
+                current={year.from}
+                format={dict.topbar.year}
+                label={dict.year.choose}
+                currentLabel={dict.year.current}
+              />
               {started ? dict.home.eyebrowStarted : dict.home.eyebrow}
-            </p>
+            </div>
             <h1 className="font-display mt-5 animate-fade-up text-[clamp(2rem,4vw,3rem)] font-bold xl:text-[3.5rem] 2xl:text-[3.75rem] leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
               {/* One sentence per line, so the motto does not break mid-thought. */}
               {dict.home.heroTitle.split(/(?<=\.)\s+/).map((sentence) => (
