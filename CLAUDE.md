@@ -478,6 +478,15 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sinf rahbarisiz sinf, eMaktab nomisiz o‘qituvchi, rasmsiz xodim, tarjimasiz fan/sahifa, vaqtsiz to‘garak, bo‘sh albom, Telegram
   xatosi; faqat 0 dan kattalari, har biri bo‘limga havola), yaqin tadbirlar, so‘nggi xabarlar va yangiliklar. Bo‘limga yangi
   kamchilik filtri qo‘shsangiz, shu ro‘yxatga ham qo‘shing.
+- Admin dizayni (egasi yuborgan maket asosida): standart **qorong‘i** mavzu — `html.admin-dark` (admin root layout `admin_theme` cookie'dan
+  qo‘yadi; `ThemeToggle` quyosh/oy — cookie `path=/admin`); `globals.css` da slate shkalasi teskari, `bg-white` → `--admin-card` + ingichka chegara,
+  `bg-*-50/100` va `text-*-700/800` qorong‘i/ochroq nusxalarga almashtiriladi (sahifalarga `dark:` klass yozilmaydi). Yangi admin sahifada shu
+  klasslardan foydalaning; qat’iy yorug‘ blok kerak bo‘lsa (dashboard banneri) — hex ranglar. Yuqori panel (`admin-topbar`): menyuni yig‘ish
+  (`localStorage.adminSidebar`), bo‘lim/buyruq qidiruvi (`/` yoki Ctrl+K, ↑↓ Enter), mavzu, qo‘ng‘iroqcha (murojaatlar soni), profil menyusi.
+  Logo — `components/admin/Crest.tsx` (faqat solid ranglar — gradient id nusxalar orasida to‘qnashadi). Bosh sahifa: yorug‘ banner (Caveat shrifti —
+  `--font-script`), 4 rangli-ikonkali karta (bugungi tashrif + kechagidan %, murojaatlar, yangiliklar + shu hafta, yaqin tadbirlar), `VisitsChart`
+  (`visit_stats(90).daily`, 7/30/90 kun, hover tooltip, sr-only jadval), so‘nggi xabarlar, tezkor amallar, "E’tibor talab qiladi", o‘ng ustunda
+  `BotStatusCard`/`BotPreview` (`lib/parent-bot.ts` `parentBotStatus` — getWebhookInfo; token faqat nuqtalar) va "Maktab raqamlarda".
 - Admin menyusi — client `AdminNav` (`components/admin/AdminNav.tsx`; `(panel)/layout.tsx` faqat nishon sonlarini o‘qiydi): bo‘limlar
   guruhlarda (Kontent, Maktab, Murojaatlar, Tizim) ikonka bilan, joriy sahifa oltin chiziq bilan ajratiladi, o‘qilmaganlar — oltin nishon.
   md+ — navy `sticky` yon panel (pastda "Saytni ko‘rish" va chiqish). Telefonda: yuqorida navy qator (logo, sahifa nomi, menyu tugmasi),

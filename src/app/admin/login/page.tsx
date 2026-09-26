@@ -1,3 +1,4 @@
+import Crest from "@/components/admin/Crest";
 import type { Metadata } from "next";
 import LoginForm from "./LoginForm";
 
@@ -14,7 +15,7 @@ export default async function LoginPage({ searchParams }: PageProps<"/admin/logi
     <main className="grid min-h-screen place-items-center bg-navy bg-[radial-gradient(60rem_30rem_at_50%_-10%,rgb(44_92_224/0.35),transparent)] px-4 py-10">
       <div className="w-full max-w-sm rounded-2xl bg-white p-7 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] sm:p-8">
         <div className="mb-6 text-center">
-          <span className="mx-auto grid size-12 place-items-center rounded-2xl bg-navy text-lg font-extrabold text-white shadow-[inset_0_-4px_0_var(--color-gold)]">14</span>
+          <Crest className="mx-auto size-16" />
           <h1 className="mt-3 text-xl font-bold">Admin panel</h1>
           <p className="text-sm text-slate-500">14-maktab veb-sayti</p>
         </div>

@@ -288,3 +288,154 @@ html.dark :is(main, .surface) .border-navy {
     animation: none;
   }
 }
+
+/* ---------- Admin panel: dark theme (default; the owner's mockup) ----------
+   `html.admin-dark` is set by the admin root layout from the `admin_theme` cookie (AdminThemeToggle switches it).
+   Like the site's dark mode, the tokens are swapped instead of dark: classes on every page: the slate scale is
+   inverted, white cards become navy surfaces with a hairline edge, the soft status tints go dark and their
+   deep text colors lighter. Solid buttons (bg-blue-700 …) keep their color. */
+html.admin-dark {
+  color-scheme: dark;
+  --admin-bg: #0a1330;
+  --admin-card: #101c3d;
+  --admin-card-2: #14224a;
+  --admin-edge: rgb(148 170 230 / 0.12);
+  --color-slate-50: #0f1a38;
+  --color-slate-100: #16224a;
+  --color-slate-200: #22305a;
+  --color-slate-300: #34426e;
+  --color-slate-400: #66739a;
+  --color-slate-500: #8b97bb;
+  --color-slate-600: #a8b3d2;
+  --color-slate-700: #c3cce4;
+  --color-slate-800: #dce2f1;
+  --color-slate-900: #eef2fb;
+  --color-slate-950: #f8f9fd;
+}
+html.admin-dark body {
+  color: #eef2fb;
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgb(44 92 224 / 0.16), transparent 60%),
+    var(--admin-bg);
+  background-attachment: fixed;
+}
+html.admin-dark .bg-white:not(.text-navy) {
+  background-color: var(--admin-card);
+  box-shadow: 0 0 0 1px var(--admin-edge);
+}
+html.admin-dark .bg-white\/95 {
+  background-color: rgb(13 24 54 / 0.95);
+}
+html.admin-dark :is(input:not([type="checkbox"], [type="radio"], [type="range"], [type="color"]), select, textarea) {
+  background-color: #0c1633;
+}
+html.admin-dark input:-webkit-autofill {
+  -webkit-text-fill-color: var(--color-slate-900);
+  box-shadow: 0 0 0 1000px #0c1633 inset;
+}
+/* Dark buttons would turn light with the inverted slate: keep them dark. */
+html.admin-dark .bg-slate-800,
+html.admin-dark .bg-slate-900 {
+  background-color: #2a3b6b;
+}
+html.admin-dark .hover\:bg-slate-900:hover {
+  background-color: #34497f;
+}
+html.admin-dark .bg-slate-900\/70 {
+  background-color: rgb(4 9 24 / 0.75);
+}
+/* Soft tints → dark tints. */
+html.admin-dark :is(.bg-blue-50, .bg-blue-100, .hover\:bg-blue-100:hover) {
+  background-color: #17285a;
+}
+html.admin-dark :is(.bg-green-50, .bg-green-100, .hover\:bg-green-100:hover) {
+  background-color: #0f3226;
+}
+html.admin-dark :is(.bg-red-50, .bg-red-100, .hover\:bg-red-50:hover) {
+  background-color: #3a1a1d;
+}
+html.admin-dark .bg-red-50\/40 {
+  background-color: rgb(58 26 29 / 0.5);
+}
+html.admin-dark :is(.bg-amber-50, .bg-amber-100) {
+  background-color: #35270f;
+}
+html.admin-dark .bg-teal-100 {
+  background-color: #0f3330;
+}
+html.admin-dark :is(.bg-violet-100, .bg-rose-100) {
+  background-color: #2c2150;
+}
+html.admin-dark .border-red-200 {
+  border-color: #6b2d33;
+}
+html.admin-dark :is(.border-blue-300, .border-blue-400) {
+  border-color: #3d5cb3;
+}
+/* Deep text on the dark tints and cards: lighter steps of the same hues. */
+html.admin-dark :is(.text-blue-700, .text-blue-800, .hover\:text-blue-700:hover, .hover\:text-blue-800:hover) {
+  color: #8fb0ff;
+}
+html.admin-dark :is(.text-green-700, .text-green-800, .text-green-900) {
+  color: #6fdca6;
+}
+html.admin-dark :is(.text-red-700, .text-red-800) {
+  color: #ff9f93;
+}
+html.admin-dark :is(.text-amber-700, .text-amber-800, .text-amber-900, .text-amber-950) {
+  color: #f5c46c;
+}
+html.admin-dark .text-teal-800 {
+  color: #6fd9c9;
+}
+html.admin-dark :is(.text-violet-800, .text-rose-800) {
+  color: #c6b4ff;
+}
+html.admin-dark .text-sky-700 {
+  color: #7fcbf5;
+}
+html.admin-dark .focus\:ring-blue-200:focus {
+  --tw-ring-color: rgb(79 125 255 / 0.35);
+}
+
+/* Admin frame: the sidebar, the top bar and its pop-ups (both themes). */
+.admin-sidebar {
+  background: linear-gradient(180deg, #0f1c40 0%, #0b1533 100%);
+}
+html.admin-dark .admin-sidebar {
+  background: linear-gradient(180deg, #0c1737 0%, #09122b 100%);
+  box-shadow: 1px 0 0 var(--admin-edge);
+}
+.admin-topbar {
+  --bar-field: rgb(15 23 42 / 0.05);
+  --bar-edge: rgb(15 23 42 / 0.1);
+  --bar-ring: #fff;
+  background: rgb(255 255 255 / 0.85);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 1px 0 rgb(15 23 42 / 0.06);
+}
+html.admin-dark .admin-topbar {
+  --bar-field: rgb(255 255 255 / 0.06);
+  --bar-edge: rgb(148 170 230 / 0.16);
+  --bar-ring: #0a1330;
+  background: rgb(10 19 48 / 0.82);
+  box-shadow: 0 1px 0 var(--admin-edge);
+}
+.admin-pop {
+  --bar-field: rgb(15 23 42 / 0.05);
+  --bar-edge: rgb(15 23 42 / 0.1);
+  background: #fff;
+  box-shadow: 0 18px 40px -12px rgb(15 23 42 / 0.3), 0 0 0 1px rgb(15 23 42 / 0.08);
+}
+html.admin-dark .admin-pop {
+  --bar-field: rgb(255 255 255 / 0.06);
+  --bar-edge: rgb(148 170 230 / 0.16);
+  background: var(--admin-card-2);
+  box-shadow: 0 18px 40px -12px rgb(0 0 0 / 0.6), 0 0 0 1px var(--admin-edge);
+}
+:root {
+  --chart-ring: #fff;
+}
+html.admin-dark {
+  --chart-ring: var(--admin-card);
+}
