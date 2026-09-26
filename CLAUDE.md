@@ -469,6 +469,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Admin bosh sahifasida bugungi tashrifchilar. Adminning o‘zi hisoblanmaydi (egasining talabi): admin panel ochilgan brauzerda
   `ExcludeDevice` (`(panel)/layout.tsx`) `localStorage.noTrack` qo‘yadi va shu brauzerning oldingi tashriflarini o‘chiradi
   (`forgetAdminDevice`, `vid` bo‘yicha); `VisitBeacon` `noTrack` bo‘lsa yubormaydi; `/api/visit` Supabase sessiyasi bor so‘rovni ham yozmaydi.
+- Zaxira nusxalar (`/admin/backups`, `backups`; egasining talabi): `private.take_backup()` (definer) admin to‘ldiradigan jadvallarni
+  bitta jsonb qilib saqlaydi (sirlar — `telegram_settings`, o‘sib boruvchi jurnallar — `site_visits`/`admin_logins`/`audit_log` yo‘q; rasm/PDF
+  Storage'da, kirmaydi), oxirgi 8 tasi qoladi. pg_cron `weekly-backup` — yakshanba 03:07 Toshkent. "Hozir zaxira olish" — `rpc('take_backup_now')`
+  (invoker → `private.take_backup_as_admin` definer, `taken_by` = admin email). Yuklab olish — `/admin/backups/[id]` route (JSON fayl). RLS: faqat admin
+  o‘qiydi, API orqali yozib bo‘lmaydi. Yangi kontent jadvali qo‘shsangiz, `take_backup` ro‘yxatiga ham yozing.
 - Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
   npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
   qutisi ataylab eksport qilinmaydi (maxfiy).

@@ -56,6 +56,7 @@ const groups: { title: string | null; items: Item[] }[] = [
       { href: "/admin/telegram", label: "Telegram", icon: "send" },
       { href: "/admin/activity", label: "Faoliyat jurnali", icon: "list" },
       { href: "/admin/logins", label: "Kirishlar jurnali", icon: "key" },
+      { href: "/admin/backups", label: "Zaxira nusxalar", icon: "archive" },
     ],
   },
 ];
@@ -90,6 +91,7 @@ const icons = {
   form: "M6 3h12v18H6zM9 7h6M9 11h6M9 15h3",
   send: "M22 2L11 13M22 2l-7 20-4-9-9-4z",
   list: "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
+  archive: "M3 4h18v5H3zM5 9v11h14V9M10 13h4",
   key: "M15 7a4 4 0 1 1-3.9 5H3v4h3v-2h2v2h3.1A4 4 0 0 1 15 7zM16 11h.01",
   menu: "M4 7h16M4 12h16M4 17h16",
   close: "M6 6l12 12M18 6L6 18",
