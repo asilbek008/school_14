@@ -34,6 +34,7 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
         { href: href("/calendar"), label: dict.nav.calendar, desc: d.calendar, icon: "calendar", color: "blue" },
         { href: href("/library"), label: dict.nav.library, desc: d.library, icon: "book", color: "coral" },
         { href: href("/clubs"), label: dict.nav.clubs, desc: d.clubs, icon: "star", color: "coral" },
+        { href: href("/alumni"), label: dict.nav.alumni, desc: d.alumni, icon: "cap", color: "green" },
         { href: href("/faq"), label: dict.nav.faq, desc: d.faq, icon: "question", color: "blue" },
         { href: href("/documents"), label: dict.nav.documents, desc: d.documents, icon: "doc", color: "amber" },
         { href: href("/contact"), label: dict.nav.contact, desc: d.contact, icon: "phone", color: "green" },

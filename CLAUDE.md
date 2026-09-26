@@ -317,6 +317,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Yangilik, tadbir va yutuqning o‘quv yili (egasining talabi): `school_year` ustuni (bo‘sh = sana bo‘yicha); admin formalarida
   `SchoolYearField` («Sana bo‘yicha (avtomatik)» + joriy va oldingi 5 yil, `yearChoices`), action'da `schoolYear(form)` (`lib/admin.ts`).
   Saytda hamma joyda `itemYear(school_year, sana)` (`school-years.ts`) — `data-year`, yil sahifasi (yangiliklar, tadbirlar, yutuqlar, albomlar).
+- Bitiruvchilar (`/[lang]/alumni`, `alumni`; admin `/admin/alumni`; egasining talabi): taniqli bitiruvchilar — ism, bitirgan yili, sinfi,
+  kasbi va hikoya (tarjimali), rasm; faqat o‘z roziligi bilan (`consent`; DB `check`: e’lon qilingan ⇒ rozilik, action ham rad etadi). Yillar
+  bo‘yicha bitiruvchilar soni — `school_years.graduates` (o‘quv yili 2025 → "2026-yil bitiruvchilari"). Sahifa: raqam kartalari, bitiruvchi
+  kartalari (6 tadan ko‘p bo‘lsa qidiruv), yillar ro‘yxati, "Hikoyangizni yuboring" → aloqa. Menyuda "Maktab ▾" (`cap` ikonka), footer, sitemap, qidiruv.
 - Sayt bo‘yicha qidiruv (`/[lang]/search`): sahifa statik — server hamma qidiriladigan narsani (sahifalar, yangiliklar, tadbirlar,
   xodimlar, to‘garaklar, doimiy tadbirlar, savol-javob, albomlar) yig‘adi, client `SiteSearch` brauzerda filtrlaydi (hamma so‘z uchrashi
   kerak, sarlavhadagisi oldinda; apostrof va ё farqsiz), turlar bo‘yicha tugmalar, `?q=` manzilda (`useSearchParams`, `Suspense` ichida).
@@ -473,7 +477,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   bitta jsonb qilib saqlaydi (sirlar — `telegram_settings`, o‘sib boruvchi jurnallar — `site_visits`/`admin_logins`/`audit_log` yo‘q; rasm/PDF
   Storage'da, kirmaydi), oxirgi 8 tasi qoladi. pg_cron `weekly-backup` — yakshanba 03:07 Toshkent. "Hozir zaxira olish" — `rpc('take_backup_now')`
   (invoker → `private.take_backup_as_admin` definer, `taken_by` = admin email). Yuklab olish — `/admin/backups/[id]` route (JSON fayl). RLS: faqat admin
-  o‘qiydi, API orqali yozib bo‘lmaydi. Yangi kontent jadvali qo‘shsangiz, `take_backup` ro‘yxatiga ham yozing.
+  o‘qiydi, API orqali yozib bo‘lmaydi. Jadvallar ro‘yxati avtomatik (`public` dagi hammasi, istisnolardan tashqari) — yangi jadval o‘zi kiradi.
 - Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
   npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
   qutisi ataylab eksport qilinmaydi (maxfiy).

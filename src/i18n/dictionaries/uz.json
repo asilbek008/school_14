@@ -27,7 +27,8 @@
     "calendar": "O‘quv yili taqvimi",
     "achievements": "Yutuqlar",
     "tests": "Testlar",
-    "library": "Kutubxona"
+    "library": "Kutubxona",
+    "alumni": "Bitiruvchilar"
   },
   "navDesc": {
     "about": "Maktab tarixi va umumiy ma’lumot",
@@ -45,7 +46,8 @@
     "calendar": "Choraklar, ta’tillar va imtihonlar",
     "achievements": "Olimpiada, sport va tanlov natijalari",
     "tests": "Fan testlari va DTMga tayyorgarlik",
-    "library": "Darsliklar va o‘quv kitoblari (PDF)"
+    "library": "Darsliklar va o‘quv kitoblari (PDF)",
+    "alumni": "Bitiruvchilarimiz va ularning yutuqlari"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -1038,5 +1040,31 @@
       "goTo": "Sahifaga o‘tish"
     },
     "class": "Sinf"
+  },
+  "alumni": {
+    "kicker": "Faxrimiz",
+    "title": "Bitiruvchilar",
+    "intro": "1976-yildan beri maktabimizni tamomlaganlar — yillar bo‘yicha bitiruvchilar va taniqli bitiruvchilarimiz.",
+    "statGraduates": "bitiruvchi (kiritilgan yillar)",
+    "statYears": "yil ma’lumoti",
+    "statNotable": "taniqli bitiruvchi",
+    "statAge": "yillik tarix",
+    "byYear": "Yillar bo‘yicha",
+    "byYearKicker": "Bitiruv",
+    "yearLine": "{y}-yil bitiruvchilari",
+    "people": {
+      "one": "{n} nafar",
+      "other": "{n} nafar"
+    },
+    "notable": "Taniqli bitiruvchilarimiz",
+    "notableKicker": "Ular bilan faxrlanamiz",
+    "class": "{y}-yil bitiruvchisi",
+    "more": "Batafsil",
+    "less": "Yopish",
+    "empty": "Bitiruvchilar haqida ma’lumot tez orada qo‘shiladi.",
+    "search": "Ism yoki kasb…",
+    "notFound": "Hech kim topilmadi.",
+    "invite": "Siz ham shu maktab bitiruvchisimisiz? Hikoyangizni yuboring — roziligingiz bilan saytga qo‘shamiz.",
+    "write": "Yozish"
   }
 }

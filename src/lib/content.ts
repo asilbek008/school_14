@@ -546,6 +546,35 @@ export const getSchoolYears = cache(async (): Promise<SchoolYearRow[]> => {
   return (data ?? []) as SchoolYearRow[];
 });
 
+export type Alumnus = {
+  id: number;
+  full_name: string;
+  graduation_year: number;
+  class_label: string | null;
+  occupation_uz: string | null;
+  occupation_ru: string | null;
+  occupation_en: string | null;
+  story_uz: string;
+  story_ru: string | null;
+  story_en: string | null;
+  photo: string | null;
+};
+
+/** Published notable graduates (each with their consent), newest class first. */
+export async function getAlumni(): Promise<Alumnus[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("alumni")
+    .select("id, full_name, graduation_year, class_label, occupation_uz, occupation_ru, occupation_en, story_uz, story_ru, story_en, photo")
+    .eq("is_published", true)
+    .order("graduation_year", { ascending: false })
+    .order("sort_order")
+    .order("id");
+  logError("getAlumni", error);
+  return data ?? [];
+}
+
 export type SchoolDocument = {
   id: number;
   title_uz: string;
