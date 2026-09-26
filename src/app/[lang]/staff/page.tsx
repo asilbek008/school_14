@@ -48,9 +48,9 @@ export default async function StaffPage({ params }: PageProps<"/[lang]/staff">) 
   const homeroomCount = rows.filter((r) => r.homeroom).length;
   const stats = [
     { value: rows.length, label: plural(t.statTotal, rows.length, lang) },
-    { value: count("leaders"), label: t.statLeaders },
+    { value: count("leaders"), label: t.statLeaders, href: `/${lang}/about#leaders` },
     { value: count("teachers"), label: plural(t.statTeachers, count("teachers"), lang) },
-    { value: homeroomCount, label: plural(t.statHomeroom, homeroomCount, lang) },
+    { value: homeroomCount, label: plural(t.statHomeroom, homeroomCount, lang), href: `/${lang}/timetable` },
   ];
 
   return (

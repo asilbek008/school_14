@@ -71,7 +71,7 @@ export default async function CalendarPage({ params }: PageProps<"/[lang]/calend
     { value: quarters, label: plural(t.statQuarters, quarters, lang) },
     { value: holidayDays, label: plural(t.statHolidayDays, holidayDays, lang) },
     { value: exams, label: plural(t.statExams, exams, lang) },
-    { value: holidays.length, label: plural(t.statBayram, holidays.length, lang) },
+    { value: holidays.length, label: plural(t.statBayram, holidays.length, lang), href: `/${lang}/events` },
   ];
 
   // The year-long bar: 1 September – 31 August, each period placed by its dates.

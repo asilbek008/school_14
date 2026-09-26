@@ -24,6 +24,8 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
   const d = dict.navDesc;
   const entries: NavEntry[] = [
     { href: href(""), label: dict.nav.home },
+    // Alumni left the "School" menu (owner's request; the page stays, linked from the footer); documents are hidden
+    // for now (`school.showDocuments`).
     {
       key: "school",
       label: dict.nav.school,
@@ -31,17 +33,22 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
         { href: href("/about"), label: dict.nav.about, desc: d.about, icon: "info", color: "blue" },
         { href: href("/admissions"), label: dict.nav.admissions, desc: d.admissions, icon: "door", color: "green" },
         { href: href("/schedule"), label: dict.nav.schedule, desc: d.schedule, icon: "bell", color: "amber" },
-        { href: href("/calendar"), label: dict.nav.calendar, desc: d.calendar, icon: "calendar", color: "blue" },
         { href: href("/library"), label: dict.nav.library, desc: d.library, icon: "book", color: "coral" },
         { href: href("/clubs"), label: dict.nav.clubs, desc: d.clubs, icon: "star", color: "coral" },
-        { href: href("/alumni"), label: dict.nav.alumni, desc: d.alumni, icon: "cap", color: "green" },
         { href: href("/faq"), label: dict.nav.faq, desc: d.faq, icon: "question", color: "blue" },
-        { href: href("/documents"), label: dict.nav.documents, desc: d.documents, icon: "doc", color: "amber" },
         { href: href("/contact"), label: dict.nav.contact, desc: d.contact, icon: "phone", color: "green" },
       ],
     },
-    // Short label in the bar: the Russian "Расписание уроков" does not fit next to the buttons.
-    { href: href("/timetable"), label: dict.nav.timetableShort },
+    // Short label in the bar: the Russian "Расписание уроков" does not fit next to the buttons. The school-year
+    // calendar sits here, next to the lessons (owner's request).
+    {
+      key: "timetable",
+      label: dict.nav.timetableShort,
+      items: [
+        { href: href("/timetable"), label: dict.nav.timetable, desc: d.timetable, icon: "grade", color: "blue" },
+        { href: href("/calendar"), label: dict.nav.calendar, desc: d.calendar, icon: "calendar", color: "green" },
+      ],
+    },
     // Tests stand on their own in the bar (owner's request), not inside "School".
     { href: href("/tests"), label: dict.nav.tests },
     { href: href("/staff"), label: dict.nav.staff },

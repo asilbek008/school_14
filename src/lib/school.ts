@@ -4,6 +4,9 @@ type Localized = Record<Locale, string>;
 
 // School facts shown across the site. null = not provided yet (pages show "coming soon").
 export const school = {
+  // The documents section is hidden for now (owner's request): off the menus, footer, search and sitemap, and its page
+  // is a 404. The admin section keeps working; set true to show it again.
+  showDocuments: false,
   // Built in 1976 (owner, 2026-09).
   foundedLabel: { uz: "1976-yildan beri", ru: "С 1976 года", en: "Since 1976" } as Localized,
   address: {

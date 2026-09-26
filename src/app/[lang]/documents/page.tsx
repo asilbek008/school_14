@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
 import { documentHref, fileSize, getDocuments, localized } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { school } from "@/lib/school";
 import { documentCategories, documentColors, type DocumentCategory } from "@/lib/categories";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
@@ -20,6 +22,7 @@ const cat = (value: string): DocumentCategory => (documentCategories as readonly
 
 /** Open documents: a card per document with its section, size and date; filtered by section and title. */
 export default async function DocumentsPage({ params }: PageProps<"/[lang]/documents">) {
+  if (!school.showDocuments) notFound();
   const { lang, dict } = await resolveLang(params);
   const t = dict.documents;
   const docs = await getDocuments();

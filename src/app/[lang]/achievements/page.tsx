@@ -49,7 +49,7 @@ export default async function AchievementsPage({ params }: PageProps<"/[lang]/ac
     { value: items.length, label: plural(t.statAll, items.length, lang) },
     { value: prizes, label: plural(t.statPrizes, prizes, lang) },
     { value: regional, label: plural(t.statHigh, regional, lang) },
-    { value: teachers, label: plural(t.statTeachers, teachers, lang) },
+    { value: teachers, label: plural(t.statTeachers, teachers, lang), href: `/${lang}/staff` },
   ].filter((s, i) => i < 3 || s.value > 0);
   const options = achievementFields
     .map((f) => ({ value: f, label: `${t.fields[f]} · ${items.filter((a) => fieldOf(a.field) === f).length}` }))

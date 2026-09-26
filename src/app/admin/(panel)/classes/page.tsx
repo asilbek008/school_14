@@ -57,7 +57,8 @@ export default async function AdminClassesPage({ searchParams }: PageProps<"/adm
       <AdminHeader title="Sinflar va dars jadvali" action={{ href: "/admin/classes/new", label: "+ Qo‘shish" }} />
       <p className="mb-4 text-sm text-slate-600">
         Sinfni oching — dars jadvali o‘sha yerda to‘ldiriladi. Fanlar ro‘yxati:{" "}
-        <Link href="/admin/subjects" className="text-blue-700 hover:underline">Fanlar</Link>.
+        <Link href="/admin/subjects" className="text-blue-700 hover:underline">Fanlar</Link>. O‘quvchilar ro‘yxati (eMaktab):{" "}
+        <Link href="/admin/classes/pupils" className="text-blue-700 hover:underline">Excel&apos;dan yuklash</Link>.
       </p>
       {(await searchParams).students === "saved" && (
         <p role="status" className="mb-4 rounded-lg bg-green-50 p-3 text-sm font-semibold text-green-900">✓ O‘quvchilar soni saqlandi.</p>

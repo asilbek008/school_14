@@ -49,7 +49,7 @@ export default function SiteFooter({ lang, dict, bot }: { lang: Locale; dict: Di
         <div>
           <h2 className="mb-3.5 text-[14.5px] font-bold text-white">{dict.footer.links}</h2>
           <ul className="grid grid-cols-2 gap-x-6 gap-y-2.5">
-            {links.map((item) => (
+            {links.filter((item) => item !== "documents" || school.showDocuments).map((item) => (
               <li key={item}>
                 <Link href={`/${lang}/${item}`} className={link}>
                   {dict.nav[item]}

@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
 import { LESSONS_PER_SHIFT } from "@/lib/bells";
 import { WEEKDAYS } from "@/lib/timetable";
+import { readPupilFile } from "@/lib/pupil-import";
 
 function readGrade(form: FormData) {
   const grade = Number.parseInt(text(form, "grade"), 10);
@@ -116,4 +117,43 @@ export async function saveStudents(_prev: FormState, form: FormData): Promise<Fo
   }
   revalidatePublic();
   redirect("/admin/classes?students=saved");
+}
+
+export type PupilImportResult = { error?: string; errors?: string[]; saved?: number };
+
+/**
+ * eMaktab's pupil list (the whole school) replaces the stored one in one transaction; every listed class's pupil
+ * count is set from it. A class in the file that is not on the site stops the import — nothing is saved.
+ */
+export async function importPupils(form: FormData): Promise<PupilImportResult> {
+  const { supabase } = await requireAdmin();
+
+  const file = form.get("file");
+  if (!(file instanceof Blob) || !file.size) return { error: "Fayl tanlanmagan." };
+  if (file.size > 900_000) return { error: "Fayl juda katta (900 KB gacha bo‘lsin)." };
+  const { rows, errors } = await readPupilFile(file);
+  if (errors.length) return { errors };
+
+  const { data: classes, error } = await supabase.from("school_classes").select("id, grade, letter");
+  if (error) return { error: `Bazani o‘qib bo‘lmadi: ${error.message}` };
+  const ids = new Map(classes.map((c) => [`${c.grade}-${c.letter.toUpperCase()}`, c.id]));
+  const missing = [...new Set(rows.map((r) => r.cls).filter((c) => !ids.has(c)))];
+  if (missing.length) return { errors: [`Saytda bunday sinf yo‘q: ${missing.join(", ")}. Avval «Sinflar» bo‘limida qo‘shing.`] };
+  const perClass = new Map<string, number>();
+  for (const r of rows) perClass.set(r.cls, (perClass.get(r.cls) ?? 0) + 1);
+  const big = [...perClass].filter(([, n]) => n > 60).map(([c, n]) => `${c} (${n})`);
+  if (big.length) return { errors: [`Sinfda 60 tadan ko‘p o‘quvchi: ${big.join(", ")}`] };
+
+  const payload = rows.map((r) => ({
+    class_id: ids.get(r.cls),
+    full_name: r.full_name,
+    display_name: r.display_name,
+    gender: r.gender ?? "",
+    birth_date: r.birth_date,
+  }));
+  const { data: saved, error: saveError } = await supabase.rpc("replace_pupils", { p_rows: payload });
+  // The message only — never the rows: they are children's personal data.
+  if (saveError) return { error: `Saqlab bo‘lmadi: ${saveError.message}` };
+  revalidatePublic();
+  return { saved: saved ?? rows.length };
 }
