@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { optional, requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
+import { graduatingRows, readPupilFile } from "@/lib/pupil-import";
 
 export async function saveAlumnus(id: number | null, _prev: FormState, form: FormData): Promise<FormState> {
   const { supabase } = await requireAdmin();
@@ -44,4 +45,40 @@ export async function deleteAlumnus(id: number) {
   if (data?.photo && !/^https?:\/\//.test(data.photo)) await supabase.storage.from("media").remove([data.photo]);
   revalidatePublic();
   redirect("/admin/alumni");
+}
+
+export type GraduateImportResult = { error?: string; errors?: string[]; saved?: number };
+
+/**
+ * One year's graduates from an eMaktab pupil list: when the file has 11th grades (a whole-school list), only they are
+ * taken. The year's old list is replaced; nothing is saved if the file has errors.
+ */
+export async function importGraduates(form: FormData): Promise<GraduateImportResult> {
+  const { supabase } = await requireAdmin();
+
+  const year = Number(text(form, "year"));
+  if (!Number.isInteger(year) || year < 1976 || year > new Date().getFullYear() + 1) return { error: "Bitiruv yilini tanlang." };
+  const file = form.get("file");
+  if (!(file instanceof Blob) || !file.size) return { error: "Fayl tanlanmagan." };
+  if (file.size > 900_000) return { error: "Fayl juda katta (900 KB gacha bo‘lsin)." };
+  const { rows, errors } = await readPupilFile(file);
+  if (errors.length) return { errors };
+  const list = graduatingRows(rows);
+
+  const { data: saved, error } = await supabase.rpc("replace_graduates", {
+    p_year: year,
+    p_rows: list.map((r) => ({ class_label: r.cls, full_name: r.full_name, display_name: r.display_name, gender: r.gender ?? "", birth_date: r.birth_date })),
+  });
+  // The message only — never the rows (personal data).
+  if (error) return { error: `Saqlab bo‘lmadi: ${error.message}` };
+  revalidatePublic();
+  return { saved: saved ?? list.length };
+}
+
+export async function deleteGraduateYear(year: number) {
+  const { supabase } = await requireAdmin();
+  const { error } = await supabase.rpc("replace_graduates", { p_year: year, p_rows: [] });
+  if (error) throw new Error(error.message);
+  revalidatePublic();
+  redirect("/admin/alumni/graduates");
 }

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
-import { fill, plural } from "@/i18n/fill";
-import { getAlumni, getSchoolYears, localized, mediaUrl } from "@/lib/content";
+import { fill } from "@/i18n/fill";
+import { getAlumni, getGraduateCounts, getSchoolYears, localized, mediaUrl } from "@/lib/content";
 import { avatarGradient, initials } from "@/lib/positions";
 import { currentSchoolYear } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
@@ -11,6 +11,7 @@ import StatTiles from "@/components/StatTiles";
 import SectionHead from "@/components/SectionHead";
 import CategoryFilter from "@/components/CategoryFilter";
 import EmptyState from "@/components/EmptyState";
+import GraduateYears, { type GraduateYear } from "@/components/GraduateYears";
 
 export const revalidate = 300;
 
@@ -28,9 +29,19 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/alumni">):
 export default async function AlumniPage({ params }: PageProps<"/[lang]/alumni">) {
   const { lang, dict } = await resolveLang(params);
   const t = dict.alumni;
-  const [alumni, years] = await Promise.all([getAlumni(), getSchoolYears()]);
+  const [alumni, years, lists] = await Promise.all([getAlumni(), getSchoolYears(), getGraduateCounts()]);
   const classes = years.filter((y) => y.graduates != null).map((y) => ({ year: y.start_year + 1, count: y.graduates! }));
   const total = classes.reduce((a, c) => a + c.count, 0);
+  // Every year with a count or a list; this school year's class (still at school) with the current 11th grades.
+  const thisYear = currentSchoolYear().to;
+  const gradYears: GraduateYear[] = [...new Set([...classes.map((c) => c.year), ...Object.keys(lists.years).map(Number), ...(lists.eleventh ? [thisYear] : [])])]
+    .sort((a, b) => b - a)
+    .map((year) => ({
+      year,
+      count: classes.find((c) => c.year === year)?.count ?? (year === thisYear && lists.eleventh ? lists.eleventh : null),
+      listed: lists.years[year] ?? 0,
+      live: year === thisYear && !lists.years[year] && lists.eleventh > 0,
+    }));
   const stats = [
     ...(total ? [{ value: total, label: t.statGraduates }, { value: classes.length, label: t.statYears }] : []),
     { value: alumni.length, label: t.statNotable },
@@ -105,21 +116,14 @@ export default async function AlumniPage({ params }: PageProps<"/[lang]/alumni">
           </section>
         )}
 
-        {classes.length > 0 && (
+        {gradYears.length > 0 && (
           <section className="mb-12">
             <SectionHead kicker={t.byYearKicker} title={t.byYear} />
-            <ul className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
-              {classes.map((c) => (
-                <li key={c.year} className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3">
-                  <span className="font-semibold text-slate-800">{fill(t.yearLine, { y: c.year })}</span>
-                  <span className="shrink-0 whitespace-nowrap rounded-full bg-brand-soft px-2.5 py-0.5 text-sm font-bold text-brand-deep">{plural(t.people, c.count, lang)}</span>
-                </li>
-              ))}
-            </ul>
+            <GraduateYears years={gradYears} t={t} lang={lang} />
           </section>
         )}
 
-        {!alumni.length && !classes.length && <EmptyState>{t.empty}</EmptyState>}
+        {!alumni.length && !gradYears.length && <EmptyState>{t.empty}</EmptyState>}
 
         <div className="chrome mt-4 flex flex-col items-start gap-4 rounded-2xl p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8">
           <p className="relative max-w-2xl text-[15px] leading-relaxed text-[#cfd6ea]">🎓 {t.invite}</p>

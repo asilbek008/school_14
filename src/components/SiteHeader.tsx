@@ -24,7 +24,7 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
   const d = dict.navDesc;
   const entries: NavEntry[] = [
     { href: href(""), label: dict.nav.home },
-    // Alumni left the "School" menu (owner's request; the page stays, linked from the footer); documents are hidden
+    // Alumni moved from "School" to "Events" (owner's request); documents are hidden
     // for now (`school.showDocuments`).
     {
       key: "school",
@@ -61,6 +61,7 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
         { href: href("/events#past"), label: dict.events.past, desc: d.past, icon: "history", color: "green" },
         { href: href("/programs"), label: dict.nav.programs, desc: d.programs, icon: "repeat", color: "coral" },
         { href: href("/achievements"), label: dict.nav.achievements, desc: d.achievements, icon: "trophy", color: "amber" },
+        { href: href("/alumni"), label: dict.nav.alumni, desc: d.alumni, icon: "cap", color: "green" },
         { href: href("/gallery"), label: dict.nav.gallery, desc: d.gallery, icon: "photo", color: "amber" },
       ],
     },
