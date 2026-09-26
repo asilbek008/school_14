@@ -969,6 +969,37 @@
       "title": "Official sample tests",
       "text": "Our questions are practice questions in the DTM format, not real DTM questions. Official samples are on the Knowledge and Skills Assessment Agency website.",
       "link": "uzbmb.uz — sample tests"
+    },
+    "cert": {
+      "title": "Certificate",
+      "hint": "Type your name — the PDF certificate is made right here (nothing is sent anywhere).",
+      "name": "Full name",
+      "placeholder": "For example: Aziza Karimova",
+      "download": "Download certificate (PDF)",
+      "making": "Making…",
+      "school": "School No. 14, Qiziriq district",
+      "heading": "Certificate",
+      "lead": "This certifies that",
+      "passed": "successfully completed the “{test}” test with a score of {percent}%.",
+      "took": "took the “{test}” test with a score of {percent}%.",
+      "details": "Correct answers: {correct} / {total} · Date: {date}",
+      "note": "Practice test result — not an official document."
+    },
+    "board": {
+      "title": "Class leaderboard",
+      "intro": "Exam-mode results, without names — each class's average.",
+      "add": "Add my result to my class's standing",
+      "addHint": "Your name is not stored — only the class and the number of correct answers.",
+      "pick": "Choose your class",
+      "send": "Add",
+      "sent": "Added! The leaderboard updates within 5 minutes.",
+      "error": "Could not add it. Please try again later.",
+      "onlyExam": "Only exam-mode results go into the class leaderboard.",
+      "class": "Class",
+      "attempts": "Results",
+      "average": "Average",
+      "best": "Best",
+      "empty": "No results yet. Take the test in exam mode and add your result to your class's standing."
     }
   },
   "library": {

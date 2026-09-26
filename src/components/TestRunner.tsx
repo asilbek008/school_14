@@ -8,6 +8,7 @@ import { mediaBaseUrl } from "@/lib/media";
 import { createClient } from "@/lib/supabase/client";
 import { addResult, clearRun, saveRun, type RunState } from "@/lib/test-run";
 import { optionLetters, type PublicQuestion } from "@/lib/tests";
+import ResultExtras, { type Leaderboard } from "./ResultExtras";
 
 type T = Dictionary["tests"];
 
@@ -49,6 +50,7 @@ export default function TestRunner({
   initial,
   t,
   onRestart,
+  leaderboard,
 }: {
   storageKey: string;
   title: string;
@@ -58,6 +60,8 @@ export default function TestRunner({
   initial: RunState;
   t: T;
   onRestart: () => void;
+  /** A regular test (not the DTM mock): exam results may join the class leaderboard. */
+  leaderboard?: Leaderboard;
 }) {
   const [run, setRun] = useState<RunState>(initial);
   const [busy, setBusy] = useState(false);
@@ -124,7 +128,22 @@ export default function TestRunner({
     return () => clearInterval(id);
   }, [deadline, done]);
 
-  if (done) return <Results run={run} questions={questions} sectionOf={sectionOf} t={t} timeUp={timeUp} onRestart={onRestart} backHref={backHref} topRef={topRef} />;
+  if (done) {
+    return (
+      <Results
+        run={run}
+        questions={questions}
+        sectionOf={sectionOf}
+        t={t}
+        timeUp={timeUp}
+        onRestart={onRestart}
+        backHref={backHref}
+        topRef={topRef}
+        title={title}
+        leaderboard={leaderboard}
+      />
+    );
+  }
 
   const i = run.current;
   const q = questions[i];
@@ -345,6 +364,8 @@ function Results({
   onRestart,
   backHref,
   topRef,
+  title,
+  leaderboard,
 }: {
   run: RunState;
   questions: PublicQuestion[];
@@ -354,6 +375,8 @@ function Results({
   onRestart: () => void;
   backHref: string;
   topRef: React.RefObject<HTMLDivElement | null>;
+  title: string;
+  leaderboard?: Leaderboard;
 }) {
   const [wrongOnly, setWrongOnly] = useState(false);
   const isRight = (k: number) => run.answers[k] != null && run.checked[questions[k].id]?.correct === run.answers[k];
@@ -429,6 +452,17 @@ function Results({
           </ul>
         </section>
       )}
+
+      <ResultExtras
+        t={t}
+        title={title}
+        correct={correct}
+        total={questions.length}
+        percent={percent}
+        finishedAt={run.finishedAt ?? run.startedAt}
+        exam={run.mode === "exam"}
+        leaderboard={leaderboard}
+      />
 
       <div className="flex flex-wrap gap-2.5">
         <button type="button" onClick={onRestart} className="press rounded-full bg-brand px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-deep">

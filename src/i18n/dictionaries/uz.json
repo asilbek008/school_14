@@ -969,6 +969,37 @@
       "title": "Rasmiy namunaviy testlar",
       "text": "Bizdagi savollar — DTM formatidagi mashq savollari, haqiqiy DTM savollari emas. Rasmiy namunaviy testlar Bilim va malakalarni baholash agentligi saytida.",
       "link": "uzbmb.uz — namunaviy testlar"
+    },
+    "cert": {
+      "title": "Sertifikat",
+      "hint": "Ismingizni yozing — sertifikat PDF bo‘lib shu yerda tayyorlanadi (hech qayerga yuborilmaydi).",
+      "name": "Ism-familiya",
+      "placeholder": "Masalan: Aziza Karimova",
+      "download": "Sertifikatni yuklab olish (PDF)",
+      "making": "Tayyorlanmoqda…",
+      "school": "Qiziriq tumani 14-maktab",
+      "heading": "Sertifikat",
+      "lead": "Ushbu sertifikat egasi",
+      "passed": "«{test}» testini {percent}% natija bilan muvaffaqiyatli topshirdi.",
+      "took": "«{test}» testida ishtirok etib, {percent}% natija ko‘rsatdi.",
+      "details": "To‘g‘ri javoblar: {correct} / {total} · Sana: {date}",
+      "note": "Mashq testi natijasi — rasmiy hujjat emas."
+    },
+    "board": {
+      "title": "Sinflar reytingi",
+      "intro": "«Imtihon» rejimidagi natijalar, ismsiz — har bir sinfning o‘rtacha natijasi.",
+      "add": "Natijani sinfim reytingiga qo‘shish",
+      "addHint": "Ismingiz saqlanmaydi — faqat sinf va to‘g‘ri javoblar soni.",
+      "pick": "Sinfni tanlang",
+      "send": "Qo‘shish",
+      "sent": "Qo‘shildi! Reyting 5 daqiqa ichida yangilanadi.",
+      "error": "Qo‘shib bo‘lmadi. Keyinroq urinib ko‘ring.",
+      "onlyExam": "Sinf reytingiga faqat «Imtihon» rejimidagi natija qo‘shiladi.",
+      "class": "Sinf",
+      "attempts": "Natijalar",
+      "average": "O‘rtacha",
+      "best": "Eng yaxshi",
+      "empty": "Hali natija yo‘q. Testni «Imtihon» rejimida ishlang va natijangizni sinfingiz reytingiga qo‘shing."
     }
   },
   "library": {

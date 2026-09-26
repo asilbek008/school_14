@@ -5,6 +5,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { newRun, parseRun, savedRunSnapshot, subscribeNothing, clearRun, type RunMode, type RunState } from "@/lib/test-run";
 import type { TestSection } from "@/lib/tests";
 import TestRunner from "./TestRunner";
+import type { Leaderboard } from "./ResultExtras";
 
 /** Resume banner for an unfinished attempt saved in this browser. */
 export function ResumeBanner({ t, onResume, onDiscard }: { t: Dictionary["tests"]; onResume: () => void; onDiscard: () => void }) {
@@ -32,6 +33,7 @@ export default function TestPlayer({
   sections,
   minutes,
   t,
+  leaderboard,
 }: {
   testId: number;
   title: string;
@@ -40,6 +42,7 @@ export default function TestPlayer({
   sections: TestSection[];
   minutes: number | null;
   t: Dictionary["tests"];
+  leaderboard?: Leaderboard;
 }) {
   const key = `test-${testId}`;
   const saved = parseRun(useSyncExternalStore(subscribeNothing, savedRunSnapshot(key), () => null));
@@ -59,6 +62,7 @@ export default function TestPlayer({
         initial={run.state}
         t={t}
         onRestart={() => setRun(null)}
+        leaderboard={leaderboard}
       />
     );
   }

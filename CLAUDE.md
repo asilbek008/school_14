@@ -113,7 +113,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `rpc('test_answers', ids)` (public invoker → `private.test_answers` definer, faqat e’lon qilingan testlar, 200 tagacha). DTM sinovi —
   `rpc('random_test_questions', subject, n)` bilan har fandan tasodifiy (brauzerda). O‘quvchi ro‘yxatdan o‘tmaydi: urinish
   `localStorage.testRun:<key>` da (qayta yuklansa davom ettiriladi, vaqt `startedAt` dan), natijalar — `localStorage.testResults`
-  (`TestHistory`), serverga hech narsa yuborilmaydi. `TestRunner` (mashq: har savoldan keyin tekshirish; imtihon: savollar xaritasi,
+  (`TestHistory`), serverga hech narsa yuborilmaydi — o‘quvchi o‘zi xohlasa, faqat sinf reytingi uchun ismsiz natija (pastda).
+  Natija ostida `ResultExtras` (egasining talabi): sertifikat — ism yoziladi (saqlanmaydi), `src/lib/certificate.ts` canvas'da chizadi (sayt
+  shriftlari, kirill ham) va kutubxonasiz bir sahifali A4 PDF (JPEG) qiladi; sana «26.09.2026» qo‘lda (brauzerlarda o‘zbekcha oy nomlari yo‘q).
+  Sinflar reytingi — `test_results` (test_id, class_id, correct, total; ism yo‘q): faqat «Imtihon» rejimi va oddiy testlar (DTM emas), bir
+  urinishga bir marta (`localStorage.boardSent:<test>:<finishedAt>`), sinf «Mening sinfim»dan oldindan tanlanadi. `private.test_result_guard`:
+  test/sinf e’lon qilingan, `total` = testdagi savollar soni, server vaqti, 10 daqiqada sinf+test 30, soatiga jami 300. Test sahifasida
+  «Sinflar reytingi» jadvali (`getTestLeaderboard`: o‘rtacha va eng yaxshi %, natijalar soni; 15 ta). `TestRunner` (mashq: har savoldan keyin tekshirish; imtihon: savollar xaritasi,
   vaqt tugasa avtomatik yakun; variantlar aralashtiriladi), `TestPlayer`, `DtmPlayer`. Admin: test formasi, savollar ro‘yxati, savol
   formasi (A–F, to‘g‘risi radio, rasm `media/tests/`), ko‘plab yuklash — matn (Word ko‘rinishi: `*B)`, `Javob: B` yoki oxirida
   `Javoblar: 1-B, …`) yoki Excel (`Savol, A…D, Javob, Izoh`; namuna — `/admin/export/test-template`) — `src/lib/test-import.ts`,
