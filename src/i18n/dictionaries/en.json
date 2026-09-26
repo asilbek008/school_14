@@ -27,7 +27,8 @@
     "calendar": "School calendar",
     "achievements": "Achievements",
     "tests": "Tests",
-    "library": "Library"
+    "library": "Library",
+    "alumni": "Alumni"
   },
   "navDesc": {
     "about": "History and general information",
@@ -45,7 +46,8 @@
     "calendar": "Terms, holidays and exams",
     "achievements": "Olympiads, sports and contests",
     "tests": "Subject tests and DTM exam practice",
-    "library": "Textbooks and study books (PDF)"
+    "library": "Textbooks and study books (PDF)",
+    "alumni": "Our graduates and their achievements"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -1038,5 +1040,31 @@
       "goTo": "Go to page"
     },
     "class": "Grade"
+  },
+  "alumni": {
+    "kicker": "Our pride",
+    "title": "Alumni",
+    "intro": "Everyone who has finished our school since 1976 — graduates by year and our notable alumni.",
+    "statGraduates": "graduates (years entered)",
+    "statYears": "years on record",
+    "statNotable": "notable alumni",
+    "statAge": "years of history",
+    "byYear": "By year",
+    "byYearKicker": "Class of",
+    "yearLine": "Class of {y}",
+    "people": {
+      "one": "{n} graduate",
+      "other": "{n} graduates"
+    },
+    "notable": "Our notable alumni",
+    "notableKicker": "We are proud of them",
+    "class": "Class of {y}",
+    "more": "Read more",
+    "less": "Show less",
+    "empty": "Information about our alumni is coming soon.",
+    "search": "Name or occupation…",
+    "notFound": "No one found.",
+    "invite": "Are you a graduate of our school too? Send us your story — with your consent we will add it to the site.",
+    "write": "Write to us"
   }
 }

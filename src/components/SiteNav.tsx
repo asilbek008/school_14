@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import MobileMenu from "./MobileMenu";
 
-export type NavIcon = "info" | "door" | "bell" | "star" | "question" | "phone" | "grade" | "calendar" | "history" | "photo" | "repeat" | "doc" | "trophy" | "test" | "book";
+export type NavIcon = "info" | "door" | "bell" | "star" | "question" | "phone" | "grade" | "calendar" | "history" | "photo" | "repeat" | "doc" | "trophy" | "test" | "book" | "cap";
 export type NavItem = { href: string; label: string; desc: string; icon: NavIcon; color: keyof typeof colors; external?: boolean };
 export type NavEntry = { href: string; label: string } | { key: string; label: string; items: NavItem[] };
 
@@ -31,6 +31,7 @@ const icons: Record<NavIcon, React.ReactNode> = {
   doc: <><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M9 13h6M9 17h4" /></>,
   test: <><rect x="4" y="3" width="16" height="18" rx="2.5" /><path d="M8 8l1.5 1.5L12 7M8 14l1.5 1.5L12 13M14.5 8.5H17M14.5 14.5H17" /></>,
   book: <><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z" /><path d="M4 20.5A2.5 2.5 0 0 0 6.5 23H20M8 7h8M8 11h6" /></>,
+  cap: <><path d="M2 9l10-5 10 5-10 5z" /><path d="M6 11v5c0 1.7 2.7 3 6 3s6-1.3 6-3v-5M22 9v6" /></>,
   repeat: <><path d="M17 2l4 4-4 4" /><path d="M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4" /><path d="M21 13v1a4 4 0 0 1-4 4H3" /></>,
 };
 
