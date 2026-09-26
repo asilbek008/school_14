@@ -26,7 +26,9 @@ export async function signIn(_prev: FormState, form: FormData): Promise<FormStat
   }
 
   await logAdminLogin(supabase, { event: "login", userId: data.user.id, email: data.user.email ?? email });
-  redirect("/admin");
+  // With an authenticator app turned on, the code comes next.
+  const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  redirect(aal?.nextLevel === "aal2" && aal.currentLevel !== "aal2" ? "/admin/login/mfa" : "/admin");
 }
 
 export async function signOut() {

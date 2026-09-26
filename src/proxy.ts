@@ -27,6 +27,9 @@ function getLocale(request: NextRequest): Locale {
  * This is only a first gate; pages and actions still call requireAdmin() (src/lib/admin.ts).
  */
 async function handleAdmin(request: NextRequest) {
+  // Which admin page (or its Server Action) this is, for requireAdmin()'s role check. Always set here, so a
+  // visitor cannot send their own.
+  request.headers.set("x-admin-path", request.nextUrl.pathname);
   let response = NextResponse.next({ request });
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
@@ -47,7 +50,8 @@ async function handleAdmin(request: NextRequest) {
   });
 
   const { data } = await supabase.auth.getClaims();
-  const isLogin = request.nextUrl.pathname === "/admin/login";
+  // The sign-in page and its second step (the authenticator code).
+  const isLogin = request.nextUrl.pathname === "/admin/login" || request.nextUrl.pathname === "/admin/login/mfa";
 
   if (!data?.claims && !isLogin) {
     const loginUrl = request.nextUrl.clone();

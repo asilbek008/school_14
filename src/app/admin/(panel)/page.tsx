@@ -126,8 +126,71 @@ async function load(supabase: Supabase) {
   };
 }
 
-export default async function AdminHome() {
-  const { supabase, email } = await requireAdmin();
+/** An editor's start page: what they can add, and the latest news and events. */
+async function EditorHome({ supabase, denied }: { supabase: Supabase; denied: boolean }) {
+  const [{ data: news }, { data: events }] = await Promise.all([
+    supabase.from("news").select("id, title_uz, published_at, is_published").order("created_at", { ascending: false }).limit(6),
+    supabase.from("events").select("id, title_uz, starts_at").gte("starts_at", new Date().toISOString()).order("starts_at").limit(5),
+  ]);
+  const add = [
+    { href: "/admin/news/new", label: "+ Yangilik" },
+    { href: "/admin/events/new", label: "+ Tadbir" },
+    { href: "/admin/gallery/new", label: "+ Albom" },
+    { href: "/admin/achievements/new", label: "+ Yutuq" },
+  ];
+  return (
+    <>
+      <h1 className="text-2xl font-bold">Xush kelibsiz!</h1>
+      <p className="mt-1 text-sm text-slate-500">{formatDateFull(new Date().toISOString(), "uz")} · muharrir</p>
+      {denied && (
+        <p className="mt-4 rounded-lg bg-amber-50 p-3 text-sm text-amber-900">Bu bo‘lim faqat admin uchun. Kerak bo‘lsa, maktab adminiga murojaat qiling.</p>
+      )}
+      <div className="mt-5 flex flex-wrap gap-2">
+        {add.map((a, i) => (
+          <Link
+            key={a.href}
+            href={a.href}
+            className={`rounded-lg px-4 py-2 text-sm font-semibold shadow-sm ${i ? "bg-white text-blue-800 hover:bg-slate-50" : "bg-blue-700 text-white hover:bg-blue-800"}`}
+          >
+            {a.label}
+          </Link>
+        ))}
+      </div>
+      <div className="mt-8 grid gap-4 lg:grid-cols-2">
+        <section className="rounded-xl bg-white p-5 shadow-sm">
+          <h2 className="font-bold">So‘nggi yangiliklar</h2>
+          <ul className="mt-3 divide-y divide-slate-100 text-sm">
+            {(news ?? []).map((n) => (
+              <li key={n.id}>
+                <Link href={`/admin/news/${n.id}`} className="flex gap-3 py-2 hover:text-blue-700">
+                  <span className="min-w-0 flex-1 truncate">{n.title_uz}</span>
+                  {!n.is_published && <span className="text-xs text-slate-500">yashirin</span>}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section className="rounded-xl bg-white p-5 shadow-sm">
+          <h2 className="font-bold">Yaqin tadbirlar</h2>
+          <ul className="mt-3 divide-y divide-slate-100 text-sm">
+            {(events ?? []).map((e) => (
+              <li key={e.id}>
+                <Link href={`/admin/events/${e.id}`} className="flex gap-3 py-2 hover:text-blue-700">
+                  <span className="shrink-0 text-slate-500">{formatDate(e.starts_at, "uz")}</span>
+                  <span className="min-w-0 flex-1 truncate">{e.title_uz}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </>
+  );
+}
+
+export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
+  const { supabase, email, role } = await requireAdmin();
+  if (role === "editor") return <EditorHome supabase={supabase} denied={(await searchParams).denied === "1"} />;
   const [{ stats, attention, nextEvents, messages, latestNews }, { data: myLogins }, { data: visitsToday }] = await Promise.all([
     load(supabase),
     // This admin's sign-ins: [0] is the current one, [1] the one before it.

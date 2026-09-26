@@ -1,7 +1,10 @@
 import "server-only";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+
+import { editorMay, type StaffRole } from "@/lib/roles";
 
 /**
  * Returns a Supabase client acting as the signed-in admin, or redirects to the login page.
@@ -13,15 +16,22 @@ export async function requireAdmin() {
   const { data } = await supabase.auth.getClaims();
   if (!data?.claims) redirect("/admin/login");
 
-  // RLS lets a user read only their own admins row, so a hit means "is an admin".
+  // RLS lets a user read only their own admins row, so a hit means "is staff".
   const { data: admin } = await supabase
     .from("admins")
-    .select("user_id")
+    .select("user_id, role")
     .eq("user_id", data.claims.sub)
     .maybeSingle();
   if (!admin) redirect("/admin/login?error=forbidden");
 
-  return { supabase, email: (data.claims.email as string | undefined) ?? "" };
+  // 2FA turned on but this session has not passed the second step yet (the database refuses it anyway).
+  const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+  if (aal?.nextLevel === "aal2" && aal.currentLevel !== "aal2") redirect("/admin/login/mfa");
+
+  const role = (admin.role === "editor" ? "editor" : "admin") as StaffRole;
+  if (role === "editor" && !editorMay((await headers()).get("x-admin-path") ?? "")) redirect("/admin?denied=1");
+
+  return { supabase, email: (data.claims.email as string | undefined) ?? "", role, userId: data.claims.sub };
 }
 
 /** Refreshes every public page after content changes (the site is small). */
