@@ -496,6 +496,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:
   `insert into public.admins (user_id) values ('<uuid>');`. Dashboard'da ochiq ro‘yxatdan
   o‘tishni (signups) o‘chirib qo‘ying — RLS baribir himoya qiladi, lekin keraksiz hisoblar ochilmaydi.
+- Rasm optimallashtirish (Vercel bepul tarifi cheklovi): `next.config.ts` `images` — `minimumCacheTTL` 31 kun (yuklangan fayl nomi
+  o‘zgarmaydi: uuid, Telegram asl nusxasi `-hd` bilan alohida), `deviceSizes` 640/828/1200/1920, `imageSizes` 64/128/256/384.
 - `next.config.ts` rasm domenini `NEXT_PUBLIC_SUPABASE_URL` dan oladi; `localhost` bo‘lsa
   mahalliy Supabase uchun `dangerouslyAllowLocalIP` yoqiladi.
 
