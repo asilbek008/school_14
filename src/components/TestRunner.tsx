@@ -7,6 +7,7 @@ import { fill } from "@/i18n/fill";
 import { mediaBaseUrl } from "@/lib/media";
 import { createClient } from "@/lib/supabase/client";
 import { addResult, clearRun, saveRun, type RunState } from "@/lib/test-run";
+import { addTopicResults } from "@/lib/topic-progress";
 import { optionLetters, type PublicQuestion } from "@/lib/tests";
 import ResultExtras, { type Leaderboard } from "./ResultExtras";
 
@@ -98,6 +99,18 @@ export default function TestRunner({
         }
       });
       addResult({ key: storageKey, title, href, correct, total: questions.length, score: round1(score), max: round1(max), at: new Date(finishedAt).toISOString() });
+      // Progress per topic for the learning path (this browser), and the anonymous right/wrong counters per question.
+      const answered = questions.flatMap((q, i) => (run.answers[i] == null ? [] : [{ q, i, ok: checked[q.id]?.correct === run.answers[i] }]));
+      addTopicResults(
+        answered.flatMap(({ q, i, ok }) => {
+          const subject = run.sections[sectionOf[i]].subject;
+          return subject && q.topic ? [{ subject, topic: q.topic, ok }] : [];
+        }),
+      );
+      if (answered.length) {
+        const sample = answered.slice(0, 100);
+        void createClient().rpc("record_answers", { p_ids: sample.map((a) => a.q.id), p_right: sample.map((a) => a.ok) });
+      }
       clearRun(storageKey);
       setRun(next);
       topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });

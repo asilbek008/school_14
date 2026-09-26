@@ -14,6 +14,7 @@ const commands = [
   { command: "yangiliklar", description: "So‘nggi yangiliklar" },
   { command: "tadbirlar", description: "Yaqin tadbirlar" },
   { command: "obuna", description: "Yangiliklarni olish / to‘xtatish" },
+  { command: "savol", description: "Kun savoli — mashq viktorinasi" },
   { command: "aloqa", description: "Maktab bilan bog‘lanish" },
 ];
 

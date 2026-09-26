@@ -39,6 +39,7 @@ const buttons = {
   pick: "🏫 Sinfni tanlash",
   sub: "🔔 Obuna",
   contact: "📞 Aloqa",
+  quiz: "🧠 Kun savoli",
 };
 
 // The command menu is set by the admin panel (src/app/admin/(panel)/parent-bot/actions.ts).
@@ -47,7 +48,7 @@ const keyboard = {
     [{ text: buttons.today }, { text: buttons.tomorrow }],
     [{ text: buttons.news }, { text: buttons.events }],
     [{ text: buttons.pick }, { text: buttons.sub }],
-    [{ text: buttons.contact }],
+    [{ text: buttons.quiz }, { text: buttons.contact }],
   ],
   resize_keyboard: true,
   is_persistent: true,
@@ -175,6 +176,7 @@ const welcome = (cls: ClassRow | null) =>
     "• Farzandingiz sinfining bugungi va ertangi darslari",
     "• Maktab yangiliklari va tadbirlari",
     "• Yangi e’lon chiqqanda shu yerga xabar keladi (🔔 Obuna)",
+    "• Farzandingiz bilan mashq: saytdagi savollar bazasidan viktorina (🧠 Kun savoli)",
     "",
     cls
       ? `Tanlangan sinf: <b>${cls.grade}-${esc(cls.letter)}</b>. Boshqasini tanlash — «${buttons.pick}».`
@@ -318,6 +320,7 @@ export async function handleUpdate(update: Update, db: Db, tg: Tg, now = new Dat
     const { data } = await db.from("parent_bot_chats").select("subscribed").eq("chat_id", chatId).maybeSingle();
     return send(tg, chatId, subText(!!data?.subscribed), { reply_markup: subButton(!!data?.subscribed) });
   }
+  if (command === "savol" || command === "quiz" || raw === buttons.quiz) return sendQuiz(db, tg, chatId);
   if (command === "aloqa" || raw === buttons.contact) {
     return send(
       tg,
@@ -337,6 +340,53 @@ export async function handleUpdate(update: Update, db: Db, tg: Tg, now = new Dat
     return send(tg, chatId, `${asked.grade}-${esc(asked.letter)} sinfi topilmadi. Sinfni tanlang:`).then(() => gradePicker(tg, chatId));
   }
   return send(tg, chatId, `Tushunmadim. Pastdagi tugmalardan foydalaning yoki sinfni yozing (masalan: <b>8-A</b>).`, extra);
+}
+
+type BankQuestion = { question: string; options: string[]; correct: number; explanation: string | null; image: string | null };
+
+/**
+ * A bank question as a Telegram quiz poll, or null when it does not fit one (a picture, over 10 options, or texts
+ * longer than Telegram allows: question 300, option 100, explanation 200).
+ */
+export function quizParams(q: BankQuestion, subject: string | null): Record<string, unknown> | null {
+  const question = `🧠 ${subject ? `${subject}: ` : ""}${q.question.replace(/\s+/g, " ").trim()}`;
+  if (q.image || q.options.length < 2 || q.options.length > 10 || question.length > 300) return null;
+  if (q.options.some((o) => !o.trim() || o.length > 100) || q.correct < 0 || q.correct >= q.options.length) return null;
+  const explanation = q.explanation?.replace(/\s+/g, " ").trim();
+  return {
+    question,
+    options: q.options.map((text) => ({ text })),
+    type: "quiz",
+    correct_option_id: q.correct,
+    is_anonymous: true,
+    ...(explanation && explanation.length <= 200 ? { explanation } : {}),
+  };
+}
+
+const subjectNames: Record<string, string> = {
+  matematika: "Matematika", fizika: "Fizika", kimyo: "Kimyo", biologiya: "Biologiya", ingliz: "Ingliz tili", ona_tili: "Ona tili",
+  tarix: "Tarix", geografiya: "Geografiya", rus: "Rus tili", informatika: "Informatika", huquq: "Huquq",
+};
+
+/** "Kun savoli": a random question of a published test as a quiz poll (a few tries to find one that fits). */
+async function sendQuiz(db: Db, tg: Tg, chatId: number) {
+  const { count } = await db.from("test_questions").select("id, tests!inner(is_published)", { count: "exact", head: true }).eq("tests.is_published", true);
+  for (let tries = 0; count && tries < 5; tries++) {
+    const at = Math.floor(Math.random() * count);
+    const { data } = await db
+      .from("test_questions")
+      .select("question, options, correct, explanation, image, tests!inner(subject, is_published)")
+      .eq("tests.is_published", true)
+      .order("id")
+      .range(at, at);
+    const row = data?.[0];
+    const poll = row && quizParams(row, subjectNames[row.tests.subject] ?? null);
+    if (poll) {
+      await tg("sendPoll", { chat_id: chatId, ...poll });
+      return send(tg, chatId, `Yana savol — «${buttons.quiz}». Ko‘proq mashq: <a href="${SITE}/uz/tests/path">O‘quv yo‘li (saytda) →</a>`);
+    }
+  }
+  return send(tg, chatId, "Hozircha savol topilmadi. Keyinroq urinib ko‘ring.");
 }
 
 /** Saves the chat (first contact: private chats are subscribed to news, groups are not) and the given fields. */

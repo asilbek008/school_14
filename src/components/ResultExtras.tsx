@@ -67,6 +67,8 @@ export default function ResultExtras({
         details: fill(c.details, { correct, total, date: day(finishedAt) }),
         footer: `${c.school} · ${location.host}`,
         note: c.note,
+        percent,
+        date: day(finishedAt),
       });
       const url = URL.createObjectURL(await canvasToPdf(canvas));
       const a = document.createElement("a");

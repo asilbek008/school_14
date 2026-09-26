@@ -46,6 +46,27 @@ export default async function TestsPage({ params }: PageProps<"/[lang]/tests">) 
         {tests.length ? (
           <>
             <StatTiles stats={stats} />
+            <Link
+              href={`/${lang}/tests/path`}
+              className="reveal lift group mb-4 flex flex-col gap-4 rounded-2xl border border-teal/30 bg-teal-soft p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7"
+            >
+              <span className="flex items-start gap-4">
+                <span aria-hidden className="grid size-12 shrink-0 place-items-center rounded-2xl bg-teal text-2xl">
+                  🧭
+                </span>
+                <span>
+                  <span className="block text-[12px] font-bold uppercase tracking-wider text-[#0c6d62]">{t.path.kicker}</span>
+                  <b className="block text-xl text-slate-900">{t.path.card}</b>
+                  <span className="mt-1 block max-w-2xl text-sm leading-relaxed text-slate-600">{t.path.cardText}</span>
+                </span>
+              </span>
+              <span className="press inline-flex shrink-0 items-center gap-2 self-start rounded-full bg-teal px-6 py-3 font-bold text-white sm:self-center">
+                {t.path.cardButton}
+                <span aria-hidden className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </span>
+            </Link>
             <div className="mb-10 grid gap-4 lg:grid-cols-2">
               <div className="reveal chrome flex flex-col justify-between gap-5 rounded-2xl p-6 sm:p-7">
                 <div className="relative flex items-start gap-4">

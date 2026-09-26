@@ -139,6 +139,21 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (bir marta qo‘llangan; eski 175 savolga mavzu/qiyinlik + 15 test, 371 savol: 8 fanga DTM 2-to‘plam, Rus tili, Informatika, Huquq, 5-sinf
   matematika, 8-sinf algebra, 7–9 geometriya, 5-sinf ingliz tili). Jami 25 test, 546 savol; har DTM fanida ≥30. Client ro‘yxatlarda
   `localeCompare("uz")` ishlatmang — server va brauzer boshqacha tartiblaydi (hydration xatosi), oddiy `.sort()`.
+- O‘quv yo‘li (`/[lang]/tests/path`, `20261106090000_learning_path.sql`; egasining so‘rovi — UzExam/MockCenter/BirPrep kabi platformalar
+  bilan solishtirib, "0 dan" yo‘l): `LearningPath` (client) — fan tanlanadi (`#fan` hash), mavzular o‘rtacha qiyinlik bo‘yicha osondan qiyinga
+  (`question_bank_stats` endi `difficulty` ham qaytaradi; `BankTopic.difficulty`), har mavzuda holat (boshlanmagan / zaif <60% / yaxshi /
+  o‘zlashtirildi ≥85% va ≥8 javob — `topicLevel`), qisqa dars (`study_notes`: subject+topic unikal, body_*; `details.acc`), «Mashq» →
+  `/tests/practice#fan/Mavzu` (`PracticePlayer` hash'dan mavzuni ham oladi), «Shaxsiy reja» (zaiflar, keyin yangilari; 3 ta), oxirida aralash
+  mashq va DTM sinovi. Natija mavzu bo‘yicha faqat brauzerda: `src/lib/topic-progress.ts` (`localStorage.topicStats`) — `TestRunner` yakunda
+  yozadi (savolning `topic` i: `random_bank_questions`/`random_test_questions` va `getTest` endi `topic` qaytaradi). Shu yerda ismsiz
+  hisoblagich: `rpc('record_answers', ids, right)` (100 tagacha, faqat e’lon qilingan testlar) → `question_stats` (attempts, correct; faqat
+  muharrir/admin o‘qiydi). Admin: `/admin/tests/notes` (fan bo‘yicha mavzular ro‘yxati, dars bor/yo‘q; `edit?s=&t=` — upsert), `/admin/tests/stats`
+  (eng qiyin mavzular va eng ko‘p xato qilingan savollar, ≥3 javob). `/tests` tepasida «O‘quv yo‘li» kartasi; sitemap va qidiruvda.
+  3-qism: `scripts/seed_tests_3.py` → `supabase/seed/tests-2026-3.sql` (bir marta qo‘llangan): CEFR B1 ingliz tili (30), matematika asosiy
+  mavzular (30), ona tili Milliy sertifikat formati (20) + 27 qisqa dars (matematika 12, ingliz 10, ona tili 5). Jami 28 test, 626 savol.
+  Raqobatchi platformalarning savollari ko‘chirilmaydi (mualliflik huquqi) — faqat g‘oyalar; savollar o‘zimiz tuzamiz.
+  Sertifikat (`src/lib/certificate.ts`, egasining talabi — yangi dizayn): chapda navy tasma (14 belgisi, maktab, foiz muhri — `percent`,
+  sana), o‘ngda sarlavha, ism (oltin chiziq), matn, natija «pill», imzo/sana chiziqlari, burchakda nozik chiziqlar naqshi.
 - Sinf o‘quvchilari (`20261103090000_pupils.sql`, `pupils`; egasining talabi va tanlovi): eMaktab'ning «Список учеников» (.xlsx) fayli
   admin `/admin/classes/pupils` da yuklanadi (`src/lib/pupil-import.ts` — brauzerda ko‘rib chiqish, action'da qayta o‘qish; maktabdan
   chiqqanlar olinmaydi; saytda yo‘q sinf bo‘lsa hech narsa saqlanmaydi) → `rpc('replace_pupils')` butun ro‘yxatni bitta tranzaksiyada
@@ -446,7 +461,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   kanal boti tokeni rad etiladi. Edge Function `supabase/functions/parent-bot` (`verify_jwt: false`; `bot.ts` — mantiq, importsiz, Node
   testi `scripts/test-parent-bot.mts`; `bells.ts` — `src/lib/bells.ts` nusxasi, CI `cmp` bilan tekshiradi): /start, /darslar [8-A], /ertaga
   (Toshkent kuni; yakshanba → dushanba; `calendar_periods` ta’tilida "darslar yo‘q"), /sinf (inline tugmalar: sinf → harf), /yangiliklar,
-  /tadbirlar, /obuna (inline yoqish/o‘chirish), /aloqa; "8-A" yozilsa ham, kirillcha harf ham. Guruhlarda faqat buyruqlar. `parent_bot_chats`
+  /tadbirlar, /obuna (inline yoqish/o‘chirish), /aloqa, /savol yoki «🧠 Kun savoli» (savollar bazasidan tasodifiy savol Telegram viktorinasi —
+  `sendPoll` type `quiz`, `quizParams`: rasmsiz, ≤10 variant, savol ≤300, variant ≤100, izoh ≤200 belgi); "8-A" yozilsa ham, kirillcha harf ham. Guruhlarda faqat buyruqlar. `parent_bot_chats`
   (chat_id, class_id, subscribed — ism/username saqlanmaydi; shaxsiy chat birinchi murojaatda obuna). Yangiliklar: pg_cron `parent-bot-news`
   (5 daqiqa) → `private.parent_bot_kick()` kutayotgan yangilik (`news.bot_sent_at` bo‘sh, 3 kun ichida) va obunachi bo‘lsa funksiyani
   `x-bot-secret` bilan chaqiradi; funksiya yangilikni band qilib, ~25 xabar/soniya yuboradi (muqova bo‘lsa `sendPhoto`), 403 — chat o‘chiriladi.
