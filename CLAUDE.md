@@ -309,7 +309,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sonlar, bo‘sh bo‘lishi mumkin; summary_* — yil yakuni; is_published), admin `/admin/years`. Yil 1-sentabr – 31-avgust (`src/lib/school-years.ts`:
   `schoolYearOf`, `yearRange`, `yearLabel`). O‘quv yili tanlash — `YearSwitcher` bosh sahifa hero sarlavhasi (h1) tepasidagi «2026–2027 ▾» tugmasi
   (egasining talabi; topbar olib tashlangan; joriy yil + e’lon qilingan yillar; eyebrow `div` + `relative z-10` — ro‘yxat h1 ustida chiqishi
-  uchun; telefonda menyu panelining oxirida ham chiplar). Yil tanlansa `/[lang]/year/[start]` ochiladi: raqamlar (`StatTiles`; joriy yilda bo‘sh bo‘lsa `school.stats`),
+  uchun; ro‘yxat `createPortal` bilan `body` ga `fixed` chiziladi — `chrome` bloklari `overflow:hidden`; yil sahifasida ham `PageHeader` kickeri
+  o‘rnida — `shown` = sahifa yili, joriy yilga qaytish shu yerdan; telefonda menyu panelining oxirida ham chiplar). Yil tanlansa `/[lang]/year/[start]` ochiladi: raqamlar (`StatTiles`; joriy yilda bo‘sh bo‘lsa `school.stats`),
   yil yakuni, o‘sha yilgi yangiliklar, tadbirlar, albomlar, boshqa yillar. O‘tgan yil tanlanganda (`SetSiteYear` → `sessionStorage.siteYear`,
   faqat shu tashrif) header ostida `YearBanner` chiqadi va yangiliklar/tadbirlar/galereya (`year-scope` o‘rami, elementlarda `data-year`)
   shu yil bo‘yicha CSS bilan filtrlanadi, umumiy raqamlar (`year-hide`) yashiriladi — sahifa keshi buzilmaydi.
