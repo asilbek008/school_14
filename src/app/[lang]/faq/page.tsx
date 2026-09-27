@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
+import { getAssistantOn } from "@/lib/content";
 import { school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
 import CategoryFilter from "@/components/CategoryFilter";
@@ -15,6 +16,8 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/faq">): Pr
 export default async function FaqPage({ params }: PageProps<"/[lang]/faq">) {
   const { lang, dict } = await resolveLang(params);
   const t = dict.faq;
+  // Only when the school has turned the assistant on.
+  const assistant = await getAssistantOn();
 
   return (
     <>
@@ -56,6 +59,14 @@ export default async function FaqPage({ params }: PageProps<"/[lang]/faq">) {
           <h2 className="font-display text-lg font-bold">{t.moreTitle}</h2>
           <p className="mt-1.5 text-sm opacity-90">{t.moreText}</p>
           <div className="mt-4 grid gap-2.5">
+            {assistant && (
+              <Link
+                href={`/${lang}/assistant`}
+                className="press rounded-full bg-white px-5 py-3 text-center text-sm font-bold text-navy transition-colors hover:bg-brand-soft"
+              >
+                ✨ {dict.assistant.title}
+              </Link>
+            )}
             <Link
               href={`/${lang}/contact`}
               className="press rounded-full bg-white px-5 py-3 text-center text-sm font-bold text-navy transition-colors hover:bg-brand-soft"

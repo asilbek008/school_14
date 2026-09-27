@@ -31,7 +31,8 @@
     "alumni": "Alumni",
     "surveys": "Surveys",
     "openness": "Openness",
-    "cabinet": "Personal cabinet"
+    "cabinet": "Personal cabinet",
+    "assistant": "AI assistant"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -1311,5 +1312,28 @@
     "noBot": "The bot is not connected yet. Please try later.",
     "empty": "No results yet. Start with the tests.",
     "toTests": "Go to the tests"
+  },
+  "assistant": {
+    "title": "AI assistant",
+    "kicker": "An answer to your question",
+    "intro": "Ask a question about the school — the assistant answers from the site's own content. It does not answer questions about marks or attendance.",
+    "placeholder": "For example: when does admission to the first grade open?",
+    "ask": "Ask",
+    "asking": "Preparing the answer…",
+    "samples": [
+      "How do I get to the school?",
+      "What lessons does 8-A have tomorrow?",
+      "Which clubs are there?",
+      "Which documents are needed for admission?"
+    ],
+    "errors": {
+      "off": "The assistant is switched off at the moment.",
+      "empty": "Please write a question.",
+      "too_many": "Too many questions. Please try again shortly.",
+      "model": "No answer came back. Try later or call the school."
+    },
+    "note": "Answers are built from the site's content and can be wrong — for anything important, ask the school.",
+    "privacy": "Your question is visible to the school's admin (to grow the questions and answers section). No name is stored.",
+    "contact": "Contact page"
   }
 }
