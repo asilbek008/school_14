@@ -88,6 +88,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `numeric(14,2)`), davr (matn), sana; tasdiqlovchi hujjat — `documents` dagi yozuv (`document_id`) yoki tashqi havola (`url`,
   masalan openbudget.uz). Saytda bo‘limlar bo‘yicha kartalar, ostida rasmiy portalga havola. Faqat egasi tasdiqlagan raqamlar
   kiritiladi — men hech qanday moliyaviy raqam yozmayman. Menyuda «Maktab ▾» ichida, footer, sitemap va qidiruvda.
+- Shaxsiy kabinet (`/[lang]/cabinet`, `20261112090000_cabinet.sql`, `src/lib/cabinet.ts`; egasining so‘rovi): o‘quvchining test
+  natijalari, mavzular bo‘yicha hisoblagichi, «Mening sinfim» va kitobdagi sahifasi serverda saqlanadi — telefon va kompyuterda
+  bir xil bo‘ladi. Ro‘yxatdan o‘tish yo‘q: `cabinet_link()` token beradi → `t.me/<ota-onalar boti>?start=cab_<token>` → bot
+  `cabinet_claim` bilan chatni kalitga bog‘laydi → brauzer `cabinet_check` orqali kalitni oladi va `localStorage.cabinetKey` da
+  saqlaydi. `cabinet_load`/`cabinet_save` (64 KB gacha) — `private.cabinets` jadvali; ism, telefon, sinf ro‘yxati saqlanmaydi.
+  `merge()` ikki qurilmani yo‘qotishsiz birlashtiradi (natijalar — test+vaqt bo‘yicha noyob, mavzu — kattaroq hisob, kitob — uzoqroq
+  sahifa). `cabinet_forget` — o‘quvchi o‘zi o‘chiradi. Sahifa `robots: index:false`; havolalar — `/tests` tepasi va footer.
 - Ishonch qutisi (`/[lang]/trust`, `trust_messages`; admin `/admin/trust`): ismsiz maxfiy murojaat — mavzu (`trustTopics`:
   xavfsizlik/pul/munosabat/taklif/boshqa), matn (10–5000 belgi) va ixtiyoriy aloqa. Yuboruvchi haqida hech narsa saqlanmaydi
   (ism, IP yo‘q); `actions.ts` xato matnini ham loglamaydi. RLS: hamma yozadi, faqat admin o‘qiydi. `private.trust_rate_limit`

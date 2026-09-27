@@ -43,6 +43,14 @@ export default async function TestsPage({ params }: PageProps<"/[lang]/tests">) 
       <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} kicker={t.kicker} title={t.title} intro={t.intro} />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
         <TestHistory lang={lang} t={t} />
+        <div className="reveal mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-4">
+          <p className="text-[14.5px] text-slate-700">
+            <b className="text-slate-900">✈️ {dict.cabinet.title}</b> — {dict.cabinet.intro}
+          </p>
+          <Link href={`/${lang}/cabinet`} className="press shrink-0 rounded-full bg-brand px-5 py-2.5 text-[14px] font-bold text-white hover:bg-brand-deep">
+            {dict.cabinet.connect} →
+          </Link>
+        </div>
         {tests.length ? (
           <>
             <StatTiles stats={stats} />
