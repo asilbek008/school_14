@@ -5,7 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 
 type Enrolling = { factorId: string; qr: string; secret: string };
 
-/** Authenticator app on/off: enroll (QR code + first code), or remove it. */
+/** Authenticator app on/off: enroll (QR code + first code), or remove it. Drawn inside the card on the page. */
 export default function MfaSettings() {
   const [state, setState] = useState<"loading" | "off" | "on">("loading");
   const [factorId, setFactorId] = useState<string | null>(null);
@@ -66,7 +66,7 @@ export default function MfaSettings() {
   }
 
   return (
-    <div className="rounded-xl bg-white p-5 shadow-sm">
+    <div>
       {message && <p className={`mb-4 rounded-lg p-3 text-sm ${message.ok ? "bg-green-50 text-green-800" : "bg-red-50 text-red-700"}`}>{message.text}</p>}
       {state === "loading" ? (
         <p className="text-sm text-slate-500">Yuklanmoqda…</p>

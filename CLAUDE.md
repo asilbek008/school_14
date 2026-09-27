@@ -505,6 +505,16 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `x-admin-path` sarlavhasi). `/admin/security` — o‘z 2FA'sini yoqish/o‘chirish (QR + kod), `/admin/team` — jamoa (`rpc admin_team`), rolni
   o‘zgartirish (`set_admin_role`, o‘zinikini emas) va telefonini yo‘qotganning 2FA'sini o‘chirish (`reset_mfa`). `AdminNav` muharrirga faqat
   ruxsatli bo‘limlarni ko‘rsatadi, bosh sahifasi — `EditorHome`. Yangi admin bo‘limi qo‘shsangiz, muharrirga ochiqmi — `editorPaths` da hal qiling.
+- Telegram orqali ikki bosqichli kirish (`20261107090000_admin_tg_2fa.sql`; egasining talabi — Google Authenticator o‘rniga): kod
+  maktab botidan (ota-onalar boti — u webhook'da, darhol javob beradi) keladi. Hammasi `private` sxemada (API'ga chiqmaydi):
+  `admin_tg` (user_id ↔ chat_id, enabled), `admin_tg_links` (bir martalik havola tokeni + so‘ragan sessiya), `admin_tg_codes`
+  (kodning tuzlangan sha256 hash'i, 5 daqiqa, 5 urinish), `admin_tg_sends` (10 daqiqada 5 ta), `admin_tg_sessions` (JWT
+  `session_id`, 30 kun). `private.staff_role()` endi `private.admin_tg_ok()` ni ham tekshiradi — tasdiqlanmagan sessiyaga RLS
+  rol bermaydi. Ulash: `/admin/security` dagi «Botga ulash» `rpc admin_tg_link` bilan token oladi →
+  `t.me/<bot>?start=admin_<token>` → `bot.ts` `rpc admin_tg_claim` (faqat `service_role`) chatni bog‘laydi va havolani so‘ragan
+  sessiyani tasdiqlaydi. Kirishda `/admin/login/tg`: `admin_tg_send_code` kodni pg_net bilan yuboradi (bot tokeni bazadan
+  chiqmaydi), `admin_tg_verify` tekshiradi. Telegramini yo‘qotganni boshqa admin `/admin/team` dan uzadi (`admin_tg_reset`).
+  Autentifikator ilovasi (TOTP) ham qoladi — xodim ikkisidan birini tanlaydi.
 - Har bo‘lim: `actions.ts` (`save*(id | null, prev, form)`, `delete*(id)`), `*Form.tsx`,
   `page.tsx` (ro‘yxat), `new/`, `[id]/`. Saqlashdan keyin `revalidatePublic()` butun ochiq
   saytni yangilaydi, keyin `redirect`.

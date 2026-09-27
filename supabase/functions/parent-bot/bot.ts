@@ -15,7 +15,8 @@ export type Tg = (method: string, params: Record<string, unknown>) => Promise<Tg
 // The part of the Supabase client this file uses (kept loose so the file needs no import).
 // deno-lint-ignore no-explicit-any
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Db = { from: (table: string) => any };
+type Any = any;
+export type Db = { from: (table: string) => Any; rpc?: (name: string, args?: Record<string, unknown>) => Promise<{ data: Any; error: unknown }> };
 
 type Chat = { id: number; type: string };
 type Message = { message_id: number; chat: Chat; text?: string };
@@ -282,6 +283,19 @@ export async function handleUpdate(update: Update, db: Db, tg: Tg, now = new Dat
   const command = head.startsWith("/") ? head.slice(1).split("@")[0].toLowerCase() : "";
   const arg = rest.join(" ");
   const extra = isPrivate ? { reply_markup: keyboard } : {};
+
+  // The admin panel's second step: the one-time link from "Ikki bosqichli kirish" binds this chat to that account.
+  if (command === "start" && isPrivate && /^admin_[0-9a-f]{32}$/.test(arg)) {
+    const { data } = (await db.rpc?.("admin_tg_claim", { p_token: arg.slice(6), p_chat_id: chatId })) ?? { data: null };
+    const ok = (data as { ok?: boolean; email?: string } | null)?.ok;
+    return send(
+      tg,
+      chatId,
+      ok
+        ? `✅ Admin panel shu Telegramga ulandi${(data as { email?: string }).email ? ` (${esc((data as { email?: string }).email!)})` : ""}.\nEndi har kirishda 6 xonali kod shu chatga keladi. Kodni hech kimga bermang.`
+        : "⚠️ Havola eskirgan. Admin panelda «Botga ulash» tugmasini qaytadan bosing.",
+    );
+  }
 
   await remember(db, msg.chat, {});
   const saved = await chatClass(db, chatId);
