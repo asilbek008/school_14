@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
+import { checkTelegramLink } from "./actions";
 
 type State = { linked: boolean; enabled: boolean; verified: boolean; bot: string | null };
 
@@ -32,9 +33,10 @@ export default function TgSettings() {
     };
   }, []);
 
-  /** After the deep link is opened, wait for the bot to bind the chat. */
-  function poll(tries = 40) {
+  /** After the deep link is opened, ask the bot for its new messages and wait for the chat to be bound. */
+  function poll(tries = 20) {
     timer.current = setTimeout(async () => {
+      await checkTelegramLink();
       const next = await load();
       if (next?.linked) {
         setWaiting(false);
@@ -87,8 +89,8 @@ export default function TgSettings() {
         <span className="rounded-full bg-green-100 px-2 py-0.5 text-[11px] font-bold text-green-800">Tavsiya etiladi</span>
       </div>
       <p className="mb-4 text-sm leading-relaxed text-slate-600">
-        Kirishda 6 xonali kod maktab botidan Telegramga keladi — alohida ilova o‘rnatish, QR skanerlash shart emas, telefon almashsa ham
-        Telegramingiz o‘zingizda qoladi. Kod 5 daqiqa amal qiladi.
+        Kirishda 6 xonali kod maktab botidan{state?.bot ? ` (@${state.bot})` : ""} Telegramga keladi — alohida ilova o‘rnatish, QR
+        skanerlash shart emas, telefon almashsa ham Telegramingiz o‘zingizda qoladi. Kod 5 daqiqa amal qiladi.
       </p>
 
       {message && <p className={`mb-4 rounded-lg p-3 text-sm ${message.ok ? "bg-green-50 text-green-800" : "bg-red-50 text-red-700"}`}>{message.text}</p>}
@@ -97,9 +99,9 @@ export default function TgSettings() {
         <p className="text-sm text-slate-500">Yuklanmoqda…</p>
       ) : !state.bot ? (
         <p className="rounded-lg bg-amber-50 p-3 text-sm text-amber-800">
-          Avval bot ulanishi kerak:{" "}
-          <Link href="/admin/parent-bot" className="font-semibold underline">
-            Telegram bot sozlamalari
+          Avval maktab boti ulanishi kerak:{" "}
+          <Link href="/admin/telegram" className="font-semibold underline">
+            Telegram sozlamalari
           </Link>
           .
         </p>

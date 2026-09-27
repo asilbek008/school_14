@@ -52,6 +52,12 @@ Deno.serve(async (req) => {
 
   const url = new URL(req.url);
   const dry = url.searchParams.get("dry") === "1";
+  // ?links=1 — only the bot's own updates, for the admin panel's "Botga ulash" (no channel reading).
+  if (url.searchParams.get("links") === "1") {
+    if (!settings.bot_token) return json({ error: "no bot" }, 400);
+    await new Bot(supabase, settings.bot_token, settings.channel ?? "").collectUpdates(settings);
+    return json({ status: "links" });
+  }
   const channel: string | null = (dry && url.searchParams.get("channel")) || settings.channel;
   if (!channel || !/^[A-Za-z0-9_]{4,32}$/.test(channel)) return json({ skipped: "kanal kiritilmagan" });
   if (!dry && !settings.enabled) return json({ skipped: "o‘chirilgan" });
@@ -248,6 +254,19 @@ class Bot {
         } else if (origin?.type !== "channel" || !ours(origin.chat)) {
           foreign.add(msg.chat.id);
         }
+      }
+      // The admin panel's second step: "Botga ulash" in "Ikki bosqichli kirish" sends /start admin_<token>.
+      const link = msg?.chat.type === "private" ? /^\/start\s+admin_([0-9a-f]{32})$/.exec(msg.text ?? "") : null;
+      if (link) {
+        const { data } = await this.supabase.rpc("admin_tg_claim", { p_token: link[1], p_chat_id: msg!.chat.id });
+        const claim = data as { ok?: boolean; email?: string } | null;
+        await this.call("sendMessage", {
+          chat_id: msg!.chat.id,
+          text: claim?.ok
+            ? `✅ Admin panel shu Telegramga ulandi${claim.email ? ` (${claim.email})` : ""}.\nEndi har kirishda 6 xonali kod shu chatga keladi. Kodni hech kimga bermang.`
+            : "⚠️ Havola eskirgan. Admin panelda «Botga ulash» tugmasini qaytadan bosing.",
+        });
+        continue;
       }
       if (msg?.chat.type === "private" && msg.text?.startsWith("/start")) {
         chatId = msg.chat.id;
