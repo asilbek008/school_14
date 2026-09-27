@@ -50,6 +50,7 @@ const groups: { title: string | null; items: Item[] }[] = [
     items: [
       { href: "/admin/messages", label: "Xabarlar", icon: "mail" },
       { href: "/admin/trust", label: "Ishonch qutisi", icon: "lock" },
+      { href: "/admin/surveys", label: "So‘rovnomalar", icon: "chart" },
       { href: "/admin/applications", label: "Qabul arizalari", icon: "form" },
     ],
   },
