@@ -20,11 +20,15 @@ export async function telegram<T>(token: string, method: string, params: Record<
 }
 
 /** Runs the telegram-sync Edge Function now (the same call pg_cron makes every 15 minutes). */
-export async function runTelegramSync(supabase: Awaited<ReturnType<typeof requireAdmin>>["supabase"]): Promise<boolean> {
+export async function runTelegramSync(
+  supabase: Awaited<ReturnType<typeof requireAdmin>>["supabase"],
+  /** "links" reads only the bot's own updates (the panel's "Botga ulash"), not the whole channel. */
+  what: "all" | "links" = "all",
+): Promise<boolean> {
   const { data: settings } = await supabase.from("telegram_settings").select("sync_secret").eq("id", 1).single();
   if (!settings) return false;
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/telegram-sync`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/functions/v1/telegram-sync${what === "links" ? "?links=1" : ""}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", "x-sync-secret": settings.sync_secret },
       body: "{}",

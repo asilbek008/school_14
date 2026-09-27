@@ -505,8 +505,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `x-admin-path` sarlavhasi). `/admin/security` — o‘z 2FA'sini yoqish/o‘chirish (QR + kod), `/admin/team` — jamoa (`rpc admin_team`), rolni
   o‘zgartirish (`set_admin_role`, o‘zinikini emas) va telefonini yo‘qotganning 2FA'sini o‘chirish (`reset_mfa`). `AdminNav` muharrirga faqat
   ruxsatli bo‘limlarni ko‘rsatadi, bosh sahifasi — `EditorHome`. Yangi admin bo‘limi qo‘shsangiz, muharrirga ochiqmi — `editorPaths` da hal qiling.
-- Telegram orqali ikki bosqichli kirish (`20261107090000_admin_tg_2fa.sql`; egasining talabi — Google Authenticator o‘rniga): kod
-  maktab botidan (ota-onalar boti — u webhook'da, darhol javob beradi) keladi. Hammasi `private` sxemada (API'ga chiqmaydi):
+- Telegram orqali ikki bosqichli kirish (`20261107090000_admin_tg_2fa.sql`, `20261108090000_admin_tg_site_bot.sql`; egasining
+  talabi — Google Authenticator o‘rniga): kod maktab botidan (@maktab_14bot — `telegram_settings.bot_token`, admin xabarlarini
+  yuboradigan bot) keladi. Bu botda webhook yo‘q (telegram-sync `getUpdates` bilan o‘qiydi), shuning uchun `/start admin_<token>`
+  ni `telegram-sync` ichidagi `collectUpdates` qayta ishlaydi; panel «Botga ulash» dan keyin `runTelegramSync(supabase, "links")`
+  (`?links=1` — faqat bot yangiliklari, kanal o‘qilmaydi) bilan darhol tekshiradi. Hammasi `private` sxemada (API'ga chiqmaydi):
   `admin_tg` (user_id ↔ chat_id, enabled), `admin_tg_links` (bir martalik havola tokeni + so‘ragan sessiya), `admin_tg_codes`
   (kodning tuzlangan sha256 hash'i, 5 daqiqa, 5 urinish), `admin_tg_sends` (10 daqiqada 5 ta), `admin_tg_sessions` (JWT
   `session_id`, 30 kun). `private.staff_role()` endi `private.admin_tg_ok()` ni ham tekshiradi — tasdiqlanmagan sessiyaga RLS
