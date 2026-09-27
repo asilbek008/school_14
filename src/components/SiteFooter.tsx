@@ -6,7 +6,7 @@ import { currentSchoolYear, school, telHref } from "@/lib/school";
 import PushToggle from "./PushToggle";
 import ToTop from "./ToTop";
 
-const links = ["about", "timetable", "staff", "news", "events", "programs", "achievements", "tests", "library", "alumni", "gallery", "schedule", "calendar", "clubs", "faq", "documents", "surveys", "contact", "trust", "search"] as const;
+const links = ["about", "timetable", "staff", "news", "events", "programs", "achievements", "tests", "library", "alumni", "gallery", "schedule", "calendar", "clubs", "faq", "documents", "surveys", "openness", "contact", "trust", "search"] as const;
 
 export default function SiteFooter({ lang, dict, bot }: { lang: Locale; dict: Dictionary; bot: string | null }) {
   const year = currentSchoolYear();

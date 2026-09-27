@@ -29,6 +29,7 @@ const groups: { title: string | null; items: Item[] }[] = [
       { href: "/admin/gallery", label: "Galereya", icon: "photo" },
       { href: "/admin/documents", label: "Hujjatlar", icon: "doc" },
       { href: "/admin/pages", label: "Sahifalar", icon: "page" },
+      { href: "/admin/openness", label: "Ochiqlik", icon: "doc" },
     ],
   },
   {

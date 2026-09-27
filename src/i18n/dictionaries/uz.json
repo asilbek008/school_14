@@ -29,7 +29,8 @@
     "tests": "Testlar",
     "library": "Kutubxona",
     "alumni": "Bitiruvchilar",
-    "surveys": "So‘rovnomalar"
+    "surveys": "So‘rovnomalar",
+    "openness": "Ochiqlik"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -49,7 +50,8 @@
     "achievements": "Olimpiada, sport va tanlov natijalari",
     "tests": "Fan testlari va DTMga tayyorgarlik",
     "library": "Darsliklar va o‘quv kitoblari (PDF)",
-    "alumni": "Bitiruvchilarimiz va ularning yutuqlari"
+    "alumni": "Bitiruvchilarimiz va ularning yutuqlari",
+    "openness": "Byudjet, homiylik va hisobotlar"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -1256,5 +1258,24 @@
     "tooMany": "Hozir juda ko‘p javob kelmoqda. Bir necha daqiqadan keyin urinib ko‘ring.",
     "empty": "Hozircha ochiq so‘rovnoma yo‘q.",
     "privacy": "Ism, telefon va IP manzil saqlanmaydi — faqat javoblarning o‘zi."
+  },
+  "openness": {
+    "title": "Ochiqlik",
+    "kicker": "Moliyaviy shaffoflik",
+    "intro": "Maktab byudjeti, homiylik yordami, xaridlar va hisobotlar. Faqat rasmiy hujjatlar bilan tasdiqlangan ma’lumotlar.",
+    "cats": {
+      "byudjet": "Byudjet",
+      "homiylik": "Homiylik yordami",
+      "xarid": "Xaridlar",
+      "hisobot": "Hisobotlar",
+      "boshqa": "Boshqa"
+    },
+    "amount": "{n} so‘m",
+    "period": "Davr",
+    "openDoc": "Hujjatni ochish",
+    "openLink": "Havolani ochish",
+    "empty": "Ma’lumotlar hali kiritilmagan. Tez orada shu yerda e’lon qilinadi.",
+    "note": "Savolingiz bo‘lsa, maktab rahbariyatiga murojaat qiling yoki ishonch qutisidan foydalaning.",
+    "official": "Davlat byudjeti portali (openbudget.uz)"
   }
 }
