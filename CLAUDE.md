@@ -492,6 +492,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `x-bot-secret` bilan chaqiradi; funksiya yangilikni band qilib, ~25 xabar/soniya yuboradi (muqova bo‘lsa `sendPhoto`), 403 — chat o‘chiriladi.
   Saytda havola (`getParentBot()` → `rpc('parent_bot_username')`): footer va "Aloqa" sahifasidagi karta. Funksiyani o‘zgartirsangiz, qayta deploy qiling.
 
+### AI yordamchi
+- `/[lang]/assistant` (egasining so‘rovi): ota-onalarning savollariga sayt ma’lumotlari asosida javob beradi. Kalit egasining
+  o‘zi `/admin/ai` da kiritadi (`private.ai_settings.api_key`) — brauzerga qaytarilmaydi, menga ham ko‘rinmaydi; kalit yo‘q bo‘lsa
+  sahifa 404 (`getAssistantOn()` → `rpc ai_status`). Javobni Edge Function `supabase/functions/ai-assistant` (verify_jwt off)
+  tayyorlaydi: `rpc ai_config` (faqat `service_role`) kalit va modelni beradi, `rpc ai_guard` savolni yozib cheklovni tekshiradi
+  (bir tashrifchiga soatiga 20, jami 300), keyin Anthropic Messages API chaqiriladi. Kontekst DB'dan yig‘iladi (sahifalar,
+  yangiliklar, tadbirlar, to‘garaklar, taqvim, xodimlar, bo‘lim havolalari, 24 000 belgigacha); system prompt: faqat shu
+  ma’lumot, bilmasa — maktab telefoni, baho/davomat va shaxsiy ma’lumot haqida javob yo‘q. Savollar `private.ai_questions` da
+  (ism va IP yo‘q) — admin sahifada ko‘rinadi, ko‘p takrorlanganini «Savol-javob»ga ko‘chirish uchun. Havola: `/faq` kartasida
+  va sitemap'da (yoqilgan bo‘lsa). Funksiyani o‘zgartirsangiz, qayta deploy qiling.
+
 ### Statistika va ilova
 - Vercel Web Analytics (`@vercel/analytics`, `[lang]/layout.tsx` da `<Analytics />`; cookie'siz) — Vercel loyihasining Analytics
   bo‘limida yoqilganda ishlaydi.

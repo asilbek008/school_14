@@ -994,3 +994,12 @@ export async function getOpenness(): Promise<OpennessItem[]> {
   logError("getOpenness", error);
   return (data ?? []) as unknown as OpennessItem[];
 }
+
+/** Is the AI assistant switched on (a key entered and enabled in the admin panel)? */
+export async function getAssistantOn(): Promise<boolean> {
+  const supabase = createPublicClient();
+  if (!supabase) return false;
+  const { data, error } = await supabase.rpc("ai_status");
+  logError("getAssistantOn", error);
+  return data === true;
+}

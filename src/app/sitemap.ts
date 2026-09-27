@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
-import { getAlbums, getClasses, getClubs, getNews, getPrograms, getSchoolYears, getStaff, getTests, getTextbooks } from "@/lib/content";
+import { getAlbums, getAssistantOn, getClasses, getClubs, getNews, getPrograms, getSchoolYears, getStaff, getTests, getTextbooks } from "@/lib/content";
 import { school, siteUrl } from "@/lib/school";
 
 export const revalidate = 3600;
@@ -12,7 +12,7 @@ const pages = ["", "/about", "/admissions", "/timetable", "/schedule", "/calenda
  * list the site and send each visitor to their language.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [news, staff, clubs, programs, albums, classes, years, tests, books] = await Promise.all([
+  const [news, staff, clubs, programs, albums, classes, years, tests, books, assistant] = await Promise.all([
     getNews(),
     getStaff(),
     getClubs(),
@@ -22,9 +22,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getSchoolYears(),
     getTests(),
     getTextbooks(),
+    getAssistantOn(),
   ]);
   const paths: { path: string; modified?: string | null; priority: number }[] = [
-    ...pages.map((path) => ({ path, priority: path === "" ? 1 : 0.8 })),
+    ...[...pages, ...(assistant ? ["/assistant"] : [])].map((path) => ({ path, priority: path === "" ? 1 : 0.8 })),
     ...news.map((n) => ({ path: `/news/${n.slug}`, modified: n.published_at, priority: 0.6 })),
     ...staff.map((s) => ({ path: `/staff/${s.id}`, priority: 0.4 })),
     ...clubs.map((c) => ({ path: `/clubs/${c.id}`, priority: 0.5 })),

@@ -31,7 +31,8 @@
     "alumni": "Bitiruvchilar",
     "surveys": "So‘rovnomalar",
     "openness": "Ochiqlik",
-    "cabinet": "Shaxsiy kabinet"
+    "cabinet": "Shaxsiy kabinet",
+    "assistant": "AI yordamchi"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -1311,5 +1312,28 @@
     "noBot": "Bot hali ulanmagan. Keyinroq urinib ko‘ring.",
     "empty": "Hozircha natija yo‘q. Testlardan boshlang.",
     "toTests": "Testlarga o‘tish"
+  },
+  "assistant": {
+    "title": "AI yordamchi",
+    "kicker": "Savolingizga javob",
+    "intro": "Maktab haqidagi savolingizni yozing — yordamchi sayt ma’lumotlari asosida javob beradi. Baho va davomat haqida javob bermaydi.",
+    "placeholder": "Masalan: 1-sinfga qabul qachon boshlanadi?",
+    "ask": "So‘rash",
+    "asking": "Javob tayyorlanmoqda…",
+    "samples": [
+      "Maktabga qanday borsam bo‘ladi?",
+      "8-A sinfda ertaga qaysi darslar bor?",
+      "Qanday to‘garaklar bor?",
+      "Qabul uchun qaysi hujjatlar kerak?"
+    ],
+    "errors": {
+      "off": "Yordamchi hozir o‘chirilgan.",
+      "empty": "Savolni yozing.",
+      "too_many": "Juda ko‘p savol berildi. Bir ozdan keyin urinib ko‘ring.",
+      "model": "Javob olinmadi. Keyinroq urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling."
+    },
+    "note": "Javoblar sayt ma’lumotlari asosida tayyorlanadi va xato bo‘lishi mumkin — muhim masalada maktabga murojaat qiling.",
+    "privacy": "Savolingiz maktab adminiga ko‘rinadi (savol-javob bo‘limini to‘ldirish uchun). Ismingiz saqlanmaydi.",
+    "contact": "Aloqa sahifasi"
   }
 }
