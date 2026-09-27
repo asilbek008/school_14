@@ -74,6 +74,15 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `defaultValue` ni olmaydi — u `attempt` bo‘yicha qayta yaratiladi). Mavzu (`topic`: savol/taklif/murojaat/boshqa,
   `contactTopics`) admin xabarlarida belgi bo‘lib chiqadi. Sahifa maketdagidek: 4 aloqa kartasi (boshqa sahifalardagi raqam kartalari kabi rangli — `tileColors` `StatTiles` dan; telefonda ixcham),
   "Murojaat yuborish" formasi, "Tezkor javob kerakmi?" izohi va xarita.
+- So‘rovnomalar (`/[lang]/surveys`, `/surveys/[id]`; `surveys` + `survey_questions` + `survey_responses`; admin `/admin/surveys`;
+  egasining so‘rovi): maktab ota-onalar va o‘quvchilardan fikr so‘raydi. Javob ismsiz — bazada faqat javoblarning o‘zi va vaqti
+  (`answers` jsonb: `{"<savol id>": 0 | [0,2] | 4 | "matn"}`), ism, IP, hisob saqlanmaydi; `actions.ts` matnni loglamaydi.
+  Savol turlari: `single`, `multi`, `scale` (1–5), `text`; variantlar uch tilda (`options_uz/ru/en`, qatorlar soni bir xil).
+  `submitSurvey` javoblarni savollarning o‘ziga solishtirib tekshiradi (majburiy savol, variant raqami, matn 1000 belgigacha).
+  RLS: e’lon qilingan va yopilmagan so‘rovnomaga hamma yozadi, o‘qishni faqat admin; `private.survey_rate_limit` — 10 daqiqada
+  bitta so‘rovnomaga 100, soatiga jami 500. Brauzerda `localStorage.survey:<id>` — «javob bergansiz» eslatmasi (tekshiruv emas).
+  Admin: ro‘yxat, so‘rovnoma formasi, savollar ro‘yxati va natijalar sahifasi (ustunli diagramma, `scale` da o‘rtacha, matnli
+  javoblar ro‘yxati). Menyuda «Murojaatlar» ichida, saytda footer, sitemap va qidiruvda.
 - Ishonch qutisi (`/[lang]/trust`, `trust_messages`; admin `/admin/trust`): ismsiz maxfiy murojaat — mavzu (`trustTopics`:
   xavfsizlik/pul/munosabat/taklif/boshqa), matn (10–5000 belgi) va ixtiyoriy aloqa. Yuboruvchi haqida hech narsa saqlanmaydi
   (ism, IP yo‘q); `actions.ts` xato matnini ham loglamaydi. RLS: hamma yozadi, faqat admin o‘qiydi. `private.trust_rate_limit`

@@ -28,7 +28,8 @@
     "achievements": "Yutuqlar",
     "tests": "Testlar",
     "library": "Kutubxona",
-    "alumni": "Bitiruvchilar"
+    "alumni": "Bitiruvchilar",
+    "surveys": "So‘rovnomalar"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -1223,5 +1224,37 @@
     "text": "Farzandingiz sinfining bugungi va ertangi darslari, maktab yangiliklari — Telegram’da.",
     "open": "Botni ochish",
     "short": "Telegram bot"
+  },
+  "surveys": {
+    "title": "So‘rovnomalar",
+    "kicker": "Fikringiz muhim",
+    "intro": "Maktab ishini yaxshilash uchun qisqa so‘rovnomalar. Javoblar ismsiz — kim javob berganini hech kim bilmaydi.",
+    "open": "Ochiq",
+    "closed": "Yopilgan",
+    "closesAt": "{d} gacha ochiq",
+    "closedNote": "Bu so‘rovnoma yakunlangan, javob qabul qilinmaydi.",
+    "audienceLabel": "Kim uchun",
+    "audiences": {
+      "hamma": "Hamma uchun",
+      "ota-ona": "Ota-onalar uchun",
+      "oquvchi": "O‘quvchilar uchun",
+      "oqituvchi": "O‘qituvchilar uchun"
+    },
+    "questions": "{n} ta savol",
+    "start": "Javob berish",
+    "submit": "Javoblarni yuborish",
+    "sending": "Yuborilmoqda…",
+    "required": "Bu savolga javob bering.",
+    "scaleLow": "Umuman yo‘q",
+    "scaleHigh": "Juda yaxshi",
+    "textPlaceholder": "Fikringizni yozing (ixtiyoriy)",
+    "thanksTitle": "Rahmat!",
+    "thanks": "Javobingiz qabul qilindi. Natijalar maktab rahbariyatiga yetkaziladi.",
+    "done": "Siz bu so‘rovnomaga javob bergansiz.",
+    "again": "Yana javob berish",
+    "error": "Yuborib bo‘lmadi. Keyinroq urinib ko‘ring.",
+    "tooMany": "Hozir juda ko‘p javob kelmoqda. Bir necha daqiqadan keyin urinib ko‘ring.",
+    "empty": "Hozircha ochiq so‘rovnoma yo‘q.",
+    "privacy": "Ism, telefon va IP manzil saqlanmaydi — faqat javoblarning o‘zi."
   }
 }

@@ -28,7 +28,8 @@
     "achievements": "Achievements",
     "tests": "Tests",
     "library": "Library",
-    "alumni": "Alumni"
+    "alumni": "Alumni",
+    "surveys": "Surveys"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -1223,5 +1224,37 @@
     "text": "Your child’s class lessons for today and tomorrow, and school news — in Telegram (in Uzbek).",
     "open": "Open the bot",
     "short": "Telegram bot"
+  },
+  "surveys": {
+    "title": "Surveys",
+    "kicker": "Your opinion matters",
+    "intro": "Short surveys that help the school do better. Answers are anonymous — nobody sees who replied.",
+    "open": "Open",
+    "closed": "Closed",
+    "closesAt": "Open until {d}",
+    "closedNote": "This survey is finished and no longer takes answers.",
+    "audienceLabel": "For whom",
+    "audiences": {
+      "hamma": "For everyone",
+      "ota-ona": "For parents",
+      "oquvchi": "For pupils",
+      "oqituvchi": "For teachers"
+    },
+    "questions": "{n} questions",
+    "start": "Answer",
+    "submit": "Send answers",
+    "sending": "Sending…",
+    "required": "Please answer this question.",
+    "scaleLow": "Not at all",
+    "scaleHigh": "Very good",
+    "textPlaceholder": "Write your thoughts (optional)",
+    "thanksTitle": "Thank you!",
+    "thanks": "Your answer has been recorded. The results go to the school's leadership.",
+    "done": "You have already answered this survey.",
+    "again": "Answer again",
+    "error": "Could not send. Please try again later.",
+    "tooMany": "Too many answers right now. Please try again in a few minutes.",
+    "empty": "No open surveys at the moment.",
+    "privacy": "No name, phone or IP address is stored — only the answers themselves."
   }
 }

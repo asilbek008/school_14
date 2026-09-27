@@ -900,3 +900,66 @@ export async function getTextbook(id: number): Promise<Textbook | null> {
 export function textbookHref(b: Pick<Textbook, "kind" | "path" | "url">): string | null {
   return b.kind === "file" ? mediaUrl(b.path) : b.url;
 }
+
+export type SurveyQuestion = {
+  id: number;
+  question_uz: string;
+  question_ru: string | null;
+  question_en: string | null;
+  kind: "single" | "multi" | "scale" | "text";
+  options_uz: string[];
+  options_ru: string[];
+  options_en: string[];
+  required: boolean;
+  sort_order: number;
+};
+
+export type Survey = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  description_uz: string | null;
+  description_ru: string | null;
+  description_en: string | null;
+  audience: string;
+  closes_at: string | null;
+  questions?: SurveyQuestion[];
+};
+
+const surveyColumns =
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, audience, closes_at";
+
+/** Published surveys, newest first; a closed one still shows (with its "yopilgan" note). */
+export async function getSurveys(): Promise<Survey[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase.from("surveys").select(surveyColumns).eq("is_published", true).order("sort_order").order("id", { ascending: false });
+  logError("getSurveys", error);
+  return (data ?? []) as Survey[];
+}
+
+export async function getSurvey(id: number): Promise<Survey | null> {
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from("surveys")
+    .select(`${surveyColumns}, questions:survey_questions(id, question_uz, question_ru, question_en, kind, options_uz, options_ru, options_en, required, sort_order)`)
+    .eq("id", id)
+    .eq("is_published", true)
+    .maybeSingle();
+  logError("getSurvey", error);
+  if (!data) return null;
+  const survey = data as unknown as Survey;
+  survey.questions = (survey.questions ?? []).sort((a, b) => a.sort_order - b.sort_order || a.id - b.id);
+  return survey;
+}
+
+/** The options of a question in the chosen language, falling back to the Uzbek list. */
+export function surveyOptions(q: SurveyQuestion, lang: Locale): string[] {
+  const list = q[`options_${lang}` as const] ?? [];
+  return list.length ? list : q.options_uz;
+}
+
+/** Is the survey still taking answers? */
+export const surveyOpen = (s: Survey) => !s.closes_at || Date.parse(s.closes_at) > Date.now();
