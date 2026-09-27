@@ -26,7 +26,10 @@ export async function signIn(_prev: FormState, form: FormData): Promise<FormStat
   }
 
   await logAdminLogin(supabase, { event: "login", userId: data.user.id, email: data.user.email ?? email });
-  // With an authenticator app turned on, the code comes next.
+  // With a second step turned on, the code comes next: the bot's code, or an authenticator app.
+  const { data: tg } = await supabase.rpc("admin_tg_state");
+  const tgState = tg as { enabled?: boolean; verified?: boolean } | null;
+  if (tgState?.enabled && !tgState.verified) redirect("/admin/login/tg");
   const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
   redirect(aal?.nextLevel === "aal2" && aal.currentLevel !== "aal2" ? "/admin/login/mfa" : "/admin");
 }

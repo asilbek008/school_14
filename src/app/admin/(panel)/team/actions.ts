@@ -15,3 +15,10 @@ export async function resetMfa(userId: string) {
   await supabase.rpc("reset_mfa", { p_user: userId });
   revalidatePath("/admin/team");
 }
+
+/** For someone who lost the Telegram account that gets the code: they link the bot again from "Ikki bosqichli kirish". */
+export async function resetTg(userId: string) {
+  const { supabase } = await requireAdmin();
+  await supabase.rpc("admin_tg_reset", { p_user: userId });
+  revalidatePath("/admin/team");
+}

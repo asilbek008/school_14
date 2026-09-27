@@ -3,13 +3,13 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
 import { formatDateTime } from "@/lib/format";
 import AdminHeader from "@/components/admin/AdminHeader";
-import { resetMfa, setRole } from "./actions";
+import { resetMfa, resetTg, setRole } from "./actions";
 
 export const metadata: Metadata = { title: "Jamoa va ruxsatlar" };
 
-type Member = { user_id: string; email: string; role: "admin" | "editor"; mfa: boolean; last_sign_in_at: string | null };
+type Member = { user_id: string; email: string; role: "admin" | "editor"; mfa: boolean; tg: boolean; last_sign_in_at: string | null };
 
-/** Who can sign in to the panel: role (admin / editor), 2FA state; admins change roles here. */
+/** Who can sign in to the panel: role (admin / editor), which second step they use; admins change roles here. */
 export default async function TeamPage() {
   const { supabase, userId } = await requireAdmin();
   const { data } = await supabase.rpc("admin_team");
@@ -39,7 +39,8 @@ export default async function TeamPage() {
                   {m.email} {me && <span className="text-xs font-normal text-slate-500">(siz)</span>}
                 </p>
                 <p className="text-sm text-slate-500">
-                  {m.role === "admin" ? "👑 Admin" : "✏️ Muharrir"} · {m.mfa ? "🔐 2FA yoqilgan" : "⚠️ 2FA yo‘q"}
+                  {m.role === "admin" ? "👑 Admin" : "✏️ Muharrir"} ·{" "}
+                  {m.tg ? "✈️ Telegram kodi" : m.mfa ? "🔐 Autentifikator ilovasi" : "⚠️ 2FA yo‘q"}
                   {m.last_sign_in_at && ` · oxirgi kirish ${formatDateTime(m.last_sign_in_at, "uz")}`}
                 </p>
               </div>
@@ -50,9 +51,18 @@ export default async function TeamPage() {
                       {m.role === "admin" ? "Muharrir qilish" : "Admin qilish"}
                     </button>
                   </form>
+                  {m.tg && (
+                    <form action={resetTg.bind(null, m.user_id)}>
+                      <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-50">
+                        Telegramni uzish
+                      </button>
+                    </form>
+                  )}
                   {m.mfa && (
                     <form action={resetMfa.bind(null, m.user_id)}>
-                      <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-50">2FA’ni o‘chirish</button>
+                      <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-50">
+                        Ilova kodini o‘chirish
+                      </button>
                     </form>
                   )}
                 </div>

@@ -27,6 +27,9 @@ export async function requireAdmin() {
   // 2FA turned on but this session has not passed the second step yet (the database refuses it anyway).
   const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
   if (aal?.nextLevel === "aal2" && aal.currentLevel !== "aal2") redirect("/admin/login/mfa");
+  // The same for the Telegram code (private.admin_tg_ok also withholds the role from RLS).
+  const { data: tg } = await supabase.rpc("admin_tg_state");
+  if (tgOn(tg) && !(tg as TgState).verified) redirect("/admin/login/tg");
 
   const role = (admin.role === "editor" ? "editor" : "admin") as StaffRole;
   if (role === "editor" && !editorMay((await headers()).get("x-admin-path") ?? "")) redirect("/admin?denied=1");
@@ -38,6 +41,11 @@ export async function requireAdmin() {
 export function revalidatePublic() {
   revalidatePath("/[lang]", "layout");
 }
+
+/** What public.admin_tg_state() returns: is the bot linked, is the code step on, did this session pass it. */
+export type TgState = { linked: boolean; enabled: boolean; verified: boolean; bot: string | null; waiting: boolean };
+
+const tgOn = (state: unknown): state is TgState => !!state && (state as TgState).enabled === true;
 
 export type FormState = { error?: string; ok?: boolean };
 

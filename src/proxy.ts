@@ -50,8 +50,8 @@ async function handleAdmin(request: NextRequest) {
   });
 
   const { data } = await supabase.auth.getClaims();
-  // The sign-in page and its second step (the authenticator code).
-  const isLogin = request.nextUrl.pathname === "/admin/login" || request.nextUrl.pathname === "/admin/login/mfa";
+  // The sign-in page and its second steps (/admin/login/mfa — authenticator app, /admin/login/tg — bot code).
+  const isLogin = request.nextUrl.pathname.startsWith("/admin/login");
 
   if (!data?.claims && !isLogin) {
     const loginUrl = request.nextUrl.clone();
