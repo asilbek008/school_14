@@ -83,6 +83,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   bitta so‘rovnomaga 100, soatiga jami 500. Brauzerda `localStorage.survey:<id>` — «javob bergansiz» eslatmasi (tekshiruv emas).
   Admin: ro‘yxat, so‘rovnoma formasi, savollar ro‘yxati va natijalar sahifasi (ustunli diagramma, `scale` da o‘rtacha, matnli
   javoblar ro‘yxati). Menyuda «Murojaatlar» ichida, saytda footer, sitemap va qidiruvda.
+- Ochiqlik (`/[lang]/openness`, `openness_items`; admin `/admin/openness`; egasining so‘rovi): byudjet, homiylik yordami, xaridlar
+  va hisobotlar. Har qator — bo‘lim (`byudjet|homiylik|xarid|hisobot|boshqa`), nomi va izohi (tarjimali), ixtiyoriy summa (so‘m,
+  `numeric(14,2)`), davr (matn), sana; tasdiqlovchi hujjat — `documents` dagi yozuv (`document_id`) yoki tashqi havola (`url`,
+  masalan openbudget.uz). Saytda bo‘limlar bo‘yicha kartalar, ostida rasmiy portalga havola. Faqat egasi tasdiqlagan raqamlar
+  kiritiladi — men hech qanday moliyaviy raqam yozmayman. Menyuda «Maktab ▾» ichida, footer, sitemap va qidiruvda.
 - Ishonch qutisi (`/[lang]/trust`, `trust_messages`; admin `/admin/trust`): ismsiz maxfiy murojaat — mavzu (`trustTopics`:
   xavfsizlik/pul/munosabat/taklif/boshqa), matn (10–5000 belgi) va ixtiyoriy aloqa. Yuboruvchi haqida hech narsa saqlanmaydi
   (ism, IP yo‘q); `actions.ts` xato matnini ham loglamaydi. RLS: hamma yozadi, faqat admin o‘qiydi. `private.trust_rate_limit`

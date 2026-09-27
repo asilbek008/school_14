@@ -963,3 +963,34 @@ export function surveyOptions(q: SurveyQuestion, lang: Locale): string[] {
 
 /** Is the survey still taking answers? */
 export const surveyOpen = (s: Survey) => !s.closes_at || Date.parse(s.closes_at) > Date.now();
+
+export type OpennessItem = {
+  id: number;
+  category: string;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  note_uz: string | null;
+  note_ru: string | null;
+  note_en: string | null;
+  amount: number | null;
+  period: string | null;
+  happened_on: string | null;
+  url: string | null;
+  document: { id: number; kind: string; path: string | null; url: string | null } | null;
+};
+
+/** The openness section: budget, sponsorship, purchases and reports the school has confirmed. */
+export async function getOpenness(): Promise<OpennessItem[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("openness_items")
+    .select("id, category, title_uz, title_ru, title_en, note_uz, note_ru, note_en, amount, period, happened_on, url, document:documents(id, kind, path, url)")
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("happened_on", { ascending: false, nullsFirst: false })
+    .order("id", { ascending: false });
+  logError("getOpenness", error);
+  return (data ?? []) as unknown as OpennessItem[];
+}

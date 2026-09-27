@@ -29,7 +29,8 @@
     "tests": "Tests",
     "library": "Library",
     "alumni": "Alumni",
-    "surveys": "Surveys"
+    "surveys": "Surveys",
+    "openness": "Openness"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -49,7 +50,8 @@
     "achievements": "Olympiads, sports and contests",
     "tests": "Subject tests and DTM exam practice",
     "library": "Textbooks and study books (PDF)",
-    "alumni": "Our graduates and their achievements"
+    "alumni": "Our graduates and their achievements",
+    "openness": "Budget, sponsorship and reports"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -1256,5 +1258,24 @@
     "tooMany": "Too many answers right now. Please try again in a few minutes.",
     "empty": "No open surveys at the moment.",
     "privacy": "No name, phone or IP address is stored — only the answers themselves."
+  },
+  "openness": {
+    "title": "Openness",
+    "kicker": "Financial transparency",
+    "intro": "The school's budget, sponsorship, purchases and reports — only figures backed by official documents.",
+    "cats": {
+      "byudjet": "Budget",
+      "homiylik": "Sponsorship",
+      "xarid": "Purchases",
+      "hisobot": "Reports",
+      "boshqa": "Other"
+    },
+    "amount": "{n} UZS",
+    "period": "Period",
+    "openDoc": "Open the document",
+    "openLink": "Open the link",
+    "empty": "Nothing has been entered yet. It will appear here shortly.",
+    "note": "If you have a question, ask the school's leadership or use the trust box.",
+    "official": "State budget portal (openbudget.uz)"
   }
 }

@@ -36,6 +36,7 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
         { href: href("/library"), label: dict.nav.library, desc: d.library, icon: "book", color: "coral" },
         { href: href("/clubs"), label: dict.nav.clubs, desc: d.clubs, icon: "star", color: "coral" },
         { href: href("/faq"), label: dict.nav.faq, desc: d.faq, icon: "question", color: "blue" },
+        { href: href("/openness"), label: dict.nav.openness, desc: d.openness, icon: "doc", color: "amber" },
         { href: href("/contact"), label: dict.nav.contact, desc: d.contact, icon: "phone", color: "green" },
       ],
     },

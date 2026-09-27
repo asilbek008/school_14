@@ -55,6 +55,7 @@ export default async function SearchPage({ params }: PageProps<"/[lang]/search">
     ["/gallery", dict.gallery.title, d.gallery],
     ["/faq", dict.nav.faq, d.faq],
     ["/surveys", dict.surveys.title, dict.surveys.intro],
+    ["/openness", dict.openness.title, dict.openness.intro],
     ...(school.showDocuments ? [["/documents", dict.documents.title, dict.documents.intro] as [string, string, string]] : []),
     ["/contact", dict.nav.contact, d.contact],
     ["/admissions/apply", dict.apply.title, dict.apply.lead],
