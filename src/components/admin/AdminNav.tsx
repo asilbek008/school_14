@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { signOut } from "@/app/admin/login/actions";
-import { editorMay, type StaffRole } from "@/lib/roles";
+import { mayOpen, roleNames, type StaffRole } from "@/lib/roles";
 import Crest from "./Crest";
 
 export type Icon = keyof typeof icons;
@@ -71,7 +71,7 @@ const allItems = groups.flatMap((g) => g.items);
 
 // An editor sees only the sections open to them.
 const groupsFor = (role: StaffRole) =>
-  role === "admin" ? groups : groups.map((g) => ({ ...g, items: g.items.filter((i) => editorMay(i.href)) })).filter((g) => g.items.length);
+  role === "admin" ? groups : groups.map((g) => ({ ...g, items: g.items.filter((i) => mayOpen(role, i.href)) })).filter((g) => g.items.length);
 
 // The phone's bottom bar for an editor: content sections.
 const editorTabs: Item[] = [
@@ -299,7 +299,7 @@ function Search({ role }: { role: StaffRole }) {
   const box = useRef<HTMLDivElement>(null);
   const input = useRef<HTMLInputElement>(null);
   useDismiss(box, open, () => setOpen(false));
-  const pool = [...groupsFor(role).flatMap((g) => g.items), ...commands.filter((c) => role === "admin" || editorMay(c.href))];
+  const pool = [...groupsFor(role).flatMap((g) => g.items), ...commands.filter((c) => mayOpen(role, c.href))];
   const words = fold(q).split(/\s+/).filter(Boolean);
   const results = words.length ? pool.filter((i) => words.every((w) => fold(i.label).includes(w))).slice(0, 8) : [];
 
@@ -449,7 +449,7 @@ function UserMenu({ email, role }: { email: string; role: StaffRole }) {
   const [open, setOpen] = useState(false);
   const box = useRef<HTMLDivElement>(null);
   useDismiss(box, open, () => setOpen(false));
-  const roleLabel = role === "admin" ? "Administrator" : "Muharrir";
+  const roleLabel = role === "admin" ? "Administrator" : roleNames[role];
   return (
     <div ref={box} className="relative">
       <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} className="flex items-center gap-3 rounded-xl py-1.5 pl-1.5 pr-2.5 hover:bg-[var(--bar-field)]">

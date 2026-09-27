@@ -268,9 +268,51 @@ async function EditorHome({ supabase, denied }: { supabase: Supabase; denied: bo
   );
 }
 
+
+/** A teacher's start page: their tests, the question bank and where the pupils struggle. */
+async function TeacherHome({ supabase, denied }: { supabase: Supabase; denied: boolean }) {
+  const [{ data: tests }, { data: bank }] = await Promise.all([
+    supabase.from("tests").select("id, title_uz, subject, kind, is_published").order("created_at", { ascending: false }).limit(8),
+    supabase.rpc("question_bank_stats"),
+  ]);
+  const rows = (bank ?? []) as { subject: string; total: number; no_topic: number }[];
+  const questions = rows.reduce((n, r) => n + Number(r.total ?? 0), 0);
+  const noTopic = rows.reduce((n, r) => n + Number(r.no_topic ?? 0), 0);
+  return (
+    <div className="space-y-5">
+      <Hero sub={<>Bugun {formatDateFull(new Date().toISOString(), "uz")} · siz o‘qituvchisiz: testlar, savollar bazasi va qisqa darslar.</>} />
+      {denied && <p className="rounded-xl bg-amber-50 p-3 text-sm text-amber-900">Bu bo‘lim faqat admin uchun. Kerak bo‘lsa, maktab adminiga murojaat qiling.</p>}
+      <div className="grid gap-5 lg:grid-cols-3">
+        <div className="space-y-3">
+          <div className="rounded-xl bg-white p-5 shadow-sm">
+            <p className="text-3xl font-extrabold text-slate-900">{questions}</p>
+            <p className="text-sm text-slate-500">savollar bazasida</p>
+            {noTopic > 0 && <p className="mt-2 text-[13px] text-amber-700">{noTopic} tasida mavzu ko‘rsatilmagan</p>}
+          </div>
+          <Panel title="Tezkor amallar" href="/admin/tests">
+            <Row href="/admin/tests/new" title="Yangi test qo‘shish" meta="Fan, sinf, vaqt" />
+            <Row href="/admin/tests/bank" title="Savollar bazasi" meta="Fan va mavzular bo‘yicha" />
+            <Row href="/admin/tests/notes" title="Qisqa darslar" meta="Mavzu bo‘yicha tushuntirish" />
+            <Row href="/admin/tests/stats" title="Qiyin mavzular" meta="O‘quvchilar ko‘p xato qilgan" />
+          </Panel>
+        </div>
+        <div className="lg:col-span-2">
+          <Panel title="So‘nggi testlar" href="/admin/tests">
+            {(tests ?? []).map((t) => (
+              <Row key={t.id} href={`/admin/tests/${t.id}`} title={t.title_uz} meta={`${t.subject} · ${t.kind === "dtm" ? "DTM" : "Mavzu"}`} hidden={!t.is_published} />
+            ))}
+            {!tests?.length && <Empty>Hali test yo‘q.</Empty>}
+          </Panel>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default async function AdminHome({ searchParams }: PageProps<"/admin">) {
   const { supabase, email, role } = await requireAdmin();
   if (role === "editor") return <EditorHome supabase={supabase} denied={(await searchParams).denied === "1"} />;
+  if (role === "teacher") return <TeacherHome supabase={supabase} denied={(await searchParams).denied === "1"} />;
   const [{ counts, school, attention, nextEvents, messages, latestNews }, { data: myLogins }, { data: visits }, bot] = await Promise.all([
     load(supabase),
     // This admin's sign-ins: [0] is the current one, [1] the one before it.

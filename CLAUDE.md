@@ -497,14 +497,18 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   sessiyasizlarni `/admin/login` ga yuboradi; **har bir** admin sahifa va Server Action
   `requireAdmin()` (`src/lib/admin.ts`) ni chaqiradi — u foydalanuvchining `admins`
   jadvalidagi o‘z qatorini o‘qiydi (RLS faqat o‘z qatorini ko‘rsatadi). Yangi admin action yozsangiz, birinchi qatorda `requireAdmin()` bo‘lsin.
-- Rollar va ikki bosqichli kirish (`20261030090000_roles_mfa.sql`): `admins.role` — `admin` (hammasi) yoki `editor` (muharrir: yangilik,
+- Rollar va ikki bosqichli kirish (`20261030090000_roles_mfa.sql`, `20261109090000_teacher_role.sql`): `admins.role` — `admin`
+  (hammasi), `teacher` (o‘qituvchi: faqat testlar, savollar bazasi, qisqa darslar va statistika — `teacherPaths`,
+  `private.can_teach()`; RLS'da `tests`, `test_questions`, `study_notes`, `question_stats` va `media` bucket'i shu funksiyaga
+  bog‘langan; bosh sahifasi `TeacherHome`) yoki `editor` (muharrir: yangilik,
   tadbir, galereya, yutuqlar, dasturlar, testlar, kutubxona — `src/lib/roles.ts` `editorPaths`/`editorMay`). `private.staff_role()` rolni faqat
   JWT `aal2` bo‘lsa yoki foydalanuvchida tasdiqlangan TOTP yo‘q bo‘lsa qaytaradi; `is_admin()` = admin, `is_editor()` = admin yoki muharrir (shu
   jadvallar va `storage.objects` siyosatlari), `is_staff()` — faqat a’zolik (kirishni yozish uchun). `requireAdmin()` rolni qaytaradi, 2FA
   yoqilgan-u sessiya aal1 bo‘lsa `/admin/login/mfa` ga, muharrir ruxsatsiz bo‘limga kirsa `/admin?denied=1` ga yuboradi (yo‘l — proxy qo‘ygan
   `x-admin-path` sarlavhasi). `/admin/security` — o‘z 2FA'sini yoqish/o‘chirish (QR + kod), `/admin/team` — jamoa (`rpc admin_team`), rolni
   o‘zgartirish (`set_admin_role`, o‘zinikini emas) va telefonini yo‘qotganning 2FA'sini o‘chirish (`reset_mfa`). `AdminNav` muharrirga faqat
-  ruxsatli bo‘limlarni ko‘rsatadi, bosh sahifasi — `EditorHome`. Yangi admin bo‘limi qo‘shsangiz, muharrirga ochiqmi — `editorPaths` da hal qiling.
+  ruxsatli bo‘limlarni ko‘rsatadi (`mayOpen(role, path)`), bosh sahifasi — `EditorHome`. Yangi admin bo‘limi qo‘shsangiz,
+  muharrir va o‘qituvchiga ochiqmi — `editorPaths` / `teacherPaths` da hal qiling.
 - Telegram orqali ikki bosqichli kirish (`20261107090000_admin_tg_2fa.sql`, `20261108090000_admin_tg_site_bot.sql`; egasining
   talabi — Google Authenticator o‘rniga): kod maktab botidan (@maktab_14bot — `telegram_settings.bot_token`, admin xabarlarini
   yuboradigan bot) keladi. Bu botda webhook yo‘q (telegram-sync `getUpdates` bilan o‘qiydi), shuning uchun `/start admin_<token>`

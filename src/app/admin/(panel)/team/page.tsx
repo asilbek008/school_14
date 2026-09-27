@@ -3,11 +3,14 @@ import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
 import { formatDateTime } from "@/lib/format";
 import AdminHeader from "@/components/admin/AdminHeader";
+import { roleIcons, roleNames, type StaffRole } from "@/lib/roles";
 import { resetMfa, resetTg, setRole } from "./actions";
 
 export const metadata: Metadata = { title: "Jamoa va ruxsatlar" };
 
-type Member = { user_id: string; email: string; role: "admin" | "editor"; mfa: boolean; tg: boolean; last_sign_in_at: string | null };
+type Member = { user_id: string; email: string; role: StaffRole; mfa: boolean; tg: boolean; last_sign_in_at: string | null };
+
+const roles: StaffRole[] = ["admin", "editor", "teacher"];
 
 /** Who can sign in to the panel: role (admin / editor), which second step they use; admins change roles here. */
 export default async function TeamPage() {
@@ -27,6 +30,13 @@ export default async function TeamPage() {
           <p className="font-semibold text-slate-900">✏️ Muharrir</p>
           <p className="mt-1 text-slate-600">Faqat kontent: yangiliklar, tadbirlar, galereya, yutuqlar, doimiy tadbirlar, testlar, kutubxona.</p>
         </div>
+        <div className="rounded-xl bg-white p-4 shadow-sm md:col-span-2">
+          <p className="font-semibold text-slate-900">🎓 O‘qituvchi</p>
+          <p className="mt-1 text-slate-600">
+            Faqat o‘quv qismi: testlar, savollar bazasi, qisqa darslar va qiyin mavzular statistikasi. Yangilik, xabar, o‘quvchi
+            ma’lumotlari va sozlamalarga kira olmaydi.
+          </p>
+        </div>
       </div>
 
       <ul className="space-y-3">
@@ -39,18 +49,22 @@ export default async function TeamPage() {
                   {m.email} {me && <span className="text-xs font-normal text-slate-500">(siz)</span>}
                 </p>
                 <p className="text-sm text-slate-500">
-                  {m.role === "admin" ? "👑 Admin" : "✏️ Muharrir"} ·{" "}
+                  {roleIcons[m.role]} {roleNames[m.role]} ·{" "}
                   {m.tg ? "✈️ Telegram kodi" : m.mfa ? "🔐 Autentifikator ilovasi" : "⚠️ 2FA yo‘q"}
                   {m.last_sign_in_at && ` · oxirgi kirish ${formatDateTime(m.last_sign_in_at, "uz")}`}
                 </p>
               </div>
               {!me && (
                 <div className="flex flex-wrap gap-2">
-                  <form action={setRole.bind(null, m.user_id, m.role === "admin" ? "editor" : "admin")}>
-                    <button className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                      {m.role === "admin" ? "Muharrir qilish" : "Admin qilish"}
-                    </button>
-                  </form>
+                  {roles
+                    .filter((r) => r !== m.role)
+                    .map((r) => (
+                      <form key={r} action={setRole.bind(null, m.user_id, r)}>
+                        <button className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+                          {roleIcons[r]} {roleNames[r]} qilish
+                        </button>
+                      </form>
+                    ))}
                   {m.tg && (
                     <form action={resetTg.bind(null, m.user_id)}>
                       <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-50">

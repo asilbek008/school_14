@@ -2,8 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin } from "@/lib/admin";
+import type { StaffRole } from "@/lib/roles";
 
-export async function setRole(userId: string, role: "admin" | "editor") {
+export async function setRole(userId: string, role: StaffRole) {
   const { supabase } = await requireAdmin();
   await supabase.rpc("set_admin_role", { p_user: userId, p_role: role });
   revalidatePath("/admin/team");

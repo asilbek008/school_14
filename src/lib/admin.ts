@@ -4,7 +4,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
-import { editorMay, type StaffRole } from "@/lib/roles";
+import { mayOpen, type StaffRole } from "@/lib/roles";
 
 /**
  * Returns a Supabase client acting as the signed-in admin, or redirects to the login page.
@@ -31,8 +31,8 @@ export async function requireAdmin() {
   const { data: tg } = await supabase.rpc("admin_tg_state");
   if (tgOn(tg) && !(tg as TgState).verified) redirect("/admin/login/tg");
 
-  const role = (admin.role === "editor" ? "editor" : "admin") as StaffRole;
-  if (role === "editor" && !editorMay((await headers()).get("x-admin-path") ?? "")) redirect("/admin?denied=1");
+  const role = (["editor", "teacher"].includes(admin.role) ? admin.role : "admin") as StaffRole;
+  if (!mayOpen(role, (await headers()).get("x-admin-path") ?? "")) redirect("/admin?denied=1");
 
   return { supabase, email: (data.claims.email as string | undefined) ?? "", role, userId: data.claims.sub };
 }
