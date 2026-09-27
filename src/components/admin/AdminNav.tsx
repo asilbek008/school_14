@@ -30,6 +30,7 @@ const groups: { title: string | null; items: Item[] }[] = [
       { href: "/admin/documents", label: "Hujjatlar", icon: "doc" },
       { href: "/admin/pages", label: "Sahifalar", icon: "page" },
       { href: "/admin/openness", label: "Ochiqlik", icon: "doc" },
+      { href: "/admin/docgen", label: "Hujjat tayyorlash", icon: "form" },
     ],
   },
   {
