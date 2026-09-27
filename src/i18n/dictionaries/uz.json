@@ -30,7 +30,8 @@
     "library": "Kutubxona",
     "alumni": "Bitiruvchilar",
     "surveys": "So‘rovnomalar",
-    "openness": "Ochiqlik"
+    "openness": "Ochiqlik",
+    "cabinet": "Shaxsiy kabinet"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -1277,5 +1278,38 @@
     "empty": "Ma’lumotlar hali kiritilmagan. Tez orada shu yerda e’lon qilinadi.",
     "note": "Savolingiz bo‘lsa, maktab rahbariyatiga murojaat qiling yoki ishonch qutisidan foydalaning.",
     "official": "Davlat byudjeti portali (openbudget.uz)"
+  },
+  "cabinet": {
+    "title": "Shaxsiy kabinet",
+    "kicker": "O‘quvchi uchun",
+    "intro": "Test natijalaringiz va o‘quv yo‘lidagi o‘zlashtirishingiz telefonda ham, kompyuterda ham bir xil bo‘lsin. Ro‘yxatdan o‘tish shart emas — Telegram boti orqali ulanadi.",
+    "connect": "Telegram orqali ulash",
+    "waiting": "Botda «Start» ni bosishingiz kutilmoqda…",
+    "connected": "Kabinet ulangan",
+    "sync": "Yangilash",
+    "syncing": "Yangilanmoqda…",
+    "synced": "Ma’lumotlar yangilandi.",
+    "failed": "Ulanib bo‘lmadi. Keyinroq urinib ko‘ring.",
+    "gone": "Kabinet topilmadi. Qaytadan ulang.",
+    "forget": "Kabinetni o‘chirish",
+    "forgetAsk": "Kabinetdagi barcha natijalar o‘chiriladi. Davom etasizmi?",
+    "forgotten": "Kabinet o‘chirildi.",
+    "stats": {
+      "tests": "Yakunlangan test",
+      "answered": "Javob berilgan savol",
+      "correct": "To‘g‘ri javob",
+      "mastered": "O‘zlashtirilgan mavzu",
+      "best": "Eng yaxshi natija"
+    },
+    "how": "Qanday ishlaydi",
+    "steps": [
+      "«Telegram orqali ulash» tugmasini bosing.",
+      "Botda «Start» ni bosing — kabinet ochiladi.",
+      "Boshqa qurilmada ham shu tugmani bosing: natijalar o‘sha yerga ko‘chadi."
+    ],
+    "privacy": "Kabinetda ism, telefon va sinf ro‘yxati saqlanmaydi — faqat sizning test natijalaringiz va mavzular bo‘yicha hisoblagich.",
+    "noBot": "Bot hali ulanmagan. Keyinroq urinib ko‘ring.",
+    "empty": "Hozircha natija yo‘q. Testlardan boshlang.",
+    "toTests": "Testlarga o‘tish"
   }
 }

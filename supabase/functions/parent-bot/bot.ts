@@ -297,6 +297,20 @@ export async function handleUpdate(update: Update, db: Db, tg: Tg, now = new Dat
     );
   }
 
+  // The pupil's cabinet on the site: /start cab_<token> binds this chat to a cabinet key.
+  if (command === "start" && isPrivate && /^cab_[0-9a-f]{32}$/.test(arg)) {
+    const { data } = (await db.rpc?.("cabinet_claim", { p_token: arg.slice(4), p_chat_id: chatId })) ?? { data: null };
+    await send(
+      tg,
+      chatId,
+      (data as { ok?: boolean } | null)?.ok
+        ? `✅ Shaxsiy kabinet ochildi. Test natijalaringiz va o‘quv yo‘lidagi o‘zlashtirishingiz endi boshqa qurilmada ham ko‘rinadi.\n\n<a href="${SITE}/uz/cabinet">Kabinetni ochish →</a>`
+        : "⚠️ Havola eskirgan. Saytdagi «Telegram orqali ulash» tugmasini qaytadan bosing.",
+      extra,
+    );
+    return;
+  }
+
   await remember(db, msg.chat, {});
   const saved = await chatClass(db, chatId);
 

@@ -30,7 +30,8 @@
     "library": "Library",
     "alumni": "Alumni",
     "surveys": "Surveys",
-    "openness": "Openness"
+    "openness": "Openness",
+    "cabinet": "Personal cabinet"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -1277,5 +1278,38 @@
     "empty": "Nothing has been entered yet. It will appear here shortly.",
     "note": "If you have a question, ask the school's leadership or use the trust box.",
     "official": "State budget portal (openbudget.uz)"
+  },
+  "cabinet": {
+    "title": "Personal cabinet",
+    "kicker": "For pupils",
+    "intro": "Your test results and topic progress, the same on your phone and on a computer. No registration — the cabinet is linked through the Telegram bot.",
+    "connect": "Link through Telegram",
+    "waiting": "Waiting for you to press Start in the bot…",
+    "connected": "Cabinet linked",
+    "sync": "Refresh",
+    "syncing": "Refreshing…",
+    "synced": "Everything is up to date.",
+    "failed": "Could not connect. Please try again later.",
+    "gone": "Cabinet not found. Link it again.",
+    "forget": "Delete the cabinet",
+    "forgetAsk": "Every result in the cabinet will be deleted. Continue?",
+    "forgotten": "The cabinet has been deleted.",
+    "stats": {
+      "tests": "Tests finished",
+      "answered": "Questions answered",
+      "correct": "Correct answers",
+      "mastered": "Topics mastered",
+      "best": "Best result"
+    },
+    "how": "How it works",
+    "steps": [
+      "Press “Link through Telegram”.",
+      "Press Start in the bot — the cabinet opens.",
+      "Press the same button on another device: the results move there."
+    ],
+    "privacy": "The cabinet keeps no name, phone number or class list — only your results and the per-topic counters.",
+    "noBot": "The bot is not connected yet. Please try later.",
+    "empty": "No results yet. Start with the tests.",
+    "toTests": "Go to the tests"
   }
 }
