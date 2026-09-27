@@ -605,6 +605,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Storage'da, kirmaydi), oxirgi 8 tasi qoladi. pg_cron `weekly-backup` — yakshanba 03:07 Toshkent. "Hozir zaxira olish" — `rpc('take_backup_now')`
   (invoker → `private.take_backup_as_admin` definer, `taken_by` = admin email). Yuklab olish — `/admin/backups/[id]` route (JSON fayl). RLS: faqat admin
   o‘qiydi, API orqali yozib bo‘lmaydi. Jadvallar ro‘yxati avtomatik (`public` dagi hammasi, istisnolardan tashqari) — yangi jadval o‘zi kiradi.
+- Hujjat tayyorlash (`/admin/docgen`, `src/lib/docgen.ts`; egasining so‘rovi): ma’lumotnoma, tavsifnoma, ish joyidan ma’lumotnoma va
+  ruxsatnoma namunalari. Admin maydonlarni to‘ldiradi, sahifa canvas'da chiziladi (sertifikat kabi) va `canvasToPdf(canvas, "portrait")`
+  bilan bir betlik A4 PDF bo‘lib yuklanadi — kutubxonasiz, hech narsa serverga yuborilmaydi va saqlanmaydi (faqat maktab nomi va
+  imzolovchi `localStorage.docgen` da eslab qolinadi). Maktabning to‘liq rasmiy nomi hali tasdiqlanmagani uchun formada maydon bor
+  (`defaultSchoolName` — shunchaki taklif). Yangi namuna qo‘shish — `templates` massiviga yozish kifoya.
 - Excel eksport: `/admin/export/applications` va `/admin/export/messages` (route handler, `requireAdmin()`; `write-excel-file/node` —
   npm `xlsx` zaif). Sana Toshkent vaqtida matn ("2026-09-25 10:00"), 1-qator qotirilgan. Tugma — `AdminHeader` `download`. Ishonch
   qutisi ataylab eksport qilinmaydi (maxfiy).

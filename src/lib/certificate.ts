@@ -213,10 +213,10 @@ export async function drawCertificate(d: CertificateData): Promise<HTMLCanvasEle
 }
 
 /** A one-page A4 (landscape) PDF showing the JPEG full-page. */
-export async function canvasToPdf(canvas: HTMLCanvasElement): Promise<Blob> {
+export async function canvasToPdf(canvas: HTMLCanvasElement, orientation: "landscape" | "portrait" = "landscape"): Promise<Blob> {
   const jpeg = new Uint8Array(await (await new Promise<Blob>((res) => canvas.toBlob((b) => res(b!), "image/jpeg", 0.92))).arrayBuffer());
   const enc = new TextEncoder();
-  const [pw, ph] = [842, 595];
+  const [pw, ph] = orientation === "portrait" ? [595, 842] : [842, 595];
   const content = `q ${pw} 0 0 ${ph} 0 0 cm /Im0 Do Q`;
   const objects: (string | Uint8Array)[][] = [
     ["<< /Type /Catalog /Pages 2 0 R >>"],
