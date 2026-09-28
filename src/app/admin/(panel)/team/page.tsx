@@ -6,7 +6,8 @@ import AdminHeader from "@/components/admin/AdminHeader";
 import { roleIcons, roleNames, type StaffRole } from "@/lib/roles";
 import { formatDate } from "@/lib/format";
 import InviteForm from "./InviteForm";
-import { resetMfa, resetTg, revokeInvite, setRole } from "./actions";
+import MemberActions from "./MemberActions";
+import { revokeInvite } from "./actions";
 
 export const metadata: Metadata = { title: "Jamoa va ruxsatlar" };
 
@@ -20,8 +21,6 @@ type Member = {
   owner: boolean;
   last_sign_in_at: string | null;
 };
-
-const roles: StaffRole[] = ["admin", "editor", "teacher"];
 
 type Invite = { id: number; email: string; role: StaffRole; token: string | null; expires_at: string; used_at: string | null; invited_email: string | null };
 
@@ -81,33 +80,7 @@ export default async function TeamPage() {
               {m.owner && !me && (
                 <p className="text-sm text-slate-500">Super admin hisobi himoyalangan — roli o‘zgartirilmaydi.</p>
               )}
-              {!me && !m.owner && (
-                <div className="flex flex-wrap gap-2">
-                  {roles
-                    .filter((r) => r !== m.role)
-                    .map((r) => (
-                      <form key={r} action={setRole.bind(null, m.user_id, r)}>
-                        <button className="rounded-lg border border-slate-300 px-3 py-1.5 text-sm font-semibold text-slate-700 hover:bg-slate-50">
-                          {roleIcons[r]} {roleNames[r]} qilish
-                        </button>
-                      </form>
-                    ))}
-                  {m.tg && (
-                    <form action={resetTg.bind(null, m.user_id)}>
-                      <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-50">
-                        Telegramni uzish
-                      </button>
-                    </form>
-                  )}
-                  {m.mfa && (
-                    <form action={resetMfa.bind(null, m.user_id)}>
-                      <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-50">
-                        Ilova kodini o‘chirish
-                      </button>
-                    </form>
-                  )}
-                </div>
-              )}
+              {!me && !m.owner && <MemberActions member={m} />}
             </li>
           );
         })}

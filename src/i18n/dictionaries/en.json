@@ -258,6 +258,8 @@
     "quickNote": "Messages are reviewed on working days. For questions about grades and homework, please contact the class teacher first."
   },
   "footer": {
+    "staff": "Staff sign-in",
+    "panel": "Admin panel",
     "rights": "All rights reserved.",
     "contacts": "Contact",
     "links": "Sections",

@@ -3,26 +3,56 @@
 import { revalidatePath } from "next/cache";
 import { requireAdmin, text } from "@/lib/admin";
 import { siteUrl } from "@/lib/school";
-import type { StaffRole } from "@/lib/roles";
 
-export async function setRole(userId: string, role: StaffRole) {
-  const { supabase } = await requireAdmin();
-  await supabase.rpc("set_admin_role", { p_user: userId, p_role: role });
-  revalidatePath("/admin/team");
+/** The database refuses what the page already hides (yourself, the owner, the last admin) — say which. */
+const refusals: Record<string, string> = {
+  owner: "Super admin hisobini o‘zgartirib bo‘lmaydi.",
+  "own role": "O‘z rolingizni o‘zgartira olmaysiz.",
+  self: "O‘zingizni ro‘yxatdan chiqara olmaysiz.",
+  "last admin": "Bu oxirgi admin — maktab panelsiz qolmasligi uchun o‘zgartirilmaydi.",
+};
+
+function explain(message: string | undefined): string {
+  const key = Object.keys(refusals).find((k) => message?.includes(k));
+  return key ? refusals[key] : "Amal bajarilmadi. Sahifani yangilab, qaytadan urinib ko‘ring.";
 }
 
-/** For someone who lost the phone with their authenticator app: they sign in with the password again and can turn it back on. */
-export async function resetMfa(userId: string) {
+export type TeamState = { error?: string };
+
+export async function setRole(_prev: TeamState, form: FormData): Promise<TeamState> {
   const { supabase } = await requireAdmin();
-  await supabase.rpc("reset_mfa", { p_user: userId });
+  const { error } = await supabase.rpc("set_admin_role", {
+    p_user: text(form, "user"),
+    p_role: text(form, "role"),
+  });
+  if (error) return { error: explain(error.message) };
   revalidatePath("/admin/team");
+  return {};
 }
 
-/** For someone who lost the Telegram account that gets the code: they link the bot again from "Ikki bosqichli kirish". */
-export async function resetTg(userId: string) {
+/** Takes someone off the team: their admins row goes, and with it every permission the policies grant. */
+export async function removeStaff(_prev: TeamState, form: FormData): Promise<TeamState> {
   const { supabase } = await requireAdmin();
-  await supabase.rpc("admin_tg_reset", { p_user: userId });
+  const { error } = await supabase.rpc("remove_admin", { p_user: text(form, "user") });
+  if (error) return { error: explain(error.message) };
   revalidatePath("/admin/team");
+  return {};
+}
+
+/**
+ * Clears a second step someone can no longer pass: `mfa` for a lost authenticator app, `tg` for a lost
+ * Telegram account. They sign in with their password and set it up again from "Ikki bosqichli kirish".
+ */
+export async function resetSecond(_prev: TeamState, form: FormData): Promise<TeamState> {
+  const { supabase } = await requireAdmin();
+  const user = text(form, "user");
+  const { error } =
+    text(form, "kind") === "tg"
+      ? await supabase.rpc("admin_tg_reset", { p_user: user })
+      : await supabase.rpc("reset_mfa", { p_user: user });
+  if (error) return { error: explain(error.message) };
+  revalidatePath("/admin/team");
+  return {};
 }
 
 export type InviteState = { error?: string; link?: string; email?: string };
