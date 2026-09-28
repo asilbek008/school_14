@@ -557,7 +557,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `t.me/<bot>?start=admin_<token>` → `bot.ts` `rpc admin_tg_claim` (faqat `service_role`) chatni bog‘laydi va havolani so‘ragan
   sessiyani tasdiqlaydi. Kirishda `/admin/login/tg`: `admin_tg_send_code` kodni pg_net bilan yuboradi (bot tokeni bazadan
   chiqmaydi), `admin_tg_verify` tekshiradi. Telegramini yo‘qotganni boshqa admin `/admin/team` dan uzadi (`admin_tg_reset`).
-  Autentifikator ilovasi (TOTP) ham qoladi — xodim ikkisidan birini tanlaydi.
+  Autentifikator ilovasi (TOTP) ham qoladi — xodim ikkisidan birini tanlaydi. Havola tokenlari bir martalik, lekin
+  **o‘chirilmaydi** (`20261115090000_link_tokens_idempotent.sql`): `admin_tg_claim` va `cabinet_claim` `claimed_at` qo‘yadi,
+  takroriy `/start` (Telegram qayta yuboradi, kanal botining updates'ini pg_cron ham, paneldagi `?links=1` ham o‘qiydi) xato
+  emas, `again: true` qaytaradi; token butunlay yo‘q bo‘lsa-yu chat allaqachon bog‘langan bo‘lsa ham «ok». Muddat — 1 soat.
+  Shu tufayli «⚠️ Havola eskirgan» xabari endi faqat haqiqatan eskirgan havolada chiqadi. `cabinet_check` ham tokenni
+  birinchi o‘qishda sarflamaydi (Shaxsiy kabinetda xuddi shu muammo bor edi).
 - Har bo‘lim: `actions.ts` (`save*(id | null, prev, form)`, `delete*(id)`), `*Form.tsx`,
   `page.tsx` (ro‘yxat), `new/`, `[id]/`. Saqlashdan keyin `revalidatePublic()` butun ochiq
   saytni yangilaydi, keyin `redirect`.
@@ -656,9 +661,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   uch tildagi sayt havolalari va tarjimasi yo‘q tillar haqida ogohlantirish. Yangi tahrirlanadigan sahifa qo‘shsangiz, `pageInfo` ga ham yozing.
 - `datetime-local` qiymatlari Toshkent vaqti sifatida o‘qiladi/yoziladi
   (`toTashkentInput` / `fromTashkentInput`).
-- Yangi admin qo‘shish: Supabase Dashboard → Authentication → Add user, keyin SQL:
-  `insert into public.admins (user_id, role) values ('<uuid>', 'editor');` (rol — `admin` yoki `editor`). Dashboard'da ochiq ro‘yxatdan
-  o‘tishni (signups) o‘chirib qo‘ying — RLS baribir himoya qiladi, lekin keraksiz hisoblar ochilmaydi.
+- Yangi xodimni taklif qilish (`20261116090000_staff_invites.sql`, `supabase/functions/staff-invite`; egasining talabi — Supabase
+  Dashboard'siz): `/admin/team` da email va rol yoziladi → `staff_invite_create` (faqat admin) `private.staff_invites` ga 7 kunlik
+  bir martalik token yozadi va panel `/admin/invite/<token>` havolasini beradi (admin uni Telegram yoki qo‘lda yuboradi — pochta
+  xizmati kerak emas). Xodim havolani ochadi, o‘ziga parol o‘ylab topadi; forma yozayotganda talablarni belgilab boradi (kamida
+  10 belgi, 1 bosh harf, 1 raqam, 1 belgi — `InviteSetup.tsx` `rules`). Hisobni faqat Edge Function yaratadi (`verify_jwt: false`;
+  service role'ni Supabase o‘zi beradi — kalit saytda ham, menda ham yo‘q): u parolni **qaytadan** tekshiradi
+  (`index.ts` `rules` — brauzerni chetlab o‘tib bo‘lmaydi), `auth.admin.createUser` qiladi, keyin `staff_invite_complete`
+  (faqat `service_role`) `public.admins` ga rolni yozadi va taklifni ishlatilgan deb belgilaydi. Taklif kutayotganlar ro‘yxati
+  va «Bekor qilish» (`staff_invite_revoke`) shu sahifada. Ro‘yxatdan o‘tish (signups) Dashboard'da yopiq bo‘lsin —
+  hisob faqat shu taklif orqali ochiladi. `/admin/invite/*` — `src/proxy.ts` da ochiq yo‘l, `robots: index:false`.
+  Rolni keyin `/admin/team` dan o‘zgartirasiz.
 - Rasm optimallashtirish (Vercel bepul tarifi cheklovi): `next.config.ts` `images` — `minimumCacheTTL` 31 kun (yuklangan fayl nomi
   o‘zgarmaydi: uuid, Telegram asl nusxasi `-hd` bilan alohida), `deviceSizes` 640/828/1200/1920, `imageSizes` 64/128/256/384.
 - `next.config.ts` rasm domenini `NEXT_PUBLIC_SUPABASE_URL` dan oladi; `localhost` bo‘lsa
