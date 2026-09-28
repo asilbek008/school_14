@@ -213,6 +213,23 @@ html.dark .surface {
   --color-slate-900: #eef1f9;
   --color-slate-950: #f8f9fc;
 }
+/* The navy chrome used to be identical in both modes, so the header and footer never changed and the
+   page read as half-light at night. In dark mode they now go deeper than the page itself: the navy
+   drops towards black, the coloured glows dim, and the faint grid fades. */
+html.dark .chrome {
+  background:
+    radial-gradient(760px 420px at 78% -10%, rgb(30 62 150 / 0.34), transparent 62%),
+    radial-gradient(520px 340px at 4% 108%, rgb(12 92 84 / 0.26), transparent 60%),
+    #070c18;
+}
+html.dark .chrome::before {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px);
+}
+html.dark .site-header {
+  background-color: #070c18;
+}
 html.dark :is(.chrome, .site-header):not(.surface) {
   --color-slate-50: oklch(98.4% 0.003 247.858);
   --color-slate-100: oklch(96.8% 0.007 247.896);

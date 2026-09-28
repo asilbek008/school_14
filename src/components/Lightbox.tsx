@@ -176,6 +176,9 @@ export function PhotoViewer({
           // touch-none: the browser must not turn a sideways swipe into scrolling or zooming.
           className="relative min-h-0 flex-1 touch-none select-none overflow-hidden"
           onPointerDown={(e) => {
+            // Never capture a press that started on a control: setPointerCapture() below retargets the
+            // click to this layer, which is why the ‹ › arrows did nothing on a mouse.
+            if ((e.target as HTMLElement).closest("button")) return;
             if (settle !== null || e.button !== 0) return;
             swipe.current = { x: e.clientX, y: e.clientY, t: e.timeStamp, moved: false };
             e.currentTarget.setPointerCapture(e.pointerId);
