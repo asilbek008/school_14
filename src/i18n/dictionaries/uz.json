@@ -34,7 +34,8 @@
     "cabinet": "Shaxsiy kabinet",
     "assistant": "AI yordamchi",
     "reference": "Ma’lumotnoma",
-    "status": "Murojaat holati"
+    "status": "Murojaat holati",
+    "verify": "Sertifikatni tekshirish"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -1006,7 +1007,9 @@
       "passed": "«{test}» testini {percent}% natija bilan muvaffaqiyatli topshirdi.",
       "took": "«{test}» testida ishtirok etib, {percent}% natija ko‘rsatdi.",
       "details": "To‘g‘ri javoblar: {correct} / {total} · Sana: {date}",
-      "note": "Mashq testi natijasi — rasmiy hujjat emas."
+      "note": "Mashq testi natijasi — rasmiy hujjat emas.",
+      "verifyLabel": "Tekshirish uchun ro‘yxatdan o‘tkazish.",
+      "verifyHint": "Sertifikatda QR kod va kod chiqadi — istalgan kishi uning haqiqiyligini saytdan tekshira oladi. Buning uchun ism, test nomi va natija saqlanadi. Belgilamasangiz, hech narsa saqlanmaydi."
     },
     "board": {
       "title": "Sinflar reytingi",
@@ -1424,5 +1427,23 @@
     "lost": "Kodni yo‘qotdingizmi? Maktabga qo‘ng‘iroq qilib, ism va telefoningizni ayting — xodimlar holatini aytadi.",
     "orderReference": "Ma’lumotnoma buyurtma qilish",
     "apply": "Onlayn qabul arizasi"
+  },
+  "verify": {
+    "kicker": "Tekshirish",
+    "title": "Sertifikatni tekshirish",
+    "lead": "Sertifikatdagi QR kodni skanerlang yoki kodni kiriting — u haqiqatan shu maktabda berilganini ko‘rasiz.",
+    "placeholder": "Kodni kiriting (masalan S-K7PQ4RTX)",
+    "check": "Tekshirish",
+    "checking": "Tekshirilmoqda…",
+    "validTitle": "Sertifikat haqiqiy",
+    "unknownTitle": "Bunday sertifikat topilmadi",
+    "unknown": "Kod noto‘g‘ri kiritilgan bo‘lishi mumkin. Tekshirib, qaytadan kiriting. Agar sertifikatda QR kod bo‘lmasa, u ro‘yxatdan o‘tkazilmagan.",
+    "error": "Hozir tekshirib bo‘lmadi. Birozdan keyin urinib ko‘ring.",
+    "result": "Natija",
+    "score": "{percent}% · {correct}/{total} to‘g‘ri javob",
+    "issued": "Berilgan sana",
+    "code": "Kod",
+    "practiceNote": "Bu — maktab saytidagi mashq testi sertifikati. U rasmiy Milliy sertifikat yoki DTM natijasi emas.",
+    "noQr": "Sertifikatda QR kod yo‘qmi? Demak u ro‘yxatdan o‘tkazilmagan: testni yechayotganda «Tekshirish uchun ro‘yxatdan o‘tkazish» katagi belgilanmagan. Testni qayta yechib, katakni belgilasangiz, QR kodli sertifikat olasiz."
   }
 }

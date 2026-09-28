@@ -4,6 +4,7 @@ import { useState, useSyncExternalStore } from "react";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fill } from "@/i18n/fill";
 import { canvasToPdf, drawCertificate } from "@/lib/certificate";
+import qrcode from "qrcode-generator";
 import { myClassSnapshot, parseMyClass, subscribeMyClass } from "@/lib/my-class";
 import { createClient } from "@/lib/supabase/client";
 
@@ -15,6 +16,9 @@ export type Leaderboard = { testId: number; classes: { id: number; label: string
 const day = (ms: number) => new Date(ms + 5 * 3_600_000).toISOString().slice(0, 10).split("-").reverse().join(".");
 
 const sentKey = (testId: number, at: number) => `boardSent:${testId}:${at}`;
+
+/** Every public page lives under /uz, /ru or /en, so the address already says which one we are on. */
+const pageLang = () => (["uz", "ru", "en"].includes(location.pathname.split("/")[1]) ? location.pathname.split("/")[1] : "uz");
 
 /**
  * Under a finished test: a certificate with the pupil's name (made in the browser, the name is not stored), and —
@@ -42,6 +46,8 @@ export default function ResultExtras({
 }) {
   const [name, setName] = useState("");
   const [making, setMaking] = useState(false);
+  // Off by default: without this the name never leaves the browser, exactly as before.
+  const [register, setRegister] = useState(false);
   const myClass = parseMyClass(useSyncExternalStore(subscribeMyClass, myClassSnapshot, () => ""));
   const [classId, setClassId] = useState<number | "">("");
   const chosenClass = classId || (myClass && leaderboard?.classes.some((c) => c.id === myClass.id) ? myClass.id : "");
@@ -53,12 +59,32 @@ export default function ResultExtras({
     }
   });
 
+  /** Registers the certificate and turns the address that checks it into a QR for the paper. */
+  async function proof(who: string): Promise<{ code: string; url: string; modules: boolean[][]; label: string } | undefined> {
+    const { data } = await createClient().rpc("register_certificate", {
+      p: { name: who, test_title: title, percent, correct, total, issued_on: new Date(finishedAt + 5 * 3_600_000).toISOString().slice(0, 10) },
+    });
+    const result = data as { ok?: boolean; code?: string } | null;
+    if (!result?.ok || !result.code) return undefined;
+
+    const lang = pageLang();
+    const url = `${location.origin}/${lang}/verify?code=${result.code}`;
+    const qr = qrcode(0, "M");
+    qr.addData(url);
+    qr.make();
+    const n = qr.getModuleCount();
+    const modules = Array.from({ length: n }, (_, r) => Array.from({ length: n }, (_, c) => qr.isDark(r, c)));
+    return { code: result.code, url, modules, label: `${location.host}/${lang}/verify` };
+  }
+
   async function certificate() {
     if (!name.trim()) return;
     setMaking(true);
     try {
       const c = t.cert;
+      const verify = register ? await proof(name.trim()) : undefined;
       const canvas = await drawCertificate({
+        verify,
         school: c.school,
         heading: c.heading,
         lead: c.lead,
@@ -119,6 +145,12 @@ export default function ResultExtras({
             {making ? t.cert.making : `⬇ ${t.cert.download}`}
           </button>
         </form>
+        <label className="mt-3 flex cursor-pointer items-start gap-2.5 text-[13.5px] leading-relaxed text-slate-600">
+          <input type="checkbox" checked={register} onChange={(e) => setRegister(e.target.checked)} className="mt-0.5 size-4 shrink-0 accent-brand" />
+          <span>
+            <b className="font-bold text-slate-800">{t.cert.verifyLabel}</b> {t.cert.verifyHint}
+          </span>
+        </label>
       </section>
 
       {leaderboard && leaderboard.classes.length > 0 && (

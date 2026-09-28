@@ -189,6 +189,16 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Raqobatchi platformalarning savollari ko‘chirilmaydi (mualliflik huquqi) — faqat g‘oyalar; savollar o‘zimiz tuzamiz.
   Sertifikat (`src/lib/certificate.ts`, egasining talabi — yangi dizayn): chapda navy tasma (14 belgisi, maktab, foiz muhri — `percent`,
   sana), o‘ngda sarlavha, ism (oltin chiziq), matn, natija «pill», imzo/sana chiziqlari, burchakda nozik chiziqlar naqshi.
+  Sertifikatni tekshirish (`20261120090000_certificates.sql`, `/[lang]/verify`; egasining tanlovi): sertifikat odatda
+  hech qayerda saqlanmaydi — shuning uchun uni telefonda tahrirlangan rasmdan ajratib bo‘lmasdi. Endi **ixtiyoriy**:
+  o‘quvchi «Tekshirish uchun ro‘yxatdan o‘tkazish» katagini belgilasagina ism, test nomi, foiz va sana `certificates`
+  ga yoziladi (`register_certificate`, faqat RPC — jadvalda `insert` siyosati yo‘q) va sertifikatga QR + `S-XXXXXXXX`
+  kodi chiziladi. Belgilanmasa — hammasi avvalgidek, hech narsa saqlanmaydi va QR ham bo‘lmaydi (katak **standart
+  o‘chiq**). `verify_certificate(kod)` ismni **qaytaradi** — sertifikatdagi ism haqiqiy ekanini tasdiqlash tekshiruvning
+  butun mazmuni; boshqa lookup'lardan farqi shunda. Bitta sertifikatni ikki marta yuklab olsa, yangi kod berilmaydi
+  (ism+test+foiz+sana bo‘yicha o‘sha kod qaytadi). QR — `qrcode-generator` (kichik, bog‘liqliksiz), canvas'ga
+  kataklar bo‘lib chiziladi. Admin `/admin/certificates`: ro‘yxat, qidiruv va o‘chirish (o‘chirilsa sertifikat
+  «topilmadi» bo‘ladi). Sahifa `robots: index:false`, footer va qidiruvda.
 - Sinf o‘quvchilari (`20261103090000_pupils.sql`, `pupils`; egasining talabi va tanlovi): eMaktab'ning «Список учеников» (.xlsx) fayli
   admin `/admin/classes/pupils` da yuklanadi (`src/lib/pupil-import.ts` — brauzerda ko‘rib chiqish, action'da qayta o‘qish; maktabdan
   chiqqanlar olinmaydi; saytda yo‘q sinf bo‘lsa hech narsa saqlanmaydi) → `rpc('replace_pupils')` butun ro‘yxatni bitta tranzaksiyada

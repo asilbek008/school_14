@@ -55,6 +55,7 @@ const groups: { title: string | null; items: Item[] }[] = [
       { href: "/admin/surveys", label: "So‘rovnomalar", icon: "chart" },
       { href: "/admin/applications", label: "Qabul arizalari", icon: "form" },
       { href: "/admin/references", label: "Ma’lumotnomalar", icon: "form" },
+      { href: "/admin/certificates", label: "Sertifikatlar", icon: "form" },
     ],
   },
   {
