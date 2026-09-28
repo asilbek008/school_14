@@ -421,7 +421,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 - Xatolar: `[lang]/error.tsx` (header/footer qoladi, uch tilda matn — client komponent, lug‘at o‘rniga ichida; "Qayta urinish" va bosh sahifa),
   `app/global-error.tsx` (layout ham buzilsa, o‘z `<html>` i bilan), `admin/(panel)/error.tsx`; 404 — `[lang]/not-found.tsx`.
 - Sahifa banneri (`PageHeader`): `crumbs` — yuqoridagi sahifalar (Bosh sahifa › …), kicker, sarlavha, intro.
-  Footer: brend, manzil + o‘quv yili (`currentSchoolYear()`, `school.ts`), bo‘limlar (2 ustun), aloqa; `ToTop` tugmasi.
+  Footer: brend, manzil + o‘quv yili (`currentSchoolYear()`, `school.ts`), bo‘limlar (2 ustun), aloqa; `ToTop` tugmasi. Footer'ning
+  pastki qatorida `StaffEntry` (client; egasining talabi — saytdan panelga kirish): oddiy tashrifchiga sokin «Xodimlar uchun
+  kirish» havolasi, brauzerda Supabase sessiyasi bo‘lsa — «⚙ Admin panel» tugmasi. Tekshiruv faqat brauzerda, shuning uchun
+  sahifa keshi buzilmaydi.
 - Tungi rejim: `html.dark` (`[lang]/layout.tsx` dagi inline skript birinchi chizishdan oldin qo‘yadi: saqlangan
   tanlov `localStorage.theme`, bo‘lmasa tizim sozlamasi; `ThemeToggle` — header'dagi quyosh/oy tugmasi). `dark:`
   klasslar ishlatilmaydi — `globals.css` da tokenlar almashtiriladi: slate shkalasi teskari, `bg-white` (text-navy
@@ -671,7 +674,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (faqat `service_role`) `public.admins` ga rolni yozadi va taklifni ishlatilgan deb belgilaydi. Taklif kutayotganlar ro‘yxati
   va «Bekor qilish» (`staff_invite_revoke`) shu sahifada. Ro‘yxatdan o‘tish (signups) Dashboard'da yopiq bo‘lsin —
   hisob faqat shu taklif orqali ochiladi. `/admin/invite/*` — `src/proxy.ts` da ochiq yo‘l, `robots: index:false`.
-  Rolni keyin `/admin/team` dan o‘zgartirasiz.
+  Rolni keyin `/admin/team` dan o‘zgartirasiz. Xodimni ro‘yxatdan chiqarish — `remove_admin`
+  (`20261118090000_remove_admin.sql`): `public.admins` qatori o‘chadi (hamma siyosat shu jadvalni o‘qiydi, shuning uchun
+  ruxsat ham o‘chadi) va Telegram bog‘lanishi ham; Auth hisobi qoladi, lekin hech narsani ocha olmaydi. Rol o‘zgartirish,
+  ikkinchi bosqichni tozalash va chiqarish — client `MemberActions` (`useActionState`), bazaning rad javobi o‘zbekcha
+  izoh bilan ko‘rsatiladi (`explain`); o‘zini, super adminni va oxirgi adminni tegib bo‘lmaydi.
 - Rasm optimallashtirish (Vercel bepul tarifi cheklovi): `next.config.ts` `images` — `minimumCacheTTL` 31 kun (yuklangan fayl nomi
   o‘zgarmaydi: uuid, Telegram asl nusxasi `-hd` bilan alohida), `deviceSizes` 640/828/1200/1920, `imageSizes` 64/128/256/384.
 - `next.config.ts` rasm domenini `NEXT_PUBLIC_SUPABASE_URL` dan oladi; `localhost` bo‘lsa

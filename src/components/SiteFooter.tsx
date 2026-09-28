@@ -4,6 +4,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { fill } from "@/i18n/fill";
 import { currentSchoolYear, school, telHref } from "@/lib/school";
 import PushToggle from "./PushToggle";
+import StaffEntry from "./StaffEntry";
 import ToTop from "./ToTop";
 
 const links = ["about", "timetable", "staff", "news", "events", "programs", "achievements", "tests", "library", "alumni", "gallery", "schedule", "calendar", "clubs", "faq", "documents", "surveys", "openness", "cabinet", "contact", "trust", "search"] as const;
@@ -95,7 +96,10 @@ export default function SiteFooter({ lang, dict, bot }: { lang: Locale; dict: Di
           <span>
             © {fill(dict.footer.year, year)} · {dict.site.name}
           </span>
-          <span>{dict.footer.rights}</span>
+          <span className="flex items-center gap-3">
+            <StaffEntry label={dict.footer.staff} panel={dict.footer.panel} />
+            {dict.footer.rights}
+          </span>
         </div>
       </div>
       <ToTop label={dict.common.toTop} />
