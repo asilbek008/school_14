@@ -28,7 +28,7 @@ export default async function ApplyPage({ params }: PageProps<"/[lang]/admission
       />
       <div className="mx-auto grid max-w-6xl items-start gap-6 px-4 py-10 sm:py-12 lg:grid-cols-[1.15fr_0.85fr]">
         <section className="reveal rounded-[14px] border border-slate-200 bg-white p-5 sm:px-7 sm:py-6">
-          <ApplyForm t={t} />
+          <ApplyForm t={t} lang={lang} />
         </section>
         <div className="space-y-6">
           <div className="reveal rounded-[14px] bg-teal-soft px-5 py-4 text-[13.5px] leading-relaxed text-slate-800 shadow-[inset_4px_0_0_var(--color-teal)]">

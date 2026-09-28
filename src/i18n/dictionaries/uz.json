@@ -32,7 +32,9 @@
     "surveys": "So‘rovnomalar",
     "openness": "Ochiqlik",
     "cabinet": "Shaxsiy kabinet",
-    "assistant": "AI yordamchi"
+    "assistant": "AI yordamchi",
+    "reference": "Ma’lumotnoma",
+    "status": "Murojaat holati"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -719,7 +721,9 @@
     "error": "Arizani yuborib bo‘lmadi. Keyinroq qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling.",
     "tooMany": "Bu raqamdan juda ko‘p ariza yuborildi. 10 daqiqadan so‘ng urinib ko‘ring.",
     "privacy": "Bolangizning ma’lumotlari saytda ko‘rinmaydi — ularni faqat maktab rahbariyati ko‘radi. Pasport yoki guvohnoma raqamini bu yerga yozmang, ularni maktabga kelganingizda topshirasiz.",
-    "openForm": "Onlayn ariza qoldirish"
+    "openForm": "Onlayn ariza qoldirish",
+    "keepCode": "Kodni yozib oling yoki suratga oling. U faqat shu yerda ko‘rsatiladi.",
+    "checkNow": "Ariza holatini tekshirish"
   },
   "docCats": {
     "meyoriy": "Me’yoriy hujjatlar",
@@ -1345,5 +1349,80 @@
     "stop": "To‘xtatish",
     "remembers": "Yordamchi shu suhbatni eslab turadi.",
     "reset": "Yangi suhbat"
+  },
+  "reference": {
+    "kicker": "Onlayn xizmat",
+    "title": "Ma’lumotnoma buyurtma qilish",
+    "lead": "Maktabga bormasdan ma’lumotnoma buyurtma qiling. Tayyor bo‘lgach, kodingiz bilan saytdan tekshirib, kelib olasiz.",
+    "kind": "Qanday ma’lumotnoma",
+    "kindHint": "Nima uchun kerakligini bilmasangiz, «Boshqa» ni tanlab, izohda yozing.",
+    "kinds": {
+      "oquvchi": "Farzandim shu maktabda o‘qiyotgani haqida",
+      "arxiv": "Arxiv — maktabni bitirgani haqida",
+      "boshqa": "Boshqa"
+    },
+    "childName": "O‘quvchining F.I.Sh.",
+    "grade": "Sinfi",
+    "gradeOption": "{n}-sinf",
+    "parentName": "Ota-ona (murojaat qiluvchi) F.I.Sh.",
+    "phone": "Telefon",
+    "phoneHint": "Tayyor bo‘lganda shu raqamga qo‘ng‘iroq qilamiz.",
+    "purpose": "Qayerga kerak",
+    "purposePlaceholder": "Masalan: mahalla, bog‘cha, harbiy komissariat",
+    "note": "Qo‘shimcha izoh",
+    "optional": "ixtiyoriy",
+    "submit": "Buyurtma berish",
+    "sending": "Yuborilmoqda…",
+    "successTitle": "Buyurtmangiz qabul qilindi",
+    "success": "Ma’lumotnoma tayyorlanadi. Quyidagi kodni saqlab qo‘ying — holatini shu kod bilan tekshirasiz.",
+    "keepCode": "Kodni yozib oling yoki suratga oling. U faqat shu yerda ko‘rsatiladi.",
+    "checkNow": "Holatni tekshirish",
+    "again": "Yana bitta buyurtma berish",
+    "invalid": "Iltimos, o‘quvchi va ota-ona F.I.Sh. hamda telefonni to‘g‘ri kiriting.",
+    "error": "Yuborilmadi. Birozdan keyin qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling.",
+    "tooMany": "Juda ko‘p buyurtma yuborildi. Bir ozdan keyin urinib ko‘ring.",
+    "stepsTitle": "Qanday ishlaydi",
+    "steps": [
+      "Formani to‘ldirasiz va kod olasiz.",
+      "Maktab ma’lumotnomani tayyorlaydi.",
+      "Kod bilan holatini tekshirasiz.",
+      "Tayyor bo‘lgach, maktabdan olib ketasiz."
+    ],
+    "privacy": "Farzandingizning ismi va telefoningiz faqat maktab xodimlariga ko‘rinadi — saytda hech qachon chiqmaydi.",
+    "readyTitle": "Savolingiz bormi?",
+    "ready": "Maktabga qo‘ng‘iroq qiling:",
+    "checkLink": "Buyurtma holatini tekshirish"
+  },
+  "status": {
+    "kicker": "Onlayn xizmat",
+    "title": "Murojaat holatini tekshirish",
+    "lead": "Qabul arizasi yoki ma’lumotnoma buyurtmasi qaysi bosqichda ekanini kodingiz bilan biling.",
+    "placeholder": "Kodni kiriting (masalan M-K7PQ4RTX)",
+    "check": "Tekshirish",
+    "checking": "Tekshirilmoqda…",
+    "notFound": "Bunday kod topilmadi. Kodni tekshirib, qaytadan kiriting.",
+    "error": "Hozir tekshirib bo‘lmadi. Birozdan keyin urinib ko‘ring.",
+    "reference": "Ma’lumotnoma buyurtmasi",
+    "admission": "Qabul arizasi · {n}-sinf",
+    "kinds": {
+      "oquvchi": "Ma’lumotnoma — o‘qiyotgani haqida",
+      "arxiv": "Ma’lumotnoma — arxiv",
+      "boshqa": "Ma’lumotnoma"
+    },
+    "states": {
+      "new": "Qabul qilindi",
+      "contacted": "Bog‘lanildi",
+      "accepted": "Qabul qilindi ✓",
+      "ready": "Tayyor",
+      "given": "Berildi",
+      "declined": "Rad etildi"
+    },
+    "sent": "Yuborilgan: {d}",
+    "readyOn": "tayyor bo‘ldi: {d}",
+    "hint": "Holat o‘zgarganda maktab sizga qo‘ng‘iroq qiladi. Savolingiz bo‘lsa, maktabga murojaat qiling.",
+    "declinedHint": "Sabab va keyingi qadamlar bo‘yicha maktabga qo‘ng‘iroq qiling.",
+    "lost": "Kodni yo‘qotdingizmi? Maktabga qo‘ng‘iroq qilib, ism va telefoningizni ayting — xodimlar holatini aytadi.",
+    "orderReference": "Ma’lumotnoma buyurtma qilish",
+    "apply": "Onlayn qabul arizasi"
   }
 }

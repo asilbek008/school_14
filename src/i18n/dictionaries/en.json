@@ -32,7 +32,9 @@
     "surveys": "Surveys",
     "openness": "Openness",
     "cabinet": "Personal cabinet",
-    "assistant": "AI assistant"
+    "assistant": "AI assistant",
+    "reference": "Reference",
+    "status": "Request status"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -719,7 +721,9 @@
     "error": "The application could not be sent. Please try again later or call the school.",
     "tooMany": "Too many applications were sent from this number. Please try again in 10 minutes.",
     "privacy": "Your child's details are not shown on the site — only the school's leadership sees them. Do not write passport or certificate numbers here; you will show those at the school.",
-    "openForm": "Apply online"
+    "openForm": "Apply online",
+    "keepCode": "Write the code down or photograph it. It is shown only here.",
+    "checkNow": "Check the application"
   },
   "docCats": {
     "meyoriy": "Regulations",
@@ -1345,5 +1349,80 @@
     "stop": "Stop",
     "remembers": "The assistant remembers this conversation.",
     "reset": "New conversation"
+  },
+  "reference": {
+    "kicker": "Online service",
+    "title": "Order a reference",
+    "lead": "Order a reference without coming to the school. When it is ready you check with your code and collect it.",
+    "kind": "Which reference",
+    "kindHint": "If you are not sure, choose “Other” and describe it in the note.",
+    "kinds": {
+      "oquvchi": "That my child studies at this school",
+      "arxiv": "Archive — that they graduated",
+      "boshqa": "Other"
+    },
+    "childName": "Pupil's full name",
+    "grade": "Grade",
+    "gradeOption": "Grade {n}",
+    "parentName": "Parent's full name",
+    "phone": "Phone",
+    "phoneHint": "We will call this number when the reference is ready.",
+    "purpose": "What it is for",
+    "purposePlaceholder": "For example: mahalla, kindergarten, military office",
+    "note": "Note",
+    "optional": "optional",
+    "submit": "Order",
+    "sending": "Sending…",
+    "successTitle": "Your order has been received",
+    "success": "The reference will be prepared. Keep the code below — you check the state with it.",
+    "keepCode": "Write the code down or photograph it. It is shown only here.",
+    "checkNow": "Check the state",
+    "again": "Order another one",
+    "invalid": "Please give the pupil's and the parent's full name, and a phone number.",
+    "error": "Not sent. Please try again later or call the school.",
+    "tooMany": "Too many orders were sent. Please try again a little later.",
+    "stepsTitle": "How it works",
+    "steps": [
+      "You fill in the form and get a code.",
+      "The school prepares the reference.",
+      "You check the state with the code.",
+      "You collect it from the school."
+    ],
+    "privacy": "Your child's name and your phone number are seen only by school staff — they never appear on the site.",
+    "readyTitle": "Any questions?",
+    "ready": "Call the school:",
+    "checkLink": "Check an order"
+  },
+  "status": {
+    "kicker": "Online service",
+    "title": "Check a request",
+    "lead": "See which stage your admission application or reference order has reached, using your code.",
+    "placeholder": "Enter the code (for example M-K7PQ4RTX)",
+    "check": "Check",
+    "checking": "Checking…",
+    "notFound": "No such code. Please check it and try again.",
+    "error": "Could not check just now. Please try again later.",
+    "reference": "Reference order",
+    "admission": "Admission application · grade {n}",
+    "kinds": {
+      "oquvchi": "Reference — currently studying",
+      "arxiv": "Reference — archive",
+      "boshqa": "Reference"
+    },
+    "states": {
+      "new": "Received",
+      "contacted": "Contacted",
+      "accepted": "Accepted ✓",
+      "ready": "Ready",
+      "given": "Collected",
+      "declined": "Declined"
+    },
+    "sent": "Sent: {d}",
+    "readyOn": "ready: {d}",
+    "hint": "The school will call you when the state changes. With any question, please contact the school.",
+    "declinedHint": "Please call the school about the reason and what to do next.",
+    "lost": "Lost the code? Call the school with the name and phone number you gave, and staff will tell you the state.",
+    "orderReference": "Order a reference",
+    "apply": "Online admission application"
   }
 }

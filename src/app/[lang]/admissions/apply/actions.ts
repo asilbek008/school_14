@@ -12,7 +12,13 @@ export type ApplyValues = {
   previous_school: string;
   note: string;
 };
-export type ApplyState = { status: "idle" | "success" | "invalid" | "badDate" | "error" | "tooMany"; values?: ApplyValues; attempt?: number };
+export type ApplyState = {
+  status: "idle" | "success" | "invalid" | "badDate" | "error" | "tooMany";
+  /** Shown once, on success: the parent writes it down to follow the application. */
+  code?: string;
+  values?: ApplyValues;
+  attempt?: number;
+};
 
 const field = (form: FormData, name: string, max: number) => String(form.get(name) ?? "").trim().slice(0, max);
 
@@ -44,21 +50,14 @@ export async function sendApplication(prev: ApplyState, form: FormData): Promise
   const supabase = createPublicClient();
   if (!supabase) return { status: "error", values, attempt };
 
-  const { error } = await supabase.from("admission_applications").insert({
-    child_name: values.child_name,
-    child_birth_date: values.child_birth_date,
-    grade,
-    parent_name: values.parent_name,
-    phone: values.phone,
-    address: values.address || null,
-    previous_school: values.previous_school || null,
-    note: values.note || null,
-  });
-  if (error?.message.includes("rate_limited")) return { status: "tooMany", values, attempt };
-  if (error) {
+  const { data, error } = await supabase.rpc("submit_admission", { p: values });
+  const result = data as { ok?: boolean; code?: string; error?: string } | null;
+  if (error || !result?.ok) {
+    if (result?.error === "rate_limited") return { status: "tooMany", values, attempt };
+    if (result?.error === "invalid") return { status: "invalid", values, attempt };
     // The child's details are never logged.
-    console.error(`[apply] insert failed: ${error.code ?? "unknown"}`);
+    console.error(`[apply] failed: ${result?.error ?? error?.code ?? "unknown"}`);
     return { status: "error", values, attempt };
   }
-  return { status: "success" };
+  return { status: "success", code: result.code };
 }

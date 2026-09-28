@@ -108,6 +108,20 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   jami 20 ta; `private.notify_admission` — Telegram'ga 🎒 belgisi bilan. Holat: `new` → `contacted` → `accepted`/`declined`,
   admin izohi alohida maydonda. Sahifa `robots: index:false`, havola — "Qabul" sahifasidagi tugma va sayt qidiruvi.
   Admin menyusida yangi arizalar soni, bosh sahifadagi "E’tibor talab qiladi" ro‘yxatida ham.
+- Ma’lumotnoma buyurtmasi va murojaat holati (`20261119090000_reference_requests.sql`; egasining tanlovi — ta’lim
+  saytlaridagi «onlayn xizmat»): `/[lang]/reference` — ota-ona maktabga bormasdan ma’lumotnoma buyurtma qiladi
+  (`reference_requests`: kind `oquvchi|arxiv|boshqa`, bola F.I.Sh., sinf, ota-ona, telefon, maqsad, izoh; holat
+  `new → ready → given` yoki `declined`, `ready_at` — «Tayyor» bosilgan payt). Admin `/admin/references`: holat
+  tugmalari, ichki izoh (ota-onaga ko‘rinmaydi), qidiruv; qog‘ozning o‘zi `/admin/docgen` da chiziladi.
+  `/[lang]/status` — **kod bo‘yicha** holatni tekshirish: qabul arizasi (`Q-XXXXXXXX`) ham, ma’lumotnoma
+  (`M-XXXXXXXX`) ham. Kod `private.new_code()` — 32 belgidan 8 ta (0/O/1/I yo‘q, telefonda aytish oson).
+  **Yozish ham, o‘qish ham RPC orqali**: jadvalga `insert` siyosati umuman yo‘q — `submit_reference` /
+  `submit_admission` (definer) kiritilganini tekshirib yozadi va kodni qaytaradi (bu kerak: anon jadvalni
+  o‘qiy olmaydi, shuning uchun `insert ... returning` ishlamaydi). `request_status(kod)` faqat **tur, holat va
+  sanalarni** qaytaradi — ism, telefon, ichki izoh emas: kod begonaga tushsa ham bola haqida hech narsa bilinmaydi.
+  Cheklov: bir telefondan 10 daqiqada 3 ta, jami 20 ta; `private.notify_reference` — Telegram'ga 📄 belgisi bilan.
+  Kod faqat yuborilgandan keyin **bir marta** ko‘rsatiladi (`ApplyForm`/`ReferenceForm` muvaffaqiyat ekranida) —
+  ota-ona yozib oladi. Ikkala sahifa ham `robots: index:false`, menyuda yo‘q, footer va qidiruvda bor.
 - Hujjatlar (`/[lang]/documents`, `documents`; admin `/admin/documents`): litsenziya, nizom, buyruq, hisobot va ariza
   shakllari. Har hujjat — yo `media` bucket'dagi fayl (`kind='file'`, `path`, `file_type`/`file_size` avtomatik), yo boshqa
   saytdagi havola (`kind='link'`, `url` — masalan lex.uz). Bo‘limlar `documentCategories` (`meyoriy|buyruq|hisobot|shakl|boshqa`,

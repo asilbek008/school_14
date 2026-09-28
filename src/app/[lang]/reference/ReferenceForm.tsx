@@ -5,31 +5,32 @@ import Link from "next/link";
 import type { Dictionary } from "@/i18n/dictionaries";
 import type { Locale } from "@/i18n/config";
 import { fill } from "@/i18n/fill";
-import { sendApplication, type ApplyState } from "./actions";
+import { orderReference, type ReferenceState } from "./actions";
 
-type Labels = Dictionary["apply"];
+type Labels = Dictionary["reference"];
 
 const input =
   "mt-1.5 w-full rounded-[14px] border border-slate-200 bg-paper px-4 py-3 text-[15px] text-slate-900 transition-colors placeholder:text-slate-400 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-soft";
 const label = "block text-[12.5px] font-bold text-slate-500";
 const hint = "mt-1.5 block text-[12.5px] font-medium text-slate-500";
 const grades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+const kinds = ["oquvchi", "arxiv", "boshqa"] as const;
 
-/** The admission form; after a send, "another application" remounts it empty (one parent, several children). */
-export default function ApplyForm({ t, lang }: { t: Labels; lang: Locale }) {
+/** Ordering a reference; "another one" remounts the form empty (one parent, several papers). */
+export default function ReferenceForm({ t, lang }: { t: Labels; lang: Locale }) {
   const [round, setRound] = useState(0);
   return <Form key={round} t={t} lang={lang} again={() => setRound((n) => n + 1)} />;
 }
 
 function Form({ t, lang, again }: { t: Labels; lang: Locale; again: () => void }) {
-  const [state, action, pending] = useActionState<ApplyState, FormData>(sendApplication, { status: "idle" });
+  const [state, action, pending] = useActionState<ReferenceState, FormData>(orderReference, { status: "idle" });
 
+  // The code is shown once — this is the only place the parent can copy it from.
   if (state.status === "success") {
     return (
       <div className="animate-fade-up rounded-[14px] bg-teal-soft p-5 shadow-[inset_4px_0_0_var(--color-teal)]" role="status">
         <b className="mb-1 block font-bold text-[#0c6d62]">{t.successTitle}</b>
         <p className="text-sm text-slate-700">{t.success}</p>
-        {/* The code is shown once — this is the only place the parent can copy it from. */}
         {state.code && (
           <>
             <p className="mt-4 select-all rounded-[14px] bg-white px-4 py-3 text-center text-[22px] font-bold tracking-[0.12em] text-navy">{state.code}</p>
@@ -47,23 +48,31 @@ function Form({ t, lang, again }: { t: Labels; lang: Locale; again: () => void }
   }
 
   const v = state.values;
-  const errorText = state.status === "invalid" ? t.invalid : state.status === "badDate" ? t.badDate : state.status === "error" ? t.error : state.status === "tooMany" ? t.tooMany : null;
+  const errorText = state.status === "invalid" ? t.invalid : state.status === "error" ? t.error : state.status === "tooMany" ? t.tooMany : null;
 
   return (
     <form action={action} className="space-y-4">
+      <label className={label}>
+        {t.kind} *
+        {/* Remounted per attempt: React resets a form after an action and a select keeps its old value. */}
+        <select key={state.attempt} name="kind" defaultValue={v?.kind || "oquvchi"} className={input}>
+          {kinds.map((k) => (
+            <option key={k} value={k}>
+              {t.kinds[k]}
+            </option>
+          ))}
+        </select>
+        <span className={hint}>{t.kindHint}</span>
+      </label>
       <div className="grid gap-4 sm:grid-cols-2">
         <label className={`${label} sm:col-span-2`}>
           {t.childName} *
           <input name="child_name" defaultValue={v?.child_name} required minLength={3} maxLength={200} className={input} />
         </label>
         <label className={label}>
-          {t.childBirth} *
-          <input name="child_birth_date" defaultValue={v?.child_birth_date} type="date" required className={input} />
-        </label>
-        <label className={label}>
-          {t.grade} *
-          {/* Remounted per attempt: React resets a form after an action and a select keeps its old value. */}
-          <select key={state.attempt} name="grade" defaultValue={v?.grade || "1"} className={input}>
+          {t.grade} <span className="font-medium text-slate-400">({t.optional})</span>
+          <select key={`g${state.attempt}`} name="grade" defaultValue={v?.grade || ""} className={input}>
+            <option value="">—</option>
             {grades.map((n) => (
               <option key={n} value={n}>
                 {fill(t.gradeOption, { n })}
@@ -75,24 +84,19 @@ function Form({ t, lang, again }: { t: Labels; lang: Locale; again: () => void }
           {t.parentName} *
           <input name="parent_name" defaultValue={v?.parent_name} required minLength={3} maxLength={200} autoComplete="name" className={input} />
         </label>
-        <label className={label}>
+        <label className={`${label} sm:col-span-2`}>
           {t.phone} *
           <input name="phone" defaultValue={v?.phone} type="tel" required minLength={7} maxLength={50} autoComplete="tel" placeholder="+998 __ ___ __ __" className={input} />
+          <span className={hint}>{t.phoneHint}</span>
         </label>
       </div>
       <label className={label}>
-        {t.address} <span className="font-medium text-slate-400">({t.optional})</span>
-        <input name="address" defaultValue={v?.address} maxLength={500} className={input} />
-        <span className={hint}>{t.addressHint}</span>
-      </label>
-      <label className={label}>
-        {t.previousSchool} <span className="font-medium text-slate-400">({t.optional})</span>
-        <input name="previous_school" defaultValue={v?.previous_school} maxLength={300} className={input} />
-        <span className={hint}>{t.previousSchoolHint}</span>
+        {t.purpose} <span className="font-medium text-slate-400">({t.optional})</span>
+        <input name="purpose" defaultValue={v?.purpose} maxLength={300} placeholder={t.purposePlaceholder} className={input} />
       </label>
       <label className={label}>
         {t.note} <span className="font-medium text-slate-400">({t.optional})</span>
-        <textarea name="note" defaultValue={v?.note} maxLength={2000} rows={4} placeholder={t.notePlaceholder} className={`${input} resize-y`} />
+        <textarea name="note" defaultValue={v?.note} maxLength={2000} rows={3} className={`${input} resize-y`} />
       </label>
       {/* Honeypot field, hidden from people and assistive tech. */}
       <input name="website" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
