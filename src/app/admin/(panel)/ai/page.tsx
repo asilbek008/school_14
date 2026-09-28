@@ -4,6 +4,7 @@ import { formatDateTime } from "@/lib/format";
 import AdminHeader from "@/components/admin/AdminHeader";
 import DeleteButton from "@/components/admin/DeleteButton";
 import AiForm from "./AiForm";
+import AiTest from "./AiTest";
 import { forgetAi } from "./actions";
 
 export const metadata: Metadata = { title: "AI yordamchi" };
@@ -31,6 +32,12 @@ export default async function AdminAiPage() {
         konsolidan (console.anthropic.com) API kalit olib, shu yerga kiriting — kalit bazada saqlanadi, brauzerga qaytarilmaydi va
         menga ham ko‘rinmaydi. Kalit kiritilmaguncha sahifa saytda ochilmaydi.
       </p>
+      <ol className="mb-5 max-w-3xl list-decimal space-y-1 pl-5 text-sm text-slate-600">
+        <li>console.anthropic.com → ro‘yxatdan o‘ting (Uzbekiston qo‘llab-quvvatlanadi).</li>
+        <li><b>Billing</b> bo‘limidan kredit qo‘shing (eng kami $5) — kreditsiz kalit ishlamaydi.</li>
+        <li><b>API keys</b> → «Create key» → kalit <b>bir marta</b> ko‘rsatiladi: «Copy» tugmasini bosing.</li>
+        <li>Shu sahifadagi maydonga qo‘ying va saqlang, keyin «Sinov savoli» bilan tekshiring.</li>
+      </ol>
 
       <div className="mb-5 flex flex-wrap gap-3">
         <div className="rounded-xl bg-white px-5 py-4 shadow-sm">
@@ -50,6 +57,7 @@ export default async function AdminAiPage() {
       </div>
 
       <AiForm state={state} />
+      {state.has_key && <AiTest />}
 
       <section className="mt-8">
         <h2 className="mb-3 text-base font-bold text-slate-900">So‘nggi savollar</h2>
