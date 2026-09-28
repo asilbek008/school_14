@@ -3,6 +3,7 @@
 // the database (private.ai_guard). The API key never leaves the database: it is read here with the service
 // role and used only to call the model.
 
+import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient, type SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const SITE = "https://qiziriq14maktab.vercel.app";
@@ -95,26 +96,37 @@ Deno.serve(async (req) => {
   const { data: allowed } = await db.rpc("ai_guard", { p_visitor: body?.visitor ?? null, p_lang: lang, p_question: question });
   if (!allowed) return json({ error: "too_many" }, 429);
 
+  const anthropic = new Anthropic({ apiKey: config.key });
   try {
-    const res = await fetch("https://api.anthropic.com/v1/messages", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "x-api-key": config.key, "anthropic-version": "2023-06-01" },
-      body: JSON.stringify({
-        model: config.model,
-        max_tokens: 700,
-        system: `${SYSTEM}\n\n=== MA'LUMOT ===\n${await context(db, lang)}`,
-        messages: [{ role: "user", content: question }],
-      }),
+    const message = await anthropic.messages.create({
+      model: config.model,
+      max_tokens: 700,
+      // The school's own content is the same on every question, so it is cached and read back at a tenth
+      // of the price; only the question itself is new. (Top-level caching keeps the last cacheable block.)
+      cache_control: { type: "ephemeral" },
+      // Short factual answers from a given text: the cheapest setting is enough. Haiku has no effort knob.
+      ...(/haiku/.test(config.model) ? {} : { output_config: { effort: "low" as const } }),
+      system: `${SYSTEM}\n\n=== MA'LUMOT ===\n${await context(db, lang)}`,
+      messages: [{ role: "user", content: question }],
     });
-    if (!res.ok) {
-      console.error("model refused", res.status);
-      return json({ error: "model" }, 502);
-    }
-    const data = await res.json();
-    const answer = (data?.content ?? []).filter((p: { type: string }) => p.type === "text").map((p: { text: string }) => p.text).join("\n").trim();
+
+    // A safety decline comes back as a normal response, not an error.
+    if (message.stop_reason === "refusal") return json({ error: "refused" }, 200);
+
+    const answer = message.content
+      .filter((block) => block.type === "text")
+      .map((block) => block.text)
+      .join("\n")
+      .trim();
     return answer ? json({ answer }) : json({ error: "model" }, 502);
   } catch (e) {
-    console.error("model failed", e instanceof Error ? e.message : e);
+    // Typed SDK errors: a bad key is the school's to fix, a rate limit is ours to wait out.
+    if (e instanceof Anthropic.AuthenticationError) {
+      console.error("model key rejected");
+      return json({ error: "key" }, 502);
+    }
+    if (e instanceof Anthropic.RateLimitError) return json({ error: "too_many" }, 429);
+    console.error("model failed", e instanceof Anthropic.APIError ? `${e.status}` : e instanceof Error ? e.message : e);
     return json({ error: "model" }, 502);
   }
 });

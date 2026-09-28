@@ -497,7 +497,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   o‘zi `/admin/ai` da kiritadi (`private.ai_settings.api_key`) — brauzerga qaytarilmaydi, menga ham ko‘rinmaydi; kalit yo‘q bo‘lsa
   sahifa 404 (`getAssistantOn()` → `rpc ai_status`). Javobni Edge Function `supabase/functions/ai-assistant` (verify_jwt off)
   tayyorlaydi: `rpc ai_config` (faqat `service_role`) kalit va modelni beradi, `rpc ai_guard` savolni yozib cheklovni tekshiradi
-  (bir tashrifchiga soatiga 20, jami 300), keyin Anthropic Messages API chaqiriladi. Kontekst DB'dan yig‘iladi (sahifalar,
+  (bir tashrifchiga soatiga 20, jami 300), keyin rasmiy SDK (`npm:@anthropic-ai/sdk`) orqali Messages API chaqiriladi
+  (`cache_control: ephemeral` — maktab ma’lumotlari keshlanadi, takroriy savol 10 barobar arzon; `effort: "low"` — Haiku'da
+  bu parametr yo‘q, shuning uchun yuborilmaydi; `stop_reason === "refusal"` va SDK'ning tipli xatolari alohida javob beradi).
+  Model — `private.ai_settings.model`, standarti `claude-opus-5`; admin formada Sonnet 5 va Haiku 4.5 narxlari bilan turadi
+  (model id'lariga sana qo‘shilmaydi). Kontekst DB'dan yig‘iladi (sahifalar,
   yangiliklar, tadbirlar, to‘garaklar, taqvim, xodimlar, bo‘lim havolalari, 24 000 belgigacha); system prompt: faqat shu
   ma’lumot, bilmasa — maktab telefoni, baho/davomat va shaxsiy ma’lumot haqida javob yo‘q. Savollar `private.ai_questions` da
   (ism va IP yo‘q) — admin sahifada ko‘rinadi, ko‘p takrorlanganini «Savol-javob»ga ko‘chirish uchun. Havola: `/faq` kartasida

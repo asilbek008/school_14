@@ -4,9 +4,12 @@ import AdminForm from "@/components/admin/AdminForm";
 import { Field, FormSection, inputClass } from "@/components/admin/fields";
 import { saveAi } from "./actions";
 
+// Narxlar — 1 million token uchun (kirish / chiqish). Har savol odatda 10–15 ming kirish tokeni:
+// maktab ma’lumotlari keshlanadi, shuning uchun takroriy savollar 10 barobar arzon tushadi.
 const models = [
-  { id: "claude-haiku-4-5-20251001", label: "Haiku 4.5 — tez va arzon (tavsiya etiladi)" },
-  { id: "claude-sonnet-5", label: "Sonnet 5 — kuchliroq, qimmatroq" },
+  { id: "claude-opus-5", label: "Opus 5 — eng kuchli javoblar ($5 / $25)" },
+  { id: "claude-sonnet-5", label: "Sonnet 5 — muvozanatli ($2 / $10)" },
+  { id: "claude-haiku-4-5", label: "Haiku 4.5 — eng arzon va tez ($1 / $5)" },
 ];
 
 export default function AiForm({ state }: { state: { enabled: boolean; model: string; has_key: boolean } }) {

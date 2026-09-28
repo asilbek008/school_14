@@ -1330,7 +1330,9 @@
       "off": "The assistant is switched off at the moment.",
       "empty": "Please write a question.",
       "too_many": "Too many questions. Please try again shortly.",
-      "model": "No answer came back. Try later or call the school."
+      "model": "No answer came back. Try later or call the school.",
+      "refused": "I cannot answer that one. Please call the school or write through the contact page.",
+      "key": "The assistant's settings are wrong. Please tell the school's admin."
     },
     "note": "Answers are built from the site's content and can be wrong — for anything important, ask the school.",
     "privacy": "Your question is visible to the school's admin (to grow the questions and answers section). No name is stored.",
