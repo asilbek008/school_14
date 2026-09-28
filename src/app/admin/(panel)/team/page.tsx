@@ -4,7 +4,9 @@ import { requireAdmin } from "@/lib/admin";
 import { formatDateTime } from "@/lib/format";
 import AdminHeader from "@/components/admin/AdminHeader";
 import { roleIcons, roleNames, type StaffRole } from "@/lib/roles";
-import { resetMfa, resetTg, setRole } from "./actions";
+import { formatDate } from "@/lib/format";
+import InviteForm from "./InviteForm";
+import { resetMfa, resetTg, revokeInvite, setRole } from "./actions";
 
 export const metadata: Metadata = { title: "Jamoa va ruxsatlar" };
 
@@ -12,11 +14,15 @@ type Member = { user_id: string; email: string; role: StaffRole; mfa: boolean; t
 
 const roles: StaffRole[] = ["admin", "editor", "teacher"];
 
+type Invite = { id: number; email: string; role: StaffRole; token: string | null; expires_at: string; used_at: string | null; invited_email: string | null };
+
 /** Who can sign in to the panel: role (admin / editor), which second step they use; admins change roles here. */
 export default async function TeamPage() {
   const { supabase, userId } = await requireAdmin();
-  const { data } = await supabase.rpc("admin_team");
+  const [{ data }, { data: invited }] = await Promise.all([supabase.rpc("admin_team"), supabase.rpc("staff_invites_list")]);
   const team = (data ?? []) as Member[];
+  const invites = (invited ?? []) as Invite[];
+  const waiting = invites.filter((i) => !i.used_at);
 
   return (
     <>
@@ -86,16 +92,49 @@ export default async function TeamPage() {
         })}
       </ul>
 
-      <div className="mt-6 rounded-xl bg-white p-5 text-sm leading-relaxed text-slate-600 shadow-sm">
-        <p className="font-semibold text-slate-900">Yangi xodim qo‘shish</p>
-        <p className="mt-1">
-          Supabase Dashboard → Authentication → Add user (email va parol) orqali hisob oching, keyin dasturchiga email’ni yuboring — u hisobni
-          admin yoki muharrir qilib qo‘shadi. O‘zingizning 2FA sozlamangiz —{" "}
-          <Link href="/admin/security" className="font-semibold text-blue-700 hover:underline">
-            Ikki bosqichli kirish
-          </Link>
-          .
-        </p>
+      <div className="mt-6 space-y-4">
+        <InviteForm />
+
+        {waiting.length > 0 && (
+          <div className="rounded-xl bg-white p-5 shadow-sm">
+            <h2 className="mb-3 font-semibold text-slate-900">Javob kutilmoqda</h2>
+            <ul className="divide-y divide-slate-100">
+              {waiting.map((invite) => (
+                <li key={invite.id} className="flex flex-wrap items-center gap-x-4 gap-y-2 py-2.5">
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-slate-900">{invite.email}</p>
+                    <p className="text-sm text-slate-500">
+                      {roleIcons[invite.role]} {roleNames[invite.role]} · {formatDate(invite.expires_at, "uz")} gacha
+                      {invite.invited_email && ` · taklif qildi: ${invite.invited_email}`}
+                    </p>
+                  </div>
+                  <form action={revokeInvite.bind(null, invite.id)}>
+                    <button className="rounded-lg border border-red-200 px-3 py-1.5 text-sm font-semibold text-red-700 hover:bg-red-50">
+                      Bekor qilish
+                    </button>
+                  </form>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <div className="rounded-xl bg-white p-5 text-sm leading-relaxed text-slate-600 shadow-sm">
+          <p className="font-semibold text-slate-900">Qanday ishlaydi</p>
+          <ol className="mt-1 list-decimal space-y-1 pl-5">
+            <li>Email va rolni yozib, «Havola yaratish» ni bosing.</li>
+            <li>Havolani xodimga yuboring (Telegram, SMS yoki qo‘lda).</li>
+            <li>Xodim havolani ochib, o‘ziga parol o‘ylab topadi — parol talablari sahifada ko‘rsatiladi.</li>
+            <li>Shu zahoti panelga kira oladi; roli keyin shu yerdan o‘zgartiriladi.</li>
+          </ol>
+          <p className="mt-2">
+            O‘zingizning 2FA sozlamangiz —{" "}
+            <Link href="/admin/security" className="font-semibold text-blue-700 hover:underline">
+              Ikki bosqichli kirish
+            </Link>
+            .
+          </p>
+        </div>
       </div>
     </>
   );
