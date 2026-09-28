@@ -10,7 +10,16 @@ import { resetMfa, resetTg, revokeInvite, setRole } from "./actions";
 
 export const metadata: Metadata = { title: "Jamoa va ruxsatlar" };
 
-type Member = { user_id: string; email: string; role: StaffRole; mfa: boolean; tg: boolean; last_sign_in_at: string | null };
+type Member = {
+  user_id: string;
+  email: string;
+  role: StaffRole;
+  mfa: boolean;
+  tg: boolean;
+  /** The first admin — the school's own account. Its role and second step are locked (private.is_owner). */
+  owner: boolean;
+  last_sign_in_at: string | null;
+};
 
 const roles: StaffRole[] = ["admin", "editor", "teacher"];
 
@@ -30,7 +39,11 @@ export default async function TeamPage() {
       <div className="mb-6 grid gap-3 text-sm md:grid-cols-2">
         <div className="rounded-xl bg-white p-4 shadow-sm">
           <p className="font-semibold text-slate-900">👑 Admin</p>
-          <p className="mt-1 text-slate-600">Hamma narsa: murojaatlar, arizalar, xodimlar, dars jadvali, sozlamalar, jurnallar, zaxira nusxalar.</p>
+          <p className="mt-1 text-slate-600">
+            Hamma narsa: murojaatlar, arizalar, xodimlar, dars jadvali, sozlamalar, jurnallar, zaxira nusxalar. Cheklov yo‘q.
+            Ro‘yxatdagi birinchi admin — ⭐ super admin: uning roli va ikki bosqichli kirishi boshqalar tomonidan
+            o‘zgartirilmaydi, va oxirgi admin pastroq rolga tushirilmaydi.
+          </p>
         </div>
         <div className="rounded-xl bg-white p-4 shadow-sm">
           <p className="font-semibold text-slate-900">✏️ Muharrir</p>
@@ -51,8 +64,13 @@ export default async function TeamPage() {
           return (
             <li key={m.user_id} className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl bg-white p-4 shadow-sm">
               <div className="min-w-0 flex-1">
-                <p className="truncate font-semibold text-slate-900">
+                <p className="flex flex-wrap items-center gap-2 truncate font-semibold text-slate-900">
                   {m.email} {me && <span className="text-xs font-normal text-slate-500">(siz)</span>}
+                  {m.owner && (
+                    <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-800">
+                      ⭐ Super admin (maktab egasi)
+                    </span>
+                  )}
                 </p>
                 <p className="text-sm text-slate-500">
                   {roleIcons[m.role]} {roleNames[m.role]} ·{" "}
@@ -60,7 +78,10 @@ export default async function TeamPage() {
                   {m.last_sign_in_at && ` · oxirgi kirish ${formatDateTime(m.last_sign_in_at, "uz")}`}
                 </p>
               </div>
-              {!me && (
+              {m.owner && !me && (
+                <p className="text-sm text-slate-500">Super admin hisobi himoyalangan — roli o‘zgartirilmaydi.</p>
+              )}
+              {!me && !m.owner && (
                 <div className="flex flex-wrap gap-2">
                   {roles
                     .filter((r) => r !== m.role)

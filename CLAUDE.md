@@ -720,6 +720,16 @@ Har bir jadvalda Row Level Security yoqilgan. Admin tekshiruvi `private.is_admin
 orqali (`admins` jadvalida `auth.uid()` bormi). Anonim foydalanuvchilar faqat `is_published`
 yozuvlarni o‘qiydi va faqat `contact_messages` ga yozadi; qolganiga faqat adminlar yozadi.
 `private.is_admin()` `anon` roliga ham ochiq bo‘lishi shart — o‘qish siyosatlari uni chaqiradi.
+**Edge Function'dan chaqiriladigan RPC** (`service_role`) uchun faqat `grant execute` yetmaydi: `private` sxemasiga
+`usage` ham kerak (`20261117090000_service_role_private_usage.sql` — avval faqat `anon` va `authenticated` da bor edi).
+Bo‘lmasa `security invoker` ochiq o‘ram `private` funksiyaga yetib bormay «permission denied for schema private» beradi,
+Edge Function esa xatoni natija deb qabul qilib noto‘g‘ri javob yozadi — botlardagi «Havola eskirgan» shundan edi
+(`admin_tg_claim`, `cabinet_claim`, `ai_config`, `ai_guard`, `staff_invite_*` — hammasi shu sababdan ishlamagan).
+`private` dagi birorta jadval bu rollarga berilmagan, shuning uchun `usage` faqat aniq `grant execute` qilingan
+funksiyalarni ochadi.
+Super admin: `admins` dagi eng birinchi qator — `private.is_owner()`. Uning rolini (`set_admin_role`) va ikki bosqichli
+kirishini (`reset_mfa`, `admin_tg_reset`) boshqa admin o‘zgartira olmaydi, oxirgi admin ham pastroq rolga tushirilmaydi —
+maktab panelni hech qachon yo‘qotmaydi. `admin_team()` `owner` ustunini ham qaytaradi (sahifada ⭐ belgisi).
 U `SECURITY DEFINER`, shuning uchun API'ga chiqmaydigan `private` sxemasida turadi (Supabase
 advisors talabi). Har bir jadval va amal uchun bitta siyosat: `for all` ishlatmang, aks holda
 SELECT'da ikkita permissive siyosat bo‘ladi.
