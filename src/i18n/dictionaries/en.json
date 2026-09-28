@@ -68,6 +68,13 @@
     "dark": "Dark mode",
     "light": "Light mode"
   },
+  "install": {
+    "title": "Install the site as an app",
+    "lead": "You get an icon on your phone's home screen: the timetable and the news open in one tap, and notifications arrive too.",
+    "iosSteps": "Tap the Share icon at the bottom, then “Add to Home Screen”. The site then opens as its own app and notifications start working.",
+    "button": "Install",
+    "close": "Close"
+  },
   "home": {
     "eyebrow": "school year",
     "eyebrowStarted": "school year has begun",

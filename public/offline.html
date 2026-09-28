@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Internet yo‘q — 14-maktab</title>
+    <style>
+      :root { color-scheme: light dark; }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        padding: 24px;
+        background: #131a2e;
+        color: #fff;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+        text-align: center;
+      }
+      .card { max-width: 380px; }
+      .mark {
+        width: 68px; height: 68px; margin: 0 auto 20px;
+        display: grid; place-items: center;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #2c5ce0, #128c7e);
+        font-size: 26px; font-weight: 800; letter-spacing: -1px;
+      }
+      h1 { margin: 0 0 10px; font-size: 21px; }
+      p { margin: 0 0 22px; line-height: 1.6; color: #b9c2d9; font-size: 14.5px; }
+      button {
+        appearance: none; border: 0; cursor: pointer;
+        padding: 12px 26px; border-radius: 999px;
+        background: #fff; color: #131a2e;
+        font: inherit; font-weight: 700; font-size: 15px;
+      }
+      button:active { transform: scale(0.97); }
+      .rule { height: 4px; border-radius: 4px; margin: 26px auto 0; max-width: 140px;
+              background: linear-gradient(90deg, #2c5ce0 0 38%, #128c7e 38% 70%, #d8a33a 70% 100%); }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="mark">14</div>
+      <h1>Internetga ulanish yo‘q</h1>
+      <p>
+        Bu sahifa hali yuklab olinmagan. Internet paydo bo‘lgach qaytadan urinib ko‘ring —
+        oldin ochgan sahifalaringiz ulanishsiz ham ochiladi.
+      </p>
+      <button type="button" onclick="location.reload()">Qayta urinish</button>
+      <div class="rule"></div>
+    </div>
+  </body>
+</html>
