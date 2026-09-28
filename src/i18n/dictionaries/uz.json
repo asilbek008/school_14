@@ -1334,10 +1334,16 @@
       "too_many": "Juda ko‘p savol berildi. Bir ozdan keyin urinib ko‘ring.",
       "model": "Javob olinmadi. Keyinroq urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling.",
       "refused": "Bu savolga javob bera olmayman. Maktabga qo‘ng‘iroq qiling yoki aloqa sahifasidan yozing.",
-      "key": "Yordamchi sozlamasida xatolik bor. Maktab adminiga xabar bering."
+      "key": "Yordamchi sozlamasida xatolik bor. Maktab adminiga xabar bering.",
+      "stopped": "To‘xtatildi.",
+      "cut": "Javob to‘liq kelmadi. Qaytadan so‘rang."
     },
     "note": "Javoblar sayt ma’lumotlari asosida tayyorlanadi va xato bo‘lishi mumkin — muhim masalada maktabga murojaat qiling.",
     "privacy": "Savolingiz maktab adminiga ko‘rinadi (savol-javob bo‘limini to‘ldirish uchun). Ismingiz saqlanmaydi.",
-    "contact": "Aloqa sahifasi"
+    "contact": "Aloqa sahifasi",
+    "followUp": "Savolni davom ettiring…",
+    "stop": "To‘xtatish",
+    "remembers": "Yordamchi shu suhbatni eslab turadi.",
+    "reset": "Yangi suhbat"
   }
 }

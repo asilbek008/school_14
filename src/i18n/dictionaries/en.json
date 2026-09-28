@@ -1334,10 +1334,16 @@
       "too_many": "Too many questions. Please try again shortly.",
       "model": "No answer came back. Try later or call the school.",
       "refused": "I cannot answer that one. Please call the school or write through the contact page.",
-      "key": "The assistant's settings are wrong. Please tell the school's admin."
+      "key": "The assistant's settings are wrong. Please tell the school's admin.",
+      "stopped": "Stopped.",
+      "cut": "The answer was cut off. Please ask again."
     },
     "note": "Answers are built from the site's content and can be wrong — for anything important, ask the school.",
     "privacy": "Your question is visible to the school's admin (to grow the questions and answers section). No name is stored.",
-    "contact": "Contact page"
+    "contact": "Contact page",
+    "followUp": "Ask a follow-up…",
+    "stop": "Stop",
+    "remembers": "The assistant remembers this conversation.",
+    "reset": "New conversation"
   }
 }

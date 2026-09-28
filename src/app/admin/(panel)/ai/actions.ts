@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin, revalidatePublic, text, type FormState } from "@/lib/admin";
+import { readEvents } from "@/lib/sse";
 
 /**
  * Saves the model key. The key itself is written straight into the database and never read back into the
@@ -46,9 +47,14 @@ const problems: Record<string, string> = {
   model: "Model javob bermadi. Ko‘pincha sabab: hisobda kredit yo‘q (Console → Billing) yoki tanlangan model hisobingizga ochilmagan.",
   refused: "Model bu savolga javob bermadi, lekin ulanish ishlayapti.",
   empty: "Savol juda qisqa.",
+  cut: "Javob boshlandi, lekin to‘liq kelmadi. Ulanish ishlayapti — qaytadan urinib ko‘ring.",
 };
 
-/** Sends one real question through the assistant, so the admin sees at once whether the key works. */
+/**
+ * Sends one real question through the assistant, so the admin sees at once whether the key works. The
+ * function streams its answer to the site; here there is nobody watching it arrive, so the whole stream is
+ * read and shown at once. Anything that fails before the first word still comes back as plain JSON.
+ */
 export async function testAi(): Promise<TestState> {
   await requireAdmin();
   try {
@@ -58,9 +64,20 @@ export async function testAi(): Promise<TestState> {
       body: JSON.stringify({ question: "Maktabning telefon raqami va ish vaqti qanday?", lang: "uz", visitor: "admin-test" }),
       cache: "no-store",
     });
-    const data = (await res.json().catch(() => ({}))) as { answer?: string; error?: string };
-    if (data.answer) return { ok: true, answer: data.answer };
-    return { error: problems[data.error ?? ""] ?? `Ulanmadi (${res.status}).` };
+
+    if (!res.ok || !res.body || !res.headers.get("content-type")?.includes("event-stream")) {
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      return { error: problems[data.error ?? ""] ?? `Ulanmadi (${res.status}).` };
+    }
+
+    let answer = "";
+    let failed = "";
+    for (const event of readEvents(await res.text()).events) {
+      if (event.text) answer += event.text;
+      else if (event.error) failed = event.error;
+    }
+    if (answer) return { ok: true, answer };
+    return { error: problems[failed] ?? "Model javob bermadi." };
   } catch {
     return { error: "Serverga ulanib bo‘lmadi. Keyinroq urinib ko‘ring." };
   }

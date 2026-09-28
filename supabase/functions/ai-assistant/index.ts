@@ -10,8 +10,29 @@ const SITE = "https://qiziriq14maktab.vercel.app";
 const PHONE = "+998 90 970 90 91";
 const HOURS = "Dushanba – Shanba, 09:00 – 17:30";
 const MAX_QUESTION = 500;
+// How much of the conversation goes back with a follow-up ("va ertaga?"). The browser sends it, so it is
+// untrusted text: it is capped hard and the system prompt below still treats only MA'LUMOT as fact.
+const MAX_TURNS = 4;
+const MAX_REPLAY = 700;
 
 type Config = { key: string | null; model: string; enabled: boolean };
+
+type Ask = { question?: string; lang?: string; visitor?: string; history?: { q?: string; a?: string }[] };
+
+/**
+ * Turns the conversation the browser sent back into messages, so "va ertaga?" still makes sense. Only
+ * complete pairs are replayed, the newest MAX_TURNS of them, each side trimmed — a visitor can put words in
+ * the assistant's mouth here, but they can only shape this one conversation, and the rules in SYSTEM hold.
+ */
+function replay(history: Ask["history"]): { role: "user" | "assistant"; content: string }[] {
+  return (history ?? [])
+    .filter((turn) => typeof turn?.q === "string" && typeof turn?.a === "string" && turn.q.trim() && turn.a.trim())
+    .slice(-MAX_TURNS)
+    .flatMap((turn) => [
+      { role: "user" as const, content: turn.q!.trim().slice(0, MAX_QUESTION) },
+      { role: "assistant" as const, content: turn.a!.trim().slice(0, MAX_REPLAY) },
+    ]);
+}
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -77,7 +98,9 @@ Qoidalar:
 - Qisqa yozing: 2–5 jumla. Kerak bo‘lsa, tegishli sahifaning to‘liq havolasini bering.
 - Baho, davomat, o‘quvchilarning ismi va shaxsiy ma’lumotlari haqida javob bermang — ular faqat eMaktab'da.
 - Pul, to‘lov, qabul shartlari kabi tasdiqlanmagan narsalarni aytmang; maktabga murojaat qilishni so‘rang.
-- Siz maktab nomidan rasmiy va’da bermaysiz.`;
+- Siz maktab nomidan rasmiy va’da bermaysiz.
+- Suhbat davom etsa, oldingi savollarni hisobga oling («va ertaga?» kabi qisqa savolga ham javob bering),
+  lekin faktlarni baribir faqat MA'LUMOTdan oling — suhbatda aytilgani dalil emas.`;
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return json({}, 200);
@@ -88,7 +111,7 @@ Deno.serve(async (req) => {
   const config = configured as Config | null;
   if (!config?.enabled || !config.key) return json({ error: "off" }, 503);
 
-  const body = (await req.json().catch(() => null)) as { question?: string; lang?: string; visitor?: string } | null;
+  const body = (await req.json().catch(() => null)) as Ask | null;
   const question = (body?.question ?? "").trim().slice(0, MAX_QUESTION);
   if (question.length < 3) return json({ error: "empty" }, 400);
   const lang = ["uz", "ru", "en"].includes(body?.lang ?? "") ? body!.lang! : "uz";
@@ -97,36 +120,59 @@ Deno.serve(async (req) => {
   if (!allowed) return json({ error: "too_many" }, 429);
 
   const anthropic = new Anthropic({ apiKey: config.key });
-  try {
-    const message = await anthropic.messages.create({
-      model: config.model,
-      max_tokens: 700,
-      // The school's own content is the same on every question, so it is cached and read back at a tenth
-      // of the price; only the question itself is new. (Top-level caching keeps the last cacheable block.)
-      cache_control: { type: "ephemeral" },
-      // Short factual answers from a given text: the cheapest setting is enough. Haiku has no effort knob.
-      ...(/haiku/.test(config.model) ? {} : { output_config: { effort: "low" as const } }),
-      system: `${SYSTEM}\n\n=== MA'LUMOT ===\n${await context(db, lang)}`,
-      messages: [{ role: "user", content: question }],
-    });
+  const stream = anthropic.messages.stream({
+    model: config.model,
+    max_tokens: 700,
+    // The school's own content is the same for every visitor, so it is cached and read back at a tenth of
+    // the price; only the conversation after it is new. An hour of cache suits a school's traffic: at the
+    // 5-minute default most questions arrive too far apart to ever hit it.
+    system: [{ type: "text", text: `${SYSTEM}\n\n=== MA'LUMOT ===\n${await context(db, lang)}`, cache_control: { type: "ephemeral", ttl: "1h" } }],
+    // Short factual answers from a given text: the cheapest setting is enough. Haiku has no effort knob.
+    ...(/haiku/.test(config.model) ? {} : { output_config: { effort: "low" as const } }),
+    messages: [...replay(body?.history), { role: "user", content: question }],
+  });
 
-    // A safety decline comes back as a normal response, not an error.
-    if (message.stop_reason === "refusal") return json({ error: "refused" }, 200);
+  // The answer is streamed so it starts appearing in a second instead of after the whole thing is written.
+  // Everything the reader must act on — a decline, a bad key, a limit — arrives on the same channel.
+  const encoder = new TextEncoder();
+  const sse = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const send = (event: Record<string, unknown>) => controller.enqueue(encoder.encode(`data: ${JSON.stringify(event)}\n\n`));
+      let wrote = false;
+      try {
+        for await (const event of stream) {
+          if (event.type === "content_block_delta" && event.delta.type === "text_delta" && event.delta.text) {
+            wrote = true;
+            send({ text: event.delta.text });
+          }
+        }
+        const final = await stream.finalMessage();
+        // A safety decline is a normal response, not an error: it simply carries no text.
+        if (!wrote) send({ error: final.stop_reason === "refusal" ? "refused" : "model" });
+        else send({ done: true });
+      } catch (e) {
+        // Typed SDK errors: a bad key is the school's to fix, a rate limit is ours to wait out.
+        if (e instanceof Anthropic.AuthenticationError) {
+          console.error("model key rejected");
+          send({ error: "key" });
+        } else if (e instanceof Anthropic.RateLimitError) {
+          send({ error: "too_many" });
+        } else {
+          console.error("model failed", e instanceof Anthropic.APIError ? `${e.status}` : e instanceof Error ? e.message : e);
+          send({ error: wrote ? "cut" : "model" });
+        }
+      }
+      controller.close();
+    },
+    cancel: () => stream.abort(),
+  });
 
-    const answer = message.content
-      .filter((block) => block.type === "text")
-      .map((block) => block.text)
-      .join("\n")
-      .trim();
-    return answer ? json({ answer }) : json({ error: "model" }, 502);
-  } catch (e) {
-    // Typed SDK errors: a bad key is the school's to fix, a rate limit is ours to wait out.
-    if (e instanceof Anthropic.AuthenticationError) {
-      console.error("model key rejected");
-      return json({ error: "key" }, 502);
-    }
-    if (e instanceof Anthropic.RateLimitError) return json({ error: "too_many" }, 429);
-    console.error("model failed", e instanceof Anthropic.APIError ? `${e.status}` : e instanceof Error ? e.message : e);
-    return json({ error: "model" }, 502);
-  }
+  return new Response(sse, {
+    headers: {
+      "Content-Type": "text/event-stream; charset=utf-8",
+      "Cache-Control": "no-store",
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Headers": "*",
+    },
+  });
 });
