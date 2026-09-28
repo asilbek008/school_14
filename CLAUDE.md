@@ -151,6 +151,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   kodi. Cheklov: bir telefondan 10 daqiqada 5 ta, jami 60 ta. Admin: tanlov formasi va o‘sha sahifaning pastida
   arizalar ro‘yxati (`EntryList` — holat `new/accepted/declined`, qidiruv, o‘chirish); ro‘yxatda har tanlovning ariza
   soni va yangilari. Menyuda «Tadbirlar ▾» ichida, footer, sitemap va qidiruvda.
+  Tashqi tanlovlar (`20261122090000_contest_source.sql`): `organizer` (kim o‘tkazadi), `source_url` (rasmiy e’lon havolasi —
+  saytda «Manba» kartasi) va `external` (ro‘yxatdan o‘tish tashkilotchi saytida: forma o‘rniga tugma chiqadi, `enter_contest`
+  rad etadi, `contest_counts()` sanamaydi). DB `check`: `external` bo‘lsa `source_url` majburiy — **tekshirib bo‘lmaydigan
+  sana saytga chiqmaydi**. Ro‘yxat va tanlov sahifasida «necha kun qoldi» — `DaysLeft` (`contests.left`, brauzerda Toshkent
+  kuni bo‘yicha, sahifa keshi buzilmaydi). Tashqi tanlovni faqat rasmiy e’londan ko‘chiring; havolasiz sana yozmang.
 - Testlar va DTM (`/[lang]/tests`, `/tests/[id]`, `/tests/dtm`; `tests` + `test_questions`; admin `/admin/tests`): fan/mavzu testlari
   (`kind='mavzu'`) va DTM savollar banki (`kind='dtm'`). Fanlar — `src/lib/tests.ts` `testSubjects` (DB `check` bilan bir xil; nomlari
   lug‘atda `tests.subjects`), DTM formati `dtm` (majburiy ona tili/matematika/tarix 10×1.1, 1-fan 30×3.1, 2-fan 30×2.1 = 189 ball, 180 daqiqa).

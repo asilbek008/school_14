@@ -1021,10 +1021,14 @@ export type Contest = {
   starts_at: string | null;
   registration_until: string | null;
   contact: string | null;
+  organizer: string | null;
+  source_url: string | null;
+  /** Sign-up happens on the organizer's site, so we link to it instead of taking entries. */
+  external: boolean;
 };
 
 const contestColumns =
-  "id, slug, title_uz, title_ru, title_en, description_uz, description_ru, description_en, field, level, grade_from, grade_to, place, starts_at, registration_until, contact";
+  "id, slug, title_uz, title_ru, title_en, description_uz, description_ru, description_en, field, level, grade_from, grade_to, place, starts_at, registration_until, contact, organizer, source_url, external";
 
 /** Announced contests, the ones still open for sign-up first. */
 export async function getContests(): Promise<Contest[]> {
