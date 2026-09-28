@@ -12,6 +12,7 @@ export type BookRow = Record<string, unknown> & {
   edition: string | null;
   source: string | null;
   kind: string;
+  section: string;
   path: string | null;
   url: string | null;
   file_size: number | null;
@@ -24,6 +25,12 @@ export default function BookForm({ row, subjects }: { row?: BookRow; subjects: {
   return (
     <AdminForm action={saveBook.bind(null, row?.id ?? null)}>
       <FormSection title="Kitob">
+        <Field label="Bo‘lim" hint="«Darsliklar» — dars uchun kerak bo‘ladigan kitob; «Mutolaaxona» — sinf uchun badiiy adabiyot">
+          <select name="section" defaultValue={row?.section ?? "darslik"} className={inputClass}>
+            <option value="darslik">Darsliklar</option>
+            <option value="mutolaa">Mutolaaxona</option>
+          </select>
+        </Field>
         <TranslatedField name="title" label="Nomi (masalan: Algebra 8-sinf)" row={row} />
         <div className="grid gap-4 sm:grid-cols-3">
           <Field label="Sinf">

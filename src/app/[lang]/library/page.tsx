@@ -21,13 +21,16 @@ export async function generateMetadata({ params }: PageProps<"/[lang]/library">)
 export default async function LibraryPage({ params }: PageProps<"/[lang]/library">) {
   const { lang, dict } = await resolveLang(params);
   const t = dict.library;
-  const books = (await getTextbooks()).map((b) => bookView(b, lang));
+  const all = (await getTextbooks()).map((b) => bookView(b, lang));
+  // Two shelves: the textbooks a lesson needs, and the literature to read for the year.
+  const books = all.filter((b) => b.section === "darslik");
+  const reading = all.filter((b) => b.section === "mutolaa");
 
   const subjects = new Set(books.map((b) => b.subjectId).filter(Boolean)).size;
-  const grades = new Set(books.map((b) => b.grade).filter(Boolean)).size;
+  const grades = new Set(all.map((b) => b.grade).filter(Boolean)).size;
   const pages = books.reduce((a, b) => a + (b.pages ?? 0), 0);
   const stats = [
-    { value: books.length, label: plural(t.statBooks, books.length, lang) },
+    { value: all.length, label: plural(t.statBooks, all.length, lang) },
     { value: subjects, label: plural(t.statSubjects, subjects, lang) },
     { value: grades, label: plural(t.statGrades, grades, lang) },
     { value: pages, label: plural(t.statPages, pages, lang) },
@@ -37,15 +40,19 @@ export default async function LibraryPage({ params }: PageProps<"/[lang]/library
     <>
       <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} kicker={t.kicker} title={t.title} intro={t.intro} />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
-        {books.length > 0 && (
-          <>
-            <StatTiles stats={pages ? stats : stats.slice(0, 3)} />
-            <LibraryBrowser books={books} lang={lang} t={t} allLabel={t.allGrades} />
-          </>
+        {all.length > 0 && <StatTiles stats={pages ? stats : stats.slice(0, 3)} />}
+        {books.length > 0 && <LibraryBrowser books={books} lang={lang} t={t} allLabel={t.allGrades} />}
+
+        {/* The reading room: the year's literature, read on the publisher's own site. */}
+        {reading.length > 0 && (
+          <section className={books.length ? "mt-12 border-t border-slate-200 pt-10" : ""}>
+            <SectionHead kicker={t.readingKicker} title={t.readingTitle} desc={t.readingText} />
+            <LibraryBrowser books={reading} lang={lang} t={t} allLabel={t.allGrades} />
+          </section>
         )}
 
         {/* Every grade's full set of textbooks on the external catalogue (linked, not copied). */}
-        <section className={books.length ? "mt-12 border-t border-slate-200 pt-10" : ""}>
+        <section className={all.length ? "mt-12 border-t border-slate-200 pt-10" : ""}>
           <SectionHead kicker={school.textbookCatalog.name} title={t.catalogTitle} desc={t.catalogText} />
           <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             {Array.from({ length: 11 }, (_, i) => i + 1).map((g, i) => (

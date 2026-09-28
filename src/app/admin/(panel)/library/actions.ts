@@ -36,6 +36,7 @@ export async function saveBook(id: number | null, _prev: FormState, form: FormDa
     edition: optional(form, "edition")?.slice(0, 60) ?? null,
     source: optional(form, "source")?.slice(0, 300) ?? null,
     kind,
+    section: text(form, "section") === "mutolaa" ? "mutolaa" : "darslik",
     path: kind === "file" ? path : null,
     url: kind === "link" ? url : null,
     file_size: kind === "file" && Number.isSafeInteger(size) && size > 0 ? size : null,
