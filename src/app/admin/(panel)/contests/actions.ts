@@ -34,6 +34,7 @@ export async function saveContest(id: number | null, _prev: FormState, form: For
     grade_to: gradeTo,
     place: optional(form, "place"),
     starts_at: fromTashkentInput(text(form, "starts_at")),
+    all_day: form.get("all_day") === "on",
     registration_until: fromTashkentInput(text(form, "registration_until")),
     contact: optional(form, "contact"),
     organizer: optional(form, "organizer"),

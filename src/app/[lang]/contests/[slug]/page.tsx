@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { fill } from "@/i18n/fill";
 import { getContest, getContestCounts, getContests, localized } from "@/lib/content";
-import { formatDateTime } from "@/lib/format";
+import { formatDate, formatDateTime } from "@/lib/format";
 import { achievementLevels, type AchievementLevel } from "@/lib/categories";
 import { school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
@@ -49,7 +49,7 @@ export default async function ContestPage({ params }: PageProps<"/[lang]/contest
         ]}
         kicker={dict.achievements.levels[levelOf(contest.level)]}
         title={localized(contest, "title", lang)}
-        intro={contest.starts_at ? formatDateTime(contest.starts_at, lang) : undefined}
+        intro={contest.starts_at ? (contest.all_day ? formatDate(contest.starts_at, lang) : formatDateTime(contest.starts_at, lang)) : undefined}
       />
       <div className="mx-auto grid max-w-6xl items-start gap-6 px-4 py-10 sm:py-12 lg:grid-cols-[1.15fr_0.85fr]">
         <div className="space-y-6">
