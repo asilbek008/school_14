@@ -35,7 +35,8 @@
     "assistant": "AI yordamchi",
     "reference": "Ma’lumotnoma",
     "status": "Murojaat holati",
-    "verify": "Sertifikatni tekshirish"
+    "verify": "Sertifikatni tekshirish",
+    "contests": "Olimpiada va tanlovlar"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -56,7 +57,8 @@
     "tests": "Fan testlari va DTMga tayyorgarlik",
     "library": "Darsliklar va o‘quv kitoblari (PDF)",
     "alumni": "Bitiruvchilarimiz va ularning yutuqlari",
-    "openness": "Byudjet, homiylik va hisobotlar"
+    "openness": "Byudjet, homiylik va hisobotlar",
+    "contests": "Ro‘yxatdan o‘tish ochiq tanlovlar"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -1445,5 +1447,53 @@
     "code": "Kod",
     "practiceNote": "Bu — maktab saytidagi mashq testi sertifikati. U rasmiy Milliy sertifikat yoki DTM natijasi emas.",
     "noQr": "Sertifikatda QR kod yo‘qmi? Demak u ro‘yxatdan o‘tkazilmagan: testni yechayotganda «Tekshirish uchun ro‘yxatdan o‘tkazish» katagi belgilanmagan. Testni qayta yechib, katakni belgilasangiz, QR kodli sertifikat olasiz."
+  },
+  "contests": {
+    "kicker": "Tanlovlar",
+    "title": "Olimpiada va tanlovlar",
+    "lead": "Maktabda va undan tashqarida o‘tadigan olimpiada, sport musobaqasi va ijodiy tanlovlar. Ro‘yxatdan saytning o‘zidan o‘tasiz.",
+    "empty": "Hozircha e’lon qilingan tanlov yo‘q. Tez orada qo‘shiladi.",
+    "open": "Ro‘yxat ochiq",
+    "closed": "Ro‘yxat yopilgan",
+    "grades": "{from}–{to}-sinflar",
+    "allGrades": "Barcha sinflar",
+    "signedUp": "{n} ta ishtirokchi",
+    "until": "{d} gacha",
+    "who": "Kimlar uchun",
+    "place": "Joyi",
+    "deadline": "Ro‘yxat yopiladi",
+    "entriesLabel": "Ro‘yxatdan o‘tganlar",
+    "closedTitle": "Ro‘yxatdan o‘tish yopilgan",
+    "closedLead": "Bu tanlovga ro‘yxatdan o‘tish muddati tugadi. Keyingi tanlovlarni shu sahifada kuzatib boring.",
+    "privacy": "O‘quvchining ismi va telefon raqami faqat maktab xodimlariga ko‘rinadi — saytda hech qachon chiqmaydi. Sahifada faqat ishtirokchilar soni ko‘rsatiladi.",
+    "questionsTitle": "Savolingiz bormi?",
+    "questions": "Maktabga qo‘ng‘iroq qiling:",
+    "pastResults": "Oldingi natijalar",
+    "stats": {
+      "open": "ochiq tanlov",
+      "all": "jami tanlov",
+      "entries": "ishtirokchi"
+    },
+    "entry": {
+      "title": "Ro‘yxatdan o‘tish",
+      "pupilName": "O‘quvchining F.I.Sh.",
+      "grade": "Sinfi",
+      "gradeOption": "{n}-sinf",
+      "letter": "Harfi",
+      "phone": "Ota-ona telefoni",
+      "teacher": "Tayyorlayotgan o‘qituvchi",
+      "note": "Qo‘shimcha izoh",
+      "optional": "ixtiyoriy",
+      "submit": "Ro‘yxatdan o‘tish",
+      "sending": "Yuborilmoqda…",
+      "successTitle": "Ro‘yxatdan o‘tdingiz",
+      "success": "Ma’lumotlaringiz maktabga yetib bordi. Tafsilotlar uchun o‘qituvchi yoki maktab bog‘lanadi.",
+      "again": "Yana bitta o‘quvchini qo‘shish",
+      "invalid": "O‘quvchining F.I.Sh., sinfi va telefonni to‘g‘ri kiriting.",
+      "wrongGrade": "Bu tanlov boshqa sinflar uchun. Sinfni tekshiring.",
+      "closed": "Ro‘yxatdan o‘tish muddati tugagan.",
+      "tooMany": "Juda ko‘p ariza yuborildi. Bir ozdan keyin urinib ko‘ring.",
+      "error": "Yuborilmadi. Birozdan keyin qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling."
+    }
   }
 }

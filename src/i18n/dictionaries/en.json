@@ -35,7 +35,8 @@
     "assistant": "AI assistant",
     "reference": "Reference",
     "status": "Request status",
-    "verify": "Check a certificate"
+    "verify": "Check a certificate",
+    "contests": "Olympiads and contests"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -56,7 +57,8 @@
     "tests": "Subject tests and DTM exam practice",
     "library": "Textbooks and study books (PDF)",
     "alumni": "Our graduates and their achievements",
-    "openness": "Budget, sponsorship and reports"
+    "openness": "Budget, sponsorship and reports",
+    "contests": "Contests open for sign-up"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -1445,5 +1447,53 @@
     "code": "Code",
     "practiceNote": "This is a practice-test certificate from the school's site. It is not an official National Certificate or a DTM result.",
     "noQr": "No QR code on the certificate? Then it was not registered: the “register for checking” box was not ticked when the test was taken. Take the test again with the box ticked to get a certificate with a QR code."
+  },
+  "contests": {
+    "kicker": "Contests",
+    "title": "Olympiads and contests",
+    "lead": "Olympiads, sports competitions and creative contests, at the school and beyond. You sign up from the site.",
+    "empty": "No contest has been announced yet. They will appear here.",
+    "open": "Sign-up open",
+    "closed": "Sign-up closed",
+    "grades": "Grades {from}–{to}",
+    "allGrades": "All grades",
+    "signedUp": "{n} taking part",
+    "until": "until {d}",
+    "who": "Who it is for",
+    "place": "Place",
+    "deadline": "Sign-up closes",
+    "entriesLabel": "Signed up",
+    "closedTitle": "Sign-up is closed",
+    "closedLead": "The deadline for this contest has passed. Watch this page for the next ones.",
+    "privacy": "The pupil's name and phone number are seen only by school staff — they never appear on the site. The page shows only how many are taking part.",
+    "questionsTitle": "Any questions?",
+    "questions": "Call the school:",
+    "pastResults": "Past results",
+    "stats": {
+      "open": "open contests",
+      "all": "contests in all",
+      "entries": "taking part"
+    },
+    "entry": {
+      "title": "Sign up",
+      "pupilName": "Pupil's full name",
+      "grade": "Grade",
+      "gradeOption": "Grade {n}",
+      "letter": "Letter",
+      "phone": "Parent's phone",
+      "teacher": "Preparing teacher",
+      "note": "Note",
+      "optional": "optional",
+      "submit": "Sign up",
+      "sending": "Sending…",
+      "successTitle": "You are signed up",
+      "success": "The school has your details. A teacher or the school will be in touch.",
+      "again": "Add another pupil",
+      "invalid": "Please give the pupil's full name, grade and a phone number.",
+      "wrongGrade": "This contest is for other grades. Please check the grade.",
+      "closed": "The sign-up deadline has passed.",
+      "tooMany": "Too many entries were sent. Please try again a little later.",
+      "error": "Not sent. Please try again later or call the school."
+    }
   }
 }

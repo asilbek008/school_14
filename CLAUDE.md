@@ -140,6 +140,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (sinf yoki jamoa). O‘quvchi ismi (`names`) faqat `names_consent` bilan: DB `check` + action ham rad etadi, `getAchievements()` ham
   roziliksizni tashlab yuboradi. `teacher_id` — tayyorlagan o‘qituvchi (profilga havola). Sahifa: raqam kartalari (o‘qituvchi kartasi 0 da
   chiqmaydi), medal (oltin/kumush/bronza), bosqich belgisi, turkum tugmalari + qidiruv, `year-scope`/`data-year`. Menyuda "Tadbirlar ▾".
+- Olimpiada va tanlovlar (`/[lang]/contests`, `/contests/[slug]`; `contests` + `contest_entries`; admin `/admin/contests`;
+  egasining tanlovi): maktab tanlovni e’lon qiladi, o‘quvchi saytdan ro‘yxatdan o‘tadi — «Yutuqlar»dan oldingi bosqich.
+  `field`/`level` **`achievementFields`/`achievementLevels` bilan bir xil** (tanlov va uning natijasi bir so‘z bilan
+  yuritiladi; admin formasi `AchievementForm` dagi `fieldLabels`/`levelLabels` ni import qiladi). `registration_until`
+  kelganda ro‘yxat **o‘zi yopiladi** — saytdagi forma yo‘qoladi va `enter_contest` ham rad etadi (eskirgan sahifadan
+  yuborib bo‘lmaydi). `grade_from`/`grade_to` — formada faqat shu sinflar ko‘rsatiladi va server ham tekshiradi.
+  Ariza — bolaning shaxsiy ma’lumoti: `contest_entries` da `insert` siyosati yo‘q (faqat `enter_contest`), o‘qishni
+  faqat admin; saytda **faqat ishtirokchilar soni** (`contest_counts()` — nomlarni qaytarmaydi). Har arizaga `T-XXXXXXXX`
+  kodi. Cheklov: bir telefondan 10 daqiqada 5 ta, jami 60 ta. Admin: tanlov formasi va o‘sha sahifaning pastida
+  arizalar ro‘yxati (`EntryList` — holat `new/accepted/declined`, qidiruv, o‘chirish); ro‘yxatda har tanlovning ariza
+  soni va yangilari. Menyuda «Tadbirlar ▾» ichida, footer, sitemap va qidiruvda.
 - Testlar va DTM (`/[lang]/tests`, `/tests/[id]`, `/tests/dtm`; `tests` + `test_questions`; admin `/admin/tests`): fan/mavzu testlari
   (`kind='mavzu'`) va DTM savollar banki (`kind='dtm'`). Fanlar — `src/lib/tests.ts` `testSubjects` (DB `check` bilan bir xil; nomlari
   lug‘atda `tests.subjects`), DTM formati `dtm` (majburiy ona tili/matematika/tarix 10×1.1, 1-fan 30×3.1, 2-fan 30×2.1 = 189 ball, 180 daqiqa).

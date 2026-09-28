@@ -1003,3 +1003,57 @@ export async function getAssistantOn(): Promise<boolean> {
   logError("getAssistantOn", error);
   return data === true;
 }
+
+export type Contest = {
+  id: number;
+  slug: string;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  description_uz: string | null;
+  description_ru: string | null;
+  description_en: string | null;
+  field: string;
+  level: string;
+  grade_from: number | null;
+  grade_to: number | null;
+  place: string | null;
+  starts_at: string | null;
+  registration_until: string | null;
+  contact: string | null;
+};
+
+const contestColumns =
+  "id, slug, title_uz, title_ru, title_en, description_uz, description_ru, description_en, field, level, grade_from, grade_to, place, starts_at, registration_until, contact";
+
+/** Announced contests, the ones still open for sign-up first. */
+export async function getContests(): Promise<Contest[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("contests")
+    .select(contestColumns)
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("starts_at", { ascending: false, nullsFirst: false })
+    .order("id", { ascending: false });
+  logError("getContests", error);
+  return (data ?? []) as Contest[];
+}
+
+export async function getContest(slug: string): Promise<Contest | null> {
+  const supabase = createPublicClient();
+  if (!supabase) return null;
+  const { data, error } = await supabase.from("contests").select(contestColumns).eq("slug", slug).eq("is_published", true).maybeSingle();
+  logError("getContest", error);
+  return (data as Contest) ?? null;
+}
+
+/** How many have signed up per contest — a count only, never the names. */
+export async function getContestCounts(): Promise<Record<string, number>> {
+  const supabase = createPublicClient();
+  if (!supabase) return {};
+  const { data, error } = await supabase.rpc("contest_counts");
+  logError("getContestCounts", error);
+  return (data as Record<string, number>) ?? {};
+}
