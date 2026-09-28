@@ -509,6 +509,18 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ma’lumot, bilmasa — maktab telefoni, baho/davomat va shaxsiy ma’lumot haqida javob yo‘q. Savollar `private.ai_questions` da
   (ism va IP yo‘q) — admin sahifada ko‘rinadi, ko‘p takrorlanganini «Savol-javob»ga ko‘chirish uchun. Havola: `/faq` kartasida
   va sitemap'da (yoqilgan bo‘lsa). Funksiyani o‘zgartirsangiz, qayta deploy qiling.
+  Javob **oqim** (SSE) bilan keladi (3-versiya): funksiya `messages.stream` bilan yozadi va har bo‘lakni
+  `data: {"text":…}` qilib yuboradi, oxirida `{"done":true}`; xato ham shu kanalda (`refused`, `key`,
+  `too_many`, `cut` — boshlanib uzilgan javob). Shu tufayli javob 1 soniyada ko‘rina boshlaydi. Brauzerda
+  `readEvents()` (`src/lib/sse.ts`, testi `scripts/test-sse.mts` — CI'da ham) bo‘laklarni yig‘adi: tarmoq
+  bo‘lagi so‘z yoki JSON o‘rtasida uzilishi mumkin, shuning uchun tugallanmagan qism keyingi bo‘lakka
+  qoldiriladi. «To‘xtatish» tugmasi `AbortController` bilan. Admin «Sinov savoli» ham shu oqimni o‘qiydi
+  (`testAi` → `readEvents`) — funksiya javob shaklini o‘zgartirsangiz, ikkalasini ham yangilang.
+  Suhbat esda qoladi: brauzer oxirgi 4 savol-javobni `history` da qaytaradi («va ertaga?» ishlaydi),
+  funksiya ularni `replay()` bilan qisqartirib qo‘shadi — bu matn tashrifchidan keladi, shuning uchun
+  faqat shu suhbatga ta’sir qiladi va system prompt baribir faqat MA'LUMOTni fakt deb biladi. «Yangi suhbat»
+  tugmasi tarixni tozalaydi. Kesh muddati 1 soat (`ttl: "1h"`): maktab trafigida standart 5 daqiqada
+  savollar bir-biridan uzoq tushib, kesh deyarli hech qachon ishlamasdi.
 
 ### Statistika va ilova
 - Vercel Web Analytics (`@vercel/analytics`, `[lang]/layout.tsx` da `<Analytics />`; cookie'siz) — Vercel loyihasining Analytics
