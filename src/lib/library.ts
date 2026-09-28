@@ -34,5 +34,6 @@ export function bookView(b: Textbook, lang: Locale) {
     file: textbookHref(b),
     download: downloadHref(b, title),
     external: b.kind === "link",
+    section: b.section,
   };
 }

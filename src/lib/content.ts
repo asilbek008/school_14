@@ -862,6 +862,8 @@ export type Textbook = {
   edition: string | null;
   source: string | null;
   kind: "file" | "link";
+  /** Which shelf: a textbook for a lesson, or the reading room's literature. */
+  section: "darslik" | "mutolaa";
   path: string | null;
   url: string | null;
   file_size: number | null;
@@ -871,7 +873,7 @@ export type Textbook = {
 };
 
 const textbookColumns =
-  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, grade, language, author, edition, source, kind, path, url, file_size, pages, cover, subjects(id, name_uz, name_ru, name_en)";
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, grade, language, author, edition, source, kind, section, path, url, file_size, pages, cover, subjects(id, name_uz, name_ru, name_en)";
 
 /** The e-library: published books by grade (general ones last), then the admin's order. */
 export const getTextbooks = cache(async (): Promise<Textbook[]> => {

@@ -253,6 +253,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Barcha sinflar darsliklari (egasining talabi): `/library` pastida 11 ta rangli sinf plitkasi → `school.textbookCatalog` (infoedu.uz,
   `/darsliklar/<sinf>`), sinf jadvali sahifasida ham «N-sinfning barcha darsliklari ↗». Faqat havola — skanlarni o‘z bucket'imizga
   ko‘chirmaymiz (nashriyot mualliflik huquqi; konteynerdan infoedu.uz ga ulanish ham yopiq). Ruxsatli kitoblar admin kutubxonasi orqali yuklanadi.
+  Mutolaaxona (`textbooks.section` — `darslik` yoki `mutolaa`, `20261124090000_library_sections.sql`; egasining so‘rovi): `/library` da
+  darsliklardan keyin ikkinchi javon — sinf adabiyot dasturidagi badiiy asarlar. Kitoblar **ko‘chirilmaydi**: har biri `kind='link'`,
+  `url` mutolaa.com dagi kitob sahifasiga olib boradi (o‘sha yerda o‘qiladi/tinglanadi), `source` da manba yoziladi — nashriyot va
+  platformaning mualliflik huquqi. Ro‘yxat mutolaa.com ning sinf to‘plamlaridan olingan (5–11-sinf adabiyot; `supabase/seed/
+  mutolaa-reading-2026.sql`, bir marta qo‘llangan — 67 kitob). Tavsif yozilmagan: saytdagi matnlar reklama uslubida va yarmida uzilgan.
+  Admin kitob formasida «Bo‘lim» maydoni. Yangi kitob qo‘shsangiz shu qoida: faqat havola, hech qachon nusxa.
   Dars jadvalida (egasining talabi): `/timetable/[id]` da ko‘rinish tugmalari qatorining o‘ng burchagida `ClassBooks` — "Darsliklar (N)"
   tugmasi, ochilganda shu sinf (+ umumiy) kitoblari va har birida "PDF ochish"; darsdagi fan uchun shu sinf kitobi bo‘lsa, fan nomi
   yonida kichik "PDF" belgisi (`BookLink`, `lessons.subject_id`/`alt_subject_id` bo‘yicha). Kitob bo‘lmasa hech narsa chiqmaydi.

@@ -25,6 +25,7 @@ export type LibraryBook = {
   /** Same file with Content-Disposition: attachment (the bucket is on another origin, so `download` alone is ignored). */
   download: string | null;
   external: boolean;
+  section: "darslik" | "mutolaa";
 };
 
 type T = Dictionary["library"];
