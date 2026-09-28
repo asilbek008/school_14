@@ -68,6 +68,13 @@
     "dark": "Tungi rejim",
     "light": "Kunduzgi rejim"
   },
+  "install": {
+    "title": "Saytni ilova sifatida o‘rnating",
+    "lead": "Telefoningizning bosh ekranida alohida belgi paydo bo‘ladi: dars jadvali va yangiliklar bir bosishda ochiladi, xabarnomalar ham keladi.",
+    "iosSteps": "Pastdagi «Ulashish» belgisini bosing → «Bosh ekranga qo‘shish». Shundan keyin sayt alohida ilova bo‘lib ochiladi va xabarnomalar ham ishlaydi.",
+    "button": "O‘rnatish",
+    "close": "Yopish"
+  },
   "home": {
     "eyebrow": "o‘quv yili",
     "eyebrowStarted": "o‘quv yili boshlandi",

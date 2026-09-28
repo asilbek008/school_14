@@ -11,6 +11,7 @@ import EventCard from "@/components/EventCard";
 import SectionHead from "@/components/SectionHead";
 import EmptyState from "@/components/EmptyState";
 import EMaktabCard from "@/components/EMaktabCard";
+import InstallApp from "@/components/InstallApp";
 import TestsCard from "@/components/TestsCard";
 import LiveCard from "@/components/LiveCard";
 import StatTiles from "@/components/StatTiles";
@@ -151,6 +152,8 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
         <div className="mt-4">
           <EMaktabCard t={dict.emaktab} />
         </div>
+        {/* Keep the site as an app: a button on Android, the two taps on iPhone. */}
+        <InstallApp t={dict.install} />
         {tests.length > 0 && (
           <div className="mt-4">
             <TestsCard lang={lang} t={dict.tests} />

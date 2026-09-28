@@ -9,6 +9,7 @@ import SiteFooter from "@/components/SiteFooter";
 import { getParentBot } from "@/lib/content";
 import { Analytics } from "@vercel/analytics/next";
 import VisitBeacon from "@/components/VisitBeacon";
+import ServiceWorker from "@/components/ServiceWorker";
 import ThemeSync from "@/components/ThemeSync";
 import "../globals.css";
 
@@ -78,6 +79,7 @@ export default async function RootLayout({ children, params }: LayoutProps<"/[la
         <Analytics />
         {/* Our own anonymous page-view count, shown in the admin panel ("Tashriflar"). */}
         <VisitBeacon />
+        <ServiceWorker />
       </body>
     </html>
   );

@@ -576,8 +576,16 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
 ### Statistika va ilova
 - Vercel Web Analytics (`@vercel/analytics`, `[lang]/layout.tsx` da `<Analytics />`; cookie'siz) — Vercel loyihasining Analytics
   bo‘limida yoqilganda ishlaydi.
-- PWA: `app/manifest.ts` (start `/uz`, standalone, navy tema), ikonlar — `app/app-icon/[size]` (192/512, `ImageResponse`, statik) va
-  `app/apple-icon.tsx`; `src/proxy.ts` matcher'i bu yo‘llarni til yo‘naltirishidan chiqaradi. `viewport.themeColor` — navy.
+- PWA: `app/manifest.ts` (start `/uz`, standalone, navy tema, `shortcuts` — belgini bosib turganda dars jadvali/yangilik/test/qo‘ng‘iroq),
+  ikonlar — `app/app-icon/[size]` (192/512, `ImageResponse`, statik) va `app/apple-icon.tsx`; `src/proxy.ts` matcher'i bu yo‘llarni til
+  yo‘naltirishidan chiqaradi. `viewport.themeColor` — navy.
+  Ilova sifatida ishlashi (egasining so‘rovi): `ServiceWorker` (`[lang]/layout.tsx`) `sw.js` ni **har tashrifda** ro‘yxatdan o‘tkazadi —
+  avval faqat xabarnomaga obuna bo‘lganda ro‘yxatdan o‘tardi, shuning uchun offlayn kesh hech kimda yo‘q edi. `sw.js` push'dan tashqari
+  endi kesh ham qiladi (`maktab14-v1`): sahifalar — avval tarmoq, keyin kesh, oxirida `public/offline.html`; `/_next/static/` — darhol
+  keshdan (nomi hash bilan, o‘zgarmaydi); `/admin`, `/api` va boshqa domendagi hech narsa saqlanmaydi. `sw.js` ni o‘zgartirsangiz
+  `CACHE` nomini ham yangilang (eskisi `activate` da o‘chadi). `InstallApp` (bosh sahifada, «Tezkor kirish» ostida): Chrome'da
+  `beforeinstallprompt` bilan «O‘rnatish» tugmasi, iPhone'da «Ulashish → Bosh ekranga qo‘shish» yo‘riqnomasi; o‘rnatilgan bo‘lsa yoki
+  yopilgan bo‘lsa (`localStorage.installHidden`) chiqmaydi. Muhit brauzerda `useSyncExternalStore` bilan o‘qiladi — sahifa keshi buzilmaydi.
 
 ### Xavfsizlik sarlavhalari
 - `next.config.ts` `headers()`: nosniff, `X-Frame-Options`/`frame-ancestors 'self'`, `base-uri`/`object-src`/`form-action`, Referrer-Policy,
