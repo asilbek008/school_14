@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import type { Locale } from "@/i18n/config";
 import { resolveLang } from "@/i18n/server";
 import { fill } from "@/i18n/fill";
 import { getContestCounts, getContests, localized } from "@/lib/content";
-import { formatDateTime } from "@/lib/format";
+import { formatDate, formatDateTime } from "@/lib/format";
 import { achievementLevels, type AchievementLevel } from "@/lib/categories";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
@@ -26,6 +27,7 @@ const levelTint: Record<AchievementLevel, string> = {
 };
 const levelOf = (v: string): AchievementLevel => ((achievementLevels as readonly string[]).includes(v) ? (v as AchievementLevel) : "maktab");
 const open = (until: string | null) => !until || new Date(until) > new Date();
+const when = (iso: string, allDay: boolean, lang: Locale) => (allDay ? formatDate(iso, lang) : formatDateTime(iso, lang));
 
 /** Contests a pupil can sign up for, the open ones first. Results land on the achievements wall later. */
 export default async function ContestsPage({ params }: PageProps<"/[lang]/contests">) {
@@ -81,7 +83,7 @@ export default async function ContestsPage({ params }: PageProps<"/[lang]/contes
                         {c.place && ` · ${c.place}`}
                         {c.organizer && ` · ${c.organizer}`}
                       </p>
-                      {c.starts_at && <p className="mt-1 text-sm font-semibold text-slate-700">{formatDateTime(c.starts_at, lang)}</p>}
+                      {c.starts_at && <p className="mt-1 text-sm font-semibold text-slate-700">{when(c.starts_at, c.all_day, lang)}</p>}
                       <p className="mt-3 text-[13px] font-semibold text-slate-500">
                         {c.external ? c.organizer ?? t.kicker : fill(t.signedUp, { n })}
                         {isOpen && c.registration_until && ` · ${fill(t.until, { d: formatDateTime(c.registration_until, lang) })}`}

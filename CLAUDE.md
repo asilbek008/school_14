@@ -156,6 +156,11 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   rad etadi, `contest_counts()` sanamaydi). DB `check`: `external` bo‘lsa `source_url` majburiy — **tekshirib bo‘lmaydigan
   sana saytga chiqmaydi**. Ro‘yxat va tanlov sahifasida «necha kun qoldi» — `DaysLeft` (`contests.left`, brauzerda Toshkent
   kuni bo‘yicha, sahifa keshi buzilmaydi). Tashqi tanlovni faqat rasmiy e’londan ko‘chiring; havolasiz sana yozmang.
+  `all_day` (`20261123090000_contest_all_day.sql`, `events.all_day` kabi): tashqi e’lon odatda kunni beradi, soatni emas —
+  belgilansa Toshkent 00:00 saqlanadi va saytda faqat sana chiqadi (soatni o‘ylab topmaymiz).
+  Birinchi tashqi yozuv — «Русский медвежонок» 2026 (Olympia.uz, 12-noyabr, 1–11-sinf): olympia.uz/uz/competition/9 dan
+  ko‘chirilgan. O‘sha saytdagi Kenguru, CHIP va ASTRA da ro‘yxat yopiq, robocontest.uz dagi musobaqalar esa kattalar uchun
+  (finaliga 20–30 yosh) — shuning uchun olinmadi. Tanlov qo‘shishdan oldin ro‘yxat ochiqligini va yoshini tekshiring.
 - Testlar va DTM (`/[lang]/tests`, `/tests/[id]`, `/tests/dtm`; `tests` + `test_questions`; admin `/admin/tests`): fan/mavzu testlari
   (`kind='mavzu'`) va DTM savollar banki (`kind='dtm'`). Fanlar — `src/lib/tests.ts` `testSubjects` (DB `check` bilan bir xil; nomlari
   lug‘atda `tests.subjects`), DTM formati `dtm` (majburiy ona tili/matematika/tarix 10×1.1, 1-fan 30×3.1, 2-fan 30×2.1 = 189 ball, 180 daqiqa).

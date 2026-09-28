@@ -1019,6 +1019,8 @@ export type Contest = {
   grade_to: number | null;
   place: string | null;
   starts_at: string | null;
+  /** The announcement gave a day but no clock time; show the date alone. */
+  all_day: boolean;
   registration_until: string | null;
   contact: string | null;
   organizer: string | null;
@@ -1028,7 +1030,7 @@ export type Contest = {
 };
 
 const contestColumns =
-  "id, slug, title_uz, title_ru, title_en, description_uz, description_ru, description_en, field, level, grade_from, grade_to, place, starts_at, registration_until, contact, organizer, source_url, external";
+  "id, slug, title_uz, title_ru, title_en, description_uz, description_ru, description_en, field, level, grade_from, grade_to, place, starts_at, all_day, registration_until, contact, organizer, source_url, external";
 
 /** Announced contests, the ones still open for sign-up first. */
 export async function getContests(): Promise<Contest[]> {

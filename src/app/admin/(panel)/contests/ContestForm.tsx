@@ -12,6 +12,7 @@ export type ContestRow = Record<string, unknown> & {
   grade_to: number | null;
   place: string | null;
   starts_at: string | null;
+  all_day: boolean;
   registration_until: string | null;
   contact: string | null;
   organizer: string | null;
@@ -74,7 +75,7 @@ export default function ContestForm({ row }: { row?: ContestRow }) {
               ))}
             </select>
           </Field>
-          <Field label="Boshlanish vaqti" hint="Toshkent vaqti">
+          <Field label="Boshlanish vaqti" hint="Toshkent vaqti. Vaqti e’lon qilinmagan bo‘lsa, pastdagi katakni belgilang.">
             <input type="datetime-local" name="starts_at" defaultValue={toTashkentInput(row?.starts_at ?? null)} className={inputClass} />
           </Field>
           <Field label="Ro‘yxat qachon yopiladi" hint="Shu vaqtdan keyin saytdagi forma yo‘qoladi. Bo‘sh — yopilmaydi.">
@@ -87,6 +88,10 @@ export default function ContestForm({ row }: { row?: ContestRow }) {
             <input name="contact" defaultValue={row?.contact ?? ""} maxLength={300} className={inputClass} />
           </Field>
         </div>
+        <label className="flex items-center gap-2 text-sm text-slate-700">
+          <input type="checkbox" name="all_day" defaultChecked={row?.all_day ?? false} />
+          Faqat sana ma’lum, vaqti e’lon qilinmagan
+        </label>
       </FormSection>
 
       <FormSection title="Manba">
