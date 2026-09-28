@@ -26,6 +26,7 @@ const groups: { title: string | null; items: Item[] }[] = [
       { href: "/admin/events", label: "Tadbirlar", icon: "calendar" },
       { href: "/admin/programs", label: "Doimiy tadbirlar", icon: "repeat" },
       { href: "/admin/achievements", label: "Yutuqlar", icon: "trophy" },
+      { href: "/admin/contests", label: "Tanlovlar", icon: "trophy" },
       { href: "/admin/gallery", label: "Galereya", icon: "photo" },
       { href: "/admin/documents", label: "Hujjatlar", icon: "doc" },
       { href: "/admin/pages", label: "Sahifalar", icon: "page" },

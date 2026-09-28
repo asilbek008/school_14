@@ -1,0 +1,99 @@
+import AdminForm from "@/components/admin/AdminForm";
+import { Field, FormSection, PublishedCheckbox, TranslatedField, inputClass } from "@/components/admin/fields";
+import { toTashkentInput } from "@/lib/format";
+import { fieldLabels, levelLabels } from "../achievements/AchievementForm";
+import { saveContest } from "./actions";
+
+export type ContestRow = Record<string, unknown> & {
+  id: number;
+  field: string;
+  level: string;
+  grade_from: number | null;
+  grade_to: number | null;
+  place: string | null;
+  starts_at: string | null;
+  registration_until: string | null;
+  contact: string | null;
+  sort_order: number;
+  is_published: boolean;
+};
+
+const grades = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+
+export default function ContestForm({ row }: { row?: ContestRow }) {
+  return (
+    <AdminForm action={saveContest.bind(null, row?.id ?? null)}>
+      <FormSection title="Tanlov">
+        <TranslatedField name="title" label="Nomi (masalan: Matematika fanidan maktab olimpiadasi)" row={row} />
+        <TranslatedField name="description" label="Tavsifi — shartlari, nimalarga tayyorlanish kerak" row={row} multiline />
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Turi">
+            {/* The same words as the achievements wall, so a contest and its result are filed alike. */}
+            <select name="field" defaultValue={row?.field ?? "olimpiada"} className={inputClass}>
+              {Object.entries(fieldLabels).map(([k, v]) => (
+                <option key={k} value={k}>
+                  {v}
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Bosqichi">
+            <select name="level" defaultValue={row?.level ?? "maktab"} className={inputClass}>
+              {Object.entries(levelLabels).map(([k, v]) => (
+                <option key={k} value={k}>
+                  {v}
+                </option>
+              ))}
+            </select>
+          </Field>
+        </div>
+      </FormSection>
+
+      <FormSection title="Kimlar uchun va qachon">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Sinfdan" hint="Bo‘sh qoldirsangiz — barcha sinflar">
+            <select name="grade_from" defaultValue={row?.grade_from ?? ""} className={inputClass}>
+              <option value="">—</option>
+              {grades.map((n) => (
+                <option key={n} value={n}>
+                  {n}-sinf
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Sinfgacha">
+            <select name="grade_to" defaultValue={row?.grade_to ?? ""} className={inputClass}>
+              <option value="">—</option>
+              {grades.map((n) => (
+                <option key={n} value={n}>
+                  {n}-sinf
+                </option>
+              ))}
+            </select>
+          </Field>
+          <Field label="Boshlanish vaqti" hint="Toshkent vaqti">
+            <input type="datetime-local" name="starts_at" defaultValue={toTashkentInput(row?.starts_at ?? null)} className={inputClass} />
+          </Field>
+          <Field label="Ro‘yxat qachon yopiladi" hint="Shu vaqtdan keyin saytdagi forma yo‘qoladi. Bo‘sh — yopilmaydi.">
+            <input type="datetime-local" name="registration_until" defaultValue={toTashkentInput(row?.registration_until ?? null)} className={inputClass} />
+          </Field>
+          <Field label="Joyi" hint="Masalan: maktab akt zali">
+            <input name="place" defaultValue={row?.place ?? ""} maxLength={200} className={inputClass} />
+          </Field>
+          <Field label="Aloqa" hint="Bo‘sh qoldirsangiz maktab telefoni ko‘rsatiladi">
+            <input name="contact" defaultValue={row?.contact ?? ""} maxLength={300} className={inputClass} />
+          </Field>
+        </div>
+      </FormSection>
+
+      <FormSection title="Ko‘rinishi">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Tartib raqami" hint="Kichik raqam yuqorida turadi">
+            <input type="number" name="sort_order" defaultValue={row?.sort_order ?? 0} className={inputClass} />
+          </Field>
+        </div>
+        <PublishedCheckbox checked={row?.is_published ?? false} />
+      </FormSection>
+    </AdminForm>
+  );
+}
