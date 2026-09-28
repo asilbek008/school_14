@@ -14,6 +14,11 @@ export type CertificateData = {
   percent: number;
   /** "26.09.2026". */
   date: string;
+  /**
+   * Only for a registered certificate: the code, the address that checks it, and the QR of that address as
+   * a grid of dark/light modules. Left out, the certificate is drawn exactly as before.
+   */
+  verify?: { code: string; url: string; modules: boolean[][]; label: string };
 };
 
 const W = 2000;
@@ -209,6 +214,33 @@ export async function drawCertificate(d: CertificateData): Promise<HTMLCanvasEle
   ctx.fillStyle = "#8b93ab";
   ctx.font = `400 24px ${sans}`;
   ctx.fillText(d.note, x, H - 80);
+
+  // A registered certificate carries proof of itself: the QR opens the page that confirms it, and the code
+  // under it does the same for anyone typing it in by hand.
+  if (d.verify) {
+    const n = d.verify.modules.length;
+    const size = 190;
+    const quiet = 10;
+    const cell = size / n;
+    const qx = W - size - quiet * 2 - 60;
+    const qy = H - size - quiet * 2 - 60;
+    ctx.fillStyle = "#fff";
+    rounded(ctx, qx, qy, size + quiet * 2, size + quiet * 2, 12);
+    ctx.fill();
+    ctx.fillStyle = navy;
+    for (let r = 0; r < n; r++) {
+      for (let c = 0; c < n; c++) {
+        // Half a pixel over on each side, so neighbouring modules meet instead of leaving hairlines.
+        if (d.verify.modules[r][c]) ctx.fillRect(qx + quiet + c * cell - 0.5, qy + quiet + r * cell - 0.5, cell + 1, cell + 1);
+      }
+    }
+    ctx.textAlign = "center";
+    ctx.fillStyle = muted;
+    ctx.font = `700 22px ${sans}`;
+    ctx.fillText(d.verify.code, qx + size / 2 + quiet, qy - 34);
+    ctx.font = `400 18px ${sans}`;
+    ctx.fillText(d.verify.label, qx + size / 2 + quiet, qy - 10);
+  }
   return canvas;
 }
 

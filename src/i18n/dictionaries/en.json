@@ -34,7 +34,8 @@
     "cabinet": "Personal cabinet",
     "assistant": "AI assistant",
     "reference": "Reference",
-    "status": "Request status"
+    "status": "Request status",
+    "verify": "Check a certificate"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -1006,7 +1007,9 @@
       "passed": "successfully completed the “{test}” test with a score of {percent}%.",
       "took": "took the “{test}” test with a score of {percent}%.",
       "details": "Correct answers: {correct} / {total} · Date: {date}",
-      "note": "Practice test result — not an official document."
+      "note": "Practice test result — not an official document.",
+      "verifyLabel": "Register it so it can be checked.",
+      "verifyHint": "The certificate then carries a QR and a code, and anyone can confirm it on the site. That stores the name, the test and the result. Unticked, nothing is stored."
     },
     "board": {
       "title": "Class leaderboard",
@@ -1424,5 +1427,23 @@
     "lost": "Lost the code? Call the school with the name and phone number you gave, and staff will tell you the state.",
     "orderReference": "Order a reference",
     "apply": "Online admission application"
+  },
+  "verify": {
+    "kicker": "Verification",
+    "title": "Check a certificate",
+    "lead": "Scan the QR on the certificate or type its code — you will see whether this school really issued it.",
+    "placeholder": "Enter the code (for example S-K7PQ4RTX)",
+    "check": "Check",
+    "checking": "Checking…",
+    "validTitle": "This certificate is genuine",
+    "unknownTitle": "No such certificate",
+    "unknown": "The code may have been typed wrongly. Please check and try again. If the certificate has no QR code, it was not registered.",
+    "error": "Could not check just now. Please try again later.",
+    "result": "Result",
+    "score": "{percent}% · {correct}/{total} correct",
+    "issued": "Issued on",
+    "code": "Code",
+    "practiceNote": "This is a practice-test certificate from the school's site. It is not an official National Certificate or a DTM result.",
+    "noQr": "No QR code on the certificate? Then it was not registered: the “register for checking” box was not ticked when the test was taken. Take the test again with the box ticked to get a certificate with a QR code."
   }
 }
