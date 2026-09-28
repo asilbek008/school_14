@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="app_name">14-maktab</string>
+  <string name="host" translatable="false">qiziriq14maktab.vercel.app</string>
+  <string name="launch_url" translatable="false">https://qiziriq14maktab.vercel.app/uz</string>
+  <!-- Names the site this app is allowed to open without an address bar. The site's own
+       /.well-known/assetlinks.json must name this app's signing fingerprint in return. -->
+  <string name="asset_statements" translatable="false">
+    [{ \"relation\": [\"delegate_permission/common.handle_all_urls\"],
+       \"target\": { \"namespace\": \"web\", \"site\": \"https://qiziriq14maktab.vercel.app\" }}]
+  </string>
+</resources>

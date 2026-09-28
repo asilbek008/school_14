@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- The site's own dark chrome, so the system bars match the page at night. -->
+  <color name="navy">#070C18</color>
+</resources>

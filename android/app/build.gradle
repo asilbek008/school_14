@@ -1,0 +1,53 @@
+plugins { id "com.android.application" }
+
+// The signing key lives outside the repository: copy keystore.properties.example, fill it in and
+// keep both that file and the .jks somewhere safe. Losing them means the app can never be updated.
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+if (keystorePropertiesFile.exists()) {
+  keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
+android {
+  namespace "uz.maktab14.qiziriq"
+  compileSdk 35
+
+  defaultConfig {
+    applicationId "uz.maktab14.qiziriq"
+    minSdk 26
+    targetSdk 35
+    versionCode 1
+    versionName "1.0"
+  }
+
+  signingConfigs {
+    release {
+      if (keystoreProperties.containsKey("storeFile")) {
+        storeFile file(keystoreProperties["storeFile"])
+        storePassword keystoreProperties["storePassword"]
+        keyAlias keystoreProperties["keyAlias"]
+        keyPassword keystoreProperties["keyPassword"]
+      }
+    }
+  }
+
+  buildTypes {
+    release {
+      minifyEnabled false
+      if (keystoreProperties.containsKey("storeFile")) {
+        signingConfig signingConfigs.release
+      }
+    }
+  }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
+  }
+}
+
+dependencies {
+  // Trusted Web Activity: the app is a window onto the site itself, in Chrome's engine,
+  // with no address bar once assetlinks.json proves the two belong together.
+  implementation "com.google.androidbrowserhelper:androidbrowserhelper:2.6.0"
+}

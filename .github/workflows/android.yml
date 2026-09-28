@@ -1,0 +1,77 @@
+# Builds the Play Store app. The Android SDK is preinstalled on GitHub's runners, so the build happens
+# here rather than on a laptop. Without the signing secrets it still builds a debug APK you can install
+# on a phone to try; with them it produces the signed .aab the Play Console needs.
+name: Android
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["app-v*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    # `secrets` cannot be read from a step's `if`, so the answer is carried in an env flag.
+    env:
+      SIGNED: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Restore the signing key
+        if: env.SIGNED == 'true'
+        working-directory: android
+        env:
+          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$KEYSTORE" | base64 -d > maktab14.jks
+          {
+            echo "storeFile=../maktab14.jks"
+            echo "storePassword=$STORE_PASSWORD"
+            echo "keyAlias=$KEY_ALIAS"
+            echo "keyPassword=$KEY_PASSWORD"
+          } > keystore.properties
+
+      - name: Build
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          if [ -f keystore.properties ]; then
+            ./gradlew --no-daemon bundleRelease assembleRelease
+          else
+            ./gradlew --no-daemon assembleDebug
+          fi
+
+      - name: Show the signing fingerprint
+        if: env.SIGNED == 'true'
+        working-directory: android
+        env:
+          STORE_PASSWORD: ${{ secrets.ANDROID_STORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          echo "Bu SHA-256 ni Vercel'dagi ANDROID_CERT_SHA256 ga yozing:"
+          keytool -list -v -keystore maktab14.jks -alias "$KEY_ALIAS" \
+            -storepass "$STORE_PASSWORD" | grep -A1 "SHA256:" | head -2
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: maktab14-app
+          path: |
+            android/app/build/outputs/bundle/release/*.aab
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+      - name: Remove the key from the runner
+        if: always()
+        working-directory: android
+        run: rm -f maktab14.jks keystore.properties

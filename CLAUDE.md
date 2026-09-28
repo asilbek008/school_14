@@ -586,6 +586,19 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `CACHE` nomini ham yangilang (eskisi `activate` da o‘chadi). `InstallApp` (bosh sahifada, «Tezkor kirish» ostida): Chrome'da
   `beforeinstallprompt` bilan «O‘rnatish» tugmasi, iPhone'da «Ulashish → Bosh ekranga qo‘shish» yo‘riqnomasi; o‘rnatilgan bo‘lsa yoki
   yopilgan bo‘lsa (`localStorage.installHidden`) chiqmaydi. Muhit brauzerda `useSyncExternalStore` bilan o‘qiladi — sahifa keshi buzilmaydi.
+- Play Store ilovasi (`android/`, egasining talabi): saytning o‘zi **TWA** (Trusted Web Activity) bo‘lib o‘raladi — ilova ichida
+  `qiziriq14maktab.vercel.app` Chrome dvigatelida, manzil qatorisiz ochiladi. Alohida kod yo‘q: saytdagi o‘zgarish ilovada darhol
+  ko‘rinadi, Play Store'ga qayta yuklash faqat ilovaning o‘zi (nomi, ikonkasi, `versionCode`) o‘zgarganda kerak.
+  Manzil qatorining yo‘qolishi ikki tomonlama tasdiqqa bog‘liq: ilovada `asset_statements` (`strings.xml`) saytni nomlaydi, sayt esa
+  `/.well-known/assetlinks.json` da ilovaning imzo barmoq izini nomlaydi — `src/app/api/assetlinks/route.ts` (`next.config.ts`
+  `rewrites()` orqali), barmoq iz `ANDROID_CERT_SHA256` env'dan (Play App Signing'da ikkita bo‘ladi — vergul bilan). Env bo‘sh bo‘lsa
+  bo‘sh `[]` qaytadi va ilova manzil qatori bilan ochiladi (buzilmaydi).
+  Yig‘ish konteynerda **bo‘lmaydi** — Android SDK yo‘q va `dl.google.com` tarmoq siyosatida yopiq. Shuning uchun
+  `.github/workflows/android.yml`: GitHub runner'ida SDK bor, `workflow_dispatch` bilan qo‘lda ishga tushiriladi; imzo secret'lari
+  (`ANDROID_KEYSTORE_BASE64` va boshqalar) bo‘lsa `.aab`, bo‘lmasa debug APK chiqaradi va barmoq izni logga yozadi.
+  Imzo kaliti repoda yo‘q va hech qachon bo‘lmaydi (`android/.gitignore`: `*.jks`, `keystore.properties`) — yo‘qolsa ilovani
+  yangilab bo‘lmaydi. Ikonkalar `mipmap-*` da (PIL bilan chizilgan: navy plitka, ko‘k-yashil yog‘du, oq «14»); `minSdk 26` —
+  shuning uchun adaptiv ikonka yetarli. To‘liq qo‘llanma: `android/README.md`.
 
 ### Xavfsizlik sarlavhalari
 - `next.config.ts` `headers()`: nosniff, `X-Frame-Options`/`frame-ancestors 'self'`, `base-uri`/`object-src`/`form-action`, Referrer-Policy,
