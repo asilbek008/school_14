@@ -8,6 +8,7 @@ import { achievementLevels, type AchievementLevel } from "@/lib/categories";
 import PageHeader from "@/components/PageHeader";
 import EmptyState from "@/components/EmptyState";
 import StatTiles from "@/components/StatTiles";
+import DaysLeft from "@/components/DaysLeft";
 
 export const revalidate = 300;
 
@@ -71,15 +72,18 @@ export default async function ContestsPage({ params }: PageProps<"/[lang]/contes
                         >
                           {isOpen ? t.open : t.closed}
                         </span>
+                        {/* How many days are left — worked out in the browser, so the cached page never goes stale. */}
+                        {isOpen && c.registration_until && <DaysLeft startsAt={c.registration_until} lang={lang} t={t.left} />}
                       </div>
                       <b className="block text-[17px] font-bold text-navy group-hover:text-brand-deep">{localized(c, "title", lang)}</b>
                       <p className="mt-1 text-sm text-slate-600">
                         {c.grade_from || c.grade_to ? fill(t.grades, { from: c.grade_from ?? 1, to: c.grade_to ?? 11 }) : t.allGrades}
                         {c.place && ` · ${c.place}`}
+                        {c.organizer && ` · ${c.organizer}`}
                       </p>
                       {c.starts_at && <p className="mt-1 text-sm font-semibold text-slate-700">{formatDateTime(c.starts_at, lang)}</p>}
                       <p className="mt-3 text-[13px] font-semibold text-slate-500">
-                        {fill(t.signedUp, { n })}
+                        {c.external ? c.organizer ?? t.kicker : fill(t.signedUp, { n })}
                         {isOpen && c.registration_until && ` · ${fill(t.until, { d: formatDateTime(c.registration_until, lang) })}`}
                       </p>
                     </Link>

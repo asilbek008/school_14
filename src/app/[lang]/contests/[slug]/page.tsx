@@ -9,6 +9,7 @@ import { achievementLevels, type AchievementLevel } from "@/lib/categories";
 import { school, telHref } from "@/lib/school";
 import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
+import DaysLeft from "@/components/DaysLeft";
 import EntryForm from "./EntryForm";
 
 export const revalidate = 300;
@@ -59,8 +60,24 @@ export default async function ContestPage({ params }: PageProps<"/[lang]/contest
           )}
 
           <section className="reveal rounded-[14px] border border-slate-200 bg-white p-5 sm:px-7 sm:py-6">
-            <h2 className="mb-4 text-[18px] font-bold text-navy">{open ? t.entry.title : t.closedTitle}</h2>
-            {open ? (
+            <h2 className="mb-4 text-[18px] font-bold text-navy">
+              {contest.external ? t.externalTitle : open ? t.entry.title : t.closedTitle}
+            </h2>
+            {contest.external ? (
+              <>
+                <p className="text-sm leading-relaxed text-slate-600">{t.externalLead}</p>
+                {contest.source_url && (
+                  <a
+                    href={contest.source_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="press mt-4 inline-block rounded-full bg-navy px-5 py-2.5 text-sm font-bold text-white"
+                  >
+                    {t.externalBtn} ↗
+                  </a>
+                )}
+              </>
+            ) : open ? (
               <EntryForm t={t} slug={contest.slug} from={contest.grade_from} to={contest.grade_to} />
             ) : (
               <p className="text-sm leading-relaxed text-slate-600">{t.closedLead}</p>
@@ -82,17 +99,44 @@ export default async function ContestPage({ params }: PageProps<"/[lang]/contest
                 <dd className="text-right">{contest.place}</dd>
               </div>
             )}
+            {contest.organizer && (
+              <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
+                <dt className="font-bold text-slate-500">{t.organizer}</dt>
+                <dd className="text-right">{contest.organizer}</dd>
+              </div>
+            )}
             {contest.registration_until && (
               <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
                 <dt className="font-bold text-slate-500">{t.deadline}</dt>
-                <dd className="text-right">{formatDateTime(contest.registration_until, lang)}</dd>
+                <dd className="flex flex-wrap items-center justify-end gap-2 text-right">
+                  {formatDateTime(contest.registration_until, lang)}
+                  {open && <DaysLeft startsAt={contest.registration_until} lang={lang} t={t.left} />}
+                </dd>
               </div>
             )}
-            <div className="flex justify-between gap-4 py-2">
-              <dt className="font-bold text-slate-500">{t.entriesLabel}</dt>
-              <dd className="text-right font-bold text-navy">{signedUp}</dd>
-            </div>
+            {!contest.external && (
+              <div className="flex justify-between gap-4 py-2">
+                <dt className="font-bold text-slate-500">{t.entriesLabel}</dt>
+                <dd className="text-right font-bold text-navy">{signedUp}</dd>
+              </div>
+            )}
           </dl>
+
+          {/* A date copied from someone else's page is only trustworthy with the page beside it. */}
+          {contest.source_url && (
+            <div className="reveal rounded-[14px] border border-slate-200 bg-white px-5 py-4 text-[13.5px] leading-relaxed text-slate-600">
+              <b className="block text-slate-900">{t.source}</b>
+              {t.sourceNote}
+              <a
+                href={contest.source_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block break-all font-bold text-brand-deep link-grow"
+              >
+                {contest.source_url.replace(/^https?:\/\//, "").replace(/\/$/, "")} ↗
+              </a>
+            </div>
+          )}
 
           <div className="reveal rounded-[14px] bg-teal-soft px-5 py-4 text-[13.5px] leading-relaxed text-slate-800 shadow-[inset_4px_0_0_var(--color-teal)]">
             <b className="block text-slate-900">🔒 {dict.trust.privacyTitle}</b>

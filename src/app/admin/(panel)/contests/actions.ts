@@ -15,6 +15,12 @@ export async function saveContest(id: number | null, _prev: FormState, form: For
   const gradeTo = Number(text(form, "grade_to")) || null;
   if (gradeFrom && gradeTo && gradeFrom > gradeTo) return { error: "Sinflar oralig‘i teskari: boshlanishi oxiridan katta." };
 
+  // A date we copied from someone else's page is only as good as the link to it.
+  const sourceUrl = optional(form, "source_url");
+  const external = form.get("external") === "on";
+  if (sourceUrl && !/^https?:\/\//i.test(sourceUrl)) return { error: "Havola https:// bilan boshlanishi kerak." };
+  if (external && !sourceUrl) return { error: "Ro‘yxatdan o‘tish tashkilotchi saytida bo‘lsa, rasmiy e’lon havolasi kerak." };
+
   const row = {
     title_uz: title,
     title_ru: optional(form, "title_ru"),
@@ -30,6 +36,9 @@ export async function saveContest(id: number | null, _prev: FormState, form: For
     starts_at: fromTashkentInput(text(form, "starts_at")),
     registration_until: fromTashkentInput(text(form, "registration_until")),
     contact: optional(form, "contact"),
+    organizer: optional(form, "organizer"),
+    source_url: sourceUrl,
+    external,
     is_published: form.get("is_published") === "on",
     sort_order: Number(text(form, "sort_order")) || 0,
   };

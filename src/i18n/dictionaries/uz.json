@@ -1469,6 +1469,20 @@
     "questionsTitle": "Savolingiz bormi?",
     "questions": "Maktabga qo‘ng‘iroq qiling:",
     "pastResults": "Oldingi natijalar",
+    "organizer": "Tashkilotchi",
+    "source": "Rasmiy e’lon",
+    "sourceNote": "Sana va shartlar rasmiy e’londan olingan. Aniqlik uchun havolani ochib ko‘ring.",
+    "externalTitle": "Ro‘yxatdan o‘tish tashkilotchi saytida",
+    "externalLead": "Bu tanlovni boshqa tashkilot o‘tkazadi. Ariza ularning rasmiy sahifasida to‘ldiriladi — maktab bu yerda arizani qabul qilmaydi.",
+    "externalBtn": "Rasmiy sahifaga o‘tish",
+    "left": {
+      "today": "Bugun yopiladi",
+      "tomorrow": "Ertaga yopiladi",
+      "inDays": {
+        "one": "{n} kun qoldi",
+        "other": "{n} kun qoldi"
+      }
+    },
     "stats": {
       "open": "ochiq tanlov",
       "all": "jami tanlov",

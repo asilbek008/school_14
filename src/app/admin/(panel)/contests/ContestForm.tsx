@@ -14,6 +14,9 @@ export type ContestRow = Record<string, unknown> & {
   starts_at: string | null;
   registration_until: string | null;
   contact: string | null;
+  organizer: string | null;
+  source_url: string | null;
+  external: boolean;
   sort_order: number;
   is_published: boolean;
 };
@@ -84,6 +87,26 @@ export default function ContestForm({ row }: { row?: ContestRow }) {
             <input name="contact" defaultValue={row?.contact ?? ""} maxLength={300} className={inputClass} />
           </Field>
         </div>
+      </FormSection>
+
+      <FormSection title="Manba">
+        <div className="grid gap-4 sm:grid-cols-2">
+          <Field label="Tashkilotchi" hint="Masalan: RoboContest yoki Xalq ta’limi boshqarmasi. Maktab tanlovida bo‘sh qoldiring.">
+            <input name="organizer" defaultValue={row?.organizer ?? ""} maxLength={200} className={inputClass} />
+          </Field>
+          <Field label="Rasmiy e’lon havolasi" hint="Sanalarni shu sahifadan olganmiz — o‘quvchi ham tekshira oladi">
+            <input type="url" name="source_url" defaultValue={row?.source_url ?? ""} maxLength={500} placeholder="https://" className={inputClass} />
+          </Field>
+        </div>
+        <label className="flex items-start gap-2 text-sm text-slate-700">
+          <input type="checkbox" name="external" defaultChecked={row?.external ?? false} className="mt-1" />
+          <span>
+            <b>Ro‘yxatdan o‘tish tashkilotchi saytida</b>
+            <span className="block text-[13px] text-slate-500">
+              Belgilansa, saytimizdagi ariza formasi o‘rniga rasmiy e’longa tugma chiqadi. Havola majburiy bo‘ladi.
+            </span>
+          </span>
+        </label>
       </FormSection>
 
       <FormSection title="Ko‘rinishi">

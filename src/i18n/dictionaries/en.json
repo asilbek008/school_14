@@ -1469,6 +1469,20 @@
     "questionsTitle": "Any questions?",
     "questions": "Call the school:",
     "pastResults": "Past results",
+    "organizer": "Organiser",
+    "source": "Official announcement",
+    "sourceNote": "The dates and terms come from the official announcement. Open the link to check them.",
+    "externalTitle": "Registration on the organiser's site",
+    "externalLead": "Another organisation runs this contest. Entries go through their official page — the school does not take them here.",
+    "externalBtn": "Open the official page",
+    "left": {
+      "today": "Closes today",
+      "tomorrow": "Closes tomorrow",
+      "inDays": {
+        "one": "{n} day left",
+        "other": "{n} days left"
+      }
+    },
     "stats": {
       "open": "open contests",
       "all": "contests in all",
