@@ -24,10 +24,10 @@ jobs:
 
       # The action's own default package list still asks for `tools`, which Google has removed from the
       # SDK repository: sdkmanager exits 1 with "Failed to find package 'tools'" and the build never
-      # starts. Naming what this project actually needs (compileSdk 35, AGP 8.7.3) skips that default.
+      # starts. Naming what this project actually needs (compileSdk 36, AGP 8.9.1) skips that default.
       - uses: android-actions/setup-android@v3
         with:
-          packages: "platform-tools platforms;android-35 build-tools;35.0.0"
+          packages: "platform-tools platforms;android-36 build-tools;36.0.0"
 
       - name: Restore the signing key
         if: env.SIGNED == 'true'
