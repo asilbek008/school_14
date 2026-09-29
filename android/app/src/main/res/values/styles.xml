@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="AppTheme" parent="android:Theme.DeviceDefault.DayNight.NoActionBar">
+  <!-- The platform has no Theme.DeviceDefault.DayNight.NoActionBar, and plain
+       Theme.DeviceDefault.DayNight only arrived in API 29 while this app runs from 26. So day and
+       night are chosen by the resource qualifier instead -- the same way colors.xml already does it. -->
+  <style name="AppTheme" parent="android:Theme.DeviceDefault.Light.NoActionBar">
     <item name="android:statusBarColor">@color/navy</item>
     <item name="android:navigationBarColor">@color/navy</item>
   </style>
