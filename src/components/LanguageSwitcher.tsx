@@ -44,7 +44,7 @@ export default function LanguageSwitcher({ current }: { current: Locale }) {
       <summary
         aria-label={localeNames[current]}
         title={localeNames[current]}
-        className="press flex h-9 cursor-pointer list-none items-center gap-1 rounded-full bg-white/10 pl-2.5 pr-2 text-xs font-semibold uppercase text-white transition-colors hover:bg-white/20 [&::-webkit-details-marker]:hidden sm:h-10 sm:pl-3"
+        className="press flex h-9 cursor-pointer list-none items-center gap-1 rounded-full bg-[var(--hdr-hover)] pl-2.5 pr-2 text-xs font-semibold uppercase text-[var(--hdr-fg)] transition-colors hover:bg-[var(--hdr-line)] [&::-webkit-details-marker]:hidden sm:h-10 sm:pl-3"
       >
         {current}
         <svg

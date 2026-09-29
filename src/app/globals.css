@@ -269,8 +269,27 @@ html.dark .chrome::before {
     linear-gradient(rgb(255 255 255 / 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgb(255 255 255 / 0.03) 1px, transparent 1px);
 }
+/* The header is the one navy block that answers the theme switch (owner's request). In light mode it
+   takes the page's own paper tone rather than white -- white read as a gap above the content -- and
+   in dark mode navy rather than the near-black the rest of the chrome drops to, which looked harsh.
+   Its children read these variables instead of literal colours, so the whole bar moves together and
+   nothing is left white-on-white when the mode changes. */
+.site-header {
+  --hdr-bg: var(--color-paper);
+  --hdr-fg: #131a2e;
+  --hdr-muted: #5a6786;
+  --hdr-hover: rgb(19 26 46 / 0.07);
+  --hdr-line: rgb(19 26 46 / 0.1);
+  background-color: var(--hdr-bg);
+  color: var(--hdr-fg);
+}
+
 html.dark .site-header {
-  background-color: #070c18;
+  --hdr-bg: #131a2e;
+  --hdr-fg: #ffffff;
+  --hdr-muted: #c2cbe4;
+  --hdr-hover: rgb(255 255 255 / 0.1);
+  --hdr-line: rgb(255 255 255 / 0.1);
 }
 html.dark :is(.chrome, .site-header):not(.surface) {
   --color-slate-50: oklch(98.4% 0.003 247.858);

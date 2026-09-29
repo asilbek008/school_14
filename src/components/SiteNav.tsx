@@ -115,7 +115,9 @@ export default function SiteNav({
   }, [openKey]);
 
   const pill = "rounded-full px-2.5 py-2 transition-colors duration-200 2xl:px-4";
-  const pillState = (active: boolean) => (active ? "bg-white text-navy" : "text-[#c2cbe4] hover:bg-white/10 hover:text-white");
+  // The bar's own colours, so the light theme gets a light header instead of the navy one it kept.
+  const pillState = (active: boolean) =>
+    active ? "bg-[var(--hdr-fg)] text-[var(--hdr-bg)]" : "text-[var(--hdr-muted)] hover:bg-[var(--hdr-hover)] hover:text-[var(--hdr-fg)]";
 
   return (
     <>
@@ -152,7 +154,7 @@ export default function SiteNav({
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 onClick={() => setOpen(isOpen ? null : { key: entry.key, path: pathname })}
-                className={`${pill} flex items-center gap-1.5 ${active ? "bg-white text-navy" : isOpen ? "bg-white/15 text-white" : pillState(false)}`}
+                className={`${pill} flex items-center gap-1.5 ${active ? "bg-[var(--hdr-fg)] text-[var(--hdr-bg)]" : isOpen ? "bg-[var(--hdr-hover)] text-[var(--hdr-fg)]" : pillState(false)}`}
               >
                 {entry.label} <Chevron className={isOpen ? "rotate-180" : ""} />
               </button>
@@ -193,7 +195,7 @@ export default function SiteNav({
         <MobileMenu className="mobile-nav group lg:hidden">
           <summary
             aria-label={labels.menu}
-            className="grid size-9 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-white/10 [&::-webkit-details-marker]:hidden sm:size-10"
+            className="grid size-9 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-[var(--hdr-hover)] [&::-webkit-details-marker]:hidden sm:size-10"
           >
             <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M4 7h16M4 12h16M4 17h16" className="group-open:hidden" />

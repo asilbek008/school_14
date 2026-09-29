@@ -133,7 +133,7 @@ export default function HeaderSearch({ lang, t, className = "" }: { lang: Locale
         title={t.label}
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className={`press grid size-9 shrink-0 place-items-center rounded-xl text-[#c2cbe4] transition-colors hover:bg-white/10 hover:text-white sm:size-10 ${className}`}
+        className={`press grid size-9 shrink-0 place-items-center rounded-xl text-[var(--hdr-muted)] transition-colors hover:bg-[var(--hdr-hover)] hover:text-[var(--hdr-fg)] sm:size-10 ${className}`}
       >
         <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
           <circle cx="11" cy="11" r="7" />
