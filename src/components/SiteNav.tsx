@@ -206,24 +206,6 @@ export default function SiteNav({
               for that, and never taller than 416px, scrolling inside itself past that. */}
           <nav className="menu-card surface fixed right-3 top-[68px] z-40 max-h-[min(70dvh,26rem)] w-[min(15rem,calc(100vw-1.5rem))] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-paper p-2 text-slate-900 shadow-[0_8px_16px_-8px_rgb(19_26_46/0.2),0_32px_64px_-24px_rgb(19_26_46/0.45)]">
             <div className="space-y-2">
-              {/* The search stays in the menu as well (owner's request), but it opens the header's
-                  panel instead of carrying a second copy of it -- and closes the menu on its way. */}
-              <button
-                type="button"
-                onClick={(e) => {
-                  const menu = e.currentTarget.closest("details");
-                  if (menu instanceof HTMLDetailsElement) menu.open = false;
-                  window.dispatchEvent(new CustomEvent("site-search:open"));
-                }}
-                className="press flex w-full items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-left text-[13px] text-slate-400 transition-colors hover:border-brand"
-              >
-                <svg viewBox="0 0 24 24" className="size-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="m20 20-3.5-3.5" />
-                </svg>
-                {labels.search.label}
-              </button>
-
               {/* One column, no icons (owner's request): a plain list is quicker to read down than a
                   grid, and nothing is folded away, so the whole menu is visible at once. */}
               <div>
