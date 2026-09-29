@@ -79,6 +79,24 @@
     "eyebrow": "o‘quv yili",
     "eyebrowStarted": "o‘quv yili boshlandi",
     "heroTitle": "Ta’lim — bu vaqt emas. Ta’lim — bu harakatdir.",
+    "quotes": [
+      {
+        "text": "Ta’lim — bu vaqt emas. Ta’lim — bu harakatdir.",
+        "author": ""
+      },
+      {
+        "text": "Tarbiya biz uchun yo hayot, yo mamot, yo najot, yo halokat, yo saodat, yo falokat masalasidir.",
+        "author": "Abdulla Avloniy"
+      },
+      {
+        "text": "Ta’lim — dunyoni o‘zgartirish uchun ishlatish mumkin bo‘lgan eng kuchli qurol.",
+        "author": "Nelson Mandela"
+      },
+      {
+        "text": "Bilimdan boyroq xazina yo‘q.",
+        "author": "Xalq maqoli"
+      }
+    ],
     "heroLead": "Dars jadvallari, yangiliklar, tadbirlar va o‘qituvchilar — Qiziriq tumanidagi 14-sonli maktab haqidagi barcha ma’lumot bir joyda.",
     "ctaTimetable": "Dars jadvalini ko‘rish",
     "ctaNews": "So‘nggi yangiliklar",

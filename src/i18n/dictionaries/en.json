@@ -79,6 +79,24 @@
     "eyebrow": "school year",
     "eyebrowStarted": "school year has begun",
     "heroTitle": "Education is not time. Education is action.",
+    "quotes": [
+      {
+        "text": "Education is not time. Education is action.",
+        "author": ""
+      },
+      {
+        "text": "Upbringing is for us a matter of life or death, of salvation or ruin, of happiness or misfortune.",
+        "author": "Abdulla Avloniy"
+      },
+      {
+        "text": "Education is the most powerful weapon which you can use to change the world.",
+        "author": "Nelson Mandela"
+      },
+      {
+        "text": "No treasure is richer than knowledge.",
+        "author": "Folk saying"
+      }
+    ],
     "heroLead": "Timetables, news, events and teachers — everything about School No. 14 in Qiziriq district in one place.",
     "ctaTimetable": "View the timetable",
     "ctaNews": "Latest news",
