@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { currentSchoolYear, school } from "@/lib/school";
+import HeaderSearch from "./HeaderSearch";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeToggle from "./ThemeToggle";
 import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
@@ -102,19 +103,22 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
             <span className="size-1.5 rounded-full bg-[#3ecfb2]" />
             eMaktab ↗<span className="sr-only"> — {dict.emaktab.short} ({dict.emaktab.newTab})</span>
           </a>
-          {/* Phones get the search at the top of the menu panel instead; from 1024 to 1100px the Russian bar has no room
-              for it (the search page is still in reach from the footer). */}
-          <Link
-            href={href("/search")}
-            aria-label={dict.nav.search}
-            title={dict.nav.search}
-            className="hidden size-10 shrink-0 place-items-center rounded-xl text-[#c2cbe4] transition-colors hover:bg-white/10 hover:text-white sm:max-lg:grid min-[1100px]:grid"
-          >
-            <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
-              <circle cx="11" cy="11" r="7" />
-              <path d="m20 20-3.5-3.5" />
-            </svg>
-          </Link>
+          {/* In the bar at every size now that the language switcher is one button rather than three
+              chips (owner's request). It answers in place: the panel searches the site itself, so
+              nobody is sent to a separate page to read one result. Only from 1024 to 1100px is there
+              no room for the button, and there the search page is still reachable from the footer. */}
+          <HeaderSearch
+            lang={lang}
+            className="lg:max-[1100px]:hidden"
+            t={{
+              label: dict.nav.search,
+              placeholder: dict.search.placeholder,
+              hint: dict.search.hint,
+              noResults: dict.search.noResults,
+              all: dict.search.all,
+              types: dict.search.types,
+            }}
+          />
           <ThemeToggle t={dict.theme} />
           <LanguageSwitcher current={lang} />
         </SiteNav>

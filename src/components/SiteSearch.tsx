@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useMemo, useState } from "react";
 import type { Locale } from "@/i18n/config";
 import { fill, plural } from "@/i18n/fill";
+import { norm } from "@/lib/search-match";
 
 export const searchTypes = ["page", "news", "event", "staff", "club", "program", "faq", "album"] as const;
 export type SearchType = (typeof searchTypes)[number];
@@ -21,13 +22,6 @@ export type SearchLabels = {
 };
 
 const PER_GROUP = 5;
-
-/** Lower case, one apostrophe for o‘/o'/oʻ, ё as е — so "o'qituvchi" finds "O‘qituvchi". */
-const norm = (s: string) =>
-  s
-    .toLowerCase()
-    .replace(/[‘’ʻʼ`´]/g, "'")
-    .replace(/ё/g, "е");
 
 /** A piece of the text around the first word found, for the result line. */
 function snippet(text: string, words: string[]) {

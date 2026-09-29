@@ -200,81 +200,77 @@ export default function SiteNav({
               <path d="M6 6l12 12M18 6L6 18" className="hidden group-open:block" />
             </svg>
           </summary>
-          {/* A card under the header rather than a full screen (owner's request): the page shows down
-              both sides and below, so the menu reads as something opened over the page instead of a
-              new one. It stops at 68% of the viewport and scrolls inside itself past that. */}
-          <nav className="menu-card surface fixed inset-x-3 top-[70px] z-40 mx-auto max-h-[68dvh] max-w-lg overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-paper p-3 text-slate-900 shadow-[0_8px_16px_-8px_rgb(19_26_46/0.2),0_32px_64px_-24px_rgb(19_26_46/0.45)]">
+          {/* A small card hung off the burger it was opened from, not a full screen and not centred
+              (owner's request): it sits against the right edge under the button, so the motion and
+              the panel both point back at the control. 240px wide, narrowing on a phone too small
+              for that, and never taller than 416px, scrolling inside itself past that. */}
+          <nav className="menu-card surface fixed right-3 top-[68px] z-40 max-h-[min(70dvh,26rem)] w-[min(15rem,calc(100vw-1.5rem))] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-paper p-2 text-slate-900 shadow-[0_8px_16px_-8px_rgb(19_26_46/0.2),0_32px_64px_-24px_rgb(19_26_46/0.45)]">
             <div className="space-y-2">
-              {/* Site search (on phones it is not in the bar). */}
-              <form action={labels.search.action} role="search" className="relative mb-3">
-                <svg viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
+              {/* The search stays in the menu as well (owner's request), but it opens the header's
+                  panel instead of carrying a second copy of it -- and closes the menu on its way. */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  const menu = e.currentTarget.closest("details");
+                  if (menu instanceof HTMLDetailsElement) menu.open = false;
+                  window.dispatchEvent(new CustomEvent("site-search:open"));
+                }}
+                className="press flex w-full items-center gap-2 rounded-lg border border-slate-200 bg-white px-2.5 py-2 text-left text-[13px] text-slate-400 transition-colors hover:border-brand"
+              >
+                <svg viewBox="0 0 24 24" className="size-3.5 shrink-0" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
                   <circle cx="11" cy="11" r="7" />
                   <path d="m20 20-3.5-3.5" />
                 </svg>
-                <input
-                  type="search"
-                  name="q"
-                  placeholder={labels.search.label}
-                  aria-label={labels.search.label}
-                  className="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-base outline-none focus:border-brand"
-                />
-              </form>
-              {entries.map((entry) => {
-                if ("href" in entry) {
-                  const active = isActive(entry.href);
-                  return (
+                {labels.search.label}
+              </button>
+
+              {/* One column, no icons (owner's request): a plain list is quicker to read down than a
+                  grid, and nothing is folded away, so the whole menu is visible at once. */}
+              <div>
+                {entries.map((entry) =>
+                  "href" in entry ? (
                     <Link
                       key={entry.href}
                       href={entry.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`press block rounded-2xl border px-5 py-4 text-lg font-bold transition-colors ${
-                        active ? "border-navy bg-navy text-white" : "border-slate-200 bg-white hover:border-brand hover:text-brand"
+                      aria-current={isActive(entry.href) ? "page" : undefined}
+                      className={`press block rounded-lg px-2.5 py-1.5 text-[13.5px] font-bold transition-colors ${
+                        isActive(entry.href) ? "bg-navy text-white" : "hover:bg-white hover:text-brand"
                       }`}
                     >
                       {entry.label}
                     </Link>
-                  );
-                }
-                const active = groupActive(entry.items);
-                return (
-                  <details key={entry.key} open={active || undefined} className="group/m overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                    <summary className={`press flex cursor-pointer list-none items-center justify-between px-5 py-4 text-lg font-bold [&::-webkit-details-marker]:hidden ${active ? "text-brand" : ""}`}>
-                      {entry.label}
-                      <Chevron className="size-5 text-slate-400 group-open/m:rotate-180" />
-                    </summary>
-                    <div className="border-t border-slate-100 p-2">
-                      {entry.items.map((item) => (
+                  ) : null,
+                )}
+              </div>
+
+              {entries.map((entry) =>
+                "href" in entry ? null : (
+                  <div key={entry.key}>
+                    <p className="px-2.5 pb-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">{entry.label}</p>
+                    {entry.items.map((item) => {
+                      const here = !item.external && !item.href.includes("#") && isActive(item.href);
+                      return (
                         <ItemLink
                           key={item.href}
                           item={item}
                           newTab={labels.newTab}
-                          className={`press group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-paper ${
-                            !item.external && isActive(item.href.split("#")[0]) && !item.href.includes("#") ? "bg-paper text-brand" : ""
-                          }`}
+                          className={`press block truncate rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors hover:bg-white ${here ? "bg-white font-semibold text-brand" : ""}`}
                         >
-                          <Icon item={item} size="size-9" />
-                          <span className="min-w-0">
-                            <b className="block text-[15px] font-semibold leading-tight">
-                              {item.label}
-                              {item.external && <span aria-hidden> ↗</span>}
-                            </b>
-                            <small className="block text-xs text-slate-500">{item.desc}</small>
-                          </span>
+                          {item.label}
+                          {item.external && <span aria-hidden> ↗</span>}
                         </ItemLink>
-                      ))}
-                    </div>
-                  </details>
-                );
-              })}
+                      );
+                    })}
+                  </div>
+                ),
+              )}
+
               <ItemLink
                 item={labels.extra}
                 newTab={labels.newTab}
-                className="press group/item flex items-center gap-3 rounded-2xl bg-gold-soft px-4 py-3 font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
+                className="press block rounded-lg bg-gold-soft px-2.5 py-1.5 text-[13px] font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
               >
-                <Icon item={labels.extra} size="size-9" />
-                <span>
-                  {labels.extra.label} ↗<small className="block text-xs font-medium opacity-80">{labels.extra.desc}</small>
-                </span>
+                {labels.extra.label} ↗
               </ItemLink>
               {yearMenu}
             </div>
