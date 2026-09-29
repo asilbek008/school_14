@@ -1,0 +1,1402 @@
+[
+ {
+  "uz": "Ilm, Navoiy, senga maqsud bil, / Endiki ilm o'ldi amal aylagil.",
+  "ru": "",
+  "en": "",
+  "author": "Alisher Navoiy",
+  "source": "«Hayrat ul-abror»"
+ },
+ {
+  "uz": "Yoshligingda yig'gil bilimni, qarigach sarf qilg'il ani.",
+  "ru": "",
+  "en": "",
+  "author": "Alisher Navoiy",
+  "source": "«Hayrat ul-abror»"
+ },
+ {
+  "uz": "Boshni fido ayla ato qoshig'a, / Jismni qil sadqa ano boshig'a... / Birisin oy angla, birisin quyosh.",
+  "ru": "",
+  "en": "",
+  "author": "Alisher Navoiy",
+  "source": "«Hayrat ul-abror», ota-onaga hurmat bobi"
+ },
+ {
+  "uz": "Tarbiya – \"Pedagogiya\", ya'ni bola tarbiyasining fani demakdur.",
+  "ru": "",
+  "en": "Tarbiya is pedagogy, that is, the science of raising children.",
+  "author": "Abdulla Avloniy",
+  "source": "«Turkiy Guliston yoxud axloq», \"Tarbiya\" bobi"
+ },
+ {
+  "uz": "Insonlarni yaxshilikg'a chaqirguvchi, yomonlikdan qaytarguvchi bir ilmdur.",
+  "ru": "",
+  "en": "It is a science that calls people to good and turns them away from evil.",
+  "author": "Abdulla Avloniy",
+  "source": "«Turkiy Guliston yoxud axloq», \"Axloq\" ta'rifi"
+ },
+ {
+  "uz": "Ilm dunyoning izzati, oxiratning sharofatidur.",
+  "ru": "",
+  "en": "Knowledge is the honour of this world and the nobility of the hereafter.",
+  "author": "Abdulla Avloniy",
+  "source": "«Turkiy Guliston yoxud axloq»"
+ },
+ {
+  "uz": "Emdi ochiq ma'lum bo'ldiki, tarbiyani tug'ulgan kundan boshlamak, vujudimizi quvvatlandurmak, fikrimizi nurlandurmak...",
+  "ru": "",
+  "en": "",
+  "author": "Abdulla Avloniy",
+  "source": "«Turkiy Guliston yoxud axloq», \"Tarbiyaning zamoni\" bobi"
+ },
+ {
+  "uz": "Moziyga qaytib ish ko'rish xayrlik, deydilar.",
+  "ru": "",
+  "en": "They say it is a blessing to look back at the past and act upon it.",
+  "author": "Abdulla Qodiriy",
+  "source": "«O'tkan kunlar», muallif so'zboshisi"
+ },
+ {
+  "uz": "",
+  "ru": "Учиться и время от времени повторять изученное — разве это не приятно?",
+  "en": "Is it not pleasant to learn with a constant perseverance and application?\" (Legge, 1861)",
+  "author": "Konfutsiy / Kun Tszyu",
+  "source": "«Lun yu» 1.1 — 學而時習之，不亦說乎"
+ },
+ {
+  "uz": "",
+  "ru": "Кто, обращаясь к старому, способен открывать новое, тот может быть учителем.",
+  "en": "If a man keeps cherishing his old knowledge, so as continually to be acquiring new, he may be a teacher of others.\" (Legge)",
+  "author": "Konfutsiy",
+  "source": "«Lun yu» 2.11 — 溫故而知新，可以為師矣"
+ },
+ {
+  "uz": "",
+  "ru": "Учиться и не размышлять — напрасно терять время; размышлять и не учиться — губительно.",
+  "en": "Learning without thought is labour lost; thought without learning is perilous.",
+  "author": "Konfutsiy",
+  "source": "«Lun yu» 2.15 — 學而不思則罔，思而不學則殆"
+ },
+ {
+  "uz": "",
+  "ru": "Знать, что знаешь, и знать, чего не знаешь, — это и есть знание.",
+  "en": "When you know a thing, to hold that you know it; and when you do not know a thing, to allow that you do not know it — this is knowledge.\" (Legge)",
+  "author": "Konfutsiy",
+  "source": "«Lun yu» 2.17 — 知之為知之，不知為不知，是知也"
+ },
+ {
+  "uz": "",
+  "ru": "Знающий уступает любящему, а любящий уступает тому, кто находит в этом радость.",
+  "en": "They who know the truth are not equal to those who love it, and they who love it are not equal to those who delight in it.",
+  "author": "Konfutsiy",
+  "source": "«Lun yu» 6.20 (Legge nashrida 6.18)"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "I do not open up the truth to one who is not eager to get knowledge, nor help out any one who is not anxious to explain himself.",
+  "author": "Konfutsiy",
+  "source": "«Lun yu» 7.8 — 不憤不啟，不悱不發"
+ },
+ {
+  "uz": "",
+  "ru": "Из трёх идущих всегда найдётся тот, у кого я могу поучиться.",
+  "en": "When I walk along with two others, they may serve me as my teachers.",
+  "author": "Konfutsiy",
+  "source": "«Lun yu» 7.21 (ba'zi nashrlarda 7.22) — 三人行，必有我師焉"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "If the mechanic wishes to do his work well, he must first sharpen his tools.",
+  "author": "Konfutsiy",
+  "source": "«Lun yu» 15.10 — 工欲善其事，必先利其器"
+ },
+ {
+  "uz": "Barcha odamlar tabiatan bilishga intiladi.",
+  "ru": "Все люди от природы стремятся к знанию.",
+  "en": "All men by nature desire to know.",
+  "author": "Aristotel",
+  "source": "«Metafizika» I.1, 980a21"
+ },
+ {
+  "uz": "Qila bilish uchun o'rganishimiz kerak bo'lgan narsalarni biz qilish orqali o'rganamiz.",
+  "ru": "Тому, что нужно делать, научившись, мы учимся, делая это.",
+  "en": "For the things we have to learn before we can do them, we learn by doing them.",
+  "author": "Aristotel",
+  "source": "«Nikomax etikasi» II.1, 1103a32–33"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "For legislators make the citizens good by forming habits in them... and it is in this that a good constitution differs from a bad one.",
+  "author": "Aristotel",
+  "source": "«Nikomax etikasi» II.1, 1103b3–6"
+ },
+ {
+  "uz": "Bilimli kishining belgisi — har bir narsada mavzuning tabiati imkon bergan darajadagina aniqlik izlashdir.",
+  "ru": "",
+  "en": "It is the mark of an educated man to look for precision in each class of things just so far as the nature of the subject admits.",
+  "author": "Aristotel",
+  "source": "«Nikomax etikasi» I.3, 1094b23–25"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "No one could doubt that a lawgiver must make provisions for the education of the youth.",
+  "author": "Aristotel",
+  "source": "«Siyosat» VIII.1, 1337a"
+ },
+ {
+  "uz": "Men bu odamdan donoroqman: u bilmasa ham bilaman deb o'ylaydi, men esa bilmasam, bilaman deb ham o'ylamayman.",
+  "ru": "",
+  "en": "I am wiser than this man... he thinks he knows something when he does not, whereas when I do not know, neither do I think I know.",
+  "author": "Platon, Sokrat nomidan",
+  "source": "«Sokratning himoyasi» (Apologiya) 21d–23b"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "I do see one large and grievous kind of ignorance... Thinking that one knows a thing when one does not know it.",
+  "author": "Platon",
+  "source": "«Sofist» 229c"
+ },
+ {
+  "uz": "Hayratlanish — faylasufning tuyg'usi; falsafa hayratdan boshlanadi.",
+  "ru": "Удивление есть начало философии.",
+  "en": "Wonder is the feeling of a philosopher, and philosophy begins in wonder.",
+  "author": "Platon",
+  "source": "«Teetet» 155d"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Perception and knowledge could never be the same.",
+  "author": "Platon",
+  "source": "«Teetet» 186e"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Knowledge is the food of the soul; and we must take care, my friend, that the Sophist does not deceive us when he praises what he sells.",
+  "author": "Platon",
+  "source": "«Protagor» 313c"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "The beginning in every task is the chief thing.\" (ἀρχὴ παντὸς ἔργου μέγιστον)",
+  "author": "Platon",
+  "source": "«Davlat» 377a — bolalar tarbiyasi konteksti"
+ },
+ {
+  "uz": "",
+  "ru": "Учиться нужно всю жизнь, пока живёшь.",
+  "en": "As long as you live, keep learning how to live.\" (lot. Tamdiu discendum est... quamdiu vivas)",
+  "author": "Lutsiy Anney Seneka (er. av. ~4 – er. 65)",
+  "source": "«Lutsiliyga axloqiy maktublar» 76.3"
+ },
+ {
+  "uz": "Odamlar o'rgatar ekan, o'zlari ham o'rganadilar.",
+  "ru": "Обучая, учимся.",
+  "en": "Men learn while they teach.\" (lot. homines dum docent discunt)",
+  "author": "Seneka",
+  "source": "«Axloqiy maktublar» 7.8"
+ },
+ {
+  "uz": "",
+  "ru": "Мы учимся не для жизни, а для школы.",
+  "en": "We learn our lessons, not for life, but for the lecture room.\" (lot. Non vitae sed scholae discimus)",
+  "author": "Seneka",
+  "source": "«Axloqiy maktublar» 106.12"
+ },
+ {
+  "uz": "",
+  "ru": "Долог путь наставлений, краток и убедителен путь примеров.",
+  "en": "The way is long if one follows precepts, but short and helpful if one follows patterns.\" (lot. longum iter est per praecepta, breve et efficax per exempla)",
+  "author": "Seneka",
+  "source": "«Axloqiy maktublar» 6.5"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "It is better, of course, to know useless things than to know nothing.",
+  "author": "Seneka",
+  "source": "«Axloqiy maktublar» 88.45 — erkin fanlar haqidagi maktub"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "He who follows another not only discovers nothing but is not even investigating.",
+  "author": "Seneka",
+  "source": "«Axloqiy maktublar» 33.7"
+ },
+ {
+  "uz": "Tug'ilishingdan oldin nima bo'lganini bilmaslik — abadiy bola bo'lib qolish demak.",
+  "ru": "Не знать, что было до твоего рождения, — значит всегда оставаться ребёнком.",
+  "en": "Not to know what happened before you were born is to be a child forever.\" (lot. Nescire autem quid ante quam natus sis acciderit, id est semper esse puerum)",
+  "author": "Mark Tulliy Tsitseron",
+  "source": "«Orator» XXXIV.120"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Philosophy is the cultivation of the soul. It draws out vices by the root.\" (lot. Cultura autem animi philosophia est)",
+  "author": "Tsitseron",
+  "source": "«Tuskul suhbatlari» II.V (II.13)"
+ },
+ {
+  "uz": "",
+  "ru": "История — свидетельница времён, свет истины, жизнь памяти, учительница жизни, вестница старины.",
+  "en": "History is the witness of times past, the light of truth, the life of memory, the teacher of life, the messenger of antiquity.",
+  "author": "Tsitseron",
+  "source": "«Notiqlik haqida» (De Oratore) II.36"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "The distinguishing property of man is to search for and to follow after truth.",
+  "author": "Tsitseron",
+  "source": "«Burchlar haqida» (De Officiis) I.13"
+ },
+ {
+  "uz": "Odam o'zini allaqachon biladi deb hisoblagan narsasini o'rganishi mumkin emas.",
+  "ru": "Невозможно научиться тому, что человек считает, будто уже знает.",
+  "en": "What is the first business of one who practices philosophy? To get rid of self-conceit. For it is impossible for anyone to begin to learn that which he thinks he already knows.",
+  "author": "Epiktet",
+  "source": "«Suhbatlar» II.17.1"
+ },
+ {
+  "uz": "",
+  "ru": "Свободны только образованные.",
+  "en": "Only the educated are free.",
+  "author": "Epiktet",
+  "source": "«Suhbatlar» II.1.22"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Every habit and faculty is confirmed and strengthened by the corresponding actions, that of walking by walking, that of running by running.",
+  "author": "Epiktet",
+  "source": "«Suhbatlar» II.18.1"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "For what is a child? Ignorance. What is a child? Want of instruction.",
+  "author": "Epiktet",
+  "source": "«Suhbatlar» II.1.16"
+ },
+ {
+  "uz": "Zero aql to'ldirilishi kerak bo'lgan idish emas — u, xuddi o'tin kabi, faqat alangalatilishga muhtoj; bu esa unda mustaqil izlanish turtkisini va haqiqatga intilishni uyg'otadi.",
+  "ru": "Ум нуждается не в наполнении, как сосуд, а лишь в разжигании, как дрова, — и это рождает стремление к самостоятельному поиску и жажду истины.",
+  "en": "The mind does not require filling like a bottle, but rather, like wood, it only requires kindling... to create in it an impulse to think independently and an ardent desire for the truth.\" (Loeb, Babbitt 1927)",
+  "author": "Plutarx",
+  "source": "«To'g'ri tinglash haqida», Moralia 48C (LacusCurtius; Quote Investigator)"
+ },
+ {
+  "uz": "",
+  "ru": "Я убеждён, что образование есть процесс жизни, а не подготовка к будущей жизни.",
+  "en": "I believe that education, therefore, is a process of living and not a preparation for future living.",
+  "author": "John Dewey",
+  "source": "«My Pedagogic Creed» (1897), II-modda"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Cease conceiving of education as mere preparation for later life, and make it the full meaning of the present life.",
+  "author": "John Dewey",
+  "source": "«Self-Realization as the Moral Ideal» (1893), The Philosophical Review"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Democracy has to be born anew every generation, and education is its midwife.",
+  "author": "John Dewey",
+  "source": "«Democracy and Education» (1916) (Wikiquote; to'liq matn: Gutenberg)"
+ },
+ {
+  "uz": "",
+  "ru": "Образование — это естественный процесс, осуществляемый ребёнком; оно приобретается не слушанием слов, а опытом взаимодействия со средой.",
+  "en": "Education is a natural process carried out by the child and is not acquired by listening to words but by experiences in the environment.",
+  "author": "Maria Montessori",
+  "source": "«The Absorbent Mind» (it. «La mente del bambino», 1949)"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "...education is a natural process spontaneously carried out by the human individual. It is acquired not by listening to words, but by experiences upon the environment.",
+  "author": "Maria Montessori",
+  "source": "«The Absorbent Mind» — boshqa tarjima varianti"
+ },
+ {
+  "uz": "",
+  "ru": "В \"банковской\" концепции образования знание — это дар, который те, кто считает себя знающими, вручают тем, кого они считают не знающими ничего.",
+  "en": "In the banking concept of education, knowledge is a gift bestowed by those who consider themselves knowledgeable upon those whom they consider to know nothing.",
+  "author": "Paulo Freire",
+  "source": "«Pedagogy of the Oppressed» (1968/1970), 2-bob"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "The teacher presents himself to his students as their necessary opposite; by considering their ignorance absolute, he justifies his own existence.",
+  "author": "Paulo Freire",
+  "source": "«Pedagogy of the Oppressed», 2-bob"
+ },
+ {
+  "uz": "Ta'lim o'qituvchi–o'quvchi qarama-qarshiligini hal qilishdan boshlanishi kerak: har ikkisi bir vaqtning o'zida ham o'qituvchi, ham o'quvchi bo'lishi lozim.",
+  "ru": "",
+  "en": "Education must begin with the solution of the teacher-student contradiction, by reconciling the poles of the contradiction so that both are simultaneously teachers and students.",
+  "author": "Paulo Freire",
+  "source": "«Pedagogy of the Oppressed», 2-bob"
+ },
+ {
+  "uz": "",
+  "ru": "Главная цель образования в школе — воспитывать людей, способных делать новое, а не просто повторять то, что делали предыдущие поколения.",
+  "en": "The principal goal of education in the schools should be creating men and women who are capable of doing new things, not simply repeating what other generations have done.",
+  "author": "Jean Piaget",
+  "source": "«Development and Learning» — Piaget Rediscovered, Cornell University, 1964"
+ },
+ {
+  "uz": "Bitta bola, bitta o'qituvchi, bitta kitob va bitta qalam dunyoni o'zgartirishi mumkin.",
+  "ru": "Один ребёнок, один учитель, одна книга и одна ручка могут изменить мир.",
+  "en": "One child, one teacher, one book, and one pen can change the world.",
+  "author": "Malala Yousafzai",
+  "source": "BMT Yoshlar Assambleyasi, Nyu-York, 12.07.2013"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Let us pick up our books and our pens. They are our most powerful weapons.",
+  "author": "Malala Yousafzai",
+  "source": "BMT Yoshlar Assambleyasi, 12.07.2013"
+ },
+ {
+  "uz": "",
+  "ru": "Они думали, что пуля заставит нас замолчать, но они ошиблись.",
+  "en": "They thought that the bullet would silence us, but they failed.",
+  "author": "Malala Yousafzai",
+  "source": "BMT Yoshlar Assambleyasi, 12.07.2013"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "A Talib doesn't know what is written inside this book.",
+  "author": "Malala Yousafzai (bir bolaning so'zini keltirib)",
+  "source": "BMT Yoshlar Assambleyasi, 12.07.2013"
+ },
+ {
+  "uz": "O'z-o'zini o'qitgan odam \"kamdan-kam narsani aniq biladi\" va \"o'qituvchilar qo'lida ishlaganida bilishi mumkin bo'lgan narsaning o'ndan birini ham bilmaydi\".",
+  "ru": "",
+  "en": "A self-taught man \"seldom knows anything accurately\" and \"does not know a tenth of as much as he could have known if he had worked under teachers.",
+  "author": "Mark Twain / Samuel Langhorne Clemens",
+  "source": "«Taming the Bicycle» (1884)"
+ },
+ {
+  "uz": "Oliy ta'limning qadri ko'p faktlarni yod olishda emas, aqlni fikrlashga o'rgatishdadir.",
+  "ru": "Ценность университетского образования не в заучивании множества фактов, а в тренировке ума мыслить.",
+  "en": "The value of a college education is not the learning of many facts but the training of the mind to think.",
+  "author": "Albert Einstein",
+  "source": "The New York Times, 18.05.1921; shuningdek Philipp Frank, «Einstein: His Life and Times» (1947)"
+ },
+ {
+  "uz": "",
+  "ru": "Я достаточно художник, чтобы свободно черпать из воображения. Воображение важнее знания. Знание ограниченно. Воображение охватывает весь мир.",
+  "en": "I am enough of an artist to draw freely upon my imagination. Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world.",
+  "author": "Albert Einstein",
+  "source": "George Sylvester Viereck intervyusi, The Saturday Evening Post, 26.10.1929"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Imagination is more important than knowledge. For knowledge is limited, whereas imagination embraces the entire world, stimulating progress, giving birth to evolution.",
+  "author": "Albert Einstein",
+  "source": "«Cosmic Religion: With Other Opinions and Aphorisms» (1931), 97-bet"
+ },
+ {
+  "uz": "Ta'lim — inson yaratgan barcha vositalardan ustun turib, odamlar sharoitlarini tenglashtiruvchi buyuk kuch, ijtimoiy mexanizmning muvozanat g'ildiragidir.",
+  "ru": "Образование, превыше всех иных изобретений человека, есть великий уравнитель условий жизни людей — маховик общественного механизма.",
+  "en": "Education, then, beyond all other devices of human origin, is the great equalizer of the conditions of men — the balance-wheel of the social machinery.",
+  "author": "Horace Mann",
+  "source": "Massachusets ta'lim kengashi kotibining 12-yillik hisoboti (1848)"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "It gives each man the independence and the means by which he can resist the selfishness of other men. It does better than to disarm the poor of their hostility toward the rich: it prevents being poor.",
+  "author": "Horace Mann",
+  "source": "O'sha 1848-yilgi 12-hisobot, yuqoridagi jumladan keyin"
+ },
+ {
+  "uz": "Zakovat va fazilat — chinakam ta'limning maqsadi ana shu.",
+  "ru": "Интеллект плюс характер — вот цель подлинного образования.",
+  "en": "Intelligence plus character — that is the goal of true education.",
+  "author": "Martin Luther King Jr.",
+  "source": "«The Purpose of Education», The Maroon Tiger, 1947-yil yanvar–fevral"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "We must remember that intelligence is not enough. Intelligence plus character — that is the goal of true education.",
+  "author": "Martin Luther King Jr.",
+  "source": "O'sha «The Purpose of Education» (1947)"
+ },
+ {
+  "uz": "Aqliy hayotning instinktiv poydevori — qiziquvchanlik.",
+  "ru": "",
+  "en": "The instinctive foundation of the intellectual life is curiosity, which is found among animals in its elementary forms.",
+  "author": "Bertrand Russell",
+  "source": "«On Education, Especially in Early Childhood» (1926), 2-bob"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Neither acquiescence in skepticism nor acquiescence in dogma is what education should produce.",
+  "author": "Bertrand Russell",
+  "source": "«On Education, Especially in Early Childhood» (1926), 2-bob"
+ },
+ {
+  "uz": "Ilm — yorug'lik, jaholat — zulmat.",
+  "ru": "Ученье — свет, а неученье — тьма.",
+  "en": "— (aniq ingliz ekvivalenti yo'q)",
+  "author": "Xalq maqoli (o'zbek / rus)",
+  "source": "O'zbekcha: Ziyouz/«Fan» korpusi; ruscha: Dal, «Ученье — Наука» (Викитека/%D0%A3%D1%87%D0%B5%D0%BD%D1%8C%D0%B5_%E2%80%94_%D0%9D%D0%B0%D1%83%D0%BA%D0%B0))"
+ },
+ {
+  "uz": "Ilmli uy — charog'on, ilmsiz uy — zimiston.",
+  "ru": "Ученье — свет, а неученье — тьма.",
+  "en": "",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz/«Fan»; Dal"
+ },
+ {
+  "uz": "Bilimliga dunyo yorug', bilimsizga — qorong'u.",
+  "ru": "Ученье — свет, а неученье — тьма.",
+  "en": "",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz/«Fan»; Dal"
+ },
+ {
+  "uz": "Ilm olishning erta-kechi yo'q.",
+  "ru": "Век живи — век учись.",
+  "en": "It is never too late to learn.\" (Eng., XVII asr oxiri) / \"Never too old to learn.\" (Eng., XVI asr oxiri)",
+  "author": "Xalq maqoli (uch an'ana)",
+  "source": "Ziyouz; Dal; Little ODP"
+ },
+ {
+  "uz": "Yuzga kirsang, yuz yil o'qi.",
+  "ru": "Век живи — век учись (а умри дураком).",
+  "en": "Live and learn.\" (Eng., XVII asr boshi)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal; Little ODP"
+ },
+ {
+  "uz": "Ilm istasang, takror qil.",
+  "ru": "Повторенье — мать ученья.",
+  "en": "— (ingliz ekvivalenti tekshirilmagan)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal"
+ },
+ {
+  "uz": "Ilm olish — nina bilan quduq qazish.",
+  "ru": "Без муки нет и науки.» / «Идти в науку — терпеть муку.",
+  "en": "Experience keeps a dear school.\" (Eng., XVIII asr o'rtasi)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal; Little ODP"
+ },
+ {
+  "uz": "Ilmni mehnatsiz egallab bo'lmas.",
+  "ru": "Без муки нет и науки.",
+  "en": "",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal"
+ },
+ {
+  "uz": "O'qish — jafoli, keti — vafoli.",
+  "ru": "Корень учения горек, да плод его сладок.",
+  "en": "",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal"
+ },
+ {
+  "uz": "Bilim — davlatdan qimmat.",
+  "ru": "Ученье лучше богатства.",
+  "en": "Learning is better than house and land.\" (Eng., XVIII asr oxiri)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal; Little ODP"
+ },
+ {
+  "uz": "Davlat tugar, bilim tugamas.",
+  "ru": "Ученье лучше богатства.",
+  "en": "When house and land are gone and spent, then learning is most excellent.\" (Eng., XVIII asr o'rtasi)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal; Little ODP"
+ },
+ {
+  "uz": "Oltin olma, bilim ol, bilim olsang, bilib ol.",
+  "ru": "Ученье лучше богатства.",
+  "en": "Learning is a treasure that follows its owner everywhere.\" (xitoy maqoli, Oksford bo'yicha)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal; Little ODP"
+ },
+ {
+  "uz": "Ilm — tubsiz quduq.",
+  "ru": "— (Dalda ekvivalent topilmadi)",
+  "en": "The sea of learning has no end.\" (xitoy maqoli)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Little ODP"
+ },
+ {
+  "uz": "Avval o'rgan, keyin o'rgat.» / «O'rganish — bir hunar, o'rgatish — ikki hunar.",
+  "ru": "Учи других — и сам поймешь.» / «Мудрено тому учить, чего сами не знаем.",
+  "en": "He teaches ill who teaches all.\" (Eng., XVII asr boshi)",
+  "author": "Xalq maqoli",
+  "source": "Ziyouz; Dal; Little ODP"
+ },
+ {
+  "uz": "Bilim — kuchda, kuch — bilimda.",
+  "ru": "Знание — сила» — maqol EMAS: Frensis Bekon",
+  "en": "Knowledge is power.\" (Eng., XVI asr oxiri)",
+  "author": "O'zbekcha va inglizcha — xalq maqoli; ruscha — Ф. Бэкон",
+  "source": "Ziyouz; Little ODP; ruscha uchun: Bacon, Meditationes Sacrae (1597)"
+ },
+ {
+  "uz": "Avval bil, keyin qil.",
+  "ru": "",
+  "en": "First know, then do.",
+  "author": "O'zbek xalq maqoli",
+  "source": "«O'zbek xalq maqollari», «Fan», 1987–88 / Ziyouz"
+ },
+ {
+  "uz": "Baxt belgisi — bilim.",
+  "ru": "",
+  "en": "The mark of happiness is knowledge.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Bilim — aql chirog'i.",
+  "ru": "",
+  "en": "Knowledge is the lamp of the mind.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Bilim baxt keltirar.",
+  "ru": "",
+  "en": "Knowledge brings happiness.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Bilagi zo'r birni yiqar, bilimi zo'r — mingni.",
+  "ru": "",
+  "en": "A strong arm throws one; strong knowledge throws a thousand.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Bilgan bitirar, bilmagan yitirar.",
+  "ru": "",
+  "en": "He who knows finishes; he who does not, loses.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Bilmagan ayb emas, bilishga tirishmagan ayb.",
+  "ru": "",
+  "en": "Not knowing is no fault; not striving to know is the fault.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Bilmasang, bilgandan so'ra.",
+  "ru": "",
+  "en": "If you don't know, ask one who does.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Yuziga qarama, bilimiga qara.",
+  "ru": "",
+  "en": "Don't look at his face, look at his knowledge.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Er ko'rki — bilik, suyak ko'rki — ilik.",
+  "ru": "",
+  "en": "A man's beauty is knowledge, as a bone's is its marrow.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilm — aql bulog'i, aql — yashash chirog'i.",
+  "ru": "",
+  "en": "Knowledge is the spring of reason; reason is the lamp of living.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilm baxt keltirar, bilim taxt keltirar.",
+  "ru": "",
+  "en": "Ilm brings fortune; bilim brings a throne.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilm izlagan yetar, izlamagan — yitar.",
+  "ru": "",
+  "en": "He who seeks knowledge arrives; he who does not, is lost.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilmsiz bir yashar, ilmli ming yashar.",
+  "ru": "",
+  "en": "The unlearned lives once; the learned lives a thousand times.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilmli odam — ilikli suyak.",
+  "ru": "",
+  "en": "A learned person is a bone with marrow.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilm qog'oz qatida emas, miya qatida.",
+  "ru": "",
+  "en": "Knowledge is not between the leaves of paper but in the folds of the brain.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilmi borni yosh dema, ilmi yo'qni bosh dema.",
+  "ru": "",
+  "en": "Do not call the knowledgeable young; do not call the ignorant a chief.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilm topmay, maqtanma.",
+  "ru": "",
+  "en": "Do not boast before you have found knowledge.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Qadam qo'y asta-asta, qadam yetguncha ilm ista.",
+  "ru": "",
+  "en": "Step slowly; seek knowledge as long as your step carries you.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Zehn qo'ysang bilimga, ilm tomar dilingga.",
+  "ru": "",
+  "en": "Set your mind on knowledge and learning will drip into your heart.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "O'qigan — guliston, o'qimagan — go'riston.",
+  "ru": "",
+  "en": "The one who studies is a rose garden; the one who doesn't, a graveyard.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "O'qigan — olim, o'qimagan — o'ziga zolim.",
+  "ru": "",
+  "en": "He who studies becomes a scholar; he who doesn't wrongs himself.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "O'qigan o'qdan oshar, nodon turtkidan shoshar.",
+  "ru": "",
+  "en": "The educated outstrips an arrow; the ignorant panics at a nudge.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "O'qigan o'g'il otadan ulug'.",
+  "ru": "",
+  "en": "An educated son is greater than his father.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "O'qigan o'qigan emas, uqqan — o'qigan.",
+  "ru": "",
+  "en": "He who has read has not read; he who has understood has read.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "O'qish boshqa, uqish boshqa.",
+  "ru": "",
+  "en": "Reading is one thing, understanding is another.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Uchishga qanot kerak, o'qishga — toqat.",
+  "ru": "",
+  "en": "Flying needs wings; studying needs patience.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Kitob — aql qayrog'i.",
+  "ru": "",
+  "en": "A book is the whetstone of the mind.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Kitob ko'rmagan kalla — giyoh unmagan dala.",
+  "ru": "",
+  "en": "A head that has seen no book is a field where no plant grows.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Kitobsiz aql — qanotsiz qush.",
+  "ru": "",
+  "en": "A mind without books is a bird without wings.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ko'rib bilish yaqinni, o'qib bilish uzoqni.",
+  "ru": "",
+  "en": "Seeing teaches you what is near; reading teaches you what is far.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Til bilgan yo'lda qolmas.",
+  "ru": "",
+  "en": "He who knows a language is never stranded on the road.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ustozsiz shogird — jonsiz kesak.",
+  "ru": "",
+  "en": "A pupil without a teacher is a lifeless clod of earth.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Har ishning bir ustasi bor, har ustaning bir ustozi bor.",
+  "ru": "",
+  "en": "Every task has its master, and every master has his teacher.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ustadan shogird o'zar.",
+  "ru": "",
+  "en": "The pupil surpasses the master.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Usta ko'rmagan shogird har maqomga yo'rg'alar.",
+  "ru": "",
+  "en": "A pupil who has had no master ambles into every key.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Shogirdning befarosati ustozni muttaham qilar.",
+  "ru": "",
+  "en": "A witless pupil makes a swindler of his teacher.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Shogirding oqil bo'lsa, boshingda toj, shogirding erka bo'lsa, boshga tayoq.",
+  "ru": "",
+  "en": "A wise pupil is a crown on your head; a spoilt pupil, a stick to it.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ogohlikni ko'rdan o'rgan, donolikni — ilmdan.",
+  "ru": "",
+  "en": "Learn vigilance from the blind; learn wisdom from knowledge.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Oz-oz o'rganib usta bo'lur.",
+  "ru": "",
+  "en": "Little by little one becomes a master.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ozdan yig'ilib daryo bo'lar, so'rab-so'rab dono bo'lar.",
+  "ru": "",
+  "en": "Drop by drop a river forms; question by question a person grows wise.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilmi yo'qning ko'zi yumuq.",
+  "ru": "",
+  "en": "The eyes of the one without knowledge are shut.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilmsiz kishi o'limga yaqin.",
+  "ru": "",
+  "en": "A person without knowledge is close to death.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilmsiz olim — to'qimsiz eshak.",
+  "ru": "",
+  "en": "A scholar without knowledge is a donkey without a saddle-cloth.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Poxoldan somon chiqmas, qo'poldan olim chiqmas.",
+  "ru": "",
+  "en": "Straw yields no chaff; a boor yields no scholar.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Chalasavod — chirik rabot.",
+  "ru": "",
+  "en": "A half-literate is a rotten caravanserai.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Piligi yo'q chiroq yonmas, biligi yo'q yigit yaramas.",
+  "ru": "",
+  "en": "A lamp with no wick will not burn; a youth with no knowledge is no use.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Teshik idish suvda bilinar, bilimi oz kishi — sinovda.",
+  "ru": "",
+  "en": "A leaking pot shows in water; a person of little knowledge shows in a test.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Bilimsiz xalfa — ekinsiz dala.",
+  "ru": "",
+  "en": "An unlearned teaching-assistant is a field with no crop.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Go'zallik — ilm-u ma'rifatda.",
+  "ru": "",
+  "en": "Beauty lies in knowledge and enlightenment.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "Ilmning avvali achchiq.",
+  "ru": "",
+  "en": "The beginning of knowledge is bitter.",
+  "author": "O'zbek xalq maqoli",
+  "source": "o'sha"
+ },
+ {
+  "uz": "",
+  "ru": "Ученье — свет, а неученье — тьма.",
+  "en": "Learning is light, ignorance is darkness.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль, «Ученье — Наука»"
+ },
+ {
+  "uz": "",
+  "ru": "Век живи — век учись (а умри дураком).",
+  "en": "Live a century, learn a century (and die a fool).",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Повторенье — мать ученья.",
+  "en": "Repetition is the mother of learning.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Корень учения горек, да плод его сладок.",
+  "en": "The root of learning is bitter, but its fruit is sweet.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Ученье лучше богатства.",
+  "en": "Learning is better than riches.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Красна птица перьем, а человек ученьем.",
+  "en": "A bird is fair by its feathers, a person by their learning.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Ученье — красота, неученье — простота.",
+  "en": "Learning is beauty; ignorance is simplicity.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Кто хочет много знать, тому надо мало спать.",
+  "en": "He who wants to know much must sleep little.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Идти в науку — терпеть муку.",
+  "en": "To go into learning is to endure torment.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Без муки нет и науки.",
+  "en": "Without torment there is no learning.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Наука не пиво, в рот не вольешь.",
+  "en": "Learning is not beer — you can't pour it into someone's mouth.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Учи других — и сам поймешь.",
+  "en": "Teach others and you'll understand yourself.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Молодому учиться рано, старому поздно.",
+  "en": "For the young it's early to learn, for the old it's late.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "От умного научишься, от глупого разучишься.",
+  "en": "From a clever man you learn; from a fool you unlearn.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Кто больше знает, тому и книги в руки.",
+  "en": "Let the books go to the one who knows more.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Не учась и лаптя не сплетешь.",
+  "en": "Without learning you can't even weave a bast shoe.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Не выучит школа, выучит охота.",
+  "en": "If school doesn't teach you, desire will.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Сытое брюхо к учению глухо.",
+  "en": "A full belly is deaf to learning.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Мудрено тому учить, чего сами не знаем.",
+  "en": "It is hard to teach what we ourselves do not know.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Знай больше, а говори меньше!",
+  "en": "Know more, say less.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Наука учит только умного.",
+  "en": "Learning teaches only the clever.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Божьей волей свет стоит, наукой люди живут.",
+  "en": "The world stands by God's will; people live by learning.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "За ученого двух неученых дают, да и то не берут.",
+  "en": "For one learned man they'd give two unlearned — and still not take them.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Кто много знает, с того много и спрашивается.",
+  "en": "Of him who knows much, much is asked.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Чему учился, тому и пригодился.",
+  "en": "What you learned is what served you.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Наука в лес не ходит.",
+  "en": "Learning does not wander off into the forest.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Ничего не смыслить — век киснуть.",
+  "en": "To understand nothing is to sour away a lifetime.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Ни аза в глаза не знает.",
+  "en": "He doesn't know an az when he sees one.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Не уча в попы не ставят.",
+  "en": "They don't make a priest of an untaught man.",
+  "author": "Rus xalq maqoli",
+  "source": "Даль"
+ },
+ {
+  "uz": "",
+  "ru": "Не хочу учиться, хочу жениться.",
+  "en": "I don't want to study, I want to get married.",
+  "author": "Rus xalq maqoli / Fonvizin",
+  "source": "Даль; shuningdek Д. И. Фонвизин, «Недоросль» (1782)"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Knowledge is power.",
+  "author": "Ingliz xalq maqoli, XVI asr oxiri",
+  "source": "Little ODP, KNOWLEDGE — Bekon unda ishora, manba emas"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "A little knowledge is a dangerous thing.",
+  "author": "Ingliz xalq maqoli, XVIII asr boshi",
+  "source": "Little ODP — A. Pope, An Essay on Criticism (1711) dagi \"a little learning\" shaklining o'zgargani"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Learning is better than house and land.",
+  "author": "Ingliz xalq maqoli, XVIII asr oxiri",
+  "source": "Little ODP, KNOWLEDGE"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "When house and land are gone and spent, then learning is most excellent.",
+  "author": "Ingliz xalq maqoli, XVIII asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Learning is a treasure that follows its owner everywhere.",
+  "author": "Xitoy maqoli",
+  "source": "Little ODP, KNOWLEDGE"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "The sea of learning has no end.",
+  "author": "Xitoy maqoli",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "The larger the shoreline of knowledge, the longer the shoreline of wonder.",
+  "author": "Shimoliy Amerika maqoli, XX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Knowledge and timber shouldn't be much used until they are seasoned.",
+  "author": "Amerika maqoli, XIX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Walking ten thousand miles; reading ten thousand books.",
+  "author": "Xitoy maqoli",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Let the cobbler stick to his last.",
+  "author": "Ingliz xalq maqoli, XVI asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "It is never too late to learn.",
+  "author": "Ingliz xalq maqoli, XVII asr oxiri",
+  "source": "Little ODP, EDUCATION"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Never too old to learn.",
+  "author": "Ingliz xalq maqoli, XVI asr oxiri",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "As the twig is bent, so is the tree inclined.",
+  "author": "Ingliz xalq maqoli, XVIII asr boshi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "There is no royal road to learning.",
+  "author": "Ingliz xalq maqoli, XIX asr boshi",
+  "source": "Little ODP — Evklidning Ptolemeyga javobidan kelib chiqqan"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Genius without education is like silver in the mine.",
+  "author": "Amerika maqoli, XVIII asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Teachers open the door, but you must enter by yourself.",
+  "author": "Xitoy maqoli",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "When the pupil is ready, the master arrives.",
+  "author": "Hind maqoli (sanskritdan)",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Education doesn't come by bumping your head against the school house.",
+  "author": "Amerika maqoli, XX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Never let your education interfere with your intelligence.",
+  "author": "Amerika maqoli, XX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Who teaches me for a day is my father for a lifetime.",
+  "author": "Xitoy maqoli",
+  "source": "Little ODP, TEACHING"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "He that teaches himself has a fool for a master.",
+  "author": "Ingliz xalq maqoli, XVII asr boshi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "He teaches ill who teaches all.",
+  "author": "Ingliz xalq maqoli, XVII asr boshi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "A book is like a garden carried in the pocket.",
+  "author": "Yaqin Sharq iborasi",
+  "source": "Little ODP, BOOKS"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Beware of the man of one book.",
+  "author": "Lotin maqoli",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "A great book is a great evil.",
+  "author": "Ingliz xalq maqoli, XVII asr boshi",
+  "source": "Little ODP — Kallimaxning (er. av. ~305–240) qisqartmasi"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "A library is a repository of medicine for the mind.",
+  "author": "Amerika maqoli, XX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "The man who reads is the man who leads.",
+  "author": "Amerika maqoli, XX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "It is a tie between men to have read the same book.",
+  "author": "Amerika maqoli, XIX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "He that runs may read.",
+  "author": "Ingliz xalq maqoli, XVI asr oxiri",
+  "source": "Little ODP — Bibliya (Habakkuk 2:2) ga ishora"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Experience is the best teacher.",
+  "author": "Ingliz xalq maqoli, XVI asr o'rtasi",
+  "source": "Little ODP, EXPERIENCE"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Experience is the father of wisdom.",
+  "author": "Ingliz xalq maqoli, XVI asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Experience keeps a dear school.",
+  "author": "Ingliz xalq maqoli, XVIII asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Live and learn.",
+  "author": "Ingliz xalq maqoli, XVII asr boshi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "A burnt child dreads the fire.",
+  "author": "Ingliz xalq maqoli, XIII asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Ignorance is bliss.",
+  "author": "Ingliz xalq maqoli, XVIII asr o'rtasi",
+  "source": "Little ODP — Thomas Gray, Ode on a Prospect of Eton College (1747) dan"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Ignorance is voluntary misfortune.",
+  "author": "Amerika maqoli, XX asr o'rtasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "When the blind lead the blind, both shall fall into the ditch.",
+  "author": "Ingliz xalq maqoli, IX asr oxiri",
+  "source": "Little ODP — Bibliya (Matto) dan"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "The less you know, the better you sleep.",
+  "author": "Rus (sovet davri) iborasi",
+  "source": "Little ODP"
+ },
+ {
+  "uz": "",
+  "ru": "",
+  "en": "Man is the enemy of that of which he is ignorant.",
+  "author": "Arab maqoli",
+  "source": "Little ODP"
+ }
+]

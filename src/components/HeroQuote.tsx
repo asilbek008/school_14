@@ -5,7 +5,13 @@ import { useEffect, useState } from "react";
 /** How long one quote holds the hero (owner's choice): long enough to be read, not so long it never changes. */
 const WINDOW = 10 * 60 * 1000;
 
-export type Quote = { text: string; author?: string };
+/**
+ * `source` is the work a quote comes from, and it is the rule the school's own research settled on:
+ * a quote that cannot name its source does not go on the site. Uzbek "hikmatlar" collections are
+ * full of lines credited to the wrong author -- one state company's site lists a sentence from
+ * Qodiriy's "O‘tkan kunlar" among "Avloniy's sayings" -- and naming the work is what stops that.
+ */
+export type Quote = { text: string; author?: string; source?: string };
 
 /**
  * The hero heading, cycling through the school's quotes every ten minutes.
@@ -53,6 +59,7 @@ export default function HeroQuote({ quotes, className = "" }: { quotes: Quote[];
         {quote.author && (
           <span className="mt-3 block font-sans text-[15px] font-semibold tracking-normal text-gold sm:text-base xl:mt-4 xl:text-[17px]">
             — {quote.author}
+            {quote.source && <span className="font-normal text-[#c3cce6]">, {quote.source}</span>}
           </span>
         )}
       </span>

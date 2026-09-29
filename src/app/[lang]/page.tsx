@@ -4,6 +4,7 @@ import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
 import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, getSchoolYears, getStudentTotal, getTests, mediaUrl } from "@/lib/content";
 import HeroQuote from "@/components/HeroQuote";
+import { heroQuotes } from "@/lib/quotes";
 import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
@@ -81,7 +82,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
             {/* The heading turns over every ten minutes (owner's request); the school's own motto is
                 the first of the quotes, so it is what the server renders and what a crawler reads. */}
             <HeroQuote
-              quotes={dict.home.quotes}
+              quotes={heroQuotes(lang, dict.home.heroTitle)}
               className="font-display mt-5 animate-fade-up text-[clamp(1.75rem,3.4vw,2.6rem)] font-bold leading-[1.12] tracking-[-0.03em] xl:text-[3rem] 2xl:text-[3.25rem] [animation-delay:80ms]"
             />
             <p className="mt-5 max-w-[52ch] animate-fade-up text-[17.5px] leading-relaxed xl:mt-6 xl:text-xl text-[#c3cce6] [animation-delay:160ms]">{dict.home.heroLead}</p>
