@@ -200,8 +200,11 @@ export default function SiteNav({
               <path d="M6 6l12 12M18 6L6 18" className="hidden group-open:block" />
             </svg>
           </summary>
-          <nav className="surface fixed inset-x-0 bottom-0 top-16 z-40 animate-fade-in overflow-y-auto overscroll-contain bg-paper px-4 pb-10 pt-4 text-slate-900 [animation-duration:0.25s]">
-            <div className="mx-auto max-w-xl space-y-2">
+          {/* A card under the header rather than a full screen (owner's request): the page shows down
+              both sides and below, so the menu reads as something opened over the page instead of a
+              new one. It stops at 68% of the viewport and scrolls inside itself past that. */}
+          <nav className="menu-card surface fixed inset-x-3 top-[70px] z-40 mx-auto max-h-[68dvh] max-w-lg overflow-y-auto overscroll-contain rounded-3xl border border-slate-200 bg-paper p-3 text-slate-900 shadow-[0_8px_16px_-8px_rgb(19_26_46/0.2),0_32px_64px_-24px_rgb(19_26_46/0.45)]">
+            <div className="space-y-2">
               {/* Site search (on phones it is not in the bar). */}
               <form action={labels.search.action} role="search" className="relative mb-3">
                 <svg viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
@@ -224,7 +227,7 @@ export default function SiteNav({
                       key={entry.href}
                       href={entry.href}
                       aria-current={active ? "page" : undefined}
-                      className={`block rounded-2xl border px-5 py-4 text-lg font-bold transition-colors ${
+                      className={`press block rounded-2xl border px-5 py-4 text-lg font-bold transition-colors ${
                         active ? "border-navy bg-navy text-white" : "border-slate-200 bg-white hover:border-brand hover:text-brand"
                       }`}
                     >
@@ -235,7 +238,7 @@ export default function SiteNav({
                 const active = groupActive(entry.items);
                 return (
                   <details key={entry.key} open={active || undefined} className="group/m overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                    <summary className={`flex cursor-pointer list-none items-center justify-between px-5 py-4 text-lg font-bold [&::-webkit-details-marker]:hidden ${active ? "text-brand" : ""}`}>
+                    <summary className={`press flex cursor-pointer list-none items-center justify-between px-5 py-4 text-lg font-bold [&::-webkit-details-marker]:hidden ${active ? "text-brand" : ""}`}>
                       {entry.label}
                       <Chevron className="size-5 text-slate-400 group-open/m:rotate-180" />
                     </summary>
@@ -245,7 +248,7 @@ export default function SiteNav({
                           key={item.href}
                           item={item}
                           newTab={labels.newTab}
-                          className={`group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-paper ${
+                          className={`press group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-paper ${
                             !item.external && isActive(item.href.split("#")[0]) && !item.href.includes("#") ? "bg-paper text-brand" : ""
                           }`}
                         >
@@ -266,7 +269,7 @@ export default function SiteNav({
               <ItemLink
                 item={labels.extra}
                 newTab={labels.newTab}
-                className="group/item flex items-center gap-3 rounded-2xl bg-gold-soft px-4 py-3 font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
+                className="press group/item flex items-center gap-3 rounded-2xl bg-gold-soft px-4 py-3 font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
               >
                 <Icon item={labels.extra} size="size-9" />
                 <span>

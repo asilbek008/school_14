@@ -163,9 +163,51 @@ body {
   }
 }
 
-/* The mobile menu covers the page; the page behind it must not scroll. */
+/* The mobile menu is a card under the header, not a full screen: the page stays visible down the
+   sides and below it. It still holds the page still while open, so a scroll meant for the menu does
+   not move the page behind it once the menu's own list reaches its end. */
 html:has(.mobile-nav[open]) {
   overflow: hidden;
+}
+
+/* The card drops out of the burger button it was opened from, so the motion points back at the
+   control the visitor just pressed. */
+.menu-card {
+  transform-origin: top right;
+  animation: menu-drop 0.26s var(--ease-spring) both;
+}
+
+@keyframes menu-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Rows arrive just behind the card, a few milliseconds apart, so the eye is led down the list
+   instead of meeting all of it at once. Past the tenth row the delay stops growing -- by then the
+   card is open and a longer wait would only feel slow. */
+@media (prefers-reduced-motion: no-preference) {
+  .menu-card > div > * {
+    animation: fade-up 0.34s var(--ease-spring) both;
+    animation-delay: 0.16s;
+  }
+  .menu-card > div > *:nth-child(1) {
+    animation-delay: 0.08s;
+  }
+  .menu-card > div > *:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  .menu-card > div > *:nth-child(3) {
+    animation-delay: 0.12s;
+  }
+  .menu-card > div > *:nth-child(4) {
+    animation-delay: 0.14s;
+  }
 }
 
 /* Accordions (<details class="acc">): the body slides open where the browser can animate to height:auto. */
