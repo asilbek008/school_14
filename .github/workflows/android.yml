@@ -15,19 +15,12 @@ jobs:
     env:
       SIGNED: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: "17"
-
-      # The action's own default package list still asks for `tools`, which Google has removed from the
-      # SDK repository: sdkmanager exits 1 with "Failed to find package 'tools'" and the build never
-      # starts. Naming what this project actually needs (compileSdk 36, AGP 8.9.1) skips that default.
-      - uses: android-actions/setup-android@v3
-        with:
-          packages: "platform-tools platforms;android-36 build-tools;36.0.0"
 
       - name: Restore the signing key
         if: env.SIGNED == 'true'
@@ -48,6 +41,10 @@ jobs:
 
       - name: Build
         working-directory: android
+        # The runner's own SDK; no download, no license prompt.
+        env:
+          ANDROID_HOME: /usr/local/lib/android/sdk
+          ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
         run: |
           chmod +x gradlew
           if [ -f keystore.properties ]; then
