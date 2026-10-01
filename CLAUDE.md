@@ -599,6 +599,15 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Imzo kaliti repoda yo‘q va hech qachon bo‘lmaydi (`android/.gitignore`: `*.jks`, `keystore.properties`) — yo‘qolsa ilovani
   yangilab bo‘lmaydi. Ikonkalar `mipmap-*` da (PIL bilan chizilgan: navy plitka, ko‘k-yashil yog‘du, oq «14»); `minSdk 26` —
   shuning uchun adaptiv ikonka yetarli. To‘liq qo‘llanma: `android/README.md`.
+  Do‘kon sahifasi `android/play/` da tayyor: ikonka, banner (`feature-graphic.png` — `make-banner.py`
+  bilan Pillow'da chiziladi), telefon ekran rasmlari (`screenshots/`, saytning o‘zidan 540×960 CSS px,
+  2× → 1080×1920; CountUp tugagan ko‘rinishi uchun reduced-motion bilan olinadi) va uch tildagi
+  tavsiflar + Data safety javoblari (`listing.md`). Sayt ko‘rinishi o‘zgarsa rasmlarni yangilang.
+- Maxfiylik siyosati (`/[lang]/privacy`, egasining talabi — Play Store majburiy qiladi): matn lug‘atda
+  (`privacy.sections`, 16 bo‘lim; `items`/`after` ixtiyoriy — TS'da `section.items &&` bilan tekshiriladi),
+  sahifa chapda bo‘limlar ro‘yxati bilan. Faqat **haqiqatan** yig‘iladigan ma’lumot yoziladi: yangi bo‘lim
+  qo‘shsangiz yoki yig‘ilayotgan narsa o‘zgarsa, shu matnni ham, `play/listing.md` dagi Data safety
+  javoblarini ham yangilang. Menyuda yo‘q — footer, sitemap va qidiruvda.
 
 ### Xavfsizlik sarlavhalari
 - `next.config.ts` `headers()`: nosniff, `X-Frame-Options`/`frame-ancestors 'self'`, `base-uri`/`object-src`/`form-action`, Referrer-Policy,

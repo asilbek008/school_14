@@ -36,7 +36,8 @@
     "reference": "Ma’lumotnoma",
     "status": "Murojaat holati",
     "verify": "Sertifikatni tekshirish",
-    "contests": "Olimpiada va tanlovlar"
+    "contests": "Olimpiada va tanlovlar",
+    "privacy": "Maxfiylik siyosati"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -339,6 +340,114 @@
     "open": "Ochish",
     "search": "Savol yoki javobdan qidiring…",
     "notFound": "Bunday savol topilmadi. Savolingizni bizga yozing — javob beramiz."
+  },
+  "privacy": {
+    "kicker": "Huquqiy ma’lumot",
+    "title": "Maxfiylik siyosati",
+    "lead": "Bu sahifada saytimiz va mobil ilovamiz qanday ma’lumot yig‘ishi, uni nima uchun ishlatishi va kim ko‘rishi mumkinligi oddiy tilda yozilgan.",
+    "updated": "Oxirgi yangilanish: 2026-yil 1-oktabr",
+    "intro": "Maktab sayti ota-onalar va o‘quvchilar uchun ochiq ma’lumot manbai bo‘lib xizmat qiladi. Biz zarur bo‘lmagan hech qanday ma’lumotni yig‘maymiz, hech kimga sotmaymiz va reklama uchun ishlatmaymiz.",
+    "sections": [
+      {
+        "title": "1. Ma’lumotni kim yig‘adi",
+        "body": "Sayt va ilovaning egasi — Surxondaryo viloyati Qiziriq tumani 14-umumiy o‘rta ta’lim maktabi. Ma’lumotlar bazasi Supabase xizmatida (Frankfurt, Yevropa Ittifoqi), sayt esa Vercel xizmatida joylashgan.\n\nMaxfiylik bo‘yicha har qanday savol va murojaat bilan maktabga telefon qilib yoki elektron pochta orqali bog‘lanishingiz mumkin — aloqa ma’lumotlari sahifaning pastida."
+      },
+      {
+        "title": "2. Ismsiz yig‘iladigan ma’lumot (tashriflar statistikasi)",
+        "body": "Qaysi bo‘limlar foydali bo‘layotganini bilish uchun har sahifa ko‘rilganda quyidagilar yoziladi:",
+        "items": [
+          "sahifa manzili va tanlangan til;",
+          "brauzeringizga berilgan tasodifiy raqam (ism emas) va tashrifning raqami;",
+          "qaysi saytdan kelganingiz (faqat sayt nomi);",
+          "shahar/viloyat va davlat — taxminan, internet provayderingiz bo‘yicha;",
+          "qurilma turi (telefon yoki kompyuter)."
+        ],
+        "after": "IP manzilingiz, ismingiz va kuzatuv cookie’lari saqlanmaydi. Brauzeringizda «Do Not Track» yoki «Global Privacy Control» yoqilgan bo‘lsa, hech narsa yuborilmaydi. Bu yozuvlar bir yildan keyin avtomatik o‘chadi."
+      },
+      {
+        "title": "3. O‘zingiz yuboradigan ma’lumot",
+        "body": "Quyidagi formalarni to‘ldirsangizgina ma’lumot bazaga tushadi:",
+        "items": [
+          "Aloqa formasi — ism, telefon yoki elektron pochta, mavzu va xabar matni;",
+          "Onlayn qabul arizasi — bolaning ism-sharifi, tug‘ilgan sanasi, sinfi, ota-onaning ism-sharifi va telefoni, hohlasangiz manzil, oldingi maktab va izoh;",
+          "Ma’lumotnoma buyurtmasi — bolaning ism-sharifi, sinfi, ota-onaning ism-sharifi va telefoni, maqsad;",
+          "Tanlovga ro‘yxatdan o‘tish — o‘quvchining ism-sharifi, sinfi va aloqa telefoni;",
+          "Ishonch qutisi — faqat mavzu va xabar matni; yuboruvchi haqida hech narsa saqlanmaydi (aloqa ma’lumotini o‘zingiz yozsangizgina qoladi);",
+          "So‘rovnomalar — faqat javoblarning o‘zi va vaqti; ism, hisob va IP saqlanmaydi."
+        ],
+        "after": "Bu ma’lumotlar faqat sizning murojaatingizga javob berish uchun ishlatiladi va saytda hech qachon ko‘rinmaydi."
+      },
+      {
+        "title": "4. Bolalarning ma’lumoti",
+        "body": "Bolaning shaxsiy ma’lumoti ochiq saytga chiqarilmaydi. Qabul arizalari, ma’lumotnoma buyurtmalari va tanlov arizalarini faqat maktabning mas’ul xodimlari ko‘radi.\n\nBaholar, davomat va uy vazifalari saytda yo‘q — ular faqat eMaktab elektron kundaligida. Sinf ro‘yxatida o‘quvchining to‘liq ismi emas, qisqartirilgan ko‘rinishi (masalan «Aliyev A.») ko‘rsatiladi. Yutuqlar bo‘limida o‘quvchining ismi faqat uning (yoki ota-onasining) roziligi bilan yoziladi."
+      },
+      {
+        "title": "5. Brauzeringizda saqlanadigan ma’lumot",
+        "body": "Qulaylik uchun ba’zi narsalar faqat qurilmangizda, serverga yuborilmasdan saqlanadi:",
+        "items": [
+          "tanlangan til va kun/tun rejimi;",
+          "«Mening sinfim» tanlovi;",
+          "test natijalari va mavzular bo‘yicha o‘zlashtirish;",
+          "kitobning qaysi sahifasida qolganingiz;",
+          "ilovani o‘rnatish taklifi yopilgani."
+        ],
+        "after": "Bularni brauzer ma’lumotlarini tozalash orqali o‘zingiz o‘chirishingiz mumkin."
+      },
+      {
+        "title": "6. Xabarnomalar va Telegram botlari",
+        "body": "Xabarnomaga obuna bo‘lsangiz, brauzeringiz bergan texnik manzil va kalitlar hamda tilingiz saqlanadi — ism yo‘q. Obunani xohlagan paytda bekor qilish mumkin.\n\nOta-onalar boti faqat suhbat raqamini, tanlangan sinfni va obuna holatini saqlaydi; ismingiz va Telegram foydalanuvchi nomingiz saqlanmaydi. Botni bloklasangiz yoki /obuna buyrug‘i bilan o‘chirsangiz, xabarlar kelmaydi."
+      },
+      {
+        "title": "7. Shaxsiy kabinet",
+        "body": "Shaxsiy kabinetda test natijalari va o‘zlashtirish serverda saqlanadi — shuning uchun telefon va kompyuterda bir xil bo‘ladi. Ro‘yxatdan o‘tish yo‘q: yozuv faqat bir martalik kalitga bog‘lanadi, ism, telefon va sinf ro‘yxati saqlanmaydi. Kabinet sahifasidagi «O‘chirish» tugmasi barcha yozuvni butunlay o‘chiradi."
+      },
+      {
+        "title": "8. AI yordamchi",
+        "body": "Savolingizga javob tayyorlash uchun savol matni Anthropic xizmatiga yuboriladi; javob saytdagi ma’lumotlar asosida tuziladi. Savollar maktab bazasida — ismsiz va IP’siz — saqlanadi, ko‘p takrorlanadigan savollarni «Savol-javob» bo‘limiga qo‘shish uchun. AI yordamchiga shaxsiy ma’lumot (bolaning to‘liq ismi, telefon) yozmaslikni so‘raymiz."
+      },
+      {
+        "title": "9. Sertifikatni tekshirish",
+        "body": "Test sertifikatini yuklab olayotganda «Tekshirish uchun ro‘yxatdan o‘tkazish» katagini belgilasangizgina ism, test nomi, foiz va sana saqlanadi — shunda sertifikatning haqiqiyligini kod bo‘yicha tekshirish mumkin bo‘ladi. Katak standart holatda o‘chiq: belgilamasangiz hech narsa saqlanmaydi."
+      },
+      {
+        "title": "10. Ma’lumotni kim ko‘radi",
+        "body": "Yig‘ilgan ma’lumotni faqat maktabning mas’ul xodimlari — parol va ikki bosqichli kirish bilan — ko‘radi. Har bir xodimning roli bor: muharrir faqat yangilik va galereyani, o‘qituvchi faqat testlarni ko‘radi. Panelga kirishlar va o‘zgartirishlar jurnalga yoziladi.\n\nMa’lumot uchinchi shaxslarga berilmaydi va sotilmaydi. Faqat qonun talab qilgan hollarda vakolatli organlarga beriladi."
+      },
+      {
+        "title": "11. Xizmat ko‘rsatuvchilar",
+        "body": "Sayt ishlashi uchun quyidagi xizmatlardan foydalanamiz:",
+        "items": [
+          "Vercel — saytni joylashtirish va ismsiz (cookie’siz) tashriflar statistikasi;",
+          "Supabase — ma’lumotlar bazasi va fayllar (Frankfurt, Yevropa Ittifoqi);",
+          "Telegram — maktab va ota-onalar botlari;",
+          "Anthropic — AI yordamchining javoblari;",
+          "Google Maps va YouTube — xarita va videolar (YouTube cookie’siz rejimda)."
+        ],
+        "after": "Saytdagi tashqi havolalar (eMaktab, infoedu.uz, mutolaa.com, lex.uz va boshqalar) o‘z maxfiylik qoidalariga ega — ularni o‘sha saytlarda o‘qish mumkin."
+      },
+      {
+        "title": "12. Qancha vaqt saqlanadi",
+        "body": "Tashriflar statistikasi va panelga kirishlar jurnali bir yildan keyin avtomatik o‘chadi. Murojaat, ariza va buyurtmalar ularga javob berish va hisobot uchun zarur bo‘lgan muddatda saqlanadi. Bazaning haftalik zaxira nusxalaridan oxirgi sakkiztasi saqlanadi."
+      },
+      {
+        "title": "13. Huquqlaringiz",
+        "body": "O‘zingiz yoki farzandingiz haqidagi ma’lumotni ko‘rish, tuzatish yoki o‘chirishni so‘rashga haqlisiz. Buning uchun maktabga telefon qiling yoki elektron pochta orqali yozing — murojaatni imkon qadar tez ko‘rib chiqamiz.\n\nIshonch qutisiga yuborilgan xabarni alohida topib o‘chirib bo‘lmaydi: u ataylab yuboruvchiga bog‘lanmaydi."
+      },
+      {
+        "title": "14. Reklama yo‘q",
+        "body": "Saytda va ilovada reklama, reklama kuzatuvchilari va boshqa saytlar bo‘ylab kuzatish yo‘q. Ma’lumot hech kimga sotilmaydi."
+      },
+      {
+        "title": "15. Android ilovasi",
+        "body": "Play Store’dagi ilova — shu saytning o‘zi: ilova ichida sayt ochiladi va yuqoridagi qoidalar to‘liq amal qiladi. Ilovaning o‘zi qo‘shimcha ma’lumot yig‘maydi, kameraga, kontaktlarga va joylashuvga murojaat qilmaydi. Ilovani o‘rnatish va yangilash statistikasini Google Play o‘zi yuritadi."
+      },
+      {
+        "title": "16. O‘zgarishlar",
+        "body": "Bu siyosat o‘zgarsa, yangi matn shu sahifada va yangilanish sanasi bilan chiqadi."
+      }
+    ],
+    "contactTitle": "Savolingiz bormi?",
+    "contactBody": "Maxfiylik bo‘yicha savollar uchun maktab bilan bog‘laning:"
   },
   "newsCats": {
     "yangilik": "Yangilik",

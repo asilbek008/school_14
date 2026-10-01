@@ -58,6 +58,7 @@ export async function buildSearchIndex(lang: Locale, dict: Dictionary, { brief =
     ...(school.showDocuments ? [["/documents", dict.documents.title, dict.documents.intro] as [string, string, string]] : []),
     ["/contact", dict.nav.contact, d.contact],
     ["/admissions/apply", dict.apply.title, dict.apply.lead],
+    ["/privacy", dict.privacy.title, dict.privacy.lead],
   ];
 
   return [
