@@ -10,7 +10,7 @@ if (keystorePropertiesFile.exists()) {
 
 android {
   namespace "uz.maktab14.qiziriq"
-  compileSdk 35
+  compileSdk 36
 
   defaultConfig {
     applicationId "uz.maktab14.qiziriq"
