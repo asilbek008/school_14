@@ -275,7 +275,9 @@ html.dark .chrome::before {
    Its children read these variables instead of literal colours, so the whole bar moves together and
    nothing is left white-on-white when the mode changes. */
 .site-header {
-  --hdr-bg: var(--color-paper);
+  /* A step deeper and a shade bluer than the page's own paper (#f5f6fa), which read as almost white
+     against the content and left the bar with no edge of its own (owner's report). */
+  --hdr-bg: #e4e9f3;
   --hdr-fg: #131a2e;
   --hdr-muted: #5a6786;
   --hdr-hover: rgb(19 26 46 / 0.07);
