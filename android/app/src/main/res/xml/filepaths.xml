@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
   <files-path name="downloads" path="downloads/" />
+  <!-- The splash screen the app shows while the site loads is drawn here and then handed to Chrome
+       through this provider. Without a root covering it, FileProvider.getUriForFile throws
+       "Failed to find configured root" and the app dies before the site ever opens. -->
+  <files-path name="twa_splash" path="twa_splash/" />
   <cache-path name="cache" path="/" />
   <external-path name="external" path="." />
 </paths>

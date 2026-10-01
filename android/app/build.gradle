@@ -50,4 +50,8 @@ dependencies {
   // Trusted Web Activity: the app is a window onto the site itself, in Chrome's engine,
   // with no address bar once assetlinks.json proves the two belong together.
   implementation "com.google.androidbrowserhelper:androidbrowserhelper:2.6.0"
+  // The helper declares androidx.browser 1.9.0-alpha02; 1.9.0 is out, and a Play Store build should
+  // not rest on an alpha. Same API, so nothing else changes -- it is what forces compileSdk 36 and
+  // Android Gradle plugin 8.9.1 above (the plugin's own minimum, and Gradle 8.11.1 already covers it).
+  implementation "androidx.browser:browser:1.9.0"
 }

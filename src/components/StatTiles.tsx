@@ -1,4 +1,5 @@
 import Link from "next/link";
+import CountUp from "./CountUp";
 
 /** Tile colors in turn: blue, teal, gold, coral (as on "About"); also the contact cards. */
 export const tileColors = ["from-[#3e72e8] to-brand-deep", "from-[#17a090] to-[#0c6d62]", "from-[#e0a33e] to-gold-deep", "from-[#d2664e] to-[#a63b28]"];
@@ -14,7 +15,7 @@ export default function StatTiles({ stats, className = "mb-8" }: { stats: { valu
         const tile = `reveal relative overflow-hidden rounded-[14px] bg-gradient-to-br px-3.5 py-4 text-white after:absolute after:-right-8 after:-top-10 after:size-[110px] after:rounded-full after:bg-white/15 sm:px-5 sm:py-5 ${tileColors[i % tileColors.length]}`;
         const body = (
           <>
-            <b className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]">{value}</b>
+            <CountUp value={value} className="font-display block text-2xl font-extrabold leading-none tracking-tight sm:text-[30px]" />
             <span className="mt-1.5 block text-[12.5px] font-semibold opacity-90 sm:text-[13.5px]">{label}</span>
           </>
         );

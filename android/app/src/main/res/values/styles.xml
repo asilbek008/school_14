@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- Android has Theme.DeviceDefault.DayNight and Theme.DeviceDefault.NoActionBar, but no
-       DayNight.NoActionBar child. Night is handled by values-night/colors.xml instead, which is all
-       this theme needs: the two system bars take their colour from @color/navy. -->
-  <style name="AppTheme" parent="android:Theme.DeviceDefault.NoActionBar">
+  <!-- The platform has no Theme.DeviceDefault.DayNight.NoActionBar, and plain
+       Theme.DeviceDefault.DayNight only arrived in API 29 while this app runs from API 26. So day
+       and night are chosen by the resource qualifier instead, the way colors.xml already does it. -->
+  <style name="AppTheme" parent="android:Theme.DeviceDefault.Light.NoActionBar">
     <item name="android:statusBarColor">@color/navy</item>
     <item name="android:navigationBarColor">@color/navy</item>
   </style>

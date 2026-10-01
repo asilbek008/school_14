@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- The same theme on the dark DeviceDefault base; @color/navy resolves to the darker shade here. -->
+  <style name="AppTheme" parent="android:Theme.DeviceDefault.NoActionBar">
+    <item name="android:statusBarColor">@color/navy</item>
+    <item name="android:navigationBarColor">@color/navy</item>
+  </style>
+</resources>

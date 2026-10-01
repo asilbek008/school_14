@@ -1138,6 +1138,7 @@
     },
     "grade": "{n}-sinf",
     "allGrades": "Barcha sinflar",
+    "shelfTextbooks": "Maktab darsliklari",
     "readingKicker": "Mutolaaxona",
     "readingTitle": "Sinfingiz uchun badiiy adabiyot",
     "readingText": "Adabiyot darsligidagi asarlar. Har bir kitob mutolaa.com saytida onlayn o‘qiladi yoki tinglanadi — havolani bosing. Kitoblar bizning saytimizda saqlanmaydi.",

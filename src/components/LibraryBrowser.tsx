@@ -98,20 +98,22 @@ export default function LibraryBrowser({ books, lang, t, allLabel }: { books: Li
         )}
       </div>
 
-      <div className="mb-6 grid gap-2.5 sm:grid-cols-[1fr_auto_auto]">
+      {/* On a phone the search takes the row and the two pickers share the next one, instead of three
+          full-width controls stacked above the first book. */}
+      <div className="mb-4 grid grid-cols-2 gap-2 sm:mb-6 sm:grid-cols-[1fr_auto_auto] sm:gap-2.5">
         <input
           type="search"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder={t.search}
           aria-label={t.search}
-          className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-[15px] text-slate-900 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20"
+          className="col-span-2 rounded-full border border-slate-300 bg-white px-3.5 py-2 text-[14px] text-slate-900 focus:border-brand focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand/20 sm:col-span-1 sm:px-4 sm:py-2.5 sm:text-[15px]"
         />
         <select
           value={subject}
           onChange={(e) => setSubject(e.target.value === "all" ? "all" : Number(e.target.value))}
           aria-label={t.subject}
-          className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-[15px] font-medium text-slate-800 focus:border-brand focus:outline-none"
+          className={`rounded-full border border-slate-300 bg-white px-3 py-2 text-[13.5px] font-medium text-slate-800 focus:border-brand focus:outline-none sm:px-4 sm:py-2.5 sm:text-[15px] ${languages.length > 1 ? "" : "col-span-2 sm:col-span-1"}`}
         >
           <option value="all">{t.allSubjects}</option>
           {subjects.map(([id, name]) => (
@@ -125,7 +127,7 @@ export default function LibraryBrowser({ books, lang, t, allLabel }: { books: Li
             value={language}
             onChange={(e) => setLanguage(e.target.value)}
             aria-label={t.language}
-            className="rounded-full border border-slate-300 bg-white px-4 py-2.5 text-[15px] font-medium text-slate-800 focus:border-brand focus:outline-none"
+            className="rounded-full border border-slate-300 bg-white px-3 py-2 text-[13.5px] font-medium text-slate-800 focus:border-brand focus:outline-none sm:px-4 sm:py-2.5 sm:text-[15px]"
           >
             <option value="all">{t.allLanguages}</option>
             {languages.map((l) => (
@@ -140,15 +142,15 @@ export default function LibraryBrowser({ books, lang, t, allLabel }: { books: Li
       {myGrade && picked == null && <p className="mb-4 text-sm text-slate-500">{fill(t.myClass, { c: myClass!.label })}</p>}
 
       {groups.length ? (
-        <div className="space-y-10">
+        <div className="space-y-7 sm:space-y-10">
           {groups.map((g) => (
             <section key={g.key}>
               {g.label && (
-                <h2 className="mb-4 flex items-baseline gap-2 text-lg font-bold text-slate-900">
+                <h2 className="mb-3 flex items-baseline gap-2 text-base font-bold text-slate-900 sm:mb-4 sm:text-lg">
                   {g.label} <span className="text-sm font-medium text-slate-400">· {g.items.length}</span>
                 </h2>
               )}
-              <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
+              <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4 xl:grid-cols-5">
                 {g.items.map((b) => (
                   <BookCard key={b.id} b={b} lang={lang} t={t} page={progress[b.id]} />
                 ))}
@@ -195,19 +197,19 @@ function BookCard({ b, lang, t, page }: { b: LibraryBook; lang: string; t: T; pa
           {cover}
         </Link>
       )}
-      <div className="flex flex-1 flex-col p-3">
-        <b className="line-clamp-2 text-[14px] leading-snug text-slate-900">{b.title}</b>
-        <span className="mt-1 text-[12px] text-slate-500">
+      <div className="flex flex-1 flex-col p-2.5 sm:p-3">
+        <b className="line-clamp-2 text-[13px] leading-snug text-slate-900 sm:text-[14px]">{b.title}</b>
+        <span className="mt-1 text-[11.5px] text-slate-500 sm:text-[12px]">
           {[b.subject, b.grade && fill(t.grade, { n: b.grade }), b.language !== "uz" && t.languages[b.language]].filter(Boolean).join(" · ")}
         </span>
         {b.author && <span className="mt-0.5 line-clamp-1 text-[12px] text-slate-400">{b.author}</span>}
-        <span className="mt-auto flex items-center gap-1.5 pt-3">
+        <span className="mt-auto flex items-center gap-1.5 pt-2.5 sm:pt-3">
           {b.external ? (
-            <a href={href} target="_blank" rel="noopener noreferrer" className="press flex-1 rounded-full bg-brand px-3 py-1.5 text-center text-[13px] font-bold text-white hover:bg-brand-deep">
+            <a href={href} target="_blank" rel="noopener noreferrer" className="press flex-1 rounded-full bg-brand px-2.5 py-1.5 text-center text-[12px] font-bold text-white hover:bg-brand-deep sm:px-3 sm:text-[13px]">
               {t.open}
             </a>
           ) : (
-            <Link href={href} className="press flex-1 rounded-full bg-brand px-3 py-1.5 text-center text-[13px] font-bold text-white hover:bg-brand-deep">
+            <Link href={href} className="press flex-1 rounded-full bg-brand px-2.5 py-1.5 text-center text-[12px] font-bold text-white hover:bg-brand-deep sm:px-3 sm:text-[13px]">
               {t.read}
             </Link>
           )}
@@ -216,7 +218,7 @@ function BookCard({ b, lang, t, page }: { b: LibraryBook; lang: string; t: T; pa
               href={b.download}
               aria-label={`${t.download}${b.size ? ` (${b.size})` : ""}`}
               title={`${t.download}${b.size ? ` · ${b.size}` : ""}`}
-              className="press grid size-8 shrink-0 place-items-center rounded-full border border-slate-300 text-slate-600 hover:border-brand hover:text-brand"
+              className="press grid size-7 shrink-0 place-items-center rounded-full border border-slate-300 text-slate-600 hover:border-brand hover:text-brand sm:size-8"
             >
               <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M12 4v11M7 10l5 5 5-5M5 20h14" />
@@ -225,7 +227,7 @@ function BookCard({ b, lang, t, page }: { b: LibraryBook; lang: string; t: T; pa
           )}
         </span>
         {(b.pages || b.size) && (
-          <span className="mt-2 text-[11.5px] text-slate-400">{[b.pages && plural(t.pages, b.pages, lang), b.size].filter(Boolean).join(" · ")}</span>
+          <span className="mt-1.5 text-[11px] text-slate-400 sm:mt-2 sm:text-[11.5px]">{[b.pages && plural(t.pages, b.pages, lang), b.size].filter(Boolean).join(" · ")}</span>
         )}
       </div>
     </li>

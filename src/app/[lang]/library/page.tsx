@@ -8,7 +8,7 @@ import { tileColors } from "@/components/StatTiles";
 import { school } from "@/lib/school";
 import { fill, plural } from "@/i18n/fill";
 import StatTiles from "@/components/StatTiles";
-import LibraryBrowser from "@/components/LibraryBrowser";
+import LibraryShelves from "@/components/LibraryShelves";
 
 export const revalidate = 300;
 
@@ -41,15 +41,9 @@ export default async function LibraryPage({ params }: PageProps<"/[lang]/library
       <PageHeader crumbs={[{ href: `/${lang}`, label: dict.nav.home }]} kicker={t.kicker} title={t.title} intro={t.intro} />
       <div className="mx-auto max-w-6xl px-4 py-10 sm:py-12">
         {all.length > 0 && <StatTiles stats={pages ? stats : stats.slice(0, 3)} />}
-        {books.length > 0 && <LibraryBrowser books={books} lang={lang} t={t} allLabel={t.allGrades} />}
-
-        {/* The reading room: the year's literature, read on the publisher's own site. */}
-        {reading.length > 0 && (
-          <section className={books.length ? "mt-12 border-t border-slate-200 pt-10" : ""}>
-            <SectionHead kicker={t.readingKicker} title={t.readingTitle} desc={t.readingText} />
-            <LibraryBrowser books={reading} lang={lang} t={t} allLabel={t.allGrades} />
-          </section>
-        )}
+        {/* Two shelves, chosen rather than stacked: the textbooks a lesson needs, and the year's
+            literature read on the publisher's own site. */}
+        {all.length > 0 && <LibraryShelves books={books} reading={reading} lang={lang} t={t} />}
 
         {/* Every grade's full set of textbooks on the external catalogue (linked, not copied). */}
         <section className={all.length ? "mt-12 border-t border-slate-200 pt-10" : ""}>
