@@ -3,6 +3,8 @@ import Link from "next/link";
 import { resolveLang } from "@/i18n/server";
 import { plural } from "@/i18n/fill";
 import { getAlbums, getClasses, getClubs, getEvents, getNews, getPrograms, getSchoolYears, getStudentTotal, getTests, mediaUrl } from "@/lib/content";
+import HeroQuote from "@/components/HeroQuote";
+import { heroQuotes } from "@/lib/quotes";
 import Lightbox from "@/components/Lightbox";
 import { currentSchoolYear, school } from "@/lib/school";
 import entrance from "../../../public/images/school-entrance.webp";
@@ -77,14 +79,12 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
               />
               {started ? dict.home.eyebrowStarted : dict.home.eyebrow}
             </div>
-            <h1 className="font-display mt-5 animate-fade-up text-[clamp(2rem,4vw,3rem)] font-bold xl:text-[3.5rem] 2xl:text-[3.75rem] leading-[1.08] tracking-[-0.032em] [animation-delay:80ms]">
-              {/* One sentence per line, so the motto does not break mid-thought. */}
-              {dict.home.heroTitle.split(/(?<=\.)\s+/).map((sentence) => (
-                <span key={sentence} className="block">
-                  {sentence}
-                </span>
-              ))}
-            </h1>
+            {/* The heading turns over every ten minutes (owner's request); the school's own motto is
+                the first of the quotes, so it is what the server renders and what a crawler reads. */}
+            <HeroQuote
+              quotes={heroQuotes(lang, dict.home.heroTitle)}
+              className="font-display mt-5 animate-fade-up text-[clamp(1.75rem,3.4vw,2.6rem)] font-bold leading-[1.12] tracking-[-0.03em] xl:text-[3rem] 2xl:text-[3.25rem] [animation-delay:80ms]"
+            />
             <p className="mt-5 max-w-[52ch] animate-fade-up text-[17.5px] leading-relaxed xl:mt-6 xl:text-xl text-[#c3cce6] [animation-delay:160ms]">{dict.home.heroLead}</p>
             <div className="mt-7 flex animate-fade-up flex-wrap gap-3 [animation-delay:240ms]">
               <Link

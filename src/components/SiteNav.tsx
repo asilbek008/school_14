@@ -115,7 +115,9 @@ export default function SiteNav({
   }, [openKey]);
 
   const pill = "rounded-full px-2.5 py-2 transition-colors duration-200 2xl:px-4";
-  const pillState = (active: boolean) => (active ? "bg-white text-navy" : "text-[#c2cbe4] hover:bg-white/10 hover:text-white");
+  // The bar's own colours, so the light theme gets a light header instead of the navy one it kept.
+  const pillState = (active: boolean) =>
+    active ? "bg-[var(--hdr-fg)] text-[var(--hdr-bg)]" : "text-[var(--hdr-muted)] hover:bg-[var(--hdr-hover)] hover:text-[var(--hdr-fg)]";
 
   return (
     <>
@@ -152,7 +154,7 @@ export default function SiteNav({
                 aria-expanded={isOpen}
                 aria-haspopup="true"
                 onClick={() => setOpen(isOpen ? null : { key: entry.key, path: pathname })}
-                className={`${pill} flex items-center gap-1.5 ${active ? "bg-white text-navy" : isOpen ? "bg-white/15 text-white" : pillState(false)}`}
+                className={`${pill} flex items-center gap-1.5 ${active ? "bg-[var(--hdr-fg)] text-[var(--hdr-bg)]" : isOpen ? "bg-[var(--hdr-hover)] text-[var(--hdr-fg)]" : pillState(false)}`}
               >
                 {entry.label} <Chevron className={isOpen ? "rotate-180" : ""} />
               </button>
@@ -193,85 +195,66 @@ export default function SiteNav({
         <MobileMenu className="mobile-nav group lg:hidden">
           <summary
             aria-label={labels.menu}
-            className="grid size-9 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-white/10 [&::-webkit-details-marker]:hidden sm:size-10"
+            className="grid size-9 cursor-pointer list-none place-items-center rounded-xl transition-colors hover:bg-[var(--hdr-hover)] [&::-webkit-details-marker]:hidden sm:size-10"
           >
             <svg viewBox="0 0 24 24" className="size-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
               <path d="M4 7h16M4 12h16M4 17h16" className="group-open:hidden" />
               <path d="M6 6l12 12M18 6L6 18" className="hidden group-open:block" />
             </svg>
           </summary>
-          <nav className="surface fixed inset-x-0 bottom-0 top-16 z-40 animate-fade-in overflow-y-auto overscroll-contain bg-paper px-4 pb-10 pt-4 text-slate-900 [animation-duration:0.25s]">
-            <div className="mx-auto max-w-xl space-y-2">
-              {/* Site search (on phones it is not in the bar). */}
-              <form action={labels.search.action} role="search" className="relative mb-3">
-                <svg viewBox="0 0 24 24" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" aria-hidden="true">
-                  <circle cx="11" cy="11" r="7" />
-                  <path d="m20 20-3.5-3.5" />
-                </svg>
-                <input
-                  type="search"
-                  name="q"
-                  placeholder={labels.search.label}
-                  aria-label={labels.search.label}
-                  className="w-full rounded-2xl border border-slate-200 bg-white py-3.5 pl-12 pr-4 text-base outline-none focus:border-brand"
-                />
-              </form>
-              {entries.map((entry) => {
-                if ("href" in entry) {
-                  const active = isActive(entry.href);
-                  return (
+          {/* A small card hung off the burger it was opened from, not a full screen and not centred
+              (owner's request): it sits against the right edge under the button, so the motion and
+              the panel both point back at the control. 240px wide, narrowing on a phone too small
+              for that, and never taller than 416px, scrolling inside itself past that. */}
+          <nav className="menu-card surface fixed right-3 top-[68px] z-40 max-h-[min(70dvh,26rem)] w-[min(15rem,calc(100vw-1.5rem))] overflow-y-auto overscroll-contain rounded-2xl border border-slate-200 bg-paper p-2 text-slate-900 shadow-[0_8px_16px_-8px_rgb(19_26_46/0.2),0_32px_64px_-24px_rgb(19_26_46/0.45)]">
+            <div className="space-y-2">
+              {/* One column, no icons (owner's request): a plain list is quicker to read down than a
+                  grid, and nothing is folded away, so the whole menu is visible at once. */}
+              <div>
+                {entries.map((entry) =>
+                  "href" in entry ? (
                     <Link
                       key={entry.href}
                       href={entry.href}
-                      aria-current={active ? "page" : undefined}
-                      className={`block rounded-2xl border px-5 py-4 text-lg font-bold transition-colors ${
-                        active ? "border-navy bg-navy text-white" : "border-slate-200 bg-white hover:border-brand hover:text-brand"
+                      aria-current={isActive(entry.href) ? "page" : undefined}
+                      className={`press block rounded-lg px-2.5 py-1.5 text-[13.5px] font-bold transition-colors ${
+                        isActive(entry.href) ? "bg-navy text-white" : "hover:bg-white hover:text-brand"
                       }`}
                     >
                       {entry.label}
                     </Link>
-                  );
-                }
-                const active = groupActive(entry.items);
-                return (
-                  <details key={entry.key} open={active || undefined} className="group/m overflow-hidden rounded-2xl border border-slate-200 bg-white">
-                    <summary className={`flex cursor-pointer list-none items-center justify-between px-5 py-4 text-lg font-bold [&::-webkit-details-marker]:hidden ${active ? "text-brand" : ""}`}>
-                      {entry.label}
-                      <Chevron className="size-5 text-slate-400 group-open/m:rotate-180" />
-                    </summary>
-                    <div className="border-t border-slate-100 p-2">
-                      {entry.items.map((item) => (
+                  ) : null,
+                )}
+              </div>
+
+              {entries.map((entry) =>
+                "href" in entry ? null : (
+                  <div key={entry.key}>
+                    <p className="px-2.5 pb-0.5 text-[10px] font-bold uppercase tracking-[0.1em] text-slate-400">{entry.label}</p>
+                    {entry.items.map((item) => {
+                      const here = !item.external && !item.href.includes("#") && isActive(item.href);
+                      return (
                         <ItemLink
                           key={item.href}
                           item={item}
                           newTab={labels.newTab}
-                          className={`group/item flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-paper ${
-                            !item.external && isActive(item.href.split("#")[0]) && !item.href.includes("#") ? "bg-paper text-brand" : ""
-                          }`}
+                          className={`press block truncate rounded-lg px-2.5 py-1.5 text-[13px] font-medium transition-colors hover:bg-white ${here ? "bg-white font-semibold text-brand" : ""}`}
                         >
-                          <Icon item={item} size="size-9" />
-                          <span className="min-w-0">
-                            <b className="block text-[15px] font-semibold leading-tight">
-                              {item.label}
-                              {item.external && <span aria-hidden> ↗</span>}
-                            </b>
-                            <small className="block text-xs text-slate-500">{item.desc}</small>
-                          </span>
+                          {item.label}
+                          {item.external && <span aria-hidden> ↗</span>}
                         </ItemLink>
-                      ))}
-                    </div>
-                  </details>
-                );
-              })}
+                      );
+                    })}
+                  </div>
+                ),
+              )}
+
               <ItemLink
                 item={labels.extra}
                 newTab={labels.newTab}
-                className="group/item flex items-center gap-3 rounded-2xl bg-gold-soft px-4 py-3 font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
+                className="press block rounded-lg bg-gold-soft px-2.5 py-1.5 text-[13px] font-bold text-gold-deep transition-colors hover:bg-gold hover:text-[#241703]"
               >
-                <Icon item={labels.extra} size="size-9" />
-                <span>
-                  {labels.extra.label} ↗<small className="block text-xs font-medium opacity-80">{labels.extra.desc}</small>
-                </span>
+                {labels.extra.label} ↗
               </ItemLink>
               {yearMenu}
             </div>

@@ -28,7 +28,17 @@ export default async function AdmissionsPage({ params }: PageProps<"/[lang]/admi
   const page = await getPage("admissions");
   const body = page ? localized(page, "body", lang) : "";
   const hours = school.hours?.[lang];
-  const steps = t.steps.filter((_, i) => (i === 0 ? school.phone : i === 1 ? hours : true));
+  // Each step now leads somewhere rather than only describing itself (owner's request): call the
+  // school, open its place on the map, or read who the administration are. The link is attached
+  // before the filter, so dropping a step the school has no detail for cannot shift the others.
+  const steps = t.steps
+    .map((step, i) => ({
+      step,
+      href: i === 0 ? (school.phone ? telHref(school.phone) : null) : i === 1 ? school.mapUrl : `/${lang}/about#leaders`,
+      external: i === 1,
+      color: stepColors[i % stepColors.length],
+    }))
+    .filter((_, i) => (i === 0 ? school.phone : i === 1 ? hours : true));
 
   return (
     <>
@@ -41,18 +51,48 @@ export default async function AdmissionsPage({ params }: PageProps<"/[lang]/admi
 
       <section className="mx-auto max-w-6xl px-4 pb-4 pt-10 sm:pt-12">
         <SectionHead kicker={t.stepsKicker} title={t.stepsTitle} />
-        <ol className="grid gap-3.5 md:grid-cols-3">
-          {steps.map((step, i) => (
-            <li key={step.title} style={{ animationDelay: `${i * 60}ms` }} className="reveal relative rounded-[14px] border border-slate-200 bg-white p-5 sm:p-6">
-              <span className={`font-display mb-4 grid size-11 place-items-center rounded-[13px] bg-gradient-to-br text-lg font-extrabold text-white ${stepColors[i % stepColors.length]}`}>
-                {i + 1}
-              </span>
-              <b className="font-display block text-[16.5px] tracking-tight text-slate-900">{step.title}</b>
-              <p className="mt-1.5 text-[14px] leading-relaxed text-slate-600">{fill(step.text, { hours: hours ?? "" })}</p>
-              {/* A thin connector between the steps on wide screens. */}
-              {i < steps.length - 1 && <span aria-hidden className="absolute -right-[11px] top-[42px] hidden h-0.5 w-2 rounded bg-slate-300 md:block" />}
-            </li>
-          ))}
+        {/* A phone reads these as three short rows; from md they open out into the mockup's cards. */}
+        <ol className="grid gap-2 md:grid-cols-3 md:gap-3.5">
+          {steps.map(({ step, href, external, color }, i) => {
+            const inside = (
+              <>
+                <span className={`font-display grid size-9 shrink-0 place-items-center rounded-[11px] bg-gradient-to-br text-base font-extrabold text-white md:mb-4 md:size-11 md:text-lg ${color}`}>
+                  {i + 1}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <b className="font-display block text-[14.5px] tracking-tight text-slate-900 md:text-[16.5px]">{step.title}</b>
+                  <span className="mt-0.5 block text-[12.5px] leading-snug text-slate-600 md:mt-1.5 md:text-[14px] md:leading-relaxed">
+                    {fill(step.text, { hours: hours ?? "" })}
+                  </span>
+                </span>
+                {href && (
+                  <span aria-hidden className="shrink-0 text-slate-300 transition-transform group-hover:translate-x-0.5 md:hidden">
+                    →
+                  </span>
+                )}
+              </>
+            );
+            const box = "group flex items-center gap-3 rounded-[14px] border border-slate-200 bg-white p-3.5 md:block md:p-5 lg:p-6";
+            return (
+              <li key={step.title} style={{ animationDelay: `${i * 60}ms` }} className="reveal relative">
+                {href ? (
+                  external ? (
+                    <a href={href} target="_blank" rel="noopener noreferrer" className={`lift press ${box}`}>
+                      {inside}
+                    </a>
+                  ) : (
+                    <Link href={href} className={`lift press ${box}`}>
+                      {inside}
+                    </Link>
+                  )
+                ) : (
+                  <div className={box}>{inside}</div>
+                )}
+                {/* A thin connector between the steps on wide screens. */}
+                {i < steps.length - 1 && <span aria-hidden className="absolute -right-[11px] top-[42px] hidden h-0.5 w-2 rounded bg-slate-300 md:block" />}
+              </li>
+            );
+          })}
         </ol>
       </section>
 
