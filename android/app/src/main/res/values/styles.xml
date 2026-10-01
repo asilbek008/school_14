@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <style name="AppTheme" parent="android:Theme.DeviceDefault.DayNight.NoActionBar">
+  <!-- Android has Theme.DeviceDefault.DayNight and Theme.DeviceDefault.NoActionBar, but no
+       DayNight.NoActionBar child. Night is handled by values-night/colors.xml instead, which is all
+       this theme needs: the two system bars take their colour from @color/navy. -->
+  <style name="AppTheme" parent="android:Theme.DeviceDefault.NoActionBar">
     <item name="android:statusBarColor">@color/navy</item>
     <item name="android:navigationBarColor">@color/navy</item>
   </style>
