@@ -36,7 +36,8 @@
     "reference": "Reference",
     "status": "Request status",
     "verify": "Check a certificate",
-    "contests": "Olympiads and contests"
+    "contests": "Olympiads and contests",
+    "privacy": "Privacy policy"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -339,6 +340,114 @@
     "open": "Open",
     "search": "Search questions and answers…",
     "notFound": "No such question. Write to us and we’ll answer."
+  },
+  "privacy": {
+    "kicker": "Legal",
+    "title": "Privacy policy",
+    "lead": "This page explains, in plain words, what our website and mobile app collect, why, and who can see it.",
+    "updated": "Last updated: 1 October 2026",
+    "intro": "The school website is an open source of information for parents and pupils. We collect nothing we do not need, never sell data and never use it for advertising.",
+    "sections": [
+      {
+        "title": "1. Who collects the data",
+        "body": "The website and the app belong to School No. 14, Qiziriq district, Surxondaryo region. The database is hosted on Supabase (Frankfurt, European Union) and the site on Vercel.\n\nFor any privacy question, call the school or write to our email address — the contacts are at the bottom of this page."
+      },
+      {
+        "title": "2. Anonymous visit statistics",
+        "body": "So that we know which sections are useful, each page view records:",
+        "items": [
+          "the page address and the chosen language;",
+          "a random number given to your browser (not a name) and a visit number;",
+          "which site you came from (the site name only);",
+          "city/region and country — approximate, from your internet provider;",
+          "device type (phone or computer)."
+        ],
+        "after": "No IP address, no name and no tracking cookies are stored. If your browser sends “Do Not Track” or “Global Privacy Control”, nothing is sent at all. These records are deleted automatically after one year."
+      },
+      {
+        "title": "3. Data you send yourself",
+        "body": "Data reaches the database only when you fill in a form:",
+        "items": [
+          "Contact form — name, phone or email, subject and message;",
+          "Online admission application — the child’s full name, date of birth and grade, the parent’s full name and phone, and optionally address, previous school and a note;",
+          "Reference request — the child’s full name and grade, the parent’s full name and phone, and the purpose;",
+          "Contest registration — the pupil’s full name, grade and a contact phone;",
+          "Trust box — the topic and the message only; nothing about the sender is stored (only what you write yourself);",
+          "Surveys — the answers and the time only; no name, no account, no IP."
+        ],
+        "after": "This data is used only to answer you, and never appears on the public site."
+      },
+      {
+        "title": "4. Children’s data",
+        "body": "A child’s personal data is never published on the site. Admission applications, reference requests and contest entries are visible only to the school staff responsible for them.\n\nGrades, attendance and homework are not on the site — they live in the eMaktab diary. A class list shows a shortened name (for example “Aliyev A.”), never the full one. In the achievements section a pupil’s name appears only with their (or their parent’s) consent."
+      },
+      {
+        "title": "5. Data kept in your browser",
+        "body": "For convenience, some things are stored on your device only and never sent to the server:",
+        "items": [
+          "the chosen language and the light/dark theme;",
+          "your “My class” choice;",
+          "test results and per-topic progress;",
+          "the page you stopped at in a book;",
+          "whether you closed the install card."
+        ],
+        "after": "You can remove all of it yourself by clearing your browser data."
+      },
+      {
+        "title": "6. Notifications and Telegram bots",
+        "body": "If you turn on notifications, the technical address and keys issued by your browser are stored along with your language — no name. You can unsubscribe at any time.\n\nThe parents’ bot stores only the chat number, the chosen class and the subscription state; your name and Telegram username are not stored."
+      },
+      {
+        "title": "7. Pupil cabinet",
+        "body": "In the cabinet, test results and progress are kept on the server so they are the same on a phone and a computer. There is no sign-up: the record is tied to a one-time key only, and no name, phone or class list is stored. The “Delete” button in the cabinet erases the whole record."
+      },
+      {
+        "title": "8. AI assistant",
+        "body": "To prepare an answer, the text of your question is sent to Anthropic; the answer is built from the site’s own information. Questions are stored in the school database without a name or IP, so that frequent ones can be added to the FAQ. Please do not put personal data into a question."
+      },
+      {
+        "title": "9. Certificate verification",
+        "body": "When you download a test certificate, the name, test, percentage and date are stored only if you tick “Register for verification” — that is what lets a certificate be checked by its code. The box is unticked by default; leave it so and nothing is stored."
+      },
+      {
+        "title": "10. Who can see the data",
+        "body": "Only the responsible school staff can see the collected data, with a password and two-step sign-in. Each has a role: an editor sees only news and the gallery, a teacher only the tests. Sign-ins and changes are written to a log.\n\nData is not passed to third parties and not sold — only to the authorities where the law requires it."
+      },
+      {
+        "title": "11. Services we use",
+        "body": "The site relies on:",
+        "items": [
+          "Vercel — hosting and anonymous, cookie-free visit statistics;",
+          "Supabase — database and files (Frankfurt, European Union);",
+          "Telegram — the school and parents’ bots;",
+          "Anthropic — the AI assistant’s answers;",
+          "Google Maps and YouTube — the map and videos (YouTube in its cookie-free mode)."
+        ],
+        "after": "External links on the site (eMaktab, infoedu.uz, mutolaa.com, lex.uz and others) have their own privacy rules."
+      },
+      {
+        "title": "12. How long data is kept",
+        "body": "Visit statistics and the admin sign-in log are deleted automatically after one year. Messages, applications and requests are kept as long as needed to answer them and for the school’s records. Of the weekly database backups, the last eight are kept."
+      },
+      {
+        "title": "13. Your rights",
+        "body": "You may ask to see, correct or delete data about yourself or your child. Call the school or write to our email and we will handle it as quickly as we can.\n\nA trust-box message cannot be found and deleted individually: by design it is not linked to its sender."
+      },
+      {
+        "title": "14. No advertising",
+        "body": "There is no advertising, no advertising trackers and no cross-site tracking on the site or in the app. Data is never sold."
+      },
+      {
+        "title": "15. The Android app",
+        "body": "The Play Store app is this same website: it opens inside the app and everything above applies in full. The app itself collects no extra data and asks for no access to the camera, contacts or location. Install and update statistics are kept by Google Play."
+      },
+      {
+        "title": "16. Changes",
+        "body": "If this policy changes, the new text appears on this page together with the date of the update."
+      }
+    ],
+    "contactTitle": "Still have a question?",
+    "contactBody": "For privacy questions, contact the school:"
   },
   "newsCats": {
     "yangilik": "News",

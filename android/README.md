@@ -93,14 +93,14 @@ AA:BB:...:11, CC:DD:...:22
    sinov talablarini qo'yadi. Joriy talablarni ro'yxatdan o'tish paytida Console o'zi ko'rsatadi.
 2. **Create app** → nomi «14-maktab», tili o'zbek, turi — Ilova, bepul.
 3. **App bundle** sifatida `app-release.aab` yuklanadi.
-4. Do'kon sahifasi uchun kerak bo'ladi:
-   - ikonka 512×512 — `android/play/icon-512.png` (shu yerda tayyor)
-   - banner 1024×500
-   - telefondan olingan kamida 2 ta ekran rasmi
-   - qisqa va to'liq tavsif
-   - **maxfiylik siyosati havolasi** — majburiy
-5. **Data safety** so'rovnomasi: ilova qanday ma'lumot yig'ishini aytasiz. Bizda: sahifa ko'rishlar
-   statistikasi (ismsiz), xabarnomaga obuna, aloqa formasidagi ma'lumot. Baho va davomat yig'ilmaydi.
+4. Do'kon sahifasi uchun hamma narsa `android/play/` da tayyor:
+   - ikonka 512×512 — `play/icon-512.png`
+   - banner 1024×500 — `play/feature-graphic.png` (`play/make-banner.py` bilan qayta chiziladi)
+   - ekran rasmlari 1080×1920 — `play/screenshots/`
+   - qisqa va to'liq tavsif, uch tilda — `play/listing.md`
+   - **maxfiylik siyosati havolasi** (majburiy) — https://qiziriq14maktab.vercel.app/uz/privacy
+5. **Data safety**, **Content rating** va **Target audience** so'rovnomalariga javoblar ham
+   `play/listing.md` da yozilgan — o'sha yerdan ko'chiring.
 
 ---
 
@@ -112,7 +112,8 @@ AA:BB:...:11, CC:DD:...:22
 | `app/src/main/res/values/strings.xml` | Sayt manzili va domen — **domen o'zgarsa shu yerni o'zgartiring** |
 | `app/build.gradle` | Versiya raqami, imzo sozlamasi |
 | `app/src/main/res/mipmap-*/` | Ikonkalar (skript bilan chizilgan) |
-| `play/icon-512.png` | Do'kon sahifasi uchun ikonka |
+| `play/` | Do'kon sahifasi: ikonka, banner, ekran rasmlari va tavsiflar |
+| `../src/app/[lang]/privacy/page.tsx` | Maxfiylik siyosati (Play talab qiladi) |
 | `../src/app/api/assetlinks/route.ts` | Saytdagi `/.well-known/assetlinks.json` |
 | `../.github/workflows/android.yml` | GitHub'dagi yig'ish |
 
