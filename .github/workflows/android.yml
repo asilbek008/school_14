@@ -11,6 +11,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    # The APK is published as a release below, which needs write access to the repository.
+    permissions:
+      contents: write
     # `secrets` cannot be read from a step's `if`, so the answer is carried in an env flag.
     env:
       SIGNED: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
@@ -72,6 +75,23 @@ jobs:
             android/app/build/outputs/apk/release/*.apk
             android/app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+
+      # An Actions artifact is a zip behind a GitHub sign-in and it expires, so it is awkward to install
+      # from a phone. A release gives a plain link anyone can open and tap. This is the test build, not
+      # what Play distributes: Play re-signs the bundle with its own key.
+      - name: Publish the APK for testing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN: ${{ github.run_number }}
+        run: |
+          apk=$(ls android/app/build/outputs/apk/release/*.apk \
+                   android/app/build/outputs/apk/debug/*.apk 2>/dev/null | head -1)
+          [ -n "$apk" ] || { echo "APK topilmadi"; exit 1; }
+          cp "$apk" "maktab14-$RUN.apk"
+          gh release create "build-$RUN" "maktab14-$RUN.apk" \
+            --repo "$GITHUB_REPOSITORY" --prerelease \
+            --title "14-maktab ilovasi — sinov yig'ilmasi $RUN" \
+            --notes "Telefonga o'rnatib ko'rish uchun. Play Store'dagi versiya emas: Play ilovani o'z kaliti bilan qayta imzolaydi. O'rnatishda \"Noma'lum manbadan o'rnatish\"ga ruxsat berasiz."
 
       - name: Remove the key from the runner
         if: always()
