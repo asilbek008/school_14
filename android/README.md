@@ -50,8 +50,14 @@ GitHub'da repozitoriy → **Settings → Secrets and variables → Actions** →
 | `ANDROID_KEY_ALIAS` | `maktab14` |
 | `ANDROID_KEY_PASSWORD` | kalit paroli |
 
-Keyin **Actions → Android → Run workflow**. Bir necha daqiqada tayyor fayl chiqadi: uni
-**Artifacts → maktab14-app** dan yuklab olasiz. Ichida `app-release.aab` — Play Store shuni so'raydi.
+Keyin **Actions → Android → Run workflow**. Bir necha daqiqada tayyor fayl chiqadi:
+
+- **Play Store uchun** — `app-release.aab`, ish oqimi sahifasidagi **Artifacts → maktab14-app** da;
+- **telefonda sinab ko'rish uchun** — APK, repozitoriyning **Releases** bo'limida (`build-<raqam>`).
+  Bu oddiy havola: telefonda ochib bosasiz, GitHub hisobi ham kerak emas.
+
+Sinov APK'si Play'dagi ilova emas: Play ilovani o'z kaliti bilan qayta imzolaydi. Lekin imzo
+barmoq izi saytdagi `assetlinks.json` bilan bir xil bo'lgani uchun u ham manzil qatorisiz ochiladi.
 
 Secret'lar qo'shilmagan bo'lsa ham ish oqimi ishlaydi: imzosiz **debug APK** chiqaradi, uni telefonga
 o'rnatib sinab ko'rish mumkin (Play Store'ga yaramaydi).

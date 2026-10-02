@@ -596,6 +596,8 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Yig‘ish konteynerda **bo‘lmaydi** — Android SDK yo‘q va `dl.google.com` tarmoq siyosatida yopiq. Shuning uchun
   `.github/workflows/android.yml`: GitHub runner'ida SDK bor, `workflow_dispatch` bilan qo‘lda ishga tushiriladi; imzo secret'lari
   (`ANDROID_KEYSTORE_BASE64` va boshqalar) bo‘lsa `.aab`, bo‘lmasa debug APK chiqaradi va barmoq izni logga yozadi.
+  Oxirida APK **release** bo‘lib chiqadi (`build-<run_number>`, prerelease, `permissions: contents: write`) —
+  artefakt zip'i GitHub hisobini talab qiladi va muddati o‘tadi, release esa telefonda ochib bosiladigan oddiy havola.
   Imzo kaliti repoda yo‘q va hech qachon bo‘lmaydi (`android/.gitignore`: `*.jks`, `keystore.properties`) — yo‘qolsa ilovani
   yangilab bo‘lmaydi. Ikonkalar `mipmap-*` da (PIL bilan chizilgan: navy plitka, ko‘k-yashil yog‘du, oq «14»); `minSdk 26` —
   shuning uchun adaptiv ikonka yetarli. To‘liq qo‘llanma: `android/README.md`.
