@@ -593,6 +593,10 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `/.well-known/assetlinks.json` da ilovaning imzo barmoq izini nomlaydi — `src/app/api/assetlinks/route.ts` (`next.config.ts`
   `rewrites()` orqali), barmoq iz `ANDROID_CERT_SHA256` env'dan (Play App Signing'da ikkita bo‘ladi — vergul bilan). Env bo‘sh bo‘lsa
   bo‘sh `[]` qaytadi va ilova manzil qatori bilan ochiladi (buzilmaydi).
+  Telefonda Chrome bo‘lmasa, kutubxona standart holda Custom Tab'ga tushadi — u manzil qatorini chizadi.
+  Shuning uchun manifestda `FALLBACK_STRATEGY` = `webview` va `WebViewFallbackActivity` (`exported="false"`):
+  bunday telefonda sayt ilovaning o‘z oynasida ochiladi, manzil qatori hech qachon chiqmaydi. Boshqa saytga
+  (mutolaa.com, eMaktab, Telegram) havola esa ataylab tashqarida ochiladi — Play ham shuni talab qiladi.
   Yig‘ish konteynerda **bo‘lmaydi** — Android SDK yo‘q va `dl.google.com` tarmoq siyosatida yopiq. Shuning uchun
   `.github/workflows/android.yml`: GitHub runner'ida SDK bor, `workflow_dispatch` bilan qo‘lda ishga tushiriladi; imzo secret'lari
   (`ANDROID_KEYSTORE_BASE64` va boshqalar) bo‘lsa `.aab`, bo‘lmasa debug APK chiqaradi va barmoq izni logga yozadi.
