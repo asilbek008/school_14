@@ -117,7 +117,7 @@ AA:BB:...:11, CC:DD:...:22
 | `app/src/main/AndroidManifest.xml` | Ilovaning tuzilishi: qaysi manzil ochiladi, rang, splash, havolalarni ushlash |
 | `app/src/main/res/values/strings.xml` | Sayt manzili va domen — **domen o'zgarsa shu yerni o'zgartiring** |
 | `app/build.gradle` | Versiya raqami, imzo sozlamasi |
-| `app/src/main/res/mipmap-*/` | Ikonkalar (skript bilan chizilgan) |
+| `app/src/main/res/mipmap-*/` | Ikonkalar — `play/make-icons.py` bilan chiziladi |
 | `play/` | Do'kon sahifasi: ikonka, banner, ekran rasmlari va tavsiflar |
 | `../src/app/[lang]/privacy/page.tsx` | Maxfiylik siyosati (Play talab qiladi) |
 | `../src/app/api/assetlinks/route.ts` | Saytdagi `/.well-known/assetlinks.json` |

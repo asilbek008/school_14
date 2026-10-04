@@ -603,8 +603,13 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Oxirida APK **release** bo‘lib chiqadi (`build-<run_number>`, prerelease, `permissions: contents: write`) —
   artefakt zip'i GitHub hisobini talab qiladi va muddati o‘tadi, release esa telefonda ochib bosiladigan oddiy havola.
   Imzo kaliti repoda yo‘q va hech qachon bo‘lmaydi (`android/.gitignore`: `*.jks`, `keystore.properties`) — yo‘qolsa ilovani
-  yangilab bo‘lmaydi. Ikonkalar `mipmap-*` da (PIL bilan chizilgan: navy plitka, ko‘k-yashil yog‘du, oq «14»); `minSdk 26` —
-  shuning uchun adaptiv ikonka yetarli. To‘liq qo‘llanma: `android/README.md`.
+  yangilab bo‘lmaydi. Ikonka — `android/play/make-icons.py` (Pillow): navy fon + ko‘k/yashil yog‘du va oq «14» +
+  oltin chiziq, sayt logotipidagidek; shrift `assets/fonts/BricolageGrotesque-Bold.ttf` (OFL, saytning sarlavha shrifti).
+  Adaptiv ikonka ikki qatlam (108dp): fon butun maydonni to‘ldiradi, belgi esa 72dp xavfsiz doira ichida — launcher uni
+  doira yoki kvadrat qilib kessa ham kesilmaydi; `monochrome` qatlami Android 13 ning rangli mavzusi uchun. Saytdagi
+  ikonkalar ham shu belgi (`app/app-icon/[size]`, `apple-icon.tsx` — o‘sha shriftni `assets/fonts/` dan o‘qiydi), shuning
+  uchun ilova va «Bosh ekranga qo‘shish» bitta ikonka ko‘rsatadi. Ikonkani o‘zgartirsangiz skriptni qayta yurgizing va
+  `play/icon-512.png` ni ham yangilang. To‘liq qo‘llanma: `android/README.md`.
   Do‘kon sahifasi `android/play/` da tayyor: ikonka, banner (`feature-graphic.png` — `make-banner.py`
   bilan Pillow'da chiziladi), telefon ekran rasmlari (`screenshots/`, saytning o‘zidan 540×960 CSS px,
   2× → 1080×1920; CountUp tugagan ko‘rinishi uchun reduced-motion bilan olinadi) va uch tildagi
