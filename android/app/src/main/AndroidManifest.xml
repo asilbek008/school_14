@@ -44,6 +44,13 @@
       <meta-data
           android:name="android.support.customtabs.trusted.FILE_PROVIDER_AUTHORITY"
           android:value="uz.maktab14.qiziriq.fileprovider" />
+      <!-- On a phone with no Chrome, an old Chrome, or a browser that cannot run a Trusted Web
+           Activity, the default fallback is a Custom Tab, which draws an address bar across the
+           top and looks like a browser. This fallback opens the site in the app's own window
+           instead, so the address bar never appears, whatever browser the phone has. -->
+      <meta-data
+          android:name="android.support.customtabs.trusted.FALLBACK_STRATEGY"
+          android:value="webview" />
 
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -58,6 +65,14 @@
         <data android:scheme="https" android:host="@string/host" />
       </intent-filter>
     </activity>
+
+    <!-- The window the fallback above opens. It is not a launcher entry and nothing else can start
+         it: only the launcher activity, when it finds no browser able to run the app full screen. -->
+    <activity
+        android:name="com.google.androidbrowserhelper.trusted.WebViewFallbackActivity"
+        android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden"
+        android:exported="false"
+        android:label="@string/app_name" />
 
     <!-- Lets the site hand a downloaded file (certificate PDF, a book) to the phone. -->
     <provider
