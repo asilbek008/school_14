@@ -6,7 +6,7 @@ import type { Locale } from "@/i18n/config";
 import { createPublicClient } from "@/lib/supabase/public";
 import { mediaBaseUrl } from "@/lib/media";
 import { school } from "@/lib/school";
-import type { EventCategory, NewsCategory } from "@/lib/categories";
+import type { EventCategory, NewsCategory, VideoCategory } from "@/lib/categories";
 import type { PublicQuestion } from "@/lib/tests";
 
 export type News = {
@@ -995,6 +995,49 @@ export async function getOpenness(): Promise<OpennessItem[]> {
     .order("id", { ascending: false });
   logError("getOpenness", error);
   return (data ?? []) as unknown as OpennessItem[];
+}
+
+export type SchoolVideo = {
+  id: number;
+  title_uz: string;
+  title_ru: string | null;
+  title_en: string | null;
+  description_uz: string | null;
+  description_ru: string | null;
+  description_en: string | null;
+  category: VideoCategory;
+  kind: "youtube" | "file";
+  path: string;
+  cover: string | null;
+  recorded_on: string | null;
+  school_year: number | null;
+};
+
+const videoColumns =
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, category, kind, path, cover, recorded_on, school_year";
+
+/** The video section: every published video, newest first. */
+export async function getVideos(): Promise<SchoolVideo[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("videos")
+    .select(videoColumns)
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("recorded_on", { ascending: false, nullsFirst: false })
+    .order("id", { ascending: false });
+  logError("getVideos", error);
+  return (data ?? []) as SchoolVideo[];
+}
+
+/** One video's own page. */
+export async function getVideo(id: number): Promise<SchoolVideo | null> {
+  const supabase = createPublicClient();
+  if (!supabase || !Number.isInteger(id)) return null;
+  const { data, error } = await supabase.from("videos").select(videoColumns).eq("id", id).eq("is_published", true).maybeSingle();
+  logError("getVideo", error);
+  return (data as SchoolVideo | null) ?? null;
 }
 
 /** Is the AI assistant switched on (a key entered and enabled in the admin panel)? */

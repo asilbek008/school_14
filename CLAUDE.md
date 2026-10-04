@@ -262,6 +262,18 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Dars jadvalida (egasining talabi): `/timetable/[id]` da ko‘rinish tugmalari qatorining o‘ng burchagida `ClassBooks` — "Darsliklar (N)"
   tugmasi, ochilganda shu sinf (+ umumiy) kitoblari va har birida "PDF ochish"; darsdagi fan uchun shu sinf kitobi bo‘lsa, fan nomi
   yonida kichik "PDF" belgisi (`BookLink`, `lessons.subject_id`/`alt_subject_id` bo‘yicha). Kitob bo‘lmasa hech narsa chiqmaydi.
+- Video bo‘limi (`/[lang]/videos`, `/videos/[id]`, `videos` jadvali; admin `/admin/videos`; egasining so‘rovi): avval videolar albom,
+  to‘garak va yangilik ichida yashiringan edi — endi o‘z bo‘limi bor. Har qator bitta video: tarjimali nom va tavsif, turkum
+  (`videoCategories`: `tadbir|dars|togarak|tanishtiruv|yutuq|boshqa`, nomlari lug‘atda `videos.cats`), sanasi, o‘quv yili
+  (`SchoolYearField`, `itemYear`) va manbasi — `kind='youtube'` (`path` = 11 belgili id) yoki `kind='file'` (`media/videos/` dagi
+  fayl + ixtiyoriy `cover` muqova). **YouTube birinchi tanlov**: bepul, telefon aloqasiga qarab sifatini o‘zi moslaydi, bucket esa
+  bitta faylni 50 MB bilan cheklaydi va adaptiv oqim bermaydi. Saytda: 4 raqam kartasi (`StatTiles`), `CategoryFilter` (turkum
+  tugmalari + nom bo‘yicha qidiruv — sahifa keshi buzilmaydi), `VideoCard` to‘ri (muqova — YouTube'ning o‘z rasmi `youtubeThumb`
+  yoki yuklangan `cover`, `next/image` emas — i.ytimg.com ruxsat ro‘yxatida yo‘q); video sahifasida youtube-nocookie iframe yoki
+  `<video>`, tavsif (`RichText`) va «Boshqa videolar». RLS: hamma e’lon qilinganini o‘qiydi, yozishni muharrir ham (`is_editor()`),
+  `videos_audit` trigger'i bor. Admin formada manba tugmalari — `VideoSource` (client; fayl brauzerdan to‘g‘ridan-to‘g‘ri bucket'ga
+  yuklanadi, Server Action faylni ko‘tarmaydi); video o‘chirilsa fayli va muqovasi Storage'dan ham o‘chadi. Menyuda «Tadbirlar ▾»
+  ichida, footer, sitemap va qidiruvda.
 - Maktab faktlari `src/lib/school.ts` da: manzil, telefon, email, xarita (`location` — Google Maps pin, `mapUrl` — egasi
   bergan havola; `/contact` da `mapEmbedUrl(lang)` iframe, manzil topbar/footer'da xaritaga havola), ish vaqti (tarjima qilinadiganlari
   `Record<Locale, string>`), raqamlar (o‘quvchi/xodim/sinf). `null` = "tez orada". Sinflar soni bosh sahifada

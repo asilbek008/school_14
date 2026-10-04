@@ -9,7 +9,7 @@ export const roleIcons: Record<StaffRole, string> = { admin: "👑", editor: "�
  * What an editor may open: content only and their own 2FA page. Everything else — messages, applications, the
  * trust box, staff, timetable, logs, settings, backups, the team — is for admins (RLS enforces it too).
  */
-const editorPaths = ["/admin/news", "/admin/events", "/admin/gallery", "/admin/achievements", "/admin/programs", "/admin/tests", "/admin/library", "/admin/security"];
+const editorPaths = ["/admin/news", "/admin/events", "/admin/gallery", "/admin/videos", "/admin/achievements", "/admin/programs", "/admin/tests", "/admin/library", "/admin/security"];
 
 /** A teacher only works on the learning part: tests, the question bank, its short lessons and their own 2FA. */
 const teacherPaths = ["/admin/tests", "/admin/security"];

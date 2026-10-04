@@ -2,7 +2,7 @@ import "server-only";
 import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fill } from "@/i18n/fill";
-import { getAlbums, getClubs, getEvents, getNews, getPrograms, getStaff, getTests, getTextbooks, localized } from "@/lib/content";
+import { getAlbums, getClubs, getEvents, getNews, getPrograms, getStaff, getTests, getTextbooks, getVideos, localized } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { positionLabel } from "@/lib/positions";
 import { school } from "@/lib/school";
@@ -20,7 +20,7 @@ export async function buildSearchIndex(lang: Locale, dict: Dictionary, { brief =
   const href = (path: string) => `/${lang}${path}`;
   const cut = (text: string) => (brief ? text.slice(0, 180) : text.slice(0, 4000));
 
-  const [news, { upcoming, past }, staff, clubs, programs, albums, tests, books] = await Promise.all([
+  const [news, { upcoming, past }, staff, clubs, programs, albums, tests, books, videos] = await Promise.all([
     getNews(),
     getEvents(),
     getStaff(),
@@ -29,6 +29,7 @@ export async function buildSearchIndex(lang: Locale, dict: Dictionary, { brief =
     getAlbums(),
     getTests(),
     getTextbooks(),
+    getVideos(),
   ]);
 
   const d = dict.navDesc;
@@ -51,6 +52,7 @@ export async function buildSearchIndex(lang: Locale, dict: Dictionary, { brief =
     ["/alumni", dict.alumni.title, dict.alumni.intro],
     ["/clubs", dict.nav.clubs, d.clubs],
     ["/gallery", dict.gallery.title, d.gallery],
+    ["/videos", dict.videos.title, dict.videos.intro],
     ["/faq", dict.nav.faq, d.faq],
     ["/surveys", dict.surveys.title, dict.surveys.intro],
     ["/openness", dict.openness.title, dict.openness.intro],
@@ -102,6 +104,13 @@ export async function buildSearchIndex(lang: Locale, dict: Dictionary, { brief =
       text: localized(a, "description", lang),
       meta: a.event_date ? formatDate(a.event_date, lang) : undefined,
       href: href(`/gallery/${a.id}`),
+    })),
+    ...videos.map((v) => ({
+      type: "page" as const,
+      title: localized(v, "title", lang),
+      text: [dict.videos.cats[v.category], cut(localized(v, "description", lang))].filter(Boolean).join(" · "),
+      meta: v.recorded_on ? formatDate(v.recorded_on, lang) : undefined,
+      href: href(`/videos/${v.id}`),
     })),
     ...tests.map((x) => ({
       type: "page" as const,

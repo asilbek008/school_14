@@ -37,7 +37,8 @@
     "status": "Murojaat holati",
     "verify": "Sertifikatni tekshirish",
     "contests": "Olimpiada va tanlovlar",
-    "privacy": "Maxfiylik siyosati"
+    "privacy": "Maxfiylik siyosati",
+    "videos": "Video"
   },
   "navDesc": {
     "timetable": "Sinfingizning haftalik darslari",
@@ -59,7 +60,8 @@
     "library": "Darsliklar va o‘quv kitoblari (PDF)",
     "alumni": "Bitiruvchilarimiz va ularning yutuqlari",
     "openness": "Byudjet, homiylik va hisobotlar",
-    "contests": "Ro‘yxatdan o‘tish ochiq tanlovlar"
+    "contests": "Ro‘yxatdan o‘tish ochiq tanlovlar",
+    "videos": "Tadbir va ochiq darslardan lavhalar"
   },
   "topbar": {
     "year": "{from}–{to} o‘quv yili",
@@ -1628,6 +1630,33 @@
       "closed": "Ro‘yxatdan o‘tish muddati tugagan.",
       "tooMany": "Juda ko‘p ariza yuborildi. Bir ozdan keyin urinib ko‘ring.",
       "error": "Yuborilmadi. Birozdan keyin qayta urinib ko‘ring yoki maktabga qo‘ng‘iroq qiling."
+    }
+  },
+  "videos": {
+    "kicker": "Maktab hayoti",
+    "title": "Video",
+    "intro": "Tadbirlar, ochiq darslar va to‘garaklardan video lavhalar.",
+    "empty": "Hali video joylanmagan.",
+    "emptyFiltered": "Bu shartga mos video topilmadi.",
+    "search": "Video nomi bo‘yicha qidirish",
+    "all": "Hammasi",
+    "watch": "Ko‘rish",
+    "related": "Boshqa videolar",
+    "onYoutube": "YouTube’da ochish",
+    "noDate": "Sana ko‘rsatilmagan",
+    "stats": {
+      "all": "Video",
+      "year": "Shu o‘quv yilida",
+      "events": "Tadbir videolari",
+      "lessons": "Ochiq darslar"
+    },
+    "cats": {
+      "tadbir": "Tadbirlar",
+      "dars": "Ochiq darslar",
+      "togarak": "To‘garaklar",
+      "tanishtiruv": "Maktab bilan tanishuv",
+      "yutuq": "Yutuqlar",
+      "boshqa": "Boshqa"
     }
   }
 }

@@ -1,18 +1,18 @@
 import type { MetadataRoute } from "next";
 import { locales } from "@/i18n/config";
-import { getAlbums, getAssistantOn, getClasses, getClubs, getNews, getPrograms, getSchoolYears, getStaff, getTests, getTextbooks } from "@/lib/content";
+import { getAlbums, getAssistantOn, getClasses, getClubs, getNews, getPrograms, getSchoolYears, getStaff, getTests, getTextbooks, getVideos } from "@/lib/content";
 import { school, siteUrl } from "@/lib/school";
 
 export const revalidate = 3600;
 
-const pages = ["", "/about", "/admissions", "/timetable", "/schedule", "/calendar", "/staff", "/news", "/events", "/programs", "/achievements", "/contests", "/tests", "/tests/dtm", "/tests/practice", "/tests/path", "/library", "/alumni", "/clubs", "/gallery", "/surveys", "/openness", "/faq", ...(school.showDocuments ? ["/documents"] : []), "/contact", "/privacy"];
+const pages = ["", "/about", "/admissions", "/timetable", "/schedule", "/calendar", "/staff", "/news", "/events", "/programs", "/achievements", "/contests", "/tests", "/tests/dtm", "/tests/practice", "/tests/path", "/library", "/alumni", "/clubs", "/gallery", "/videos", "/surveys", "/openness", "/faq", ...(school.showDocuments ? ["/documents"] : []), "/contact", "/privacy"];
 
 /**
  * Every public page in the three languages, each naming its translations (hreflang), so search engines
  * list the site and send each visitor to their language.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [news, staff, clubs, programs, albums, classes, years, tests, books, assistant] = await Promise.all([
+  const [news, staff, clubs, programs, albums, classes, years, tests, books, videos, assistant] = await Promise.all([
     getNews(),
     getStaff(),
     getClubs(),
@@ -22,6 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getSchoolYears(),
     getTests(),
     getTextbooks(),
+    getVideos(),
     getAssistantOn(),
   ]);
   const paths: { path: string; modified?: string | null; priority: number }[] = [
@@ -33,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...albums.map((a) => ({ path: `/gallery/${a.id}`, modified: a.event_date, priority: 0.4 })),
     ...tests.map((t) => ({ path: `/tests/${t.id}`, priority: 0.5 })),
     ...books.filter((b) => b.kind === "file").map((b) => ({ path: `/library/${b.id}`, priority: 0.4 })),
+    ...videos.map((v) => ({ path: `/videos/${v.id}`, modified: v.recorded_on, priority: 0.4 })),
     ...classes.map((c) => ({ path: `/timetable/${c.id}`, priority: 0.5 })),
     ...years.map((y) => ({ path: `/year/${y.start_year}`, priority: 0.3 })),
   ];

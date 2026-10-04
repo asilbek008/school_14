@@ -66,6 +66,7 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
         { href: href("/contests"), label: dict.nav.contests, desc: d.contests, icon: "star", color: "blue" },
         { href: href("/achievements"), label: dict.nav.achievements, desc: d.achievements, icon: "trophy", color: "amber" },
         { href: href("/alumni"), label: dict.nav.alumni, desc: d.alumni, icon: "cap", color: "green" },
+        { href: href("/videos"), label: dict.nav.videos, desc: d.videos, icon: "video", color: "coral" },
         { href: href("/gallery"), label: dict.nav.gallery, desc: d.gallery, icon: "photo", color: "amber" },
       ],
     },
