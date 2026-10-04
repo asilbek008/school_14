@@ -6,3 +6,6 @@ export function youtubeId(url: string): string | null {
   const m = /(?:youtube\.com\/(?:watch\?(?:.*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/.exec(url.trim());
   return m ? m[1] : null;
 }
+
+/** The still image YouTube serves for a video id (no cookies, no player loaded). */
+export const youtubeThumb = (id: string) => `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;

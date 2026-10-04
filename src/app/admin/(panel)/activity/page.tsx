@@ -21,6 +21,7 @@ const sections: Record<string, { name: string; href: (ref: string) => string }> 
   alumni: { name: "Bitiruvchi", href: (r) => `/admin/alumni/${r}` },
   tests: { name: "Test", href: (r) => `/admin/tests/${r}` },
   textbooks: { name: "Kitob", href: (r) => `/admin/library/${r}` },
+  videos: { name: "Video", href: (r) => `/admin/videos/${r}` },
   school_classes: { name: "Sinf", href: (r) => `/admin/classes/${r}` },
   subjects: { name: "Fan", href: (r) => `/admin/subjects/${r}` },
   school_years: { name: "O‘quv yili", href: (r) => `/admin/years/${r}` },

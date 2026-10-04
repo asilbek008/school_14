@@ -37,7 +37,8 @@
     "status": "Request status",
     "verify": "Check a certificate",
     "contests": "Olympiads and contests",
-    "privacy": "Privacy policy"
+    "privacy": "Privacy policy",
+    "videos": "Video"
   },
   "navDesc": {
     "timetable": "Your class's weekly lessons",
@@ -59,7 +60,8 @@
     "library": "Textbooks and study books (PDF)",
     "alumni": "Our graduates and their achievements",
     "openness": "Budget, sponsorship and reports",
-    "contests": "Contests open for sign-up"
+    "contests": "Contests open for sign-up",
+    "videos": "Clips from events and open lessons"
   },
   "topbar": {
     "year": "{from}–{to} school year",
@@ -1628,6 +1630,33 @@
       "closed": "The sign-up deadline has passed.",
       "tooMany": "Too many entries were sent. Please try again a little later.",
       "error": "Not sent. Please try again later or call the school."
+    }
+  },
+  "videos": {
+    "kicker": "School life",
+    "title": "Video",
+    "intro": "Videos from events, open lessons and clubs.",
+    "empty": "No videos have been posted yet.",
+    "emptyFiltered": "No video matches this filter.",
+    "search": "Search videos by title",
+    "all": "All",
+    "watch": "Watch",
+    "related": "Other videos",
+    "onYoutube": "Open on YouTube",
+    "noDate": "No date given",
+    "stats": {
+      "all": "Videos",
+      "year": "This school year",
+      "events": "Event videos",
+      "lessons": "Open lessons"
+    },
+    "cats": {
+      "tadbir": "Events",
+      "dars": "Open lessons",
+      "togarak": "Clubs",
+      "tanishtiruv": "About the school",
+      "yutuq": "Achievements",
+      "boshqa": "Other"
     }
   }
 }

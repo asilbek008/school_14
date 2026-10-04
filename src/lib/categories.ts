@@ -46,3 +46,16 @@ export const achievementFields = ["olimpiada", "sport", "tanlov", "boshqa"] as c
 export type AchievementField = (typeof achievementFields)[number];
 export const achievementLevels = ["maktab", "tuman", "viloyat", "respublika", "xalqaro"] as const;
 export type AchievementLevel = (typeof achievementLevels)[number];
+
+// What a video shows (matches the videos.category check). Labels live in the dictionaries (videos.cats).
+export const videoCategories = ["tadbir", "dars", "togarak", "tanishtiruv", "yutuq", "boshqa"] as const;
+export type VideoCategory = (typeof videoCategories)[number];
+
+export const videoColors: Record<VideoCategory, string> = {
+  tadbir: "bg-[#fae7e2] text-[#c9553f]",
+  dars: "bg-brand-soft text-brand-deep",
+  togarak: "bg-teal-soft text-[#0c6d62]",
+  tanishtiruv: "bg-gold-soft text-gold-deep",
+  yutuq: "bg-teal-soft text-[#0c6d62]",
+  boshqa: "bg-slate-100 text-slate-600",
+};
