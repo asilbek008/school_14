@@ -5,7 +5,12 @@
   <!-- News notifications, the same ones the site already sends to the browser. -->
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
+  <!-- The app is a window onto the site, and the site is fluid: it may be resized freely, which is
+       what split screen on a phone and a freeform window on a tablet or Chromebook both do. -->
+  <uses-feature android:name="android.hardware.touchscreen" android:required="false" />
+
   <application
+      android:resizeableActivity="true"
       android:label="@string/app_name"
       android:icon="@mipmap/ic_launcher"
       android:roundIcon="@mipmap/ic_launcher_round"

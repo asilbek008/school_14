@@ -4,6 +4,7 @@ import type { Dictionary } from "@/i18n/dictionaries";
 import { currentSchoolYear, school } from "@/lib/school";
 import HeaderSearch from "./HeaderSearch";
 import LanguageSwitcher from "./LanguageSwitcher";
+import Mark from "./Mark";
 import ThemeToggle from "./ThemeToggle";
 import SiteNav, { type NavEntry, type NavItem } from "./SiteNav";
 import YearSwitcher from "./YearSwitcher";
@@ -77,11 +78,12 @@ export default async function SiteHeader({ lang, dict }: { lang: Locale; dict: D
 
   return (
     <header className="site-header sticky top-0 z-30 shadow-[0_1px_0_var(--hdr-line)]">
-      <div className={`flex h-16 items-center justify-between gap-3 lg:h-[68px] ${edges}`}>
+      <div className={`hdr-row flex h-16 items-center justify-between gap-3 lg:h-[68px] ${edges}`}>
         <Link href={href("")} className="group/logo flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3">
-          <span className="relative grid size-10 place-items-center rounded-xl bg-[var(--hdr-fg)] text-lg font-extrabold tracking-tight text-[var(--hdr-bg)] transition-transform duration-300 ease-(--ease-spring) after:absolute after:inset-x-3 after:bottom-1.5 after:h-[3px] after:rounded after:bg-gold after:transition-[left,right] after:duration-300 group-hover/logo:-rotate-6 group-hover/logo:after:inset-x-2 lg:size-11">
-            <span className="-translate-y-0.5">14</span>
-          </span>
+          <Mark
+            className="h-11 w-auto text-[var(--hdr-fg)] transition-transform duration-300 ease-(--ease-spring) group-hover/logo:-rotate-6 lg:h-12"
+            hole="fill-[var(--hdr-bg)]"
+          />
           <span className="leading-tight max-[374px]:hidden">
             <b className="block text-[15px] font-bold tracking-tight">{dict.site.name}</b>
             <small className="block text-[11px] font-semibold uppercase tracking-wider text-[var(--hdr-muted)] max-sm:hidden lg:hidden xl:block">

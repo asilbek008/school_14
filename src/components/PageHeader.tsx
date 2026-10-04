@@ -10,7 +10,7 @@ export type Crumb = { href: string; label: string };
 export default function PageHeader({ title, intro, kicker, crumbs }: { title: string; intro?: string; kicker?: ReactNode; crumbs?: Crumb[] }) {
   return (
     <div className="chrome tricolor-rule">
-      <div className="relative mx-auto max-w-6xl px-4 pb-12 pt-8">
+      <div className="band-pad relative mx-auto max-w-6xl px-4 pb-12 pt-8">
         {crumbs && crumbs.length > 0 && (
           <nav aria-label="Breadcrumb" className="mb-5 animate-fade-in text-[13px] font-semibold text-[#93a0c4]">
             <ol className="flex flex-wrap items-center gap-2">

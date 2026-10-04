@@ -65,7 +65,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   return (
     <>
       <section className="chrome tricolor-rule">
-        <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.3fr_0.7fr] 2xl:max-w-7xl 2xl:gap-14">
+        <div className="band-pad relative mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:py-20 lg:grid-cols-[1.3fr_0.7fr] 2xl:max-w-7xl 2xl:gap-14">
           <div>
             <div className="relative z-10 flex animate-fade-up flex-wrap items-center gap-2.5 text-[13.5px] font-semibold text-[#b9c4e2] xl:text-base">
               <YearSwitcher
