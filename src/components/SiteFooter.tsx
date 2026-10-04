@@ -3,6 +3,7 @@ import type { Locale } from "@/i18n/config";
 import type { Dictionary } from "@/i18n/dictionaries";
 import { fill } from "@/i18n/fill";
 import { currentSchoolYear, school, telHref } from "@/lib/school";
+import Mark from "./Mark";
 import PushToggle from "./PushToggle";
 import StaffEntry from "./StaffEntry";
 import ToTop from "./ToTop";
@@ -18,9 +19,7 @@ export default function SiteFooter({ lang, dict, bot }: { lang: Locale; dict: Di
       <div className="relative mx-auto grid max-w-6xl gap-9 px-4 pb-10 pt-14 md:grid-cols-[1.6fr_1.4fr_1fr]">
         <div>
           <Link href={`/${lang}`} className="group/logo mb-4 flex items-center gap-3 text-white">
-            <span className="relative grid size-10 place-items-center rounded-xl bg-white font-extrabold tracking-tight text-navy transition-transform duration-300 ease-(--ease-spring) after:absolute after:inset-x-3 after:bottom-1.5 after:h-[3px] after:rounded after:bg-gold group-hover/logo:-rotate-6">
-              <span className="-translate-y-0.5">14</span>
-            </span>
+            <Mark className="h-11 w-auto text-white transition-transform duration-300 ease-(--ease-spring) group-hover/logo:-rotate-6" hole="fill-[#131a2e]" />
             <b className="text-[15px] tracking-tight">{dict.site.description}</b>
           </Link>
           <p className="max-w-sm leading-relaxed text-[#8b96b8]">

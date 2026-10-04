@@ -452,6 +452,20 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Kirish: header'da lupa (sm–lg va 1100px dan; 1024–1100px da ruscha sig‘maydi), telefonda menyu panelining tepasida forma, footer'da havola.
 
 ### Dizayn
+- Maktab belgisi (egasining talabi, «Keystone Grammar» falsafasi — `reports/logo/`): **peshtoq** — ikki markazdan
+  chizilgan nayzasimon ravoq (maktab hovlisi darvozasi), ichida «14» teshik bo‘lib o‘yilgan, uchida oltin kalit tosh.
+  Geometriya formula: yarim kenglik `a`, markazlar o‘qdan `e = 0.6a` narida, radius `r = a + e`, balandlik `1.483a`.
+  Yagona manba — `scripts/make-mark.py` → `src/components/mark.ts` (SVG yo‘llari; raqamlar Bricolage Grotesque'dan
+  `fontTools` bilan chiqarilgan, shuning uchun shrift yuklanmasa ham belgi buzilmaydi). Ishlatish: `Mark.tsx`
+  (header, footer; ravoq — `currentColor`, raqamlar — `hole` propi, u **orqa fon rangi** bo‘lishi kerak),
+  `admin/Crest.tsx`, `lib/mark-canvas.ts` (sertifikat canvas'i), `lib/mark-svg.ts` (`app-icon`, `apple-icon` —
+  `next/og` React komponentni o‘qiy olmaydi, shuning uchun data URI). Geometriyani o‘zgartirsangiz skriptni qayta
+  yurgizing va `android/play/make-icons.py` dagi nusxasini ham tekshiring.
+- Kichik oyna (egasining talabi — ilova telefonda split-screen'da yoki planshetda kichraytirilgan oynada ochilishi
+  mumkin): `globals.css` da `@media (max-height: 560px)` — header 52px ga tushadi, belgi ham kichrayadi,
+  `band-pad` (bosh sahifa hero va `PageHeader`) vertikal to‘ldirishni va h1 o‘lchamini kamaytiradi. Kenglik
+  allaqachon suyuq: 280px da ham gorizontal scroll yo‘q (Playwright bilan tekshiriladi). Android tomonda
+  `resizeableActivity="true"` va `touchscreen required=false` (Chromebook/planshet).
 - Shriftlar: Inter (`font-sans`) va sarlavhalar uchun Bricolage Grotesque (`font-display`; bosh sahifa hero va
   `PageHeader` h1; kirillcha harfi yo‘q — rus matni Inter'ga tushadi). Bosh sahifa hero matni lug‘atda (`home.heroTitle` — egasi bergan shior,
   `heroLead`, `eyebrow`/`eyebrowStarted` — sentabrda "o‘quv yili boshlandi"), tugmalar: dars jadvali va yangiliklar.
@@ -603,8 +617,7 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Oxirida APK **release** bo‘lib chiqadi (`build-<run_number>`, prerelease, `permissions: contents: write`) —
   artefakt zip'i GitHub hisobini talab qiladi va muddati o‘tadi, release esa telefonda ochib bosiladigan oddiy havola.
   Imzo kaliti repoda yo‘q va hech qachon bo‘lmaydi (`android/.gitignore`: `*.jks`, `keystore.properties`) — yo‘qolsa ilovani
-  yangilab bo‘lmaydi. Ikonka — `android/play/make-icons.py` (Pillow): navy fon + ko‘k/yashil yog‘du va oq «14» +
-  oltin chiziq, sayt logotipidagidek; shrift `assets/fonts/BricolageGrotesque-Bold.ttf` (OFL, saytning sarlavha shrifti).
+  yangilab bo‘lmaydi. Ikonka — `android/play/make-icons.py` (Pillow): navy fon + ko‘k/yashil yog‘du ustida belgi; shrift `assets/fonts/BricolageGrotesque-Bold.ttf` (OFL, saytning sarlavha shrifti).
   Adaptiv ikonka ikki qatlam (108dp): fon butun maydonni to‘ldiradi, belgi esa 72dp xavfsiz doira ichida — launcher uni
   doira yoki kvadrat qilib kessa ham kesilmaydi; `monochrome` qatlami Android 13 ning rangli mavzusi uchun. Saytdagi
   ikonkalar ham shu belgi (`app/app-icon/[size]`, `apple-icon.tsx` — o‘sha shriftni `assets/fonts/` dan o‘qiydi), shuning

@@ -286,6 +286,28 @@ html.dark .chrome::before {
   color: var(--hdr-fg);
 }
 
+/* A short window: the app in split screen on a phone, or a freeform window on a tablet or
+   Chromebook. There the header and the dark banner were eating the whole viewport and the visitor
+   saw a headline and nothing to tap, so both give their height back. The mark shrinks with the bar
+   it sits in. Width is already fluid; only height needed the help. */
+@media (max-height: 560px) {
+  .site-header .hdr-row {
+    height: 52px;
+  }
+  .site-header .hdr-row svg {
+    height: 36px;
+  }
+  .band-pad {
+    padding-block: 1.25rem;
+    gap: 1.5rem;
+  }
+  /* The display heading is the tallest thing in either band; in a short window it yields too. */
+  .band-pad h1 {
+    font-size: clamp(1.5rem, 6.5vw, 2rem);
+    line-height: 1.12;
+  }
+}
+
 html.dark .site-header {
   --hdr-bg: #131a2e;
   --hdr-fg: #ffffff;

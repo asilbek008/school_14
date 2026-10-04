@@ -1,6 +1,8 @@
 // A practice-test certificate, made in the browser: drawn on a canvas (the page's own fonts, so Uzbek and Russian
 // names both work) and wrapped as a one-page A4 PDF around the JPEG — no library, nothing sent anywhere.
 
+import { drawMark, markWidth } from "./mark-canvas";
+
 export type CertificateData = {
   school: string;
   heading: string;
@@ -107,15 +109,8 @@ export async function drawCertificate(d: CertificateData): Promise<HTMLCanvasEle
   });
 
   ctx.textAlign = "center";
-  // The crest: a white badge with "14".
-  rounded(ctx, band / 2 - 70, 110, 140, 140, 32);
-  ctx.fillStyle = "#fff";
-  ctx.fill();
-  ctx.fillStyle = navy;
-  ctx.font = `800 78px ${display}`;
-  ctx.fillText("14", band / 2 - 7, 205);
-  ctx.fillStyle = gold;
-  ctx.fillRect(band / 2 - 38, 222, 76, 8);
+  // The crest: the school mark, the same arch the site and the app show.
+  drawMark(ctx, band / 2 - 7 - markWidth(150) / 2, 100, 150, { arch: "#fff", hole: navy, keystone: gold });
   ctx.fillStyle = "#c7d0ea";
   ctx.font = `600 30px ${sans}`;
   wrap(ctx, d.school.toUpperCase(), band - 120)
