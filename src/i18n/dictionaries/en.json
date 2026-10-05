@@ -1657,6 +1657,10 @@
       "tanishtiruv": "About the school",
       "yutuq": "Achievements",
       "boshqa": "Other"
-    }
+    },
+    "onTelegram": "Watch on Telegram",
+    "tooBig": "This video is too large to host here — it can be watched in full on the Telegram channel.",
+    "fromTelegram": "From the Telegram channel",
+    "newsVideos": "Video"
   }
 }

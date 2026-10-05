@@ -1657,6 +1657,10 @@
       "tanishtiruv": "Maktab bilan tanishuv",
       "yutuq": "Yutuqlar",
       "boshqa": "Boshqa"
-    }
+    },
+    "onTelegram": "Telegramda ko‘rish",
+    "tooBig": "Bu video saytga sig‘maydigan darajada katta — Telegram kanalida to‘liq ko‘rsa bo‘ladi.",
+    "fromTelegram": "Telegram kanalidan",
+    "newsVideos": "Video"
   }
 }

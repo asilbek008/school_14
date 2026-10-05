@@ -1761,6 +1761,10 @@
       "tanishtiruv": "Знакомство со школой",
       "yutuq": "Достижения",
       "boshqa": "Другое"
-    }
+    },
+    "onTelegram": "Смотреть в Telegram",
+    "tooBig": "Это видео слишком большое для сайта — его можно посмотреть в Telegram-канале.",
+    "fromTelegram": "Из Telegram-канала",
+    "newsVideos": "Видео"
   }
 }

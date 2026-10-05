@@ -390,14 +390,27 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   Albomli postlar ko‘p bo‘lsa sahifada 4–5 ta post turadi, shuning uchun `?before=` bilan 8 sahifagacha orqaga boriladi. Birinchi rasm `media/telegram/` ga ko‘chiriladi (Telegram havolalari
   doimiy emas). Olingan har post `telegram_posts` (channel, post_id) da qoladi — saytdan o‘chirilgan post qayta
   kelmaydi. `import_since` dan oldingi postlar olinmaydi. `?dry=1` — hech narsa yozmasdan natijani qaytaradi; `?backfill=1` — galereyasi yo‘q eski yangiliklarga rasmlarni qo‘shadi.
-  Asl sifatli rasmlar: `t.me/s` faqat ~800px nusxa beradi. Admin `@BotFather` botining tokenini `/admin/telegram` da
-  kiritsa (`telegram_settings.bot_token`, brauzerga qaytarilmaydi), funksiya `getUpdates` bilan asl rasmlarni
+  Rasm sifati (tekshirilgan): `t.me/s` ro‘yxati ~800px nusxa beradi va **bu ochiq sahifaning tepasi** — rasmning o‘z
+  sahifasidagi `og:image` sinab ko‘rildi, u atigi 320px eskiz, shuning uchun ishlatilmaydi. Asl faylni faqat bot oladi.
+  Admin `@BotFather` botining tokenini `/admin/telegram` da kiritsa (`telegram_settings.bot_token`, brauzerga qaytarilmaydi), funksiya `getUpdates` bilan asl rasmlarni
   (`telegram_media`: message_id → file_id) oladi. Bot kanalda admin bo‘lsa (`bot_status` = `ok`): yangi postlar
   `channel_post` bilan keladi, eskilari uchun admin botga /start bosadi (`bot_chat_id`) va funksiya postni o‘sha
   chatga forward qilib, rasmini olib, xabarni o‘chiradi. Admin qilib bo‘lmasa (`not_admin`; Telegram admin
   bo‘lmagan botga kanaldan forward qilishga ruxsat bermaydi) — admin postlarni botga qo‘lda forward qiladi,
-  `forward_origin` (kanal + message_id) bo‘yicha moslanadi. `telegram_posts.photo_ids` (albomdagi rasm post id'lari) va `hd` — har ishga tushishda 6 tagacha
-  eski yangilik rasmlari asl sifatga almashtiriladi; faqat hamma rasm yuklangandagina almashtiriladi.
+  `forward_origin` (kanal + message_id) bo‘yicha moslanadi. `telegram_posts.photo_ids` (albomdagi rasm post id'lari),
+  `hd`, `photo_px` (saqlangan eng kichik rasmning uzun tomoni) va `photo_tries` — har ishga tushishda 6 tagacha eski
+  yangilik rasmlari qayta olinadi. Uch qoida: hamma rasm yuklangandagina almashtiriladi, **faqat kattarog‘i bo‘lsa**
+  almashtiriladi (kichikroq nusxa bilan almashtirish — qaytarib bo‘lmaydigan yagona xato), va bir post ko‘pi bilan
+  `MAX_PHOTO_TRIES` marta so‘raladi. Fayl nomida o‘lchami bor (`-800px`), shuning uchun kattaroq nusxa yangi URL
+  oladi va CDN'ning bir oylik keshi eskisini bermaydi.
+
+  Telegram videolari (egasining so‘rovi): kanal sahifasi **qisqa** videoning faylini beradi (`<video src>`), uzuni esa
+  «Media is too big» deydi — uni bot ham ololmaydi (Bot API `getFile` 20 MB bilan cheklangan). Shuning uchun qisqa video
+  `media/videos/` ga ko‘chiriladi (`videos.kind='file'`), uzuni esa post havolasi bo‘lib qoladi (`kind='telegram'`,
+  `path` = `<kanal>/<message id>`, `source_url`) — saytda o‘sha kadr va «Telegramda ko‘rish» tugmasi chiqadi
+  (`VideoPlayer`). Ikkalasi ham «Video» bo‘limiga tushadi; post yangilik bo‘lsa `videos.news_id` bilan bog‘lanadi va
+  maqola ostida ham chiqadi. `telegram_posts.videos_done` — videolar qo‘llab-quvvatlanishidan oldin olingan postlar
+  uchun orqaga qarab olish (har ishga tushishda 4 tadan). Takrorlanmasligi `source_url` bo‘yicha (unikal indeks).
   Funksiyani o‘zgartirsangiz, qayta deploy qiling (Supabase MCP `deploy_edge_function`, `verify_jwt: false`).
   Admin sahifasi: tepada 4 karta (holat, oxirgi tekshiruv va natijasi, yangilik + tadbirlar soni / o‘tkazilganlar, asl sifatli
   rasmlar); sozlamalar formasi bo‘limlarda; "Kanaldan olingan postlar" — client `PostList` (oxirgi 200 ta; turi bo‘yicha filtr,

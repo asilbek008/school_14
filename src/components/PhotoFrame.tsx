@@ -18,7 +18,9 @@ export default function PhotoFrame({
   return (
     <div className={`relative overflow-hidden bg-brand-soft ${className}`}>
       <Image src={src} alt="" aria-hidden fill sizes="64px" className="scale-125 object-cover opacity-70 blur-2xl" />
-      <Image src={src} alt={alt} fill priority={priority} sizes="(min-width: 1024px) 1024px, 100vw" className="object-contain" />
+      {/* Quality 90: these are usually Telegram copies, already compressed once, and the default 75
+          would compress them a second time right where the photo is largest on the page. */}
+      <Image src={src} alt={alt} fill priority={priority} quality={90} sizes="(min-width: 1024px) 1024px, 100vw" className="object-contain" />
     </div>
   );
 }

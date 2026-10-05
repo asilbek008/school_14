@@ -1006,15 +1006,22 @@ export type SchoolVideo = {
   description_ru: string | null;
   description_en: string | null;
   category: VideoCategory;
-  kind: "youtube" | "file";
+  /** `telegram` is a video Telegram will not hand over (too big to copy): the site shows its frame and
+   * a button that opens the post. `path` is then "<channel>/<message id>". */
+  kind: "youtube" | "file" | "telegram";
   path: string;
   cover: string | null;
   recorded_on: string | null;
   school_year: number | null;
+  /** Where it came from (a Telegram post), shown as a link under the player. */
+  source_url: string | null;
+  duration_seconds: number | null;
+  /** The article it belongs to, when it arrived with one. */
+  news_id: number | null;
 };
 
 const videoColumns =
-  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, category, kind, path, cover, recorded_on, school_year";
+  "id, title_uz, title_ru, title_en, description_uz, description_ru, description_en, category, kind, path, cover, recorded_on, school_year, source_url, duration_seconds, news_id";
 
 /** The video section: every published video, newest first. */
 export async function getVideos(): Promise<SchoolVideo[]> {
@@ -1028,6 +1035,21 @@ export async function getVideos(): Promise<SchoolVideo[]> {
     .order("recorded_on", { ascending: false, nullsFirst: false })
     .order("id", { ascending: false });
   logError("getVideos", error);
+  return (data ?? []) as SchoolVideo[];
+}
+
+/** The videos that came in with one article (from its Telegram post), shown under the text. */
+export async function getNewsVideos(newsId: number): Promise<SchoolVideo[]> {
+  const supabase = createPublicClient();
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("videos")
+    .select(videoColumns)
+    .eq("news_id", newsId)
+    .eq("is_published", true)
+    .order("sort_order")
+    .order("id");
+  logError("getNewsVideos", error);
   return (data ?? []) as SchoolVideo[];
 }
 

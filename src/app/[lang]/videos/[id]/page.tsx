@@ -3,11 +3,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
 import { videoColors } from "@/lib/categories";
-import { getVideo, getVideos, localized, mediaUrl } from "@/lib/content";
+import { getVideo, getVideos, localized } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import PageHeader from "@/components/PageHeader";
 import RichText from "@/components/RichText";
-import VideoCard, { videoPoster } from "@/components/VideoCard";
+import VideoCard, { videoLength } from "@/components/VideoCard";
+import VideoPlayer from "@/components/VideoPlayer";
 
 export const revalidate = 300;
 
@@ -28,6 +29,14 @@ export default async function VideoPage({ params }: PageProps<"/[lang]/videos/[i
   const title = localized(video, "title", lang);
   const description = localized(video, "description", lang);
   const others = (await getVideos()).filter((v) => v.id !== video.id).slice(0, 3);
+  const length = videoLength(video.duration_seconds);
+  // Where it came from: YouTube's own page, or the Telegram post the sync read it from.
+  const source =
+    video.kind === "youtube"
+      ? { href: `https://www.youtube.com/watch?v=${video.path}`, label: t.onYoutube }
+      : video.source_url
+        ? { href: video.source_url, label: t.onTelegram }
+        : null;
 
   return (
     <>
@@ -41,36 +50,15 @@ export default async function VideoPage({ params }: PageProps<"/[lang]/videos/[i
         intro={video.recorded_on ? formatDate(video.recorded_on, lang) : undefined}
       />
       <div className="mx-auto max-w-4xl px-4 py-10 sm:py-12">
-        {video.kind === "youtube" ? (
-          <iframe
-            src={`https://www.youtube-nocookie.com/embed/${video.path}`}
-            title={title}
-            allow="accelerometer; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-            referrerPolicy="strict-origin-when-cross-origin"
-            className="aspect-video w-full rounded-[14px] border border-slate-200 bg-black"
-          />
-        ) : (
-          <video
-            src={mediaUrl(video.path)!}
-            poster={videoPoster(video) ?? undefined}
-            controls
-            preload="metadata"
-            playsInline
-            className="aspect-video w-full rounded-[14px] border border-slate-200 bg-black"
-          />
-        )}
+        <VideoPlayer video={video} title={title} dict={dict} />
 
         <div className="mt-5 flex flex-wrap items-center gap-2">
           <span className={`rounded-full px-2.5 py-0.5 text-[12px] font-bold ${videoColors[video.category]}`}>{t.cats[video.category]}</span>
           <span className="text-[13px] text-slate-500">{video.recorded_on ? formatDate(video.recorded_on, lang) : t.noDate}</span>
-          {video.kind === "youtube" && (
-            <a
-              href={`https://www.youtube.com/watch?v=${video.path}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="ml-auto text-[13.5px] font-bold text-brand-deep link-grow"
-            >
-              {t.onYoutube} ↗
+          {length && <span className="text-[13px] tabular-nums text-slate-500">{length}</span>}
+          {source && (
+            <a href={source.href} target="_blank" rel="noopener noreferrer" className="ml-auto text-[13.5px] font-bold text-brand-deep link-grow">
+              {source.label} ↗
             </a>
           )}
         </div>
