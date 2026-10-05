@@ -22,7 +22,7 @@ export default function AlbumCard({ album, lang, dict }: { album: Album; lang: L
           <path d="M3.6 17.5l4.4-4.2 3.2 3 3-2.7 6.2 5.4" />
         </svg>
         {cover && (
-          <Image src={cover} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" className="object-cover transition duration-500 ease-(--ease-spring) group-hover:scale-105" />
+          <Image src={cover} alt="" fill sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" quality={85} className="object-cover transition duration-500 ease-(--ease-spring) group-hover:scale-105" />
         )}
         <span className="absolute bottom-3 right-3 rounded-full bg-[#111c3a]/80 px-3 py-1 text-xs font-bold text-white backdrop-blur">
           {fill(dict.gallery.photos, { n: album.gallery_photos.length })}

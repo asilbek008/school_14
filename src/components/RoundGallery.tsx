@@ -86,6 +86,7 @@ export default function RoundGallery({ albums, alt, lang, t }: { albums: RoundAl
               fill
               priority={picked === 0}
               sizes="(min-width: 1024px) 700px, 100vw"
+              quality={85}
               className="object-cover transition duration-700 ease-(--ease-spring) group-hover:scale-105"
             />
             <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
