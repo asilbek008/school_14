@@ -62,6 +62,7 @@ export default function NewsCard({
             alt=""
             fill
             sizes={big ? "(min-width: 1024px) 50vw, 100vw" : row ? "160px" : "(min-width: 768px) 33vw, 100vw"}
+            quality={85}
             className="object-cover transition duration-500 ease-(--ease-spring) group-hover:scale-105"
           />
         ) : (

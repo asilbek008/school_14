@@ -404,6 +404,17 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   `MAX_PHOTO_TRIES` marta so‘raladi. Fayl nomida o‘lchami bor (`-800px`), shuning uchun kattaroq nusxa yangi URL
   oladi va CDN'ning bir oylik keshi eskisini bermaydi.
 
+  Rasmlarni 1440px ga qayta qurish (egasining talabi — «1080 HD, 1440»): Telegram ochiq sahifasi 800px'dan
+  kattasini bermagani uchun saytdagi 241 rasmning 222 tasi 800px va undan kichik edi. Ular Real-ESRGAN x2
+  (`RealESRGAN_x2plus`, spandrel + CPU torch, plitkalab) bilan ikki barobar kattalashtirilib, keyin Lanczos
+  bilan aniq 1440px ga tushirildi (320px video eskizlari ikki marta o‘tib 1280px); JPEG sifat 92. Model —
+  oddiy super-resolution, **yuzni qayta chizadigan** GFPGAN/CodeFormer emas: aniqlik qo‘shadi, odamni
+  o‘zgartirmaydi. Yangi fayl nomida o‘lchami bor (`…-1440px.jpg`), eski 800px fayllar bucket'da qoldi —
+  orqaga qaytarish mumkin. `telegram_posts.photo_px` **tegilmadi** (800 bo‘lib qoldi): shunday qilib bot
+  kanalga admin bo‘lgan kunda haqiqiy asl nusxa kelsa, «faqat kattarog‘i» qoidasi hamon ishlaydi va
+  upscale qilingan nusxani haqiqiysi almashtiradi. Yangi rasmlar (admin yuklagan, Telegram'dan kelgan)
+  upscale qilinmaydi — bu bir martalik tuzatish; chinakam yechim baribir manbaning o‘zi.
+
   Telegram videolari (egasining so‘rovi): kanal sahifasi **qisqa** videoning faylini beradi (`<video src>`), uzuni esa
   «Media is too big» deydi — uni bot ham ololmaydi (Bot API `getFile` 20 MB bilan cheklangan). Shuning uchun qisqa video
   `media/videos/` ga ko‘chiriladi (`videos.kind='file'`), uzuni esa post havolasi bo‘lib qoladi (`kind='telegram'`,

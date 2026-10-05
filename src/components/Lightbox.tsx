@@ -56,6 +56,7 @@ export default function Lightbox({
                 alt={`${alt} — ${i + 1}`}
                 fill
                 sizes={mosaic && i === 0 ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 1024px) 25vw, 50vw"}
+                quality={85}
                 className="object-cover transition duration-500 ease-(--ease-spring) group-hover:scale-110"
               />
               <span className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
