@@ -3,12 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { resolveLang } from "@/i18n/server";
-import { getNews, getNewsBySlug, getPrograms, localized, mediaUrl } from "@/lib/content";
+import { getNews, getNewsBySlug, getNewsVideos, getPrograms, localized, mediaUrl } from "@/lib/content";
 import { newsColors } from "@/lib/categories";
 import { formatDate } from "@/lib/format";
 import RichText from "@/components/RichText";
 import Lightbox from "@/components/Lightbox";
 import VideoGrid from "@/components/VideoGrid";
+import VideoPlayer from "@/components/VideoPlayer";
 import PhotoFrame from "@/components/PhotoFrame";
 import PageHeader from "@/components/PageHeader";
 
@@ -34,6 +35,7 @@ export default async function NewsArticlePage({ params }: PageProps<"/[lang]/new
   const cover = mediaUrl(item.cover_image);
   const more = latest.filter((n) => n.id !== item.id).slice(0, 4);
   const photos = item.news_photos.map((p) => mediaUrl(p.path)!);
+  const channelVideos = await getNewsVideos(item.id);
   // News about a regular program is listed on that program's page, so "back" leads there.
   const text = `${item.title_uz} ${item.body_uz}`.toLowerCase();
   const program = programs.find((p) => p.keyword && text.includes(p.keyword.toLowerCase()));
@@ -76,6 +78,25 @@ export default async function NewsArticlePage({ params }: PageProps<"/[lang]/new
                 layout="mosaic"
                 t={{ close: dict.gallery.close, prev: dict.gallery.prev, next: dict.gallery.next }}
               />
+            </section>
+          )}
+
+          {/* Videos that came in with the post from the Telegram channel (their own section's rows). */}
+          {channelVideos.length > 0 && (
+            <section className="mt-10">
+              <h2 className="font-display mb-5 text-xl font-bold tracking-tight text-slate-900">
+                {dict.videos.newsVideos} <span className="font-semibold text-slate-400">· {channelVideos.length}</span>
+              </h2>
+              <div className="grid gap-4 md:grid-cols-2">
+                {channelVideos.map((v) => (
+                  <div key={v.id}>
+                    <VideoPlayer video={v} title={localized(v, "title", lang)} dict={dict} />
+                    <Link href={`/${lang}/videos/${v.id}`} className="mt-2 inline-block text-[13.5px] font-bold text-brand-deep link-grow">
+                      {localized(v, "title", lang)}
+                    </Link>
+                  </div>
+                ))}
+              </div>
             </section>
           )}
 

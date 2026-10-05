@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { requireAdmin } from "@/lib/admin";
 import { formatDateTime } from "@/lib/format";
 import { mediaBaseUrl } from "@/lib/media";
@@ -23,8 +24,17 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
   const { supabase } = await requireAdmin();
   const params = await searchParams;
   const posts = () => supabase.from("telegram_posts").select("post_id", { count: "exact", head: true });
-  const [{ data: settings }, { data: imported }, { count: newsTotal }, { count: newsHd }, { count: eventsTotal }, { count: skippedTotal }] =
-    await Promise.all([
+  const [
+    { data: settings },
+    { data: imported },
+    { count: newsTotal },
+    { count: newsHd },
+    { count: eventsTotal },
+    { count: skippedTotal },
+    { data: sizes },
+    { count: videoFiles },
+    { count: videoLinks },
+  ] = await Promise.all([
       supabase
         .from("telegram_settings")
         .select("channel, enabled, auto_publish, import_since, last_synced_at, last_status, bot_username, bot_status, bot_chat_id")
@@ -40,6 +50,10 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
       posts().not("news_id", "is", null).eq("hd", true),
       posts().not("event_id", "is", null),
       posts().not("skipped", "is", null),
+      // What the site actually holds: the long side of each imported post's smallest photo.
+      supabase.from("telegram_posts").select("photo_px").not("photo_px", "is", null),
+      supabase.from("videos").select("id", { count: "exact", head: true }).eq("kind", "file").like("path", "videos/telegram-%"),
+      supabase.from("videos").select("id", { count: "exact", head: true }).eq("kind", "telegram"),
     ]);
   if (!settings) return <p>Sozlamalarni o‘qib bo‘lmadi.</p>;
   // Without generated DB types supabase-js types to-one embeds as arrays.
@@ -56,6 +70,11 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
     date: formatDateTime(row.imported_at, "uz"),
   }));
   const failed = settings.last_status?.startsWith("Xato");
+  // Photo sizes, so the page can say what the site holds instead of only "original / not original".
+  const px = (sizes ?? []).map((r) => r.photo_px as number).filter((n) => n > 0);
+  const measured = px.length;
+  const average = measured ? Math.round(px.reduce((a, b) => a + b, 0) / measured) : 0;
+  const smallest = measured ? Math.min(...px) : 0;
   const stats = [
     { label: "Holat", value: settings.enabled && settings.channel ? "Yoqilgan" : "O‘chirilgan", tone: settings.enabled && settings.channel ? "text-green-700" : "text-slate-500" },
     {
@@ -66,9 +85,15 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
     },
     { label: "Yangilik va tadbirlar", value: `${newsTotal ?? 0} + ${eventsTotal ?? 0}`, sub: `${skippedTotal ?? 0} ta post o‘tkazib yuborilgan`, tone: "text-slate-900" },
     {
-      label: "Asl sifatli rasmlar",
+      label: "Kattaroq rasmlar",
       value: `${newsHd ?? 0} / ${newsTotal ?? 0}`,
-      sub: settings.bot_username ? `Bot: @${settings.bot_username}` : "Bot ulanmagan",
+      sub: measured ? `o‘lchangan ${measured} ta yangilikda o‘rtacha ${average} px${smallest ? `, eng kichigi ${smallest} px` : ""}` : "hali o‘lchanmagan",
+      tone: "text-slate-900",
+    },
+    {
+      label: "Videolar",
+      value: `${(videoFiles ?? 0) + (videoLinks ?? 0)}`,
+      sub: `${videoFiles ?? 0} ta saytda, ${videoLinks ?? 0} ta Telegram havolasi`,
       tone: "text-slate-900",
     },
   ];
@@ -86,7 +111,7 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
       {params.synced === "error" && <Notice error>Telegram bilan bog‘lanib bo‘lmadi. Birozdan keyin qayta urinib ko‘ring.</Notice>}
       {params.bot && <Notice>Bot sozlamasi saqlandi.</Notice>}
 
-      <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
         {stats.map((st) => (
           <div key={st.label} className="rounded-xl bg-white p-4 shadow-sm">
             <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{st.label}</p>
@@ -141,11 +166,12 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
       </div>
 
       <section className="mt-10 rounded-xl bg-white p-6 shadow-sm">
-        <h2 className="text-lg font-bold">Asl sifatli rasmlar (Telegram bot)</h2>
+        <h2 className="text-lg font-bold">Rasm sifati</h2>
         <p className="mt-1 max-w-3xl text-sm text-slate-600">
-          Telegram&apos;ning ochiq sahifasi rasmlarni faqat kichik (taxminan 800 piksel) nusxada beradi. Bot esa asl
-          rasmlarni oladi — saytda ular ancha tiniq ko‘rinadi. Bot kanalda admin bo‘lsa, hammasi avtomatik; admin qilib
-          bo‘lmasa, postlarni botga forward qilib yuborasiz.
+          Kanalning ochiq ro‘yxati rasmlarni faqat kichik (taxminan 800 piksel) nusxada beradi — telefonda ochilganda
+          ular xira ko‘rinadi. Endi sayt har rasmning <b>o‘z sahifasidagi kattaroq nusxasini</b> (odatda 1280 piksel)
+          oladi; buning uchun bot ham, hech qanday sozlama ham kerak emas, eski yangiliklar har tekshiruvda bir
+          nechtadan almashtiriladi. Bot kanalda admin bo‘lsa, undan ham kattasi — asl fayl — olinadi.
         </p>
         {settings.bot_username ? (
           <div className="mt-4 space-y-3 text-sm">
@@ -189,7 +215,8 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
               </div>
             )}
             <p className="text-slate-600">
-              Asl sifatga o‘tgan yangiliklar: <b>{newsHd ?? 0}</b> / {newsTotal ?? 0} (har tekshiruvda bir nechtadan almashtiriladi).
+              Kattaroq rasmga o‘tgan yangiliklar: <b>{newsHd ?? 0}</b> / {newsTotal ?? 0}
+              {measured ? ` · o‘lchangan ${measured} tasida o‘rtacha ${average} px` : ""} (har tekshiruvda bir nechtadan almashtiriladi).
             </p>
             <div className="flex flex-wrap gap-3 pt-1">
               {settings.bot_status !== "ok" && (
@@ -221,6 +248,29 @@ export default async function TelegramPage({ searchParams }: PageProps<"/admin/t
         <div className="mt-5 max-w-xl">
           <BotForm connected={!!settings.bot_username} />
         </div>
+      </section>
+
+      <section className="mt-10 rounded-xl bg-white p-6 shadow-sm">
+        <h2 className="text-lg font-bold">Kanaldagi videolar</h2>
+        <p className="mt-1 max-w-3xl text-sm text-slate-600">
+          Kanaldagi videolar ham avtomatik olinadi va saytdagi{" "}
+          <Link href="/admin/videos" className="font-semibold text-blue-700 hover:underline">
+            «Video»
+          </Link>{" "}
+          bo‘limiga tushadi. Qisqa videoning fayli saytga ko‘chiriladi va shu yerda o‘ynaydi. Uzun videoni Telegram
+          bermaydi («Media is too big» deb yozadi, bot ham 20 MB dan kattasini ola olmaydi) — unday video uchun saytda
+          o‘sha kadr va «Telegramda ko‘rish» tugmasi chiqadi.
+        </p>
+        <p className="mt-3 text-sm text-slate-600">
+          Hozir: <b>{videoFiles ?? 0}</b> ta video saytda o‘ynaydi, <b>{videoLinks ?? 0}</b> tasi Telegram havolasi.
+        </p>
+        <p className="mt-2 text-sm text-slate-600">
+          Uzun videoni ham saytda o‘ynatmoqchi bo‘lsangiz, uni YouTube&apos;ga joylab,{" "}
+          <Link href="/admin/videos/new" className="font-semibold text-blue-700 hover:underline">
+            havolasini «Video» bo‘limiga qo‘shing
+          </Link>{" "}
+          — YouTube bepul va telefon aloqasiga qarab sifatini o‘zi moslaydi.
+        </p>
       </section>
 
       <h2 className="mb-1 mt-10 text-lg font-bold">Kanaldan olingan postlar</h2>

@@ -296,25 +296,40 @@ function mosaicSpan(i: number, n: number): string {
   return `${phone} ${md}`;
 }
 
-/** The open photo: fades in, and is shown at most 1.5× its real size so a small photo stays sharp. */
+/**
+ * The open photo. Two things keep a small photo looking right rather than stretched: it is shown at most
+ * 1.5× its real pixels, so it is never blown up into mush, and behind it sits a blurred, enlarged copy
+ * of itself instead of empty black — the frame fills the screen while the photo itself stays sharp.
+ * Quality 90 matters here too: the source is often a Telegram copy that was compressed once already,
+ * and re-encoding it at the default 75 for the full-screen view would compress it a second time.
+ */
 function Photo({ src, alt, priority }: { src: string; alt: string; priority?: boolean }) {
   const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
   return (
-    <div
-      className="relative h-full w-full"
-      style={natural ? { maxWidth: natural.w * 1.5, maxHeight: natural.h * 1.5 } : undefined}
-      onClick={(e) => e.stopPropagation()}
-    >
+    <div className="relative flex h-full w-full items-center justify-center" onClick={(e) => e.stopPropagation()}>
       <Image
         src={src}
-        alt={alt}
+        alt=""
+        aria-hidden
         fill
         sizes="100vw"
-        priority={priority}
+        quality={75}
         draggable={false}
-        className="object-contain drop-shadow-2xl"
-        onLoad={(e) => setNatural({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })}
+        className="scale-110 object-cover opacity-30 blur-2xl motion-reduce:scale-100"
       />
+      <div className="relative h-full w-full" style={natural ? { maxWidth: natural.w * 1.5, maxHeight: natural.h * 1.5 } : undefined}>
+        <Image
+          src={src}
+          alt={alt}
+          fill
+          sizes="100vw"
+          quality={90}
+          priority={priority}
+          draggable={false}
+          className="object-contain drop-shadow-2xl"
+          onLoad={(e) => setNatural({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })}
+        />
+      </div>
     </div>
   );
 }

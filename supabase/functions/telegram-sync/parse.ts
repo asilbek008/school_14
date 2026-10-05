@@ -11,6 +11,20 @@ export type TelegramPost = {
   /** Channel message of each photo (an album is one message per photo), same order as images;
    * empty when the only image is a video's preview frame. */
   photoIds: number[];
+  /** Videos of the post (an album may hold several). */
+  videos: TelegramVideo[];
+};
+
+export type TelegramVideo = {
+  /** The channel message the video is, so the post link and the import record are stable. */
+  id: number;
+  /** Direct file, which the preview page gives only while the video is small; null for a big one
+   * ("Media is too big"), which no bot can fetch either -- the Bot API caps getFile at 20 MB. */
+  url: string | null;
+  /** The frame Telegram shows before playing. */
+  thumb: string | null;
+  /** Length in seconds, from the "2:05" the page prints. */
+  duration: number | null;
 };
 
 /** Reads posts from a public channel preview page (https://t.me/s/<channel>), oldest first. */
@@ -23,17 +37,16 @@ export function parseChannelPage(html: string): TelegramPost[] {
     const textHtml = /<div class="tgme_widget_message_text js-message_text"[^>]*>([\s\S]*?)<\/div>/.exec(block)?.[1] ?? "";
     const photos = postPhotos(block);
     const images = photos.map((p) => p.url);
-    if (!photos.length) {
-      // No photo: a video's preview frame. It has no original photo, so no photoIds entry.
-      const thumb = /tgme_widget_message_video_thumb"[^>]*background-image:url\('([^']+)'\)/.exec(block)?.[1];
-      if (thumb) images.push(thumb);
-    }
+    const videos = postVideos(block, Number(id));
+    // A post of only videos still needs a cover, and the video's own frame is the honest one.
+    if (!photos.length && videos[0]?.thumb) images.push(videos[0].thumb);
     posts.push({
       id: Number(id),
       date,
       text: htmlToText(textHtml),
-      images: images.map((u) => (u.startsWith("//") ? `https:${u}` : u)),
+      images: images.map(absolute),
       photoIds: photos.map((p) => p.id),
+      videos,
     });
   }
   return posts;
@@ -48,8 +61,41 @@ export function postPhotos(html: string): { url: string; id: number }[] {
   return [...html.matchAll(/<a class="tgme_widget_message_photo_wrap[^>]*>/g)].flatMap(([tag]) => {
     const url = /background-image:url\('([^']+)'\)/.exec(tag)?.[1];
     const id = /href="https:\/\/t\.me\/[^/"]+\/(\d+)/.exec(tag)?.[1];
-    return url && id ? [{ url, id: Number(id) }] : [];
+    return url && id ? [{ url: absolute(url), id: Number(id) }] : [];
   });
+}
+
+const absolute = (u: string) => (u.startsWith("//") ? `https:${u}` : u);
+
+/**
+ * A post's videos. Each is its own message (an album numbers them like photos), so the link and the
+ * import record keep working after the post leaves the preview pages. `postId` is the fallback id for
+ * a single video, whose player links to the post itself without a message number of its own.
+ */
+export function postVideos(html: string, postId: number): TelegramVideo[] {
+  // Each player is one anchor; the thumb, the file and the duration sit inside it, before the next one.
+  const parts = html.split('<a class="tgme_widget_message_video_player').slice(1);
+  return parts.map((part) => {
+    const block = part.split('<a class="tgme_widget_message_')[0];
+    const href = /^[^>]*href="https:\/\/t\.me\/[^/"]+\/(\d+)/.exec(part)?.[1];
+    const thumb = /tgme_widget_message_video_thumb"[^>]*background-image:url\('([^']+)'\)/.exec(block)?.[1];
+    // Present only while Telegram serves the file itself; the token in it expires, so copy it promptly.
+    const url = /<video[^>]*\bsrc="([^"]+)"/.exec(block)?.[1];
+    const time = /js-message_video_duration"[^>]*>([\d:]+)</.exec(block)?.[1];
+    return {
+      id: href ? Number(href) : postId,
+      url: url ? absolute(url) : null,
+      thumb: thumb ? absolute(thumb) : null,
+      duration: time ? seconds(time) : null,
+    };
+  });
+}
+
+/** "2:05" → 125, "1:02:03" → 3723. */
+function seconds(time: string): number | null {
+  const parts = time.split(":").map(Number);
+  if (parts.some((n) => !Number.isFinite(n)) || parts.length < 2 || parts.length > 3) return null;
+  return parts.reduce((total, n) => total * 60 + n, 0);
 }
 
 /** Number of the oldest post on the page, for fetching the page before it (?before=). */
@@ -71,6 +117,52 @@ export function htmlToText(html: string): string {
     )
     .replace(/[ \t]+\n/g, "\n")
     .trim();
+}
+
+/**
+ * Pixel size from the file's own header, so two renditions of the same photo can be compared without
+ * decoding them: JPEG's first frame marker, PNG's IHDR, WebP's VP8/VP8L/VP8X.
+ */
+export function imageSize(b: Uint8Array): { width: number; height: number } | null {
+  const be16 = (i: number) => (b[i] << 8) | b[i + 1];
+  const be32 = (i: number) => ((b[i] << 24) | (b[i + 1] << 16) | (b[i + 2] << 8) | b[i + 3]) >>> 0;
+  const le16 = (i: number) => b[i] | (b[i + 1] << 8);
+
+  if (b[0] === 0xff && b[1] === 0xd8) {
+    // Walk the segment chain to the frame header; SOF0..SOF15 carry the size, DHT/DQT/APPn do not.
+    for (let i = 2; i + 9 < b.length; ) {
+      if (b[i] !== 0xff) {
+        i++;
+        continue;
+      }
+      const marker = b[i + 1];
+      if (marker === 0xd8 || marker === 0x01 || (marker >= 0xd0 && marker <= 0xd7)) {
+        i += 2;
+        continue;
+      }
+      if (marker === 0xd9 || marker === 0xda) break; // image data starts; no frame header found
+      const length = be16(i + 2);
+      if (length < 2) break;
+      if (marker >= 0xc0 && marker <= 0xcf && marker !== 0xc4 && marker !== 0xc8 && marker !== 0xcc) {
+        return { height: be16(i + 5), width: be16(i + 7) };
+      }
+      i += 2 + length;
+    }
+    return null;
+  }
+  if (b[0] === 0x89 && b[1] === 0x50 && b.length > 24) return { width: be32(16), height: be32(20) };
+  if (b[0] === 0x52 && b[8] === 0x57 && b.length > 30) {
+    const fourcc = String.fromCharCode(b[12], b[13], b[14], b[15]);
+    if (fourcc === "VP8 ") return { width: le16(26) & 0x3fff, height: le16(28) & 0x3fff };
+    if (fourcc === "VP8L") {
+      const bits = b[21] | (b[22] << 8) | (b[23] << 16) | (b[24] << 24);
+      return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1 };
+    }
+    if (fourcc === "VP8X") {
+      return { width: (b[24] | (b[25] << 8) | (b[26] << 16)) + 1, height: (b[27] | (b[28] << 8) | (b[29] << 16)) + 1 };
+    }
+  }
+  return null;
 }
 
 // ---- Classification --------------------------------------------------------------------------

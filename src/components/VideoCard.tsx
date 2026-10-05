@@ -6,13 +6,21 @@ import { localized, mediaUrl, type SchoolVideo } from "@/lib/content";
 import { youtubeThumb } from "@/lib/media";
 import { formatDate } from "@/lib/format";
 
-/** The still shown before a video plays: YouTube's own thumbnail, or the poster an admin uploaded. */
+/** The still shown before a video plays: YouTube's own thumbnail, or the frame stored beside the file. */
 export const videoPoster = (video: SchoolVideo) =>
   video.kind === "youtube" ? youtubeThumb(video.path) : video.cover ? mediaUrl(video.cover) : null;
+
+/** "2:05" from 125 seconds; hours only when there are any. */
+export function videoLength(seconds: number | null): string | null {
+  if (!seconds || seconds < 1) return null;
+  const parts = [Math.floor(seconds / 3600), Math.floor(seconds / 60) % 60, seconds % 60];
+  return (parts[0] ? parts : parts.slice(1)).map((n, i) => (i ? String(n).padStart(2, "0") : String(n))).join(":");
+}
 
 /** One video in the list: its still with a play badge, category, title and date. */
 export default function VideoCard({ video, lang, dict }: { video: SchoolVideo; lang: Locale; dict: Dictionary }) {
   const poster = videoPoster(video);
+  const length = videoLength(video.duration_seconds);
   const t = dict.videos;
 
   return (
@@ -33,6 +41,11 @@ export default function VideoCard({ video, lang, dict }: { video: SchoolVideo; l
             <path d="M8 5v14l11-7z" />
           </svg>
         </span>
+        {length && (
+          <span className="absolute bottom-2 right-2 rounded-md bg-black/70 px-1.5 py-0.5 text-[11.5px] font-bold tabular-nums text-white">
+            {length}
+          </span>
+        )}
       </div>
       <div className="flex flex-1 flex-col gap-1.5 p-4">
         <div className="flex flex-wrap items-center gap-2">

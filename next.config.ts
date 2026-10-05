@@ -42,6 +42,9 @@ const nextConfig: NextConfig = {
     // uuids, Telegram "-hd" copies), so a resized copy is kept for a month, and only a handful of widths are
     // made (phone, tablet, desktop, full screen; small ones for thumbnails and avatars).
     minimumCacheTTL: 60 * 60 * 24 * 31,
+    // 75 everywhere, and 90 for the full-screen viewer: those photos are often Telegram copies that
+    // were compressed once already, so a second pass at 75 is what made them look washed out.
+    qualities: [75, 90],
     deviceSizes: [640, 828, 1200, 1920],
     imageSizes: [64, 128, 256, 384],
     // Only for a local Supabase stack (http://localhost:54321); never true in production.
