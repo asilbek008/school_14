@@ -226,7 +226,10 @@ export function PhotoViewer({
             {(many ? [-1, 0, 1] : [0]).map((d) => {
               const i = (open + d + photos.length) % photos.length;
               return (
-                <div key={`${d}-${i}`} className="absolute inset-0 flex items-center justify-center px-2 sm:px-20" style={{ left: `${d * 100}%` }}>
+                // inset-y-0 + w-full, not inset-0: with `right: 0` still set, a slide pushed aside by
+                // `left` would stretch to twice the stage and its photo would be centred on the screen
+                // instead of waiting off it.
+                <div key={`${d}-${i}`} className="absolute inset-y-0 w-full flex items-center justify-center px-2 sm:px-20" style={{ left: `${d * 100}%` }}>
                   <Photo src={photos[i]} alt={`${alt} — ${i + 1}`} priority={d === 0} />
                 </div>
               );
@@ -297,39 +300,30 @@ function mosaicSpan(i: number, n: number): string {
 }
 
 /**
- * The open photo. Two things keep a small photo looking right rather than stretched: it is shown at most
- * 1.5× its real pixels, so it is never blown up into mush, and behind it sits a blurred, enlarged copy
- * of itself instead of empty black — the frame fills the screen while the photo itself stays sharp.
- * Quality 90 matters here too: the source is often a Telegram copy that was compressed once already,
- * and re-encoding it at the default 75 for the full-screen view would compress it a second time.
+ * The open photo, shown at most 1.5× its real pixels so a small one is never blown up into mush. The
+ * blurred bed behind it belongs to the dialog, not here — a second copy only washed the screen grey.
+ * Quality 90 matters: the source is often a Telegram copy that was compressed once already, and
+ * re-encoding it at the default 75 for the full-screen view would compress it a second time.
  */
 function Photo({ src, alt, priority }: { src: string; alt: string; priority?: boolean }) {
   const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
   return (
-    <div className="relative flex h-full w-full items-center justify-center" onClick={(e) => e.stopPropagation()}>
+    <div
+      className="relative h-full w-full"
+      style={natural ? { maxWidth: natural.w * 1.5, maxHeight: natural.h * 1.5 } : undefined}
+      onClick={(e) => e.stopPropagation()}
+    >
       <Image
         src={src}
-        alt=""
-        aria-hidden
+        alt={alt}
         fill
         sizes="100vw"
-        quality={75}
+        quality={90}
+        priority={priority}
         draggable={false}
-        className="scale-110 object-cover opacity-30 blur-2xl motion-reduce:scale-100"
+        className="object-contain drop-shadow-2xl"
+        onLoad={(e) => setNatural({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })}
       />
-      <div className="relative h-full w-full" style={natural ? { maxWidth: natural.w * 1.5, maxHeight: natural.h * 1.5 } : undefined}>
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="100vw"
-          quality={90}
-          priority={priority}
-          draggable={false}
-          className="object-contain drop-shadow-2xl"
-          onLoad={(e) => setNatural({ w: e.currentTarget.naturalWidth, h: e.currentTarget.naturalHeight })}
-        />
-      </div>
     </div>
   );
 }
