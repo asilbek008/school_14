@@ -17,6 +17,7 @@ import InstallApp from "@/components/InstallApp";
 import TestsCard from "@/components/TestsCard";
 import LiveCard from "@/components/LiveCard";
 import StatTiles from "@/components/StatTiles";
+import ServiceTiles from "@/components/ServiceTiles";
 import MyClassCard from "@/components/MyClassCard";
 import YearSwitcher from "@/components/YearSwitcher";
 
@@ -162,6 +163,24 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       </section>
 
       {/* Sections are divided by a hairline, as in the design mockup. */}
+      {/* The services a parent can finish from home. Several of these pages are noindex and none of
+          them fit in the navbar, so without this row they live only in the footer and the search. */}
+      <section className="border-t border-slate-200">
+        <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
+          <SectionHead kicker={dict.home.servicesKicker} title={dict.home.servicesTitle} />
+          <ServiceTiles
+            services={[
+              { key: "apply", href: `/${lang}/admissions/apply`, label: dict.apply.title, desc: dict.home.services.apply },
+              { key: "reference", href: `/${lang}/reference`, label: dict.nav.reference, desc: dict.home.services.reference },
+              { key: "status", href: `/${lang}/status`, label: dict.nav.status, desc: dict.home.services.status },
+              { key: "surveys", href: `/${lang}/surveys`, label: dict.nav.surveys, desc: dict.home.services.surveys },
+              { key: "verify", href: `/${lang}/verify`, label: dict.nav.verify, desc: dict.home.services.verify },
+              { key: "trust", href: `/${lang}/trust`, label: dict.nav.trust, desc: dict.home.services.trust },
+            ]}
+          />
+        </div>
+      </section>
+
       <section className="border-t border-slate-200">
         <div className="mx-auto max-w-6xl px-4 py-14 sm:py-16">
           <SectionHead kicker={dict.home.numbersKicker} title={dict.home.numbersTitle} />
