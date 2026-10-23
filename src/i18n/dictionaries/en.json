@@ -60,6 +60,7 @@
     "library": "Textbooks and study books (PDF)",
     "alumni": "Our graduates and their achievements",
     "openness": "Budget, sponsorship and reports",
+    "surveys": "Answer the school's questions anonymously",
     "contests": "Contests open for sign-up",
     "videos": "Clips from events and open lessons"
   },
@@ -100,6 +101,16 @@
       "events": "Upcoming holidays and events",
       "timetable": "Pick a grade and class to see the weekly timetable",
       "faq": "Answers for parents"
+    },
+    "servicesKicker": "Online services",
+    "servicesTitle": "Without coming to school",
+    "services": {
+      "apply": "Apply for grades 1–11 and we will call you back",
+      "reference": "Order a certificate of enrolment",
+      "status": "Check where your request stands, by its code",
+      "surveys": "Answer the school's questions anonymously",
+      "verify": "Check a certificate's code",
+      "trust": "An anonymous message: nothing about the sender is kept"
     },
     "galleryTitle": "School life",
     "allPhotos": "All photos",

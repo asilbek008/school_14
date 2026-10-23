@@ -60,6 +60,7 @@
     "library": "Darsliklar va o‘quv kitoblari (PDF)",
     "alumni": "Bitiruvchilarimiz va ularning yutuqlari",
     "openness": "Byudjet, homiylik va hisobotlar",
+    "surveys": "Maktab so‘ragan savollarga ismsiz javob",
     "contests": "Ro‘yxatdan o‘tish ochiq tanlovlar",
     "videos": "Tadbir va ochiq darslardan lavhalar"
   },
@@ -100,6 +101,16 @@
       "events": "Yaqinlashayotgan bayram va tadbirlar",
       "timetable": "Sinf va parallelni tanlab, haftalik jadvalni ko‘ring",
       "faq": "Ota-onalar uchun javoblar"
+    },
+    "servicesKicker": "Onlayn xizmatlar",
+    "servicesTitle": "Maktabga bormasdan",
+    "services": {
+      "apply": "1–11-sinfga ariza qoldiring, keyin telefon orqali bog‘lanamiz",
+      "reference": "O‘quvchilik haqidagi ma’lumotnomani buyurtma qiling",
+      "status": "Kod bo‘yicha ariza yoki buyurtmangiz qay holatda ekanini biling",
+      "surveys": "Maktab so‘ragan savollarga ismsiz javob bering",
+      "verify": "Sertifikat haqiqiyligini kod bo‘yicha tekshiring",
+      "trust": "Ismsiz murojaat: yuboruvchi haqida hech narsa saqlanmaydi"
     },
     "galleryTitle": "Maktab hayotidan",
     "allPhotos": "Barcha rasmlar",

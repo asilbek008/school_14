@@ -554,6 +554,12 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   ko‘rsatilmagan"); albom sahifasida intro — rasm soni, `Lightbox` to‘ri 4 ustunli, 25:18 kataklar. Bosh sahifada
   "Maktab hayotidan" — albomlardagi eng yangi 4 rasm (`Lightbox` `gridClassName`), kamida 2 ta bo‘lsa chiqadi.
 - Bosh sahifa "Tezkor kirish": `LiveCard` + 4 karta (ikonka, izoh, pastda strelka doirasi), ostida `EMaktabCard`, maketdagidek.
+  Undan keyin "Onlayn xizmatlar" / "Maktabga bormasdan" — `ServiceTiles` (6 ta karta: onlayn ariza, ma’lumotnoma, murojaat
+  holati, so‘rovnomalar, sertifikat tekshiruvi, ishonch qutisi; matnlar `home.services` da). Bu sahifalar birma-bir
+  qo‘shilgan va har biri faqat footer, sitemap va qidiruvda qolib ketgandi — `/reference`, `/status`, `/verify`, `/trust`
+  ataylab `noindex`, navbarda esa 1280px da ruscha uchun joy yo‘q. Shuning uchun ular bosh sahifada yig‘ilgan;
+  «So‘rovnomalar» bundan tashqari «Maktab ▾» ro‘yxatiga ham qo‘shilgan (ro‘yxat ichidagi element navbar kengligiga
+  ta’sir qilmaydi). Yangi ochiq bo‘lim qo‘shsangiz, uni ko‘rinadigan joyga ham qo‘ying.
   Undan keyin "Raqamlarda" / "Maktab hayoti" — `StatTiles` `href` bilan (bosiladigan kartalar): yangiliklar, yaqin tadbirlar,
   to‘garaklar, doimiy loyihalar.
   Bo‘limlar ingichka chiziq bilan ajratilgan, sarlavhalari `SectionHead` (`action` — o‘ngda "Barchasi" tugmasi); "Yaqin kunlardagi
