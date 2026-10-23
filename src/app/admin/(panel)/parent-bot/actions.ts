@@ -13,7 +13,8 @@ const commands = [
   { command: "sinf", description: "Sinfni tanlash" },
   { command: "yangiliklar", description: "So‘nggi yangiliklar" },
   { command: "tadbirlar", description: "Yaqin tadbirlar" },
-  { command: "obuna", description: "Yangiliklarni olish / to‘xtatish" },
+  { command: "obuna", description: "Yangiliklar va ertalabki darslar" },
+  { command: "eslatma", description: "Ertalabki darslarni yoqish / o‘chirish" },
   { command: "savol", description: "Kun savoli — mashq viktorinasi" },
   { command: "aloqa", description: "Maktab bilan bog‘lanish" },
 ];
@@ -31,7 +32,7 @@ async function connect(token: string, secret: string) {
   await telegram(token, "setMyCommands", { commands });
   await telegram(token, "setMyDescription", {
     description:
-      "Qiziriq tumani 14-maktabining ota-onalar uchun boti: farzandingiz sinfining bugungi va ertangi darslari, maktab yangiliklari va tadbirlari. Shaxsiy ma’lumot so‘ralmaydi.",
+      "Qiziriq tumani 14-maktabining ota-onalar uchun boti: farzandingiz sinfining bugungi va ertangi darslari (xohlasangiz — har kuni ertalab o‘zi yuboriladi), maktab yangiliklari va tadbirlari. Shaxsiy ma’lumot so‘ralmaydi.",
   });
   await telegram(token, "setMyShortDescription", { short_description: "14-maktab: dars jadvali, yangiliklar, tadbirlar" });
   return null;
