@@ -29,7 +29,7 @@ export default async function ParentBotPage({
         </p>
       )}
 
-      <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mb-6 grid grid-cols-2 gap-3 lg:grid-cols-5">
         <div className={tile}>
           <p className="text-2xl font-bold text-slate-900">{bot.chats}</p>
           <p className="text-sm text-slate-500">foydalanuvchi (chat)</p>
@@ -41,6 +41,10 @@ export default async function ParentBotPage({
         <div className={tile}>
           <p className="text-2xl font-bold text-slate-900">{bot.withClass}</p>
           <p className="text-sm text-slate-500">sinfini tanlagan</p>
+        </div>
+        <div className={tile}>
+          <p className="text-2xl font-bold text-slate-900">{bot.morning}</p>
+          <p className="text-sm text-slate-500">ertalabki darslar</p>
         </div>
         <div className={tile}>
           <p

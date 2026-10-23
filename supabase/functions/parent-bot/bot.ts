@@ -175,6 +175,7 @@ const welcome = (cls: ClassRow | null) =>
     "Assalomu alaykum! Bu — <b>Qiziriq tumani 14-maktabi</b>ning ota-onalar uchun boti.",
     "",
     "• Farzandingiz sinfining bugungi va ertangi darslari",
+    "• Har kuni ertalab 07:00 da bugungi darslar (xohlasangiz — «🔔 Obuna» dan yoqiladi)",
     "• Maktab yangiliklari va tadbirlari",
     "• Yangi e’lon chiqqanda shu yerga xabar keladi (🔔 Obuna)",
     "• Farzandingiz bilan mashq: saytdagi savollar bazasidan viktorina (🧠 Kun savoli)",
@@ -186,13 +187,43 @@ const welcome = (cls: ClassRow | null) =>
     "Bot hech qanday shaxsiy ma’lumot so‘ramaydi; baho va davomat — faqat eMaktab’da.",
   ].join("\n");
 
-const subText = (on: boolean) =>
-  on
-    ? "🔔 Obuna yoqilgan: maktabda yangi yangilik yoki e’lon chiqqanda shu yerga yuboriladi."
-    : "🔕 Obuna o‘chiq: yangiliklar yuborilmaydi.";
-const subButton = (on: boolean) => ({
-  inline_keyboard: [[on ? { text: "🔕 O‘chirish", callback_data: "s:0" } : { text: "🔔 Yoqish", callback_data: "s:1" }]],
+type Switches = { news: boolean; morning: boolean };
+
+const subText = (sw: Switches) =>
+  [
+    sw.news
+      ? "🔔 <b>Yangiliklar:</b> yoqilgan — maktabda yangi yangilik yoki e’lon chiqqanda shu yerga yuboriladi."
+      : "🔕 <b>Yangiliklar:</b> o‘chiq.",
+    sw.morning
+      ? "🌅 <b>Ertalabki darslar:</b> yoqilgan — har kuni soat 07:00 da sinfingizning bugungi darslari keladi."
+      : "🌙 <b>Ertalabki darslar:</b> o‘chiq.",
+  ].join("\n\n");
+
+const subButton = (sw: Switches) => ({
+  inline_keyboard: [
+    [sw.news ? { text: "🔕 Yangiliklarni o‘chirish", callback_data: "s:0" } : { text: "🔔 Yangiliklarni yoqish", callback_data: "s:1" }],
+    [sw.morning ? { text: "🌙 Ertalabkini o‘chirish", callback_data: "m:0" } : { text: "🌅 Ertalabkini yoqish", callback_data: "m:1" }],
+  ],
 });
+
+async function switches(db: Db, chatId: number): Promise<Switches> {
+  const { data } = await db.from("parent_bot_chats").select("subscribed, morning").eq("chat_id", chatId).maybeSingle();
+  return { news: !!data?.subscribed, morning: !!data?.morning };
+}
+
+/**
+ * Asked once, right after a class is chosen: most parents want the lessons every morning rather than
+ * typing for them, but an unasked-for daily message is the fastest way to be blocked.
+ */
+async function offerMorning(db: Db, tg: Tg, chatId: number) {
+  const { data } = await db.from("parent_bot_chats").select("morning").eq("chat_id", chatId).maybeSingle();
+  if (data?.morning) return;
+  await send(tg, chatId, "🌅 Har kuni ertalab soat 07:00 da shu sinfning darslarini yuborib turaymi?", {
+    reply_markup: {
+      inline_keyboard: [[{ text: "Ha, yuboring", callback_data: "m:1" }, { text: "Kerak emas", callback_data: "m:0" }]],
+    },
+  });
+}
 
 async function gradePicker(tg: Tg, chatId: number, editId?: number) {
   const rows = [[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11]].map((row) => row.map((g) => ({ text: `${g}-sinf`, callback_data: `g:${g}` })));
@@ -257,16 +288,34 @@ export async function handleUpdate(update: Update, db: Db, tg: Tg, now = new Dat
       if (!data) return;
       await remember(db, cb.message.chat, { class_id: data.id });
       await tg("editMessageText", { chat_id: chatId, message_id: cb.message.message_id, text: `✅ Sinf tanlandi: ${data.grade}-${data.letter}` });
-      return showLessons(db, tg, chatId, data, "today", now);
+      await showLessons(db, tg, chatId, data, "today", now);
+      return offerMorning(db, tg, chatId);
     }
-    if (kind === "s") {
+    if (kind === "s" || kind === "m") {
       const on = value === "1";
-      await db.from("parent_bot_chats").update({ subscribed: on }).eq("chat_id", chatId);
+      const column = kind === "s" ? "subscribed" : "morning";
+      await db.from("parent_bot_chats").update({ [column]: on }).eq("chat_id", chatId);
+      const sw = await switches(db, chatId);
+      // The offer after a class pick is its own little message, so it gets its own answer.
+      const offer = /yuborib turaymi/.test(cb.message.text ?? "");
+      if (offer) {
+        const cls = on ? await chatClass(db, chatId) : null;
+        await tg("editMessageText", {
+          chat_id: chatId,
+          message_id: cb.message.message_id,
+          text: on
+            ? `✅ Ertalabki darslar yoqildi${cls ? ` (${cls.grade}-${esc(cls.letter)})` : ""}. Har kuni 07:00 da yuboriladi — «${buttons.sub}» dan o‘chirish mumkin.`
+            : `Mayli. Kerak bo‘lsa «${buttons.sub}» dan yoqasiz.`,
+          parse_mode: "HTML",
+        });
+        return;
+      }
       await tg("editMessageText", {
         chat_id: chatId,
         message_id: cb.message.message_id,
-        text: subText(on),
-        reply_markup: subButton(on),
+        text: subText(sw),
+        parse_mode: "HTML",
+        reply_markup: subButton(sw),
       });
     }
     return;
@@ -337,16 +386,17 @@ export async function handleUpdate(update: Update, db: Db, tg: Tg, now = new Dat
       if (cls) {
         await remember(db, msg.chat, { class_id: cls.id });
         await send(tg, chatId, `✅ Sinf tanlandi: <b>${cls.grade}-${esc(cls.letter)}</b>`, extra);
-        return showLessons(db, tg, chatId, cls, "today", now);
+        await showLessons(db, tg, chatId, cls, "today", now);
+        return offerMorning(db, tg, chatId);
       }
     }
     return gradePicker(tg, chatId);
   }
   if (command === "yangiliklar" || raw === buttons.news) return send(tg, chatId, await newsText(db, now), extra);
   if (command === "tadbirlar" || raw === buttons.events) return send(tg, chatId, await eventsText(db, now), extra);
-  if (command === "obuna" || raw === buttons.sub) {
-    const { data } = await db.from("parent_bot_chats").select("subscribed").eq("chat_id", chatId).maybeSingle();
-    return send(tg, chatId, subText(!!data?.subscribed), { reply_markup: subButton(!!data?.subscribed) });
+  if (command === "obuna" || command === "eslatma" || raw === buttons.sub) {
+    const sw = await switches(db, chatId);
+    return send(tg, chatId, subText(sw), { reply_markup: subButton(sw) });
   }
   if (command === "savol" || command === "quiz" || raw === buttons.quiz) return sendQuiz(db, tg, chatId);
   if (command === "aloqa" || raw === buttons.contact) {
@@ -482,4 +532,79 @@ export async function broadcast(db: Db, tg: Tg, now = new Date()) {
   }
   if (gone.size) await db.from("parent_bot_chats").delete().in("chat_id", [...gone]);
   return { news: items.length, sent, removed: gone.size };
+}
+
+/**
+ * 07:00 in Tashkent: the day's lessons to every chat that asked for them. pg_cron calls this every ten
+ * minutes until nothing is pending, so a run that does not finish inside the function's time limit simply
+ * carries on in the next one — `morning_sent_on` is what keeps a chat from being sent to twice.
+ */
+export async function morning(db: Db, tg: Tg, now = new Date()) {
+  const day = tashkentDay(now);
+  if (day.weekday === 0) return { chats: 0, sent: 0, removed: 0, skipped: "yakshanba" };
+
+  const { data: holiday } = await db
+    .from("calendar_periods")
+    .select("title_uz")
+    .eq("kind", "tatil")
+    .eq("is_published", true)
+    .lte("starts_on", day.date)
+    .gte("ends_on", day.date)
+    .limit(1);
+  if (holiday?.length) return { chats: 0, sent: 0, removed: 0, skipped: "ta’til" };
+
+  const waiting: { chat_id: number; class_id: number }[] = [];
+  for (let from = 0; ; from += 1000) {
+    const { data } = await db
+      .from("parent_bot_chats")
+      .select("chat_id, class_id")
+      .eq("morning", true)
+      .not("class_id", "is", null)
+      .or(`morning_sent_on.is.null,morning_sent_on.lt.${day.date}`)
+      .order("chat_id")
+      .range(from, from + 999);
+    const page = (data ?? []) as { chat_id: number; class_id: number }[];
+    waiting.push(...page);
+    if (page.length < 1000) break;
+  }
+  if (!waiting.length) return { chats: 0, sent: 0, removed: 0 };
+
+  // One text per class, not per chat: a class with thirty parents is still one set of queries.
+  // A class with no lessons that day is left out — an empty "no timetable" message every morning is noise.
+  const texts = new Map<number, string>();
+  for (const id of new Set(waiting.map((r) => r.class_id))) {
+    const { data: cls } = await db.from("school_classes").select("id, grade, letter").eq("id", id).eq("is_published", true).maybeSingle();
+    if (!cls) continue;
+    const { count } = await db.from("lessons").select("id", { count: "exact", head: true }).eq("class_id", id).eq("weekday", day.weekday);
+    if (!count) continue;
+    texts.set(id, await lessonsText(db, cls as ClassRow, day, "🌅 <b>Xayrli tong!</b> Bugungi darslar:\n\n"));
+  }
+
+  let sent = 0;
+  const done: number[] = [];
+  const gone = new Set<number>();
+  for (const row of waiting) {
+    const text = texts.get(row.class_id);
+    if (!text) continue;
+    for (let attempt = 0; attempt < 2; attempt++) {
+      const res = await tg("sendMessage", { chat_id: row.chat_id, text, parse_mode: "HTML", link_preview_options: { is_disabled: true } });
+      if (res.ok) {
+        sent++;
+        done.push(row.chat_id);
+      } else if (res.error_code === 429 && attempt === 0) {
+        await sleep((res.parameters?.retry_after ?? 1) * 1000);
+        continue;
+      } else if (res.error_code === 403 || /chat not found/i.test(res.description ?? "")) {
+        gone.add(row.chat_id);
+      }
+      break;
+    }
+    await sleep(40);
+  }
+
+  for (let i = 0; i < done.length; i += 500) {
+    await db.from("parent_bot_chats").update({ morning_sent_on: day.date }).in("chat_id", done.slice(i, i + 500));
+  }
+  if (gone.size) await db.from("parent_bot_chats").delete().in("chat_id", [...gone]);
+  return { chats: waiting.length, sent, removed: gone.size };
 }

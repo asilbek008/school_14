@@ -1,10 +1,10 @@
-// Webhook of the parents' Telegram bot (see bot.ts), and the news broadcast that pg_cron asks for
-// (private.parent_bot_kick). Telegram proves itself with the secret it was given in setWebhook
+// Webhook of the parents' Telegram bot (see bot.ts), and the two jobs pg_cron asks for: the news
+// broadcast (private.parent_bot_kick) and the 07:00 lessons (private.parent_bot_morning_kick). Telegram proves itself with the secret it was given in setWebhook
 // (X-Telegram-Bot-Api-Secret-Token); pg_cron sends the same secret as x-bot-secret. Deployed with verify_jwt off.
 // Runs with the service role key that Supabase injects, so it bypasses RLS — bot.ts filters published rows itself.
 
 import { createClient } from "npm:@supabase/supabase-js@2";
-import { broadcast, handleUpdate, type Tg, type Update } from "./bot.ts";
+import { broadcast, handleUpdate, morning, type Tg, type Update } from "./bot.ts";
 
 Deno.serve(async (req) => {
   const db = createClient(Deno.env.get("SUPABASE_URL")!, Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!, {
@@ -39,7 +39,9 @@ Deno.serve(async (req) => {
     return new Response("ok");
   }
   if (req.headers.get("x-bot-secret") === s.parent_bot_secret) {
-    return Response.json(await broadcast(db, tg));
+    // Two jobs share the secret: the news broadcast and the 07:00 lessons (private.parent_bot_morning_kick).
+    const job = (await req.json().catch(() => null)) as { morning?: boolean } | null;
+    return Response.json(job?.morning ? await morning(db, tg) : await broadcast(db, tg));
   }
   return new Response("forbidden", { status: 403 });
 });

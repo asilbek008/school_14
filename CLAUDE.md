@@ -595,6 +595,16 @@ Next.js 16 o‘quv ma’lumotlaridan farq qiladi: `middleware.ts` endi `src/prox
   (5 daqiqa) → `private.parent_bot_kick()` kutayotgan yangilik (`news.bot_sent_at` bo‘sh, 3 kun ichida) va obunachi bo‘lsa funksiyani
   `x-bot-secret` bilan chaqiradi; funksiya yangilikni band qilib, ~25 xabar/soniya yuboradi (muqova bo‘lsa `sendPhoto`), 403 — chat o‘chiriladi.
   Saytda havola (`getParentBot()` → `rpc('parent_bot_username')`): footer va "Aloqa" sahifasidagi karta. Funksiyani o‘zgartirsangiz, qayta deploy qiling.
+  Ertalabki darslar (`20261128090000_parent_bot_morning.sql`; egasining tanlovi — bot avval faqat so‘ralganda javob berardi):
+  `parent_bot_chats.morning` yoqilgan chatga har kuni Toshkent vaqti bilan 07:00 da shu sinfning bugungi darslari o‘zi
+  yuboriladi. **Standart holda o‘chiq**: sinf tanlangandan keyin bot bir marta so‘raydi (`offerMorning`), «🔔 Obuna»
+  sahifasida ikkala tugma turadi (yangiliklar `s:`, ertalabki `m:`), `/eslatma` ham shu sahifani ochadi — so‘ralmagan
+  kundalik xabar bloklanishga eng tez yo‘l. pg_cron `parent-bot-morning` (`*/10 2 * * 1-6` — 02:00 UTC = 07:00 Toshkent)
+  → `private.parent_bot_morning_kick()`: yakshanba, `calendar_periods` ta’tili va kutayotgan chat yo‘q bo‘lsa chaqirmaydi;
+  funksiya `{"morning": true}` bilan `morning()` ni ishga tushiradi. Har 10 daqiqada qayta chaqirilishi ataylab — 150
+  soniyaga sig‘magan jo‘natish keyingisida davom etadi, `morning_sent_on` esa takrorlanishga yo‘l qo‘ymaydi. Matn **sinf
+  bo‘yicha bir marta** tuziladi (30 ota-ona — bitta so‘rov), o‘sha kuni darsi yo‘q sinfga umuman yuborilmaydi (har ertalab
+  «jadval kiritilmagan» degan xabar — shovqin). Testi: `scripts/test-parent-bot.mts` (soxta baza bilan).
 
 ### AI yordamchi
 - `/[lang]/assistant` (egasining so‘rovi): ota-onalarning savollariga sayt ma’lumotlari asosida javob beradi. Kalit egasining

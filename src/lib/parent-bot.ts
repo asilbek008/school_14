@@ -14,6 +14,7 @@ export type ParentBotStatus = {
   chats: number;
   subscribed: number;
   withClass: number;
+  morning: number;
   lastSeen: string | null;
 };
 
@@ -23,7 +24,7 @@ const withinHour = (unixSeconds?: number) => !!unixSeconds && unixSeconds * 1000
 export async function parentBotStatus(supabase: Supabase): Promise<ParentBotStatus> {
   const [{ data: s }, { data: chats }] = await Promise.all([
     supabase.from("telegram_settings").select("parent_bot_token, parent_bot_username").eq("id", 1).maybeSingle(),
-    supabase.from("parent_bot_chats").select("subscribed, class_id, last_seen_at").order("last_seen_at", { ascending: false }).limit(10000),
+    supabase.from("parent_bot_chats").select("subscribed, class_id, morning, last_seen_at").order("last_seen_at", { ascending: false }).limit(10000),
   ]);
   const rows = chats ?? [];
   const token = s?.parent_bot_token ?? null;
@@ -37,6 +38,7 @@ export async function parentBotStatus(supabase: Supabase): Promise<ParentBotStat
     chats: rows.length,
     subscribed: rows.filter((r) => r.subscribed).length,
     withClass: rows.filter((r) => r.class_id).length,
+    morning: rows.filter((r) => r.morning && r.class_id).length,
     lastSeen: rows[0]?.last_seen_at ?? null,
   };
 }
